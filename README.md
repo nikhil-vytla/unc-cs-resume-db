@@ -13,7 +13,8 @@ The UNC CS Department wants to create a dynamic resume book for sponsors and rec
 
 **Mentors**
 - Josh C.
-- Ronald 
+- Ronald D.
+- Nikhil V.
 
 **Clients**
-- UNC Dept. of Computer Science
+- UNC Department of Computer Science

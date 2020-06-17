@@ -10,6 +10,7 @@ The UNC CS Department wants to create a dynamic resume book for sponsors and rec
 - Maitreyi S.
 - Sai G.
 - Seul (Eric) K.
+- Tucker R.
 
 **Mentors**
 - Josh C.

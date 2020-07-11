@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+.cardDiv{
+    background-color: white;
+    width : 50vw;
+    flex-wrap: wrap;
+    justify-content: space-start;
+  }
+  .recruiterViewHeader{
+    font-size: 30px;
+    text-align: center;
+    background-color: #4B9CD3;
+    color: #FFFFFF;
+    margin-bottom: 0;
+  }
+  
+  .BreeSerif{
+    font-family: 'Bree Serif';
+  
+  }
+  .card{
+    border-radius: 15px !important;
+    border: 1px solid #E5E5E5;
+    height: 260px;
+    width: 150px;
+    box-shadow: 0px 4px 4px #25282B;
+    margin: 15px;
+  }
+  .cardHeader{
+    background-color: #13294B !important;
+    line-height: 20px;
+    margin: 0;
+  
+  }
+  .cardImg{
+    margin-left: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    object-fit: cover;
+  
+  }
+  .cardIcons{
+    position: absolute;
+    bottom: 0;
+    width: 150px;
+  }
+  
+  .cardHeaderText{
+    font-size: 15px !important;
+    color:  #4B9CD3;
+    margin: 0;
+    padding-left: 5px;
+    text-align: center;
+  }
+  .cardHeaderTextDiv{ 
+    position: relative;
+    top: 15%; 
+    text-align: center;
+  }
+  .filterHeader{
+    margin-left: 3vw;
+  }
+  .LogoSmallDiv{
+    padding-left: 6vw !important;
+    padding-right: 6vw !important;
+    width:  100vw !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #4B9CD3
+  }
+  .LogoLargeDiv{
+    padding-left: 6vw !important;
+    padding-right: 6vw !important;
+    width:  100vw !important;
+  
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: #4B9CD3
+  }
+  .tag{
+    background-color: #E5E5E5;
+    padding: 3px;
+    margin: 3px;
+    font-size: 11px;
+    width: fit-content;
+  }
+  .icon{
+    
+    line-height: 40px;
+    
+    
+  }
+  
+  .resumeViewDiv{
+    width: 80vw;
+    height: 900px;
+    background-color: #E5E5E5;
+  }
+  
+  .mb-30{
+    margin-bottom: 30px;
+  }
+  .resumeImage{
+    width: 50vw;
+    height: auto;
+    padding-left: 45px;
+  }
+  .resumeViewDiv{
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+  .resumeViewHeader{
+    background-color: #4B9CD3;
+    width: 30vw;
+    text-align: center;
+    color: white;
+  }
+  .vw-100{
+    width: 100vw !important;
+  }
+  
+  .resumeViewDropDownDiv{
+    width: 30vw;
+    height: 40px;
+    color: #ffffff;
+    background-color: #4B9CD3;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .classInfoDiv{
+    width: 30vw;
+    height: 40px;
+    font-size: 25px;
+    background-color: #E5E5E5;
+  }
+  .resumeViewDropDownText{
+    font-size: 25px;
+    line-height: 40px;
+    padding-left: 5px;
+    user-select: none;
+  }
+  
+  .resumeViewDropDownIcon{
+    height: 25px !important;
+    width: 25px !important;
+    margin-right: 5px;
+    margin-bottom: 7.5px;
+    margin-top: 7.5px;
+    font-size: 1.5em;
+  }
+  .resumeViewNotes{
+    width: 30vw;
+    height: 200px;
+    padding: 5px !important;
+    background-color: #FFFFFF;
+  
+  }
+  .recruiterViewItems{
+    font-size: 25px;
+    color: #25282B;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    line-height: 40px;
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px #25282B .25;
+    user-select: none;
+  
+  }
+  
+  .p-10px{
+    padding: 10px;
+  }

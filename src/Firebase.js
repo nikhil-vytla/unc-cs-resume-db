@@ -1,6 +1,6 @@
-import app from 'firebase/app';
-import * as config from './config.json';
-import 'firebase/auth';
+import app from "firebase/app";
+import * as config from "./config.json";
+import "firebase/auth";
 
 // Used to access firebase functions
 class Firebase {
@@ -18,9 +18,17 @@ class Firebase {
     return this.auth.signOut();
   }
 
+  async register(email, pass) {
+    const newProfile = await this.auth.createUserWithEmailAndPassword(
+      email,
+      pass
+    );
+    return newProfile;
+  }
+
   // async register(name, email, pass) {
   //   await this.auth.createUserWithEmailAndPassword(email, pass);
-  //   return this.auth.currentUser.updateProfile({displayName: name});
+  //   return this.auth.currentUser.updateProfile({ displayName: name });
   // }
 }
 

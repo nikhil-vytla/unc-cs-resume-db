@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import './App.css'
+import '../Static/RecruiterView.css'
+import RecruiterView from './recruiter-view/RecruiterView'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export default class App extends Component {
     constructor() {
@@ -11,8 +15,7 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <h1>App component</h1>
-                <p>Data: {this.state.data}</p>
+                <RecruiterView />
             </div>
         );
     }

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 export default class MyList extends Component {
     render() {
         return (
-            <h1>MyList component</h1>
+            <h1 className="recruiterViewHeader BreeSerif"  style={{width: '25vw'}}>My Lists</h1>
         );
     }
 }

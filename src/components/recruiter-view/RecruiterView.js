@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Candidates from "./Candidates"
 import Filter from "./Filter"
-import MyList from "./MyList"
+import MyLists from "./MyLists"
 import Logo from "../Logo"
 import ResumeView from "./ResumeView"
 import { useTransition, animated } from 'react-spring'
@@ -35,7 +35,7 @@ function RecruiterView() {
                             <Candidates toggleResumeView={() => toggleResumeView()} />
                         </Col>
                         <Col md="auto">
-                            <MyList />
+                            <MyLists />
                         </Col>
                     </Row>
                 </ Container >

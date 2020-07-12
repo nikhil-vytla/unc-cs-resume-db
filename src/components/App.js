@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
-import './App.css'
+import './App.css';
+
+import Login from './auth/Login';
+// import Signup from './auth/Signup';
+// import RecruiterView from './recruiter-view/RecruiterView';
 
 export default class App extends Component {
     constructor() {
@@ -11,8 +15,9 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <h1>App component</h1>
-                <p>Data: {this.state.data}</p>
+                <Login />
+                {/* <Signup /> */}
+                {/* <RecruiterView /> */}
             </div>
         );
     }

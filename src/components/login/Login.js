@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./Login.css";
-import firebase from "../Firebase";
+import firebase from "../../Firebase";
 import ReactDOM from "react-dom";
+import { Link } from "react-router-dom";
 
 export default class Login extends Component {
   getUserLoginInfo() {
@@ -37,9 +38,17 @@ export default class Login extends Component {
         </div>
 
         <div className="loginButtons">
-          <button className="btnLogin" onClick={() => this.getUserLoginInfo()}>
-            Login
-          </button>
+          <Link to="/student">
+            <button
+              className="btnLogin"
+              onClick={() => this.getUserLoginInfo()}
+            >
+              Login
+            </button>
+          </Link>
+          <Link to="/recruiter">
+            <button className="btnLogin">Login R</button>
+          </Link>
           <p>
             Don't have an account?{" "}
             <a className="loginSignUpLink" href="https://twitch.tv">

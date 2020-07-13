@@ -1,0 +1,12 @@
+/* Nav bar */
+.nav {
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 9vh;
+  max-height: 9vh;
+  background-color: #4b9cd3;
+  color: white;
+}
+/* Nav bar */

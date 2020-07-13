@@ -26,8 +26,8 @@ function CandidateCard (props) {
                             <img className="rounded-circle cardImg" src={require('../../Static/BlankUser.jpg')} height="75px" width="75px" alt="" ></img>
                             <div style={{width: '75px'}}>
                                 <div className="cardHeaderTextDiv">
-                                    <h1 className='cardHeaderText BreeSerif' style={{color: '#000000'}}>Adam</h1>
-                                    <h1 className='cardHeaderText BreeSerif' style={{color: '#000000'}}>Winek</h1>
+                                    <h1 className='cardHeaderText BreeSerif' style={{color: '#000000'}}>Stephanie</h1>
+                                    <h1 className='cardHeaderText BreeSerif' style={{color: '#000000'}}>Johnson</h1>
                                     <h2 className='cardHeaderText'>2022</h2>
                                 </div>
                                 

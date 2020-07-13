@@ -1,0 +1,112 @@
+.filter{
+    margin-left: 3vw;
+
+
+}
+.filterHeader{
+  }
+.filterSearchBar{
+    background-color: #ffffff;
+    width: 15vw;  
+    position: relative;
+    border-bottom: 1px solid #e5e5e5;
+}
+.filterVertical{
+    position: absolute; 
+    top: 50%;
+    width: 15vw;
+    transform: translate(0, -50%);
+    
+
+}
+.filterInput{
+    width: 130px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 20px;
+    background-color: #e5e5e5;
+    border-radius: 50px;
+    border: none;
+}
+
+
+.filterSearchName{
+    margin-right: 3px;
+
+    font-size: 15px;
+    color: #13294B;
+    line-height: 20px;
+    margin-bottom: 0;
+}
+.filterIcon{
+    transform: translate(-20px);
+    line-height: 20px;
+    height: 15px !important;
+    width: 15px !important;
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    margin-top: 2.5px;
+}
+
+.filterDropDownHeader{
+    background-color: #4B9CD3;
+    height: 40px;
+    width: 15vw;
+}
+.filterDropDownTitle{
+    padding-left: 5px;
+    line-height: 40px;
+    font-size: 15px;
+    color: #ffffff;
+    user-select: none;
+}
+.filterDropDownIcons{
+    height: 25px !important;
+    width: 25px !important;
+    margin-right: 23px;
+    margin-left: 5px;
+    margin-bottom: 7.5px;
+    margin-top: 7.5px;
+    font-size: 1.5em;
+    color: #ffffff;
+}
+.filterCheck{
+    height: 25px !important;
+    width: 25px !important;
+    margin-right: 23px;
+    margin-left: 5px;
+    margin-bottom: 7.5px;
+    margin-top: 7.5px;
+    font-size: 1.5em;
+    color: #4B9CD3;
+}
+.filterGrey{
+    height: 25px !important;
+    width: 25px !important;
+    margin-right: 23px;
+    margin-left: 5px;
+    margin-bottom: 7.5px;
+    margin-top: 7.5px;
+    font-size: 1.5em;
+    color: #e5e5e5;
+}
+
+.filterItemText{
+    line-height: 40px;
+    margin-left: 20px;
+    font-size: 15px;
+}
+.filterItem{
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #ffffff;
+    width: 15vw;
+    height: 40px;
+}
+.filterList{
+    margin: 0;
+    padding-left: 0;
+}
+.filterLi{
+    height: 40px;
+    padding-left: 0;
+}

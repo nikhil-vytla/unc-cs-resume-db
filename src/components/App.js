@@ -4,8 +4,8 @@ import './App.css';
 
 import Login from './auth/Login';
 // import Signup from './auth/Signup';
-// import RecruiterView from './recruiter-view/RecruiterView';
-// import '../Static/RecruiterView.css';
+ import RecruiterView from './recruiter-view/RecruiterView';
+import '../Static/RecruiterView.css';
 
 export default class App extends Component {
     constructor() {
@@ -17,9 +17,9 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <Login />
+                {/* <Login /> */}
                 {/* <Signup /> */}
-                {/* <RecruiterView /> */}
+                <RecruiterView />
             </div>
         );
     }

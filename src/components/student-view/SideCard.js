@@ -44,10 +44,7 @@ export default class SideCard extends Component {
 
   render() {
     return (
-      <Card
-        className="SideCardCard"
-        style={{ width: "320px", height: "720px" }}
-      >
+      <Card id="SideCardCard">
         <Card.Header className="SideCardProfileHeader">
           <Profile />
         </Card.Header>

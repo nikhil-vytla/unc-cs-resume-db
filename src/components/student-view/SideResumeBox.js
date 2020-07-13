@@ -15,7 +15,7 @@ export default class SideResumeBox extends Component {
         border="dark"
         style={{ height: "460px", width: "290px" }}
       >
-        <img src={pdf} alt=""></img>
+        <img src={pdf} alt="" height="460" width="auto"></img>
       </Card>
     );
   }

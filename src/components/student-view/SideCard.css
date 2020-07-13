@@ -1,4 +1,4 @@
-.card-body {
+.SideCardBody {
   /*flex: 1 1 auto; */
   min-height: 1px;
   display: flex;
@@ -6,4 +6,9 @@
   align-content: center;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+#SideCardCard {
+  width: 320px;
+  height: 720px;
 }

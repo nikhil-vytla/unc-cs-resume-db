@@ -4,9 +4,6 @@ import { Button, Modal, Container, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Homepage.css";
 function Homepage() {
-  // export class Homepage extends Component {
-
-  // render() {
   return (
     <div className="background-img">
       <div className="btn-logins-container">

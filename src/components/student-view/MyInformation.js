@@ -42,12 +42,6 @@ function MyInformation(props) {
                             <Button variant="outline-secondary">+</Button>
                           </InputGroup.Append>
                         </InputGroup>
-                        {/* <div className="data-row-control">
-                          <Form.Control type="text" placeholder="Normal text" />
-                        </div>
-                        <div className="data-row-btn">
-                          <Button> + </Button>
-                        </div> */}
                       </Col>
                     </Form.Row>
                   </div>
@@ -67,12 +61,6 @@ function MyInformation(props) {
                           <Button variant="outline-secondary">+</Button>
                         </InputGroup.Append>
                       </InputGroup>
-                      {/* <div className="data-row-control">
-                        <Form.Control type="text" placeholder="Normal text" />
-                      </div>
-                      <div className="data-row-btn">
-                        <Button> + </Button>
-                      </div> */}
                     </Col>
                   </Form.Row>
                   <br />
@@ -91,12 +79,6 @@ function MyInformation(props) {
                           <Button variant="outline-secondary">+</Button>
                         </InputGroup.Append>
                       </InputGroup>
-                      {/* <div className="data-row-control">
-                        <Form.Control type="text" placeholder="Normal text" />
-                      </div>
-                      <div className="data-row-btn">
-                        <Button> + </Button>
-                      </div> */}
                     </Col>
                   </Form.Row>
                 </Form.Group>

@@ -13,18 +13,7 @@ export class Nav extends Component {
           </Link>
           <h3>Resume Database</h3>
         </div>
-
-        <ul className="nav-links">
-          {/* <Link className="router-link" to="/student">
-              <li>Student</li>
-            </Link>
-            <Link className="router-link" to="/recruiter">
-              <li>Recruiter</li>
-            </Link>
-            <Link className="router-link" to="/administrator">
-              <li>Administrator</li>
-            </Link> */}
-        </ul>
+        <ul className="nav-links"></ul>
       </div>
     );
   }

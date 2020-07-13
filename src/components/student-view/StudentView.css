@@ -1,8 +1,6 @@
 .full-panel {
   margin-top: -1.95vh;
   background-color: #13294b;
-  /* min-height: 91vh;
-    max-width: 98.5vw; */
   min-height: calc(100vh - 8vh);
   max-height: calc(100vh - 8vh);
   min-width: 100vw;
@@ -36,9 +34,6 @@
 
 .basic-information-form {
   margin: 3%;
-}
-
-.data-row-label {
 }
 
 .data-row-btn {

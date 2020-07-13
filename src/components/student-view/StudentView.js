@@ -38,9 +38,6 @@ export class StudentView extends Component {
       ]`;
     return (
       <div className="full-panel">
-        {/* {console.log(studentInfo)}
-        {console.log(JSON.parse(studentInfo))} */}
-
         <Container fluid="true">
           <Row>
             <Col xs={3} className="left-panel">

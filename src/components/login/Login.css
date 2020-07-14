@@ -1,0 +1,83 @@
+.login {
+  background-color: #13294b;
+  color: #ffffff;
+  height: 200vh;
+  margin: -75px;
+  font-family: Bree Serif;
+  /* 
+  padding-top: 0px;
+  height: auto;
+  width: auto;
+  position: relative;
+  width: auto;
+  text-align: center; */
+  /*height: 100%;
+    min-height: 100%;
+  */
+}
+
+/* .loginHeaderUNCimage {
+  height: 9vh;
+} */
+
+.loginSignUpLink {
+  color: white;
+}
+
+.loginPasswordH2 {
+  font-size: 40px;
+  text-align: center;
+  position: relative;
+  /*padding-right: 40pc; */
+  margin-bottom: 0;
+  margin-top: 75px;
+}
+.loginEmailH2 {
+  padding-top: 20vh;
+  font-size: 40px;
+  text-align: center;
+  position: relative;
+  /*padding-right: 40pc; */
+  margin-bottom: 0;
+  margin-top: 75px;
+}
+
+/*h2 {
+  font-size: 40px;
+  text-align: center;
+  position: relative;
+  /*padding-right: 40pc; 
+  margin-bottom: 0;
+  margin-top: 75px;
+} */
+
+.btnLogin {
+  padding-top: 20px;
+  background-color: #4b9cd3;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  font-size: 40px;
+  padding: 0px 20px 0 20px;
+  color: white;
+  font-family: Bree Serif;
+}
+
+#emailText {
+  width: 780px;
+  height: 40px;
+  font-size: 30px;
+  border-radius: 24px;
+  position: relative;
+}
+
+#passwordText {
+  width: 780px;
+  height: 40px;
+  font-size: 30px;
+  border-radius: 24px;
+  position: relative;
+}
+
+.loginButtons {
+  padding-top: 20px;
+}

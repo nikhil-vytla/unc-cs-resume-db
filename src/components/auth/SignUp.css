@@ -5,7 +5,10 @@
   position: relative;
   display: block;
   text-align: center;
-  width: 50vw;
+  max-width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 
 .form-control {
@@ -21,4 +24,8 @@
   padding: 10px;
   margin-top: 15px;
   color: white;
+}
+
+.form-signup {
+  padding-top: 100px;
 }

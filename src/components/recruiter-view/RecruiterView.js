@@ -5,6 +5,8 @@ import MyLists from "./MyLists"
 import Logo from "../Logo"
 import ResumeView from "./ResumeView"
 import { useTransition, animated } from 'react-spring'
+import '../../Static/RecruiterView.css';
+
 
 import { Col, Row, Container } from "react-bootstrap"
 

@@ -4,6 +4,7 @@ import SideResumeBox from "./SideResumeBox.js";
 import Button from "react-bootstrap/Button";
 import "./SideCard.css";
 import Profile from "./Profile.js";
+import FileUpload from "./FileUpload.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 /*export default class SideCard extends Component {
@@ -44,28 +45,31 @@ export default class SideCard extends Component {
 
   render() {
     return (
-      <Card id="SideCardCard">
-        <Card.Header className="SideCardProfileHeader">
-          <Profile />
-        </Card.Header>
-        <Card.Body className="SideCardBody">
-          <SideResumeBox />
-          <Button
-            className="UploadNewButton"
-            variant="primary"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "10px",
-              marginBottom: "10px",
-            }}
-            onClick={this.handleNewUploadClick}
-          >
-            {" "}
-            Upload New{" "}
-          </Button>
-        </Card.Body>
-      </Card>
+      <div>
+        <Card id="SideCardCard">
+          <Card.Header className="SideCardProfileHeader">
+            <Profile />
+          </Card.Header>
+          <Card.Body className="SideCardBody">
+            <SideResumeBox />
+            <Button
+              className="UploadNewButton"
+              variant="primary"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "10px",
+                marginBottom: "10px",
+              }}
+              onClick={this.handleNewUploadClick}
+            >
+              {" "}
+              Upload New{" "}
+            </Button>
+          </Card.Body>
+        </Card>
+        <FileUpload />
+      </div>
     );
   }
 }

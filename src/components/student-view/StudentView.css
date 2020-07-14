@@ -1,8 +1,8 @@
 .full-panel {
-  margin-top: -1.95vh;
+  margin-top: -18px;
   background-color: #13294b;
   min-height: calc(100vh - 8vh);
-  max-height: calc(100vh - 8vh);
+  max-height: calc(200vh - 8vh);
   min-width: 100vw;
   max-width: 100vw;
 }
@@ -27,9 +27,14 @@
 
 .my-information-container {
   background-color: white;
-  padding: 1rem;
+  padding: 1%;
   color: black;
   min-height: 100%;
+  width: 100%;
+}
+
+.card-setting {
+  /* width: 96%; */
 }
 
 .basic-information-form {
@@ -46,4 +51,8 @@
   width: 60vw;
   max-width: 90%;
   display: inline-block;
+}
+
+.accordion-toggle-selector {
+  background-color: "#E5E5E5";
 }

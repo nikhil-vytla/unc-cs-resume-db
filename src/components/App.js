@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import "../Static/RecruiterView.css";
+// import "../Static/RecruiterView.css";
 import Homepage from "./homepage/Homepage";
 import Nav from "./nav/Nav";
 import StudentLogin from "./login/Login";

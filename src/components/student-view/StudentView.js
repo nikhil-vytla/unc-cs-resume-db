@@ -16,7 +16,7 @@ export class StudentView extends Component {
           "frameworkTool": ["react"],
           "operatingSystem": ["linux"],
           "databaseSystem": [],
-          "eventAttended": ["pearl hack", "hackathon", "hackNC"]
+          "eventsAttended": ["pearl hack", "hackathon", "hackNC"]
         }]`;
     let studentInfo1 = `[
         {

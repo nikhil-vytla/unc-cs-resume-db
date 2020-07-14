@@ -4,8 +4,10 @@ import SideResumeBox from "./SideResumeBox.js";
 import Button from "react-bootstrap/Button";
 import "./SideCard.css";
 import Profile from "./Profile.js";
-import FileUpload from "./FileUpload.js";
-import "bootstrap/dist/css/bootstrap.min.css";
+//import FileUpload from "./FileUpload.js";
+import Form from "react-bootstrap/Form";
+import pdf from "../../Static/ResumeTemplate.jpg";
+import Firebase from "../../Firebase.js";
 
 /*export default class SideCard extends Component {
   render() {
@@ -31,8 +33,12 @@ export default class SideCard extends Component {
       fName: "Johnny",
       lName: "Appleseed",
       profileImage: "",
-      resumePDF: "",
+      resumePDF: null,
+      url: "",
     };
+    this.handleNewUploadClick = this.handleNewUploadClick.bind(this);
+
+    this.handlePdfChange = this.handlePdfChange.bind(this);
   }
 
   updateInformation = (url) => {
@@ -41,6 +47,45 @@ export default class SideCard extends Component {
 
   handleNewUploadClick = () => {
     // Prompt a screen to upload a pdf
+    const { resumePDF } = this.state;
+    const uploadFile = Firebase.storage
+      .ref(`resumePDFs/${resumePDF.name}`)
+      .put(resumePDF);
+
+    uploadFile.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        Firebase.storage
+          .ref("resumePDFs")
+          .child(resumePDF.name)
+          .getDownloadURL()
+          .then((url) => {
+            this.setState(() => ({ url }));
+          });
+      }
+    );
+  };
+
+  handlePdfChange = (event) => {
+    //this.state.resumePDF = document.getElementById("exampleFormControlFile1");
+    // document.getElementById("resumeWindowImage").src = event.target.files[0];
+    console.log(event.target.files[0]);
+    console.log("7");
+
+    const resumePDF = event.target.files[0];
+    this.setState(() => ({ resumePDF }));
+
+    // const file = event.target.files[0];
+    // const storageRef = Firebase.storage().ref("resumePDFs/" + file.name);
+
+    // storageRef.put(file);
+
+    // const image = document.getElementById("resumeWindowImage");
+    // image.src = URL.createObjectURL(this.state.resumePDF);
   };
 
   render() {
@@ -51,63 +96,47 @@ export default class SideCard extends Component {
             <Profile />
           </Card.Header>
           <Card.Body className="SideCardBody">
-            <SideResumeBox />
-            <Button
-              className="UploadNewButton"
-              variant="primary"
+            <div className="resumeBox">
+              <Card
+                className="SideResumeBoxCard"
+                border="dark"
+                style={{ height: "460px", width: "290px" }}
+              >
+                <img
+                  id="resumeWindowImage"
+                  src={this.state.url}
+                  alt=""
+                  height="460"
+                  width="auto"
+                ></img>
+              </Card>
+            </div>
+            <div
               style={{
                 display: "flex",
                 justifyContent: "center",
-                marginTop: "10px",
-                marginBottom: "10px",
+                alignContent: "center",
+                marginTop: "0px",
+                marginBottom: "0px",
               }}
-              onClick={this.handleNewUploadClick}
             >
-              {" "}
-              Upload New{" "}
-            </Button>
+              <form>
+                <div className="form-group">
+                  <input
+                    type="file"
+                    className="form-control-file"
+                    id="exampleFormControlFile1"
+                    onChange={this.handlePdfChange}
+                  />
+                </div>
+              </form>
+              <Button variant="primary" onClick={this.handleNewUploadClick}>
+                Upload
+              </Button>
+            </div>
           </Card.Body>
         </Card>
-        <FileUpload />
       </div>
     );
   }
 }
-
-/* <img
-            className="cardImg"
-            //Add a function for the image
-            src={require("../../Static/BlankUser.jpg")}
-            style={{ padding: "20px 20px 0px 0px", borderRadius: "100px" }}
-            height="90px"
-            width="90px"
-            alt=""
-          ></img>
-          <h2
-            style={{
-              fontFamily: "Droid Sans",
-              fontStyle: "normal",
-              fontWeight: "normal",
-              fontSize: "30px",
-              lineHeight: "35px",
-              display: "flex",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            Tucker Reisig
-          </h2>
-          <h6
-            style={{
-              fontFamily: "Droid Sans",
-              fontStyle: "normal",
-              fontWeight: "normal",
-              fontSize: "25px",
-              lineHeight: "29px",
-              display: "flex",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            tucker17@live.unc.edu
-          </h6> */

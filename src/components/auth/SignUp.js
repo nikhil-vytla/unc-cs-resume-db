@@ -1,83 +1,69 @@
 import React, { Component } from "react";
 import Firebase from "../../Firebase";
-import "./Signup.css";
-import Logo from "../Logo.js";
+import { Form, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./auth.css";
 
 export default class Signup extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { email: "", password: "", confirmPassword: "" };
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(
-      this
-    );
-    this.handleSignup = this.handleSignup.bind(this);
+  constructor() {
+    super();
+    this.state = { SignupEmail: "", SignupPassword: "", SignupConfirmPassword: "" };
   }
 
   render() {
     return (
-      <div className="SignupComponent container">
-        <Logo isLarge="true" />
-        <form className="form-signup" onSubmit={this.handleSignup}>
-          <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
-          <input
-            className="form-control"
-            type="email"
-            placeholder="Email Address"
-            value={this.state.email}
-            onChange={this.handleEmailChange}
-          />
-          <input
-            className="form-control"
-            type="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handlePasswordChange}
-          />
-          <input
-            className="form-control"
-            type="password"
-            placeholder="Confirm Password"
-            value={this.state.confirmPassword}
-            onChange={this.handleConfirmPasswordChange}
-          />
-          <button
-            className="SignupBtn btn btn-primary"
-            type="submit"
-            value="Submit"
-          >
-            Sign Up
-          </button>
-        </form>
-      </div>
+      <Container className="authContainer">
+        <Container className="authComponent">
+          <Form className="authForm" onSubmit={this.handleSignup}>
+            <h1>Sign Up</h1>
+
+            <Form.Control
+              type="email"
+              placeholder="Email Address"
+              value={this.state.SignupEmail}
+              onChange={(e) => {
+                this.setState({ "SignupEmail": e.target.value });
+              }}
+            />
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={this.state.SignupPassword}
+              onChange={(e) => {
+                this.setState({ "SignupPassword": e.target.value });
+              }}
+            />
+            <Form.Control
+              id="SignupConfirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              value={this.state.SignupConfirmPassword}
+              onChange={(e) => {
+                this.setState({ "SignupConfirmPassword": e.target.value });
+              }}
+            />
+            <button className="authBtn" type="submit">
+              Sign Up
+            </button>
+            <p className="authLink">Already have an account? <Link to="/">Login</Link></p>
+          </Form>
+        </Container>
+      </Container>
     );
   }
 
-  handleEmailChange = (event) => {
-    this.setState({ email: event.target.value });
-  };
-
-  handlePasswordChange = (event) => {
-    this.setState({ password: event.target.value });
-  };
-
-  handleConfirmPasswordChange = (event) => {
-    this.setState({ confirmPassword: event.target.value });
-  };
-
   handleSignup = async (event) => {
     event.preventDefault();
-    if (this.state.password !== this.state.confirmPassword) {
-      alert("Password and Confirm Password are not equal");
+    if (this.state.SignupPassword !== this.state.SignupConfirmPassword) {
+      alert("Password and Confirm Password must be equal");
     } else {
       try {
         const user = await Firebase.createUser(
-          this.state.email,
-          this.state.password
+          this.state.SignupEmail,
+          this.state.SignupPassword
         );
-        console.log("Sign Up successful!");
         console.log(user);
+        alert("Sign Up successful! Check console for user object");
       } catch (err) {
         console.log(err);
       }

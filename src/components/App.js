@@ -1,37 +1,29 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
-import Homepage from "./homepage/Homepage";
+import Login from "./auth/Login";
 import Nav from "./nav/Nav";
-import StudentLogin from "./login/Login";
-import RecruiterLogin from "./login/Login";
+import Signup from "./auth/Signup";
 import StudentView from "./student-view/StudentView";
 import RecruiterView from "./recruiter-view/RecruiterView";
+import AdminView from "./admin-view/AdminView";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-export default class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      data: "state data",
-    };
-  }
-  render() {
-    return (
+function App() {
+  return (
+    <div className="App">
       <Router>
-        <div className="App">
-          <div>
-            <Nav />
-          </div>
-          <Switch>
-            <Route path="/studentlogin" exact component={StudentLogin} />
-            <Route path="/recruiterlogin" exact component={RecruiterLogin} />
-            <Route path="/student" exact component={StudentView} />
-            <Route path="/recruiter" exact component={RecruiterView} />
-            <Route path="/" exact component={Homepage} />
-          </Switch>
-        </div>
+        <Nav />
+        <Switch>
+          <Route path="/" exact component={Login} />
+          <Route path="/signup" exact component={Signup} />
+          <Route path="/student" exact component={StudentView} />
+          <Route path="/recruiter" exact component={RecruiterView} />
+          <Route path="/admin" exact component={AdminView} />
+        </Switch>
       </Router>
-    );
-  }
+    </div>
+  );
 }
+
+export default App;

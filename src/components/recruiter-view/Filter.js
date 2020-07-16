@@ -116,7 +116,7 @@ function Filter() {
                             "Active": false
                         },
                         {
-                            "Name": "Carolina Data Chale",
+                            "Name": "Carolina Data Chalenge",
                             "Active": false
                         },
                         {

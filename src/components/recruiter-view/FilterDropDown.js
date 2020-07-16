@@ -37,24 +37,8 @@ function FilterDropDown(props ) {
                 </ div>
                 <ul className="filterList">
                     {props.inside.map( item =>{
-
-                        if(item.Name.length > 18){
-                            return<li className="filterLi80"><FilterItem  itemName={item} innerStyle="80"/></li>
-                        }else {
-
-                            return<li className="filterLi40"><FilterItem  itemName={item} innerStyle="40"/></li>
-                        }
-                        
-
+                        return<li className="filterLi"><FilterItem  itemName={item}  /></li>
                     })}
-                  
-
-
-                    
-                       
-                 
-                    
-
                 </ul>
             </div>
         )

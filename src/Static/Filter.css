@@ -106,7 +106,11 @@
     margin: 0;
     padding-left: 0;
 }
-.filterLi{
+.filterLi40{
     height: 40px;
+    padding-left: 0;
+}
+.filterLi80{
+    height: 80px;
     padding-left: 0;
 }

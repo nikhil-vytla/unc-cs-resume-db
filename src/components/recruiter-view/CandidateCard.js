@@ -11,49 +11,60 @@ function CandidateCard (props) {
 
     var star
     if(!starToggle) {
-        star= <StarBorderOutlinedIcon className="icon" onClick={ () => setStarToggle(true)} />
+        star= <StarBorderOutlinedIcon className="recruiterViewIcon" onClick={ () => setStarToggle(true)} />
     } else {
-        star = <StarIcon onClick={ () => setStarToggle(false)} className="icon" style={ {color: '#4B9CD3'}}  />
+        star = <StarIcon onClick={ () => setStarToggle(false)} className="recruiterViewIcon" style={ {color: '#4B9CD3'}}  />
     }
-    
    
     
 
     return(
-                <Card  className="card " > 
+                <Card  className="recruiterViewCard " > 
                     <Card.Header className=" bg-white m-0 p-0 " style={{ borderRadius: "15px"}}>
                         <div className="d-flex">
-                            <img className="rounded-circle cardImg" src={require('../../Static/BlankUser.jpg')} height="75px" width="75px" alt="" ></img>
+                            <img className="rounded-circle recruiterViewCardImg" src={require('../../Static/BlankUser.jpg')} height="75px" width="75px" alt="" ></img>
                             <div style={{width: '75px'}}>
-                                <div className="cardHeaderTextDiv">
-                                    <h1 className='cardHeaderText BreeSerif' style={{color: '#000000'}}>Stephanie</h1>
-                                    <h1 className='cardHeaderText BreeSerif' style={{color: '#000000'}}>Johnson</h1>
-                                    <h2 className='cardHeaderText'>2022</h2>
+                                <div className="recruiterViewCardHeaderTextDiv">
+                                    <h1 className='recruiterViewCardHeaderText BreeSerif' style={{color: '#000000'}}>{props.info.First}</h1>
+                                    <h1 className='recruiterViewCardHeaderText BreeSerif' style={{color: '#000000'}}>{props.info.Last}</h1>
+                                    <h2 className='recruiterViewCardHeaderText'>{props.info.GraduationYear }</h2>
                                 </div>
                                 
                             </div>
                         </div> 
                        
                         
-                        <div className="cardHeader d-flex justify-content-center">
-                            <p className="cardHeaderText BreeSerif" >UNC Chapel Hill</p>
+                        <div className="recruiterViewCardHeader d-flex justify-content-center">
+                            <p className="recruiterViewCardHeaderText BreeSerif" >UNC Chapel Hill</p>
                             
                         </div>
                     </Card.Header>
                     <Card.Body className="p-0">
-                        <div className="bg-white BreeSerif d-flex justify-content-start w-100 flex-wrap" style={{padding : '10px'}}>
-                            <p className="tag BreeSerif">Hack NC</p>
-                            <p className="tag BreeSerif">CSS</p>
-                            <p className="tag BreeSerif">JavaScript</p>
-                            <p className="tag BreeSerif">Swift</p>
-                            <p className="tag BreeSerif">Angular</p>
+                        <div className="bg-white BreeSerif d-flex justify-content-start w-100 flex-wrap recruiterViewTagContainer" >
+                            {props.info.Skills.map(skill =>
+                                <p className="recruiterViewTag BreeSerif" key={skill}> {skill}</p>
+                            )}
+                            {props.info.Events.map(event =>
+                                <p className="recruiterViewTag BreeSerif" key={event}> {event}</p>
+                            )}
+                            <p className="recruiterViewTag BreeSerif" > {props.info.PrimaryMajor}</p>
+                            <p className="recruiterViewTag BreeSerif"> {props.info.SecondaryMajor}</p>
+                            {props.info.Minors.map(minor =>
+                                <p className="recruiterViewTag BreeSerif" key={minor}> {minor}</p>
+                            )}
 
+
+
+                           
                         </div>
-                        <div className=" d-flex justify-content-around cardIcons">
+                        <div className=" d-flex justify-content-around recruiterViewCardIcons">
                                 {star}
-                                <MailOutlineIcon className="icon"/>
+                                    <a href={"mailto:"+ props.info.Email} style={{color:"#25282B"}}> 
+                                        <MailOutlineIcon className="recruiterViewIcon" />
+
+                                    </a>
                                
-                                <ZoomInOutlinedIcon className="icon" onClick={() => props.toggleResumeView()} />
+                                <ZoomInOutlinedIcon className="recruiterViewIcon" onClick={() => props.toggleResumeView(props.info)} />
                         </div>
                     </Card.Body>
                 </Card>

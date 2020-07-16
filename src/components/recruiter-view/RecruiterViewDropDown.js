@@ -1,6 +1,4 @@
 import React, {useState} from "react"
-import { TextField } from "@material-ui/core";
-import ResumeView from "./ResumeView";
 
 // The type property allows you to switch between "ResumeView" and "Notes" dropdowns 
 //The primary difference between these two is the type of content that goes inside the expanded container

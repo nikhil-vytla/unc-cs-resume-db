@@ -57,6 +57,26 @@ class Firebase {
       console.error(err);
     }
   }
+
+  // gets all current profile information for the user
+  async getUserInfo(userID) {
+    // let userInfo = null;
+    try {
+      const data = await this.db
+        .collection("students")
+        .where("UID", "==", userID)
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            const allData = doc.data().Email;
+            console.log(doc.data()["First Name"]);
+            return allData;
+          });
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 export default new Firebase();

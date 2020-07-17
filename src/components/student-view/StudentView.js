@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import "./StudentView.css";
+import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
 
 export class StudentView extends Component {
@@ -41,7 +42,7 @@ export class StudentView extends Component {
         <Container fluid="true">
           <Row>
             <Col xs={3} className="left-panel">
-              <h3>Left Panel</h3>
+              <SideCard />
             </Col>
             <Col className="right-panel">
               <MyInformation studentData={JSON.parse(studentInfo)} />

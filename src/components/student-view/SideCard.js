@@ -104,7 +104,7 @@ export default class SideCard extends Component {
               <div className="imgDiv" style={{ padding: ".75rem 1.25rem" }}>
                 <img
                   className="SideResumePdfImage"
-                  src={this.profileURL}
+                  src={this.state.profileImageFile}
                   style={{ borderRadius: "50%" }}
                   height="100px"
                   width="100px"
@@ -157,16 +157,16 @@ export default class SideCard extends Component {
 
               <div
                 className="emailDiv"
-                style={{
-                  width: "inherit",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontFamily: "Droid Sans",
-                  fontStyle: "normal",
-                  fontWeight: "normal",
-                  fontSize: "20px",
-                  lineHeight: "25px",
-                }}
+                // style={{
+                //   // width: "inherit",
+                //   // display: "flex",
+                //   // justifyContent: "center",
+                //   // fontFamily: "Droid Sans",
+                //   // fontStyle: "normal",
+                //   // fontWeight: "normal",
+                //   // fontSize: "20px",
+                //   // lineHeight: "25px",
+                // }}
               >
                 {this.state.email}
               </div>

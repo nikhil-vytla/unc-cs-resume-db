@@ -1,0 +1,69 @@
+{
+    "CandidatesList": [
+        {
+            "First":"Adam",
+            "Last":"Winek",
+            "School":"Unc Chapel Hill",
+            "GraduationYear":"2022",
+            "Skills":["HTML", "CSS", "React"],
+            "Events":["Hack NC", "Queer Hack"],
+            "PrimaryMajor":"Computer Science",
+            "SecondaryMajor":"Mathematics",
+            "Minors":["Mathematics"],
+            "Photo":["../../Static/BlankUser.jpg"],
+            "Email":"Winek@unc.edu"
+        },
+        {
+            "First":"Adam",
+            "Last":"Winek",
+            "School":"Unc Chapel Hill",
+            "GraduationYear":"2022",
+            "Skills":["HTML", "CSS", "React"],
+            "Events":["Hack NC", "Queer Hack"],
+            "PrimaryMajor":"Computer Science",
+            "SecondaryMajor":"Mathematics",
+            "Minors":["Mathematics"],
+            "Photo":["../../Static/BlankUser.jpg"],
+            "Email":"Wine1k@unc.edu"
+
+        },
+        {
+            "First":"Adam",
+            "Last":"Winek",
+            "School":"Unc Chapel Hill",
+            "GraduationYear":"2022",
+            "Skills":["HTML", "CSS", "React"],
+            "Events":["Hack NC", "Queer Hack"],
+            "PrimaryMajor":"Computer Science",
+            "SecondaryMajor":"Mathematics",
+            "Minors":["Mathematics"],
+            "Photo":["../../Static/BlankUser.jpg"],
+            "Email":"Win2ek@unc.edu"
+
+        },
+        {
+            "First":"Corona",
+            "Last":"Virus",
+            "School":"Duke",
+            "GraduationYear":"2020plz",
+            "Skills":["HTML", "CSS", "React"],
+            "Events":["Hack NC", "Queer Hack"],
+            "PrimaryMajor":"Computer Science",
+            "SecondaryMajor":"Mathematics",
+            "Minors":["Mathematics"],
+            "Photo":["../../Static/BlankUser.jpg"],
+            "Email":"W3inek@unc.edu"
+
+        }
+        
+
+
+
+
+
+
+    ]
+
+
+
+}

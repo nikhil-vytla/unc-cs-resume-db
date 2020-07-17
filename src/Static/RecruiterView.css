@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
-.cardDiv{
+.recruiterViewCardDiv{
     background-color: white;
     width : 50vw;
     flex-wrap: wrap;
@@ -17,7 +17,7 @@
     font-family: 'Bree Serif';
   
   }
-  .card{
+  .recruiterViewCard{
     border-radius: 15px !important;
     border: 1px solid #E5E5E5;
     height: 260px;
@@ -25,33 +25,32 @@
     box-shadow: 0px 4px 4px #25282B;
     margin: 15px;
   }
-  .cardHeader{
+  .recruiterViewCardHeader{
     background-color: #13294B !important;
     line-height: 20px;
     margin: 0;
   
   }
-  .cardImg{
+  .recruiterViewCardImg{
     margin-left: 3px;
     margin-top: 3px;
     margin-bottom: 3px;
     object-fit: cover;
   
   }
-  .cardIcons{
+  .recruiterViewCardIcons{
     position: absolute;
     bottom: 0;
     width: 150px;
   }
   
-  .cardHeaderText{
+  .recruiterViewCardHeaderText{
     font-size: 15px !important;
     color:  #4B9CD3;
     margin: 0;
-    padding-left: 5px;
     text-align: center;
   }
-  .cardHeaderTextDiv{ 
+  .recruiterViewCardHeaderTextDiv{ 
     position: relative;
     top: 15%; 
     text-align: center;
@@ -74,14 +73,19 @@
     padding-bottom: 25px;
     background-color: #4B9CD3
   }
-  .tag{
+  .recruiterViewTag{
     background-color: #E5E5E5;
     padding: 3px;
     margin: 3px;
     font-size: 11px;
     width: fit-content;
   }
-  .icon{
+  .recruiterViewTagContainer{
+    padding : 10px;
+    max-height: 125px;
+    overflow: hidden;
+  }
+  .recruiterViewIcon{
     
     line-height: 40px;
     

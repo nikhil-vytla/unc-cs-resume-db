@@ -1,0 +1,105 @@
+{
+    "MyList":[
+        {
+         "Title":"Frontend",
+         "Students":[
+            {
+                "First":"Adam",
+                "Last":"Winek",
+                "School":"Unc Chapel Hill",
+                "GraduationYear":"2022",
+                "Skills":["HTML", "CSS", "React"],
+                "Events":["Hack NC", "Queer Hack"],
+                "PrimaryMajor":"Computer Science",
+                "SecondaryMajor":"Mathematics",
+                "Minors":["Mathematics"],
+                "Photo":["../../Static/BlankUser.jpg"],
+                "Email":"Winek@unc.edu"
+
+            },
+            {
+                "First":"Adam",
+                "Last":"Winek",
+                "School":"Unc Chapel Hill",
+                "GraduationYear":"2022",
+                "Skills":["HTML", "CSS", "React"],
+                "Events":["Hack NC", "Queer Hack"],
+                "PrimaryMajor":"Computer Science",
+                "SecondaryMajor":"Mathematics",
+                "Minors":["Mathematics"],
+                "Photo":["../../Static/BlankUser.jpg"],
+                "Email":"Wine4k@unc.edu"
+
+            },
+            {
+                "First":"Adam",
+                "Last":"Winek",
+                "School":"Unc Chapel Hill",
+                "GraduationYear":"2022",
+                "Skills":["HTML", "CSS", "React"],
+                "Events":["Hack NC", "Queer Hack"],
+                "PrimaryMajor":"Computer Science",
+                "SecondaryMajor":"Mathematics",
+                "Minors":["Mathematics"],
+                "Photo":["../../Static/BlankUser.jpg"],
+                "Email":"Wine1k@unc.edu"
+
+            }
+         ]
+        },{
+            "Title":"Backend",
+            "Students":[
+               {
+                   "First":"Adam",
+                   "Last":"Winek",
+                   "School":"Unc Chapel Hill",
+                   "GraduationYear":"2022",
+                   "Skills":["HTML", "CSS", "React"],
+                   "Events":["Hack NC", "Queer Hack"],
+                   "PrimaryMajor":"Computer Science",
+                   "SecondaryMajor":"Mathematics",
+                   "Minors":["Mathematics"],
+                   "Photo":["../../Static/BlankUser.jpg"],
+                   "Email":"Wine3k@unc.edu"
+
+               },
+               {
+                   "First":"Adam",
+                   "Last":"Winek",
+                   "School":"Unc Chapel Hill",
+                   "GraduationYear":"2022",
+                   "Skills":["HTML", "CSS", "React"],
+                   "Events":["Hack NC", "Queer Hack"],
+                   "PrimaryMajor":"Computer Science",
+                   "SecondaryMajor":"Mathematics",
+                   "Minors":["Mathematics"],
+                   "Photo":["../../Static/BlankUser.jpg"],
+                   "Email":"Wine1k@unc.edu"
+
+               },
+               {
+                   "First":"Adam",
+                   "Last":"Winek",
+                   "School":"Unc Chapel Hill",
+                   "GraduationYear":"2022",
+                   "Skills":["HTML", "CSS", "React"],
+                   "Events":["Hack NC", "Queer Hack"],
+                   "PrimaryMajor":"Computer Science",
+                   "SecondaryMajor":"Mathematics",
+                   "Minors":["Mathematics"],
+                   "Photo":["../../Static/BlankUser.jpg"],
+                   "Email":"Wine2k@unc.edu"
+
+               }
+            ]
+           }
+
+
+
+    ]
+
+
+
+
+
+}

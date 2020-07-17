@@ -11,6 +11,11 @@ export class Nav extends Component {
           <Link to="/">
             <img src={logo} alt="logo" width="400" height="auto" />
           </Link>
+
+          <Link to="/student" style={{"color": "white"}}>Student View</Link>
+          <Link to="/recruiter" style={{"color": "white"}}>Recruiter View</Link>
+          <Link to="/admin" style={{"color": "white"}}>Admin View</Link>
+
           <h3>Resume Database</h3>
         </div>
         <ul className="nav-links"></ul>

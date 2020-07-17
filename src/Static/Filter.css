@@ -92,15 +92,19 @@
 }
 
 .filterItemText{
-    line-height: 40px;
     margin-left: 20px;
     font-size: 15px;
+    line-height: 20px;
+    align-items: center;
+    text-overflow: ellipsis !important;
+    margin-bottom: 0px;
 }
 .filterItem{
-    border-bottom: 1px solid #e5e5e5;
     background-color: #ffffff;
     width: 15vw;
-    height: 40px;
+    align-items: center;
+    height: auto;
+
 }
 .filterList{
     margin: 0;
@@ -109,4 +113,7 @@
 .filterLi{
     height: 40px;
     padding-left: 0;
+    border-collapse: collapse;
+
 }
+

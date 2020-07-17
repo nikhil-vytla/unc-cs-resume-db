@@ -1,6 +1,7 @@
 import app from "firebase/app";
 import "firebase/auth";
-import "firebase/firestore"
+import "firebase/firestore";
+import "firebase/storage";
 
 // Use methods to access firebase SDK
 class Firebase {
@@ -17,19 +18,24 @@ class Firebase {
     });
     this.auth = app.auth();
     this.db = app.firestore();
+    this.storage = app.storage();
   }
 
   async login(email, pass) {
     try {
       const cred = await this.auth.signInWithEmailAndPassword(email, pass);
       return cred.user;
-    } catch(err) {console.error(err);}
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async logout() {
     try {
       return await this.auth.signOut();
-    } catch(err) {console.error(err);}
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   // Creates user and returns User object
@@ -37,15 +43,30 @@ class Firebase {
     try {
       const cred = await this.auth.createUserWithEmailAndPassword(email, pass);
       return cred.user;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // returns a sample query
+  async runQuery() {
+    try {
+      const data = await this.db.collection("students").where("Skills", "array-contains", "Python").where("Graduation Year", "==", 2021).get();
+      return data.docs.map(doc => doc.data());
     } catch(err) {console.error(err);}
   }
 
-  // returns all docs from a given collection
-  async getDocs(collection) {
+  // gets all current profile information for the user
+  async getUserInfo(userID) {
     try {
-      const data = await this.db.collection(collection).get();
-      return data.docs.map(doc => doc.data());
-    } catch(err) {console.error(err);}
+      const data = await this.db
+        .collection("students")
+        .where("UID", "==", userID)
+        .get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 

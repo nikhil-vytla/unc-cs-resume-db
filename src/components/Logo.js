@@ -2,7 +2,6 @@ import React from "react"
 
 function Logo (props) {
 
-    console.log(props.isLarge)
 
 
     if (props.isLarge !== "true"){

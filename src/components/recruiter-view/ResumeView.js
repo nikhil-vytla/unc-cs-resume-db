@@ -10,11 +10,11 @@ import RemoveIcon from '@material-ui/icons/Remove';
 
 
 function ResumeView (props) {
-    const skills = ["HTML", "CSS", "SQL"]
-    const events = ["UNC CS Carrer Fair", "Hack NC"]
-    const primaryMajor = ["Computer Science"]
-    const secondaryMajor = ["Mathematics"]
-    const minors = ["Stor"]
+    const skills = props.candidate.Skills
+    const events = props.candidate.Events
+    const primaryMajor = [props.candidate.PrimaryMajor]
+    const secondaryMajor = [props.candidate.SecondaryMajor]
+    const minors = [props.candidate.Minors]
 
     return(
         <div className="resumeViewDiv">
@@ -23,7 +23,7 @@ function ResumeView (props) {
                     <StarBorderOutlinedIcon fontSize="large" />
                     <PrintIcon fontSize="large"/>
                     <MailOutlineIcon fontSize="large"/>
-                    <ClearIcon fontSize="large" onClick={() => props.toggleResumeView()}/>
+                    <ClearIcon fontSize="large" onClick={() => props.toggleResumeView(props.candidate)}/>
                     
                 </div>
             </div>
@@ -33,8 +33,8 @@ function ResumeView (props) {
                     <div className='resumeViewHeader' >
                         <h1 style={{ fontSize: '30px' }} className="BreeSerif">Adam Winek</h1>
                         <div className='d-flex justify-content-between classInfoDiv'>
-                            <h1 style={{ fontSize: "25px", color:"#000000",lineHeight: "40px", paddingLeft:'5px'}} > Class of 2022 </h1>
-                            <h1 style={{ fontSize: "25px",  color:"#000000", lineHeight: "40px", paddingRight:'5px'}} > Unc Chapel Hill </h1>
+                            <h1 style={{ fontSize: "25px", color:"#000000",lineHeight: "40px", paddingLeft:'5px'}} > {props.candidate.First} {props.candidate.Last} </h1>
+                            <h1 style={{ fontSize: "25px",  color:"#000000", lineHeight: "40px", paddingRight:'5px'}} > {props.candidate.School} </h1>
 
                         </div>
                         
@@ -47,7 +47,7 @@ function ResumeView (props) {
                         expandedIcon={ <RemoveIcon className="resumeViewDropDownIcon"/> }  items={primaryMajor}/>
                     <RecruiterViewDropDown  type="ResumeView" text="Secondary Major" collapsedIcon={ <AddIcon  className="resumeViewDropDownIcon" /> } 
                         expandedIcon={ <RemoveIcon className="resumeViewDropDownIcon"/> }  items={secondaryMajor}/> 
-                    <RecruiterViewDropDown  type="ResumeView" text="Minor" collapsedIcon={ <AddIcon  className="resumeViewDropDownIcon" /> } 
+                    <RecruiterViewDropDown  type="ResumeView" text="Minors" collapsedIcon={ <AddIcon  className="resumeViewDropDownIcon" /> } 
                         expandedIcon={ <RemoveIcon className="resumeViewDropDownIcon"/> }  items={minors}/>  
                     <RecruiterViewDropDown  type="Notes" text="Notes" collapsedIcon={ <AddIcon  className="resumeViewDropDownIcon" /> } 
                         expandedIcon={ <RemoveIcon className="resumeViewDropDownIcon"/> }  items={minors}/>

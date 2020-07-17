@@ -1,45 +1,70 @@
 import React, { Component } from "react";
 import Firebase from "../../Firebase";
-import "./Login.css";
+import { Form, Container, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./auth.css";
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {email: "", password: ""};
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+  constructor() {
+    super();
+    this.state = { LoginEmail: "", LoginPassword: "" };
   }
 
   render() {
     return (
-      <div className="LoginComponent container">
-        <form className="form-signin" onSubmit={this.handleLogin}>
-          <h1 className="h3 mb-3 font-weight-normal">Login</h1>
-          <input className="form-control" type="email" placeholder="Email Address" 
-            value={this.state.email} onChange={this.handleEmailChange} />
-          <input className="form-control" type="password" placeholder="Password" 
-            value={this.state.password} onChange={this.handlePasswordChange} />
-          <button className="LoginBtn btn btn-primary" type="submit" value="Submit">Login</button>
-        </form>
-      </div>
+      <Container className="authContainer">
+        <Container id="LoginComponent" className="authComponent">
+
+          {/* Test Button to run sample query */}
+          <Button type="button" onClick={this.handleQuery}>Run Query</Button>
+
+          <Form className="authForm" onSubmit={this.handleLogin}>
+            <h1>Login</h1>
+
+            <Form.Control
+              type="email"
+              placeholder="Email Address"
+              value={this.state.LoginEmail}
+              onChange={(e) => {
+                this.setState({ "LoginEmail": e.target.value });
+              }}
+            />
+            <Form.Control
+              id="LoginPassword"
+              type="password"
+              placeholder="Password"
+              value={this.state.LoginPassword}
+              onChange={(e) => {
+                this.setState({ "LoginPassword": e.target.value });
+              }}
+            />
+            <button className="authBtn" type="submit">
+              Login
+            </button>
+          </Form>
+          <p className="authLink" >Don't have an account? <Link to="/signup">Signup</Link></p>
+        </Container>
+      </Container>
     );
   }
 
   handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const user = await Firebase.login(this.state.email, this.state.password);
-      console.log('Logged in!');
-      console.log(user);
-    } catch(err) {console.log(err)};
-  }
+      const user = await Firebase.login(this.state.LoginEmail, this.state.LoginPassword);
+      console.log(await (await Firebase.db.collection("students").doc(user.uid).get()).data());
+      alert("Check console for logged in user");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  handleEmailChange = (event) => {
-    this.setState({email: event.target.value});
-  }
-
-  handlePasswordChange = (event) => {
-    this.setState({password: event.target.value});
+  // Sample query handler
+  handleQuery = async (e) => {
+    try {
+      const result = await Firebase.runQuery();
+      console.log(result);
+      alert("Check console for result");
+    } catch(err) {console.log(err);}
   }
 }

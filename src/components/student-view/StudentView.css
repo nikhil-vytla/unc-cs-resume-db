@@ -1,0 +1,58 @@
+.full-panel {
+  margin-top: -18px;
+  background-color: #13294b;
+  min-height: calc(100vh - 8vh);
+  max-height: calc(200vh - 8vh);
+  min-width: 100vw;
+  max-width: 100vw;
+}
+.left-panel {
+  color: white;
+  background-color: lightblue;
+  margin-top: 3%;
+  padding: 2%;
+  margin: 2%;
+  margin-left: 4%;
+  min-height: 84vh;
+}
+
+.right-panel {
+  color: white;
+  background-color: lightblue;
+  margin-top: 3%;
+  padding: 2%;
+  margin: 2%;
+  margin-right: 4%;
+}
+
+.my-information-container {
+  background-color: white;
+  padding: 1%;
+  color: black;
+  min-height: 100%;
+  width: 100%;
+}
+
+.card-setting {
+  /* width: 96%; */
+}
+
+.basic-information-form {
+  margin: 3%;
+}
+
+.data-row-btn {
+  width: 50px;
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.data-row-control {
+  width: 60vw;
+  max-width: 90%;
+  display: inline-block;
+}
+
+.accordion-toggle-selector {
+  background-color: "#E5E5E5";
+}

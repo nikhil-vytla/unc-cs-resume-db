@@ -12,3 +12,14 @@
   width: 320px;
   height: 720px;
 }
+
+.flex-container {
+  display: flex;
+}
+
+.card-header {
+  padding: 0;
+  margin-bottom: 0;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}

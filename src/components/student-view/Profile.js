@@ -6,10 +6,12 @@ export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fName: "Johnny",
-      lName: "Appleseed",
-      email: "japple@student.com",
+      fName: this.props.firstName,
+      lName: this.props.lastName,
+      email: this.props.emailAddress,
     };
+
+    this.updateRender = this.updateRender.bind(this);
   }
 
   render() {

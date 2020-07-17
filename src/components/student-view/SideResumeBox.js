@@ -4,9 +4,6 @@ import pdf from "../../Static/ResumeTemplate.jpg";
 
 export default class SideResumeBox extends Component {
   render() {
-    this.state = {
-      resumePDF: "",
-    };
     return (
       // 290 by 460
 
@@ -15,7 +12,12 @@ export default class SideResumeBox extends Component {
         border="dark"
         style={{ height: "460px", width: "290px" }}
       >
-        <img src={pdf} alt="" height="460" width="auto"></img>
+        <img
+          src={this.props.currentPhoto}
+          alt=""
+          height="460"
+          width="auto"
+        ></img>
       </Card>
     );
   }

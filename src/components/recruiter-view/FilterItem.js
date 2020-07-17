@@ -1,12 +1,11 @@
 import React, { useState } from "react"
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { useTransition, animated } from 'react-spring'
-import { EditorFormatLineSpacing } from "material-ui/svg-icons";
 import StopIcon from '@material-ui/icons/Stop';
 
 function FilterItem(props) {
-    var text = props.itemName;
-    const [checked, setChecked] = useState(true)
+    var text = props.itemName.Name;
+    const [checked, setChecked] = useState(props.itemName.Active)
 
 
     const transitions = useTransition(checked, null, {
@@ -17,7 +16,7 @@ function FilterItem(props) {
     return transitions.map(({ item, key, props }) =>
         item
             
-            ? <animated.div className="d-flex justify-content-between filterItem" style={props} onClick={() => setChecked(false)}>
+            ? <animated.div className="d-flex justify-content-between filterItem"  style={props} onClick={() => setChecked(false)}>
 
                 <h1 className="filterItemText">{text}</h1>
                 <CheckBoxIcon className="filterCheck" />

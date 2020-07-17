@@ -1,18 +1,21 @@
-import React, {Component} from 'react';
+import React from 'react';
 import "../../Static/MyList.css"
 import MyListDropDown from "./MyListsDropDown"
-function MyLists() {
-    const names = ["Lebron James", "Kevin Gurkowitz", "Dwayne Johsnon"]
+import lists from "../../Static/MyLists.json"
+
+function MyLists(props) {
 
     
     return (
         <div>
-            <h1 className="recruiterViewHeader BreeSerif"  style={{width: '25vw'}}>My Lists</h1>
+            <div className="d-block">
+                <h1 className="recruiterViewHeader BreeSerif"  style={{width: '25vw'}}>My Lists</h1>
+            </div>
             <div>
-                <MyListDropDown  listTitle="Frontend" names={names}/>
-                <MyListDropDown  listTitle="CyberSecurity" names={names}/>
-                <MyListDropDown  listTitle="Backend" names={names}/>
-                <MyListDropDown  listTitle="Fin Tech" names={names}/>
+                {lists.MyList.map((list) => (
+                    <MyListDropDown key={list.Title} listTitle={list.Title} students={list.Students} toggleResumeView={(candidate) => props.toggleResumeView(candidate)}/>
+                ))}
+                
 
             </div>
         </div>

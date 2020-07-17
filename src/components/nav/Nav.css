@@ -1,0 +1,10 @@
+.nav {
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 60px;
+  max-height: 9vh;
+  background-color: #4b9cd3;
+  color: white;
+}

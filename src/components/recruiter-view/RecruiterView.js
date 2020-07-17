@@ -6,16 +6,18 @@ import Logo from "../Logo"
 import ResumeView from "./ResumeView"
 import { useTransition, animated } from 'react-spring'
 import '../../Static/RecruiterView.css';
+import CandidatesList from "../../Static/Candidates.json"
+
 
 
 import { Col, Row, Container } from "react-bootstrap"
 
 function RecruiterView() {
     const [resumeView, setResumeView] = useState(true)
-
-    function toggleResumeView() {
-        setResumeView(!resumeView)
-        ;
+    const [candidate, setCandidate] = useState(CandidatesList.CandidatesList[0])
+    function toggleResumeView(info) {
+        setResumeView(!resumeView);
+        setCandidate(info);
     }
     const transitions = useTransition(resumeView, null, {
         from: { position: 'absolute', opacity: 0 },
@@ -34,10 +36,10 @@ function RecruiterView() {
                             <Filter />
                         </Col>
                         <Col md="auto">
-                            <Candidates toggleResumeView={() => toggleResumeView()} />
+                            <Candidates toggleResumeView={(candidate) => toggleResumeView(candidate)} />
                         </Col>
                         <Col md="auto">
-                            <MyLists />
+                            <MyLists toggleResumeView={(candidate) => toggleResumeView(candidate)} />
                         </Col>
                     </Row>
                 </ Container >
@@ -49,7 +51,7 @@ function RecruiterView() {
                     </Row>
                     <Row>
                         <Col className="d-flex justify-content-center">
-                            <ResumeView toggleResumeView={() => toggleResumeView()} />
+                            <ResumeView  candidate={ candidate} toggleResumeView={(candidate) => toggleResumeView(candidate)} />
                         </Col>
                     </Row>
 

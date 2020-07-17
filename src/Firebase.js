@@ -48,14 +48,12 @@ class Firebase {
     }
   }
 
-  // returns all docs from a given collection
-  async getDocs(collection) {
+  // returns a sample query
+  async runQuery() {
     try {
-      const data = await this.db.collection(collection).get();
-      return data.docs.map((doc) => doc.data());
-    } catch (err) {
-      console.error(err);
-    }
+      const data = await this.db.collection("students").where("Skills", "array-contains", "Python").where("Graduation Year", "==", 2021).get();
+      return data.docs.map(doc => doc.data());
+    } catch(err) {console.error(err);}
   }
 
   // gets all current profile information for the user

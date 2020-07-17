@@ -1,38 +1,20 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
-import SideResumeBox from "./SideResumeBox.js";
 import Button from "react-bootstrap/Button";
 import "./SideCard.css";
-import Profile from "./Profile.js";
-//import FileUpload from "./FileUpload.js";
-import Form from "react-bootstrap/Form";
-import pdf from "../../Static/ResumeTemplate.jpg";
 import Firebase from "../../Firebase.js";
+import profileImage from "../../Static/BlankUser.jpg";
 
-/*export default class SideCard extends Component {
-  render() {
-    return (
-      <div className="SideCardDiv">
-        <div className="flex-container">
-          <div className="profilePictureDiv">
-            <img src="../../Static/BlankUser.jpg" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-*/
 // 320 by 780
-
 export default class SideCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "user.email",
-      fName: "Johnny",
-      lName: "Appleseed",
-      profileImage: "",
+      email: "",
+      fName: "",
+      lName: "",
+      profileImageFile: profileImage,
+      profileURL: "",
       resumePDF: null,
       url: "",
     };
@@ -40,38 +22,30 @@ export default class SideCard extends Component {
     this.handlePdfChange = this.handlePdfChange.bind(this);
   }
 
-  updateInformation = () => {
-    const user = Firebase.auth.currentUser;
-    if (user != null) {
-      const userid = user.uid;
-      const data = Firebase.db
-        .collection("users")
-        .where("User UID" == userid)
-        .get()
-        .then(function (querySnapshot) {
-          querySnapshot.forEach(function (doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-          });
-        });
-      data();
-    }
-  };
-
   handleNewUploadClick = () => {
-    // Prompt a screen to upload a pdf
-
-    if (this.state.resumePDF != null) {
-      // Delete current file in storage
-      // Send request to delete current file
-      // if there is an error break??
+    if (this.state.resumePDF == null) {
+      alert("Please select a PDF to upload");
+      return;
     }
-
     const { resumePDF } = this.state;
 
+    // checks if you have a file url in the database already
+    if (this.state.url !== "") {
+      // Delete current file in storage
+      // Send request to delete current file
+      Firebase.storage
+        .ref(`resumePDFs/${Firebase.auth.currentUser.uid}`)
+        .delete();
+    }
+
+    // reference to the location of where the file should be placed
     const uploadFile = Firebase.storage
-      .ref(`resumePDFs/${resumePDF.name}`)
+      .ref(`resumePDFs/${Firebase.auth.currentUser.uid}`)
       .put(resumePDF);
+
+    // Uploads file to firebase
+    // Gets the file url from storage and displays on screen through setting the state.url
+    // then it updates the Resume PDF field in the database
 
     uploadFile.on(
       "state_changed",
@@ -82,83 +56,39 @@ export default class SideCard extends Component {
       () => {
         Firebase.storage
           .ref("resumePDFs")
-          .child(resumePDF.name)
+          .child(`${Firebase.auth.currentUser.uid}`)
           .getDownloadURL()
           .then((url) => {
             this.setState(() => ({ url }));
+            Firebase.db
+              .collection("students")
+              .doc(Firebase.auth.currentUser.uid)
+              .update({
+                ["Resume PDF"]: url,
+              });
           });
       }
     );
   };
 
   handlePdfChange = async (event) => {
-    //this.state.resumePDF = document.getElementById("exampleFormControlFile1");
-    // document.getElementById("resumeWindowImage").src = event.target.files[0];
-
-    console.log(event.target.files[0]);
-    console.log("7");
-
     const resumePDF = event.target.files[0];
     this.setState(() => ({ resumePDF }));
 
     const user = Firebase.auth.currentUser;
     const userid = user.uid;
 
-    let dataJSON = {};
-    let realData = {};
-    //let data = null;
     if (user != null) {
-      //dataJSON = await Firebase.getUserInfo(userid);
+      const userDataOBJ = await Firebase.getUserInfo(userid);
 
-      const test = await Firebase.getUserInfo(userid);
-      console.log(test);
-
-      //.then((data) => (dataJSON = data))
-      // .then((realData = JSON.parse(dataJSON)))
-      //.then(console.log(`${realData} and ${dataJSON}`))
-      // .then((data) =>
-      //   this.setState({
-      //     email: data.Email,
-      //   })
-      // );
-      //.then((data) => console.log(data));
-
-      // data = JSON.parse(dataJSON);
-      // this.setState({
-      //   email: data.Email,
-      // });
+      // Updating the state so it diplays in the object
+      this.setState({
+        email: userDataOBJ[0]["Email"],
+        fName: userDataOBJ[0]["First Name"],
+        lName: userDataOBJ[0]["Last Name"],
+        url: userDataOBJ[0]["Resume PDF"],
+      });
     }
-
-    //console.log(userid);
-
-    // Gets user info
-    // const data = null;
-    // Firebase.db
-    //   .collection("users")
-    //   .where("User UID", "==", userid)
-    //   .get()
-    //   .then(function (querySnapshot) {
-    //     querySnapshot.forEach(function (doc) {
-    //       // doc.data() is never undefined for query doc snapshots
-    //       console.log(doc.id, " => ", doc.data());
-    //       data = JSON.parse(doc.data());
-    //       console.log(data);
-    //       this.setState({
-    //         email: data.email,
-    //       });
-    //     });
-    //   })
-    // .catch(function (error) {
-    //   console.log("Error getting documents: ", error);
-    // });
-
-    // const file = event.target.files[0];
-    // const storageRef = Firebase.storage().ref("resumePDFs/" + file.name);
-
-    // storageRef.put(file);
-
-    // const image = document.getElementById("resumeWindowImage");
-    // image.src = URL.createObjectURL(this.state.resumePDF);
   };
 
   render() {
@@ -166,11 +96,87 @@ export default class SideCard extends Component {
       <div>
         <Card id="SideCardCard">
           <Card.Header className="SideCardProfileHeader">
-            <Profile
+            <div
+              className="d-flex"
+              id="ProfileDiv"
+              style={{ height: "190px", width: "320px", flexWrap: "wrap" }}
+            >
+              <div className="imgDiv" style={{ padding: ".75rem 1.25rem" }}>
+                <img
+                  className="SideResumePdfImage"
+                  src={this.profileURL}
+                  style={{ borderRadius: "50%" }}
+                  height="100px"
+                  width="100px"
+                  alt=""
+                />
+              </div>
+
+              <div style={{ width: "200" }}>
+                <div
+                  className="nameDiv"
+                  style={{
+                    width: "180px",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    padding: ".75rem 1.25rem",
+                  }}
+                >
+                  <h2
+                    style={{
+                      fontFamily: "Droid Sans",
+                      fontStyle: "normal",
+                      fontWeight: "normal",
+                      fontSize: "30px",
+                      lineHeight: "35px",
+                      display: "flex",
+                      alignItems: "center",
+                      textAlign: "center",
+                    }}
+                  >
+                    {this.state.fName}
+                  </h2>
+                  <h2
+                    style={{
+                      fontFamily: "Droid Sans",
+                      fontStyle: "normal",
+                      fontWeight: "normal",
+                      fontSize: "30px",
+                      lineHeight: "35px",
+                      display: "flex",
+                      alignItems: "center",
+                      textAlign: "center",
+                      marginTop: "0px",
+                    }}
+                  >
+                    {this.state.lName}
+                  </h2>
+                </div>
+              </div>
+
+              <div
+                className="emailDiv"
+                style={{
+                  width: "inherit",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontFamily: "Droid Sans",
+                  fontStyle: "normal",
+                  fontWeight: "normal",
+                  fontSize: "20px",
+                  lineHeight: "25px",
+                }}
+              >
+                {this.state.email}
+              </div>
+            </div>
+
+            {/* <Profile
               firstName={this.state.fName}
               lastName={this.state.lName}
               emailAddress={this.state.email}
-            />
+            /> */}
           </Card.Header>
           <Card.Body className="SideCardBody">
             <div className="resumeBox">
@@ -201,6 +207,7 @@ export default class SideCard extends Component {
                 <div className="form-group">
                   <input
                     type="file"
+                    accept="image/*"
                     className="form-control-file"
                     id="exampleFormControlFile1"
                     onChange={this.handlePdfChange}

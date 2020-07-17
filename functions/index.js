@@ -54,7 +54,9 @@ app.get("/getProfileInfo", async (req, res) => {
       const docs = data.docs.map((doc) => doc.data());
       res.send(docs);
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // Base API endpoint

@@ -16,15 +16,17 @@ export default class AdminView extends Component {
     super(props);
     this.state = {
       users: [],
+      value: "",
     };
   }
 
   render() {
+    let val;
     function ToggleButtonExample() {
-      const [radioValue, setRadioValue] = useState("1");
+      const [radioValue, setRadioValue] = useState("Recruiters");
       const radios = [
-        { name: "Recruiters", value: "1" },
-        { name: "Students", value: "2" },
+        { name: "Recruiters", value: "Recruiters" },
+        { name: "Students", value: "Students" },
       ];
       return (
         <ButtonGroup toggle>
@@ -38,6 +40,8 @@ export default class AdminView extends Component {
               checked={radioValue === radio.value}
               onChange={(e) => {
                 console.log(e.currentTarget.value);
+                val = e.currentTarget.value;
+                setStateValue(e.currentTarget.value);
                 setRadioValue(e.currentTarget.value);
               }}
             >
@@ -53,11 +57,13 @@ export default class AdminView extends Component {
         <Link to="/recruiter">
           <Button variant="info">Recruiter View</Button>
         </Link>
-
+        {console.log(this.state.value)}
         <div className="full-panel">
           <Container fluid="true">
             <Row>
-              <Col className="right-panel"></Col>
+              <Col className="right-panel">
+                <h2>{val}</h2>
+              </Col>
             </Row>
           </Container>
         </div>

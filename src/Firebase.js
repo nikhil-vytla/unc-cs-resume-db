@@ -1,6 +1,6 @@
 import app from "firebase/app";
 import "firebase/auth";
-import "firebase/firestore"
+import "firebase/firestore";
 
 // Use methods to access firebase SDK
 class Firebase {
@@ -40,10 +40,10 @@ class Firebase {
     } catch(err) {console.error(err);}
   }
 
-  // returns all docs from a given collection
-  async getDocs(collection) {
+  // returns a sample query
+  async runQuery() {
     try {
-      const data = await this.db.collection(collection).get();
+      const data = await this.db.collection("students").where("Skills", "array-contains", "Python").where("Graduation Year", "==", 2021).get();
       return data.docs.map(doc => doc.data());
     } catch(err) {console.error(err);}
   }

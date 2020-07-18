@@ -4,17 +4,18 @@ import Button from "react-bootstrap/Button";
 import "./SideCard.css";
 import Firebase from "../../Firebase.js";
 import profileImage from "../../Static/BlankUser.jpg";
+import SideResumeBox from "./SideResumeBox";
 
 // 320 by 780
 export default class SideCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      fName: "",
-      lName: "",
-      profileImageFile: profileImage,
-      profileURL: "",
+      // email: this.props.emailAddress,
+      // fName: this.props.firstName,
+      //lName: this.props.lastName,
+      // profileImageFile: profileImage,
+      // profileURL: "",
       resumePDF: null,
       url: "",
     };
@@ -30,7 +31,7 @@ export default class SideCard extends Component {
     const { resumePDF } = this.state;
 
     // checks if you have a file url in the database already
-    if (this.state.url !== "") {
+    if (this.props.resURL !== "") {
       // Delete current file in storage
       // Send request to delete current file
       Firebase.storage
@@ -60,12 +61,15 @@ export default class SideCard extends Component {
           .getDownloadURL()
           .then((url) => {
             this.setState(() => ({ url }));
+
             Firebase.db
               .collection("students")
               .doc(Firebase.auth.currentUser.uid)
               .update({
                 ["Resume PDF"]: url,
               });
+            this.props.resURL = url;
+            console.log(this.props.resURL);
           });
       }
     );
@@ -74,22 +78,31 @@ export default class SideCard extends Component {
   handlePdfChange = async (event) => {
     const resumePDF = event.target.files[0];
     this.setState(() => ({ resumePDF }));
+    console.log(resumePDF);
 
-    const user = Firebase.auth.currentUser;
-    const userid = user.uid;
+    // const user = Firebase.auth.currentUser;
+    // const userid = user.uid;
 
-    if (user != null) {
-      const userDataOBJ = await Firebase.getUserInfo(userid);
+    // if (user != null) {
+    //   const userDataOBJ = await Firebase.getUserInfo(userid);
 
-      // Updating the state so it diplays in the object
+    //   //Updating the state so it diplays in the object
+    //   this.setState({
+    //     email: userDataOBJ[0]["Email"],
+    //     fName: userDataOBJ[0]["First Name"],
+    //     lName: userDataOBJ[0]["Last Name"],
+    //     url: userDataOBJ[0]["Resume PDF"],
+    //   });
+    // }
+  };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.resURL !== prevProps.resURL) {
       this.setState({
-        email: userDataOBJ[0]["Email"],
-        fName: userDataOBJ[0]["First Name"],
-        lName: userDataOBJ[0]["Last Name"],
-        url: userDataOBJ[0]["Resume PDF"],
+        url: this.props.resURL,
       });
     }
-  };
+  }
 
   render() {
     return (
@@ -135,7 +148,7 @@ export default class SideCard extends Component {
                       textAlign: "center",
                     }}
                   >
-                    {this.state.fName}
+                    {this.props.firstName}
                   </h2>
                   <h2
                     style={{
@@ -150,7 +163,7 @@ export default class SideCard extends Component {
                       marginTop: "0px",
                     }}
                   >
-                    {this.state.lName}
+                    {this.props.lastName}
                   </h2>
                 </div>
               </div>
@@ -168,7 +181,7 @@ export default class SideCard extends Component {
                 //   // lineHeight: "25px",
                 // }}
               >
-                {this.state.email}
+                {this.props.emailAddress}
               </div>
             </div>
 
@@ -180,7 +193,8 @@ export default class SideCard extends Component {
           </Card.Header>
           <Card.Body className="SideCardBody">
             <div className="resumeBox">
-              <Card
+              <SideResumeBox currentPhoto={this.state.url} />
+              {/* <Card
                 className="SideResumeBoxCard"
                 border="dark"
                 style={{ height: "460px", width: "290px" }}
@@ -188,11 +202,11 @@ export default class SideCard extends Component {
                 <img
                   id="resumeWindowImage"
                   src={this.state.url}
-                  alt=""
+                  alt={this.props.resURL}
                   height="460"
                   width="auto"
                 ></img>
-              </Card>
+              </Card> */}
             </div>
             <div
               style={{
@@ -201,22 +215,27 @@ export default class SideCard extends Component {
                 alignContent: "center",
                 marginTop: "0px",
                 marginBottom: "0px",
+                flexDirection: "column",
               }}
             >
-              <form>
-                <div className="form-group">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="form-control-file"
-                    id="exampleFormControlFile1"
-                    onChange={this.handlePdfChange}
-                  />
-                </div>
-              </form>
-              <Button variant="primary" onClick={this.handleNewUploadClick}>
-                Upload
-              </Button>
+              <div>
+                <form>
+                  <div className="form-group">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="form-control-file"
+                      id="exampleFormControlFile1"
+                      onChange={this.handlePdfChange}
+                    />
+                  </div>
+                </form>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <Button variant="primary" onClick={this.handleNewUploadClick}>
+                  Upload Resume
+                </Button>
+              </div>
             </div>
           </Card.Body>
         </Card>

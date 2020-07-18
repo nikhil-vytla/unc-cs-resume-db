@@ -10,8 +10,8 @@
 
 #SideCardCard {
   width: 320px;
-  height: 720px;
-  background-color: #13294b;
+  height: auto;
+  background-color: #4b9cd3;
 }
 
 .flex-container {

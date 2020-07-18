@@ -3,8 +3,34 @@ import { Container, Col, Row } from "react-bootstrap";
 import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
+import Firebase from "../../Firebase.js";
 
 export class StudentView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      studentObject: {},
+    };
+    this.handlingUserInfo = this.handlingUserInfo.bind(this);
+  }
+
+  handlingUserInfo = async () => {
+    console.log(Firebase.auth.currentUser);
+    if (Firebase.currentUser !== null) {
+      const obj = await Firebase.getUserInfo(Firebase.auth.currentUser.uid);
+      console.log(obj);
+      return obj[0];
+    }
+  };
+
+  async componentDidMount() {
+    const data = await this.handlingUserInfo();
+    console.log(data);
+    this.setState({
+      studentObject: data,
+    });
+  }
+
   render() {
     let studentInfo = `[
         {
@@ -42,7 +68,12 @@ export class StudentView extends Component {
         <Container fluid="true">
           <Row>
             <Col xs={3} className="left-panel">
-              <SideCard />
+              <SideCard
+                emailAddress={this.state.studentObject["Email"]}
+                firstName={this.state.studentObject["First Name"]}
+                lastName={this.state.studentObject["Last Name"]}
+                resURL={this.state.studentObject["Resume PDF"]}
+              />
             </Col>
             <Col className="right-panel">
               <MyInformation studentData={JSON.parse(studentInfo)} />

@@ -12,6 +12,9 @@ import React, {useState} from "react"
 function RecruiterViewDropDown (props) {
     const [collapsed, setCollapsed] = useState(true);
 
+    if(props.items === null || props.items === [] || props.items[0] === undefined){
+        return null
+    }
 
     if (props.type === "ResumeView"){
         if(!collapsed){

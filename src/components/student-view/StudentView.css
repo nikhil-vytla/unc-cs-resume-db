@@ -1,5 +1,6 @@
 .full-panel {
-  margin-top: -18px;
+  margin-top: 0;
+  padding-top: 0;
   background-color: #13294b;
   min-height: calc(100vh - 8vh);
   max-height: calc(200vh - 8vh);
@@ -8,10 +9,10 @@
 }
 .left-panel {
   color: white;
-
-  margin-top: 3%;
+  background-color: lightblue;
   padding: 2%;
   margin: 2%;
+  margin-top: 0px;
   margin-left: 4%;
   /*min-height: 84vh; */
 }
@@ -19,9 +20,10 @@
 .right-panel {
   color: white;
   background-color: #4b9cd3;
-  margin-top: 3%;
+
   padding: 2%;
   margin: 2%;
+  margin-top: 0px;
   margin-right: 4%;
 }
 

@@ -3,6 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
 import firebase from "firebase";
+import { data } from "jquery";
 
 // Use methods to access firebase SDK
 class Firebase {
@@ -76,6 +77,7 @@ class Firebase {
     }
   }
 
+
   async userInfoV2(userID) {
     try {
       const data = await this.db.collection("students").doc(userID).get();
@@ -85,14 +87,29 @@ class Firebase {
     }
   }
 
-  async getAllUsers() {
+
+  // gets all current profile information for the recruiter
+  async getRecruiterInfo(userID) {
     try {
-      const data = await this.db.collection("students").get();
+      const data = await this.db
+        .collection("recruiters")
+        .where("UID", "==", userID)
+        .get();
       return data.docs.map((doc) => doc.data());
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   }
+  async getAllUsers() {
+
+    try{
+      const data = await this.db.collection("students").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (error){
+      console.log(error);
+    }
+
+  } 
 }
 
 export default new Firebase();

@@ -50,13 +50,13 @@ function RecruiterView() {
                 ? <animated.div style={props}>
                     <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>
                         <Row className="vw-100">
-                            <Col md="auto">
+                            <Col md="auto" className="recruiterViewColumn">
                                 <Filter />
                             </Col>
-                            <Col md="auto">
+                            <Col md="auto" className="recruiterViewColumn">
                                 <Candidates candidateCards={cards} toggleResumeView={(candidate) => toggleResumeView(candidate)} />
                             </Col>
-                            <Col md="auto">
+                            <Col md="auto" className="recruiterViewColumn">
                                 <MyLists toggleResumeView={(candidate) => toggleResumeView(candidate)} />
                             </Col>
                         </Row>

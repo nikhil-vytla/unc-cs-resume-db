@@ -16,7 +16,6 @@ export default class SelectOneOption extends Component {
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleMapUpload = this.handleMapUpload.bind(this);
-    this.updateRender = this.updateRender.bind(this);
   }
 
   handleUpdate = (event) => {

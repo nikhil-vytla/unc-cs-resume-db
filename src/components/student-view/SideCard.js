@@ -69,8 +69,6 @@ export default class SideCard extends Component {
               .update({
                 ["Resume PDF"]: url,
               });
-            this.props.resURL = url;
-            console.log(this.props.resURL);
           });
       }
     );

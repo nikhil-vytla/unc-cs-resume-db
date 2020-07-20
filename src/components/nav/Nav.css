@@ -1,10 +1,23 @@
 .nav {
   margin: 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  padding-left: 6vw !important;
+  padding-right: 6vw !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
   min-height: 60px;
-  max-height: 9vh;
+  max-height: 80px;
   background-color: #4b9cd3;
   color: white;
+  
 }
+.nav-links{
+  margin-bottom: 0;
+}
+.navContainer{
+  padding-bottom: 25px;
+  background-color: #13294b;
+}
+

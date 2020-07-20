@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     justify-content: space-start;
   }
+  
   .recruiterViewHeader{
     font-size: 30px;
     text-align: center;
@@ -19,11 +20,16 @@
   }
   .recruiterViewCard{
     border-radius: 15px !important;
-    border: 1px solid #E5E5E5;
+    border: 1px solid #e5e5e5;
     height: 260px;
     width: 150px;
-    box-shadow: 0px 4px 4px #25282B;
     margin: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    
+    transition: 0.3s;
+  }
+  .recruiterViewCard:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
   .recruiterViewCardHeader{
     background-color: #13294B !important;
@@ -39,6 +45,7 @@
   
   }
   .recruiterViewCardIcons{
+
     position: absolute;
     bottom: 0;
     width: 150px;
@@ -86,10 +93,15 @@
     overflow: hidden;
   }
   .recruiterViewIcon{
-    
+    transition: all .2s ease-in-out;
+
     line-height: 40px;
     
     
+  }
+  .recruiterViewIcon:hover{
+    transform: scale(1.1);
+
   }
   
   .resumeViewDiv{
@@ -115,6 +127,9 @@
     width: 30vw;
     text-align: center;
     color: white;
+  }
+  .resumeViewContainer{
+    overflow: hidden !important;
   }
   .vw-100{
     width: 100vw !important;
@@ -177,8 +192,19 @@
     height: 80px;
     
   }
-
-
+  
   .p-10px{
     padding: 10px;
+  }
+  .recruiterSpinnerDiv{
+    color: #4B9CD3;
+    height: calc(100vh - 105px);
+    align-items: center;
+    overflow: hidden;
+    background-color: #13294B;
+  }
+  .recruiterSpinner{
+    height: 100px !important;
+    width: 100px !important;
+    font-size: 50px;
   }

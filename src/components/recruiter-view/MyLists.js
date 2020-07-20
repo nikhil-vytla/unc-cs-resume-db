@@ -1,20 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "../../Static/MyList.css"
-import MyListDropDown from "./MyListsDropDown"
-import lists from "../../Static/MyLists.json"
+import MyListsDropDownWrapper from "./MyListsDropDownWrapper"
 
 function MyLists(props) {
 
-    
+    const [listState, setListState] = useState({
+        "My Lists":[
+            {
+                "Name":"FrontEnd",
+                "Students":[
+                    {
+                        "First Name":"Adam",
+                        "Last Name":"Winek",
+                        "Email":"AdamWinek@gmail.com",
+                        "UID":"1nyuPOBqirZ2GsLDkIcR3iaPZfu2"
+                    },
+                    {
+                        "First Name":"Sai",
+                        "Last Name":"Gongidi",
+                        "Email":"Sai@gmail.com",
+                        "UID":"1nyuPOBqirZ2GsLDkIcR3iaPZfu2"
+                    },
+                    {
+                        "First Name":"Tucker",
+                        "Last Name":"Resig",
+                        "Email":"Tucker@gmail.com",
+                        "UID":"JFN2bkEL16bMjXDeM8Ol6lg4rJ62"
+                    }
+
+                ]
+            },
+            {
+                "Name":"BackEnd",
+                "Students":[
+                    {
+                        "First Name":"Adam",
+                        "Last Name":"Winek",
+                        "Email":"AdamWinek@gmail.com",
+                        "UID":"1nyuPOBqirZ2GsLDkIcR3iaPZfu2"
+                    },
+                    {
+                        "First Name":"Sai",
+                        "Last Name":"Gongidi",
+                        "Email":"Sai@gmail.com",
+                        "UID":"1nyuPOBqirZ2GsLDkIcR3iaPZfu2"
+                    },
+                    {
+                        "First Name":"Tucker",
+                        "Last Name":"Resig",
+                        "Email":"Tucker@gmail.com",
+                        "UID":"JFN2bkEL16bMjXDeM8Ol6lg4rJ62"
+                    }
+
+                ]
+            }
+
+        ]
+    });
+
+
     return (
         <div>
             <div className="d-block">
                 <h1 className="recruiterViewHeader BreeSerif"  style={{width: '25vw'}}>My Lists</h1>
             </div>
             <div>
-                {lists.MyList.map((list) => (
-                    <MyListDropDown key={list.Title} listTitle={list.Title} students={list.Students} toggleResumeView={(candidate) => props.toggleResumeView(candidate)}/>
-                ))}
+                <MyListsDropDownWrapper  list={listState["My Lists"]} toggleResumeView={(candidate) => props.toggleResumeView(candidate)}/>
+                
                 
 
             </div>

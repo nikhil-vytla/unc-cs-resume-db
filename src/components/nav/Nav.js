@@ -6,10 +6,10 @@ import logo from "../../Static/CSLogo.png";
 export class Nav extends Component {
   render() {
     return (
-      <div>
+      <div className="navContainer">
         <div className="nav">
           <Link to="/">
-            <img src={logo} alt="logo" width="400" height="auto" />
+            <img src={logo} alt="logo" height="60px" width="auto" />
           </Link>
 
           <Link to="/student" style={{"color": "white"}}>Student View</Link>

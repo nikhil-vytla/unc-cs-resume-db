@@ -3,6 +3,13 @@ import Card from "react-bootstrap/Card";
 import pdf from "../../Static/ResumeTemplate.jpg";
 
 export default class SideResumeBox extends Component {
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.currentPhoto !== prevProps.currentPhoto) {
+  //     console.log(this.props.currentPhoto);
+  //     console.log(prevProps.currentPhoto);
+  //     this.forceUpdate();
+  //   }
+  // }
   render() {
     return (
       // 290 by 460

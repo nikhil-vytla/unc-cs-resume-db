@@ -8,17 +8,17 @@
 }
 .left-panel {
   color: white;
-  background-color: lightblue;
+
   margin-top: 3%;
   padding: 2%;
   margin: 2%;
   margin-left: 4%;
-  min-height: 84vh;
+  /*min-height: 84vh; */
 }
 
 .right-panel {
   color: white;
-  background-color: lightblue;
+  background-color: #4b9cd3;
   margin-top: 3%;
   padding: 2%;
   margin: 2%;
@@ -32,10 +32,10 @@
   min-height: 100%;
   width: 100%;
 }
-
+/* 
 .card-setting {
-  /* width: 96%; */
-}
+  /* width: 96%; 
+} */
 
 .basic-information-form {
   margin: 3%;
@@ -55,4 +55,9 @@
 
 .accordion-toggle-selector {
   background-color: "#E5E5E5";
+}
+
+.updateButtonDiv {
+  text-align: center;
+  margin: 4%;
 }

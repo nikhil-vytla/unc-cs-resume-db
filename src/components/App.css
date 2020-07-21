@@ -1,4 +1,6 @@
 .App {
   margin: 0px;
+  height: 100vh;
+  background-color: #13294b;
   overflow-x: hidden;
 }

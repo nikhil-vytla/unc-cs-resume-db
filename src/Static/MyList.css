@@ -6,9 +6,13 @@
     margin-bottom: 7.5px;
     margin-top: 7.5px;
     font-size: 1.5em;
+    transition: all .2s ease-in-out;
+}
+.myListIcons:hover{
+    transform: scale(1.1);
 }
 .myListTitle{
-    padding-left: 5px;
+    padding-left: 10px;
     line-height: 40px;
     font-size: 20px;
 }
@@ -22,6 +26,7 @@
     background-color:#ffffff;
     border-bottom: 1px solid #e5e5e5;
 }
+
 
 .myListsDropDownItemName{
     line-height: 40px;

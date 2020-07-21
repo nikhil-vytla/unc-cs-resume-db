@@ -36,6 +36,7 @@ function FilterDropDown(props ) {
                 
                 </ div>
                 <ul className="filterList">
+                    {inside}
                     {props.inside.map( item =>{
                         return<li className="filterLi"><FilterItem  itemName={item}  /></li>
                     })}

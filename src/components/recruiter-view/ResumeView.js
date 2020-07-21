@@ -11,9 +11,9 @@ import RemoveIcon from '@material-ui/icons/Remove';
 
 function ResumeView (props) {
     const skills = props.candidate.Skills
-    const events = props.candidate.Events
-    const primaryMajor = [props.candidate.PrimaryMajor]
-    const secondaryMajor = [props.candidate.SecondaryMajor]
+    const events = props.candidate["Resume Access"]
+    const primaryMajor = [props.candidate.Majors[0]]
+    const secondaryMajor = [props.candidate.Majors[1]]
     const minors = [props.candidate.Minors]
 
     return(
@@ -31,9 +31,9 @@ function ResumeView (props) {
                 <img className="resumeImage" src={require('../../Static/ResumeTemplate.jpg')}  alt=""></img>
                 <div>
                     <div className='resumeViewHeader' >
-                        <h1 style={{ fontSize: '30px' }} className="BreeSerif">Adam Winek</h1>
+                            <h1 style={{ fontSize: '30px' }} className="BreeSerif">{props.candidate["First Name"]}  {props.candidate["Last Name"]}</h1>
                         <div className='d-flex justify-content-between classInfoDiv'>
-                            <h1 style={{ fontSize: "25px", color:"#000000",lineHeight: "40px", paddingLeft:'5px'}} > {props.candidate.First} {props.candidate.Last} </h1>
+                            <h1 style={{ fontSize: "25px", color:"#000000",lineHeight: "40px", paddingLeft:'5px'}} > {props.candidate["Graduation Year"]} </h1>
                             <h1 style={{ fontSize: "25px",  color:"#000000", lineHeight: "40px", paddingRight:'5px'}} > {props.candidate.School} </h1>
 
                         </div>

@@ -10,7 +10,8 @@
 
 #SideCardCard {
   width: 320px;
-  height: 720px;
+  height: auto;
+  background-color: #4b9cd3;
 }
 
 .flex-container {
@@ -22,4 +23,15 @@
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.emailDiv {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  font-family: Droid Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 25px;
 }

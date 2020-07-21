@@ -51,9 +51,15 @@ class Firebase {
   // returns a sample query
   async runQuery() {
     try {
-      const data = await this.db.collection("students").where("Skills", "array-contains", "Python").where("Graduation Year", "==", 2021).get();
-      return data.docs.map(doc => doc.data());
-    } catch(err) {console.error(err);}
+      const data = await this.db
+        .collection("students")
+        .where("Skills", "array-contains", "Python")
+        .where("Graduation Year", "==", 2021)
+        .get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   // gets all current profile information for the user
@@ -66,6 +72,25 @@ class Firebase {
       return data.docs.map((doc) => doc.data());
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  // gets all recruiter
+  async getAllRecruiters() {
+    try {
+      const data = await this.db.collection("recruiters").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  // gets all students
+  async getAllStudents() {
+    try {
+      const data = await this.db.collection("students").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
     }
   }
 }

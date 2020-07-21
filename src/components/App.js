@@ -6,8 +6,6 @@ import Signup from "./auth/Signup";
 import StudentView from "./student-view/StudentView";
 import RecruiterView from "./recruiter-view/RecruiterView";
 import AdminView from "./admin-view/AdminView";
-import CardComponent from "./admin-view/CardComponent";
-import ListComponent from "./admin-view/ListComponent";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 

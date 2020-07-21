@@ -77,6 +77,25 @@ class Firebase {
     }
   }
 
+  // gets all recruiter
+  async getAllRecruiters() {
+    try {
+      const data = await this.db.collection("recruiters").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  // gets all students
+  async getAllStudents() {
+    try {
+      const data = await this.db.collection("students").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
 
   async userInfoV2(userID) {
     try {
@@ -110,6 +129,7 @@ class Firebase {
     }
 
   } 
+
 }
 
 export default new Firebase();

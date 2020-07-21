@@ -126,7 +126,8 @@ class Firebase {
       ["Secondary Major"]: "",
       Seeking: "",
       UID: currentUser.uid,
-      ["Profile Image"]: "",
+      ["Profile Image"]:
+        "https://lh3.googleusercontent.com/proxy/x42TVsrdqKEF0X_-kXEEgmv3cnwe7elQD4oRE71PJfuoYjIuPulLQh6CLtLTPUJSZOfhekJQja_iNo5CpquBQnk",
       ["Resume PDF"]: "",
     };
     try {

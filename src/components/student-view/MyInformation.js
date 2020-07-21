@@ -9,6 +9,7 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "./StudentView.css";
+import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
 
 export class MyInformation extends Component {
@@ -16,7 +17,8 @@ export class MyInformation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: {},
+      fName: "",
+      lName: "",
     };
   }
   render() {
@@ -336,6 +338,8 @@ Unix */
             <Accordion.Collapse eventKey="0">
               <div className="basic-information-form">
                 <Form.Group>
+                  <NameSection />
+                  <br />
                   <div className="data-row">
                     <Form.Row>
                       <Form.Label column lg={2}>

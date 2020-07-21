@@ -35,8 +35,6 @@ export class StudentView extends Component {
   };
 
   async componentDidMount() {
-    // const allData = await Firebase.getAllUsers();
-    // console.log(allData);
     const data = await this.handlingUserInfo();
     console.log(data);
     console.log(data["Skills"]);
@@ -46,38 +44,6 @@ export class StudentView extends Component {
   }
 
   render() {
-    // let studentInfo = `[
-    //     {
-    //       "id": 1,
-    //       "name": "John Doe",
-    //       "school": "UNC CH",
-    //       "graduatingyear": "2021",
-    //       "major": ["Computer Science", "Computer Engineering"],
-    //       "programmingLanguage": ["python","c++","c#"],
-    //       "frameworkTool": ["react"],
-    //       "operatingSystem": ["linux"],
-    //       "databaseSystem": [],
-    //       "eventsAttended": ["pearl hack", "hackathon", "hackNC"]
-    //     }]`;
-    // let studentInfo1 = `[
-    //     {
-    //       "id": 10,
-    //       "name": "John Doe",
-    //       "basicInfo": {
-    //         "School": ["UNC CH"],
-    //         "Graduating Year": ["2021"],
-    //         "Major": ["Computer Science"]
-    //       },
-    //       "skillsExperience": {
-    //         "Programming Language": ["python", "c++", "c#"],
-    //         "Framework Tool": ["react", "js"],
-    //         "Operating System": ["linux"],
-    //         "Database System": []
-    //       },
-    //       "eventAttended": {"events":["pearl hack", "hackNC"]}
-    //     }
-    //   ]`;
-
     return (
       <div className="full-panel">
         <Container fluid="true">
@@ -99,7 +65,11 @@ export class StudentView extends Component {
                   // Graduation year
                   gradData={this.state.studentObject["Graduation Year"]}
                   // Major(s)
-                  majorData={this.state.studentObject["Majors"]}
+                  primMajorData={this.state.studentObject["Primary Major"]}
+                  //Secondary Major
+                  secMajorData={this.state.studentObject["Secondary Major"]}
+                  // Minor(s)
+                  minorsData={this.state.studentObject["Minors"]}
                   // Skills
                   skillsData={this.state.studentObject["Skills"]}
                   // Events

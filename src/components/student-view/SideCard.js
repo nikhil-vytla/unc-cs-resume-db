@@ -235,6 +235,7 @@ export default class SideCard extends Component {
           </Card.Header>
           <Card.Body className="SideCardBody">
             <div className="resumeBox">
+              <h2 style={{ textAlign: "center", color: "white" }}>Resume</h2>
               <SideResumeBox currentPhoto={this.state.url} />
               {/* <Card
                 className="SideResumeBoxCard"

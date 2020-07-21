@@ -44,6 +44,7 @@ class Firebase {
   async createUser(email, pass) {
     try {
       const cred = await this.auth.createUserWithEmailAndPassword(email, pass);
+      await this.putNewUserIntoDB(cred.user);
       return cred.user;
     } catch (err) {
       console.error(err);
@@ -77,7 +78,6 @@ class Firebase {
     }
   }
 
-
   async userInfoV2(userID) {
     try {
       const data = await this.db.collection("students").doc(userID).get();
@@ -86,7 +86,6 @@ class Firebase {
       console.log(error);
     }
   }
-
 
   // gets all current profile information for the recruiter
   async getRecruiterInfo(userID) {
@@ -101,15 +100,41 @@ class Firebase {
     }
   }
   async getAllUsers() {
-
-    try{
+    try {
       const data = await this.db.collection("students").get();
       return data.docs.map((doc) => doc.data());
-    } catch (error){
+    } catch (error) {
       console.log(error);
     }
+  }
 
-  } 
+  // Call this function after sign up
+  async putNewUserIntoDB(currentUser) {
+    const dataForDB = {
+      Email: currentUser.email,
+      ["Database Systems"]: {},
+      ["Programming Languages"]: {},
+      ["Frameworks and Tools"]: {},
+      Events: {},
+      ["First Name"]: "",
+      ["Last Name"]: "",
+      ["Graduation Year"]: "",
+      ["School"]: "",
+      ["Minors"]: {},
+      ["Operating Systems"]: {},
+      ["Primary Major"]: "",
+      ["Secondary Major"]: "",
+      Seeking: "",
+      UID: currentUser.uid,
+      ["Profile Image"]: "",
+      ["Resume PDF"]: "",
+    };
+    try {
+      await this.db.collection("students").doc(currentUser.uid).set(dataForDB);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default new Firebase();

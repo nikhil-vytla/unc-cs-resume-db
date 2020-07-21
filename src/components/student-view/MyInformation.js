@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import "./StudentView.css";
 import SelectOneOption from "./SelectOneOption";
-//import MultiSelect from "./MultiSelect";
 
 export class MyInformation extends Component {
   // function MyInformation(props) {
@@ -21,6 +20,8 @@ export class MyInformation extends Component {
     };
   }
   render() {
+    // Eventually link these lists to firebase and allow clients
+    // to edit them to their liking
     const schoolsList = [
       "UNC Chapel Hill",
       "North Carolina State University",
@@ -39,18 +40,125 @@ export class MyInformation extends Component {
     ];
     const gradYearList = ["2020", "2021", "2022", "2023", "2024", "202X"];
     const majorsList = [
+      "Aerospace Engineering",
+      "Anthropology",
+      "Apparel/Textile Design",
+      "Applied Science",
+      "Architecture",
+      "Arts Management",
+      "Astronomy",
+      "Athletic Training",
+      "Aviation/Aeronautics",
+      "Biology",
+      "Biomedical Engineering",
+      "Business/Finance",
+      "Chemical Engineering",
+      "Chemistry",
+      "Civil Engineering",
+      "Communication Studies",
+      "Computer Engineering",
       "Computer Science",
-      "Mathematics",
-      "Physics",
+      "Construction Management",
+      "Dance",
+      "Data Science",
+      "Dentistry",
+      "Dramatic Arts",
+      "Economics",
+      "Education",
+      "Electrical Engineering",
+      "Engineering",
+      "English/Writing",
+      "Entertainment Management",
+      "Environmental Studies",
+      "Exercise Science/Kinesiology",
+      "Family/Consumer Science",
+      "Film/Broadcast",
+      "Fine/Studio Art",
+      "Fisheries and Wildlife",
+      "Food Science",
+      "Forensic Science",
+      "Forest Management",
+      "Geography/Global Studies",
+      "Graphic Design",
+      "Health Policy and Management",
+      "History",
+      "Industrial Design",
+      "Industrial Engineering",
       "Information Science",
+      "Journalism",
+      "Landscape Architecture",
+      "Language Studies",
+      "Linguistics",
+      "Marine Science",
+      "Materials Science",
+      "Mathematics",
+      "Mechanical Engineering",
+      "Military Science/ROTC",
+      "Music",
+      "Neuroscience",
+      "Non-ProfitManagement",
+      "Nursing (RN/BSN)",
+      "Peace/Conflict Studies",
+      "Pharmacy",
+      "Philosophy",
+      "Physics",
+      "Political Science",
+      "Pre-Dental",
+      "Pre-Medical",
+      "Pre-Veterinary",
+      "Medicine",
+      "Psychology",
+      "Public Health",
+      "Recreation & Tourism Management",
+      "Social Science",
+      "Sport Management",
+      "Statistics",
+      "Studio Art",
+      "Theatre",
+      "Urban Planning",
+      "Video Game Design",
+      "Web Design/Digital Media",
+      "Women/Gender Studies",
+      "Other",
     ];
+
     const eventsList = [
       "HackNC",
       "Queer_Hack",
       "Global Game Jam",
+      "AfroPix",
       "Carolina Data Challenge",
       "Pearl Hacks",
+      "HackReality",
     ];
+    {
+      /* Programming languages 
+Java
+Python
+C (#,++)
+Swift
+Javascript
+HTML
+CSS
+
+Frameworks/Tools 
+React 
+Angular
+Ruby on Rails
+Vue.js
+Django
+
+Database Systems
+SQL
+Oracle
+MongoDB
+
+Operating Systems 
+macOS
+Linux
+Windows
+Unix */
+    }
 
     const progLangauges = [
       "Java",
@@ -68,7 +176,7 @@ export class MyInformation extends Component {
       "React",
       "Angular",
       "Ruby on Rails",
-      "Vue.js",
+      "Vue",
       "Django",
     ];
 
@@ -183,6 +291,26 @@ export class MyInformation extends Component {
       frameAndToolsList = <li>Please update your information!</li>;
     }
 
+    // Minors
+    let minorsArray = [];
+    if (this.props.minorsData !== null && this.props.minorsData != null) {
+      Object.keys(this.props.minorsData).forEach((key, index) => {
+        if (this.props.minorsData[key]) {
+          minorsArray.push(key);
+        }
+      });
+    }
+
+    let minorsList;
+
+    if (this.props.minorsData !== null && this.props.minorsData != null) {
+      minorsList = minorsArray.map((eachLang) => (
+        <li className="list-group-item list-group-item-primary">{eachLang}</li>
+      ));
+    } else {
+      minorsList = <li>Please update your information!</li>;
+    }
+
     // OG Skills
     let listStuff;
     console.log(this.props.skillsData);
@@ -198,7 +326,6 @@ export class MyInformation extends Component {
         <h3>My Information</h3>
         <div className="my-information-container">
           <Accordion defaultActiveKey="0">
-            {/* <Card className="card-setting"> */}
             <Accordion.Toggle
               as={Card.Header}
               eventKey="0"
@@ -219,25 +346,11 @@ export class MyInformation extends Component {
                           optionArray={schoolsList}
                           valueType="School"
                           isSingle={true}
+                          needInput={true}
                         />
-                        {/* <InputGroup className="mb-3">
-                          
-                          <FormControl
-                            placeholder={this.props.studentData[0].school}
-                            aria-label="Recipient's username"
-                            aria-describedby="basic-addon2"
-                          />
-                          
-                        </InputGroup> */}
-
-                        <div className="testDiv">
-                          <li className="list-group-item list-group-item-primary">
-                            {this.props.schoolData}
-                          </li>
-                          {/* <li>{this.props.testingData}</li> */}
-                          {/* {listStuff} */}
-                          {/* yooooooo */}
-                        </div>
+                        <li className="list-group-item list-group-item-primary">
+                          {this.props.schoolData}
+                        </li>
                       </Col>
                     </Form.Row>
                   </div>
@@ -256,16 +369,6 @@ export class MyInformation extends Component {
                         <li className="list-group-item list-group-item-primary">
                           {this.props.gradData}
                         </li>
-
-                        {/* <FormControl
-                          placeholder={this.props.studentData[0].graduatingyear}
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                        /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -278,29 +381,52 @@ export class MyInformation extends Component {
                       <InputGroup className="mb-3">
                         <SelectOneOption
                           optionArray={majorsList}
-                          valueType="Majors"
+                          valueType="Primary Major"
                           isSingle={true}
                         />
                         <li className="list-group-item list-group-item-primary">
-                          {this.props.majorData}
+                          {this.props.primMajorData}
                         </li>
-                        {/* <FormControl
-                          placeholder={this.props.studentData[0].major}
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                        /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+                  <br />
+                  <Form.Row>
+                    <Form.Label column lg={2}>
+                      Secondary Major
+                    </Form.Label>
+                    <Col>
+                      <InputGroup className="mb-3">
+                        <SelectOneOption
+                          optionArray={majorsList}
+                          valueType="Secondary Major"
+                          isSingle={true}
+                        />
+                        <li className="list-group-item list-group-item-primary">
+                          {this.props.secMajorData}
+                        </li>
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+                  <br />
+                  <Form.Row>
+                    <Form.Label column lg={2}>
+                      Minors
+                    </Form.Label>
+                    <Col>
+                      <InputGroup className="mb-3">
+                        <SelectOneOption
+                          optionArray={majorsList}
+                          valueType="Minors"
+                          isSingle={false}
+                        />
+                        {minorsList}
                       </InputGroup>
                     </Col>
                   </Form.Row>
                 </Form.Group>
               </div>
             </Accordion.Collapse>
-            {/* </Card> */}
-            {/* <Card className="card-setting"> */}
             <Accordion.Toggle
               as={Card.Header}
               eventKey="1"
@@ -319,33 +445,6 @@ export class MyInformation extends Component {
                         </div>
                       </Form.Label>
                       <Col>
-                        {/* Programming languages 
-Java
-Python
-C (#,++)
-Swift
-Javascript
-HTML
-CSS
-
-Frameworks/Tools 
-React 
-Angular
-Ruby on Rails
-Vue.js
-Django
-
-Database Systems
-SQL
-Oracle
-MongoDB
-
-Operating Systems 
-macOS
-Linux
-Windows
-Unix */}
-
                         <InputGroup className="mb-3">
                           <SelectOneOption
                             optionArray={progLangauges}
@@ -353,17 +452,6 @@ Unix */}
                             isSingle={false}
                           />
                           {progLangList}
-                          {/* <FormControl
-                            placeholder={
-                              this.props.studentData[0].programmingLanguage
-                            }
-                            aria-label="Recipient's username"
-                            aria-describedby="basic-addon2"
-                          /> */}
-                          {/* <InputGroup.Append>
-                            <Button variant="outline-secondary">+</Button>
-                            <Button variant="outline-secondary">-</Button>
-                          </InputGroup.Append> */}
                         </InputGroup>
                       </Col>
                     </Form.Row>
@@ -381,15 +469,6 @@ Unix */}
                           isSingle={false}
                         />
                         {frameAndToolsList}
-                        {/* <FormControl
-                          placeholder={this.props.studentData[0].frameworkTool}
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                        /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -406,17 +485,6 @@ Unix */}
                           isSingle={false}
                         />
                         {opSystemsList}
-                        {/* <FormControl
-                          placeholder={
-                            this.props.studentData[0].operatingSystem
-                          }
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                        /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -432,23 +500,12 @@ Unix */}
                           isSingle={false}
                         />
                         {dbSystemsList}
-                        {/* <FormControl
-                          placeholder={this.props.studentData[0].databaseSystem}
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                        /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
                 </Form.Group>
               </div>
             </Accordion.Collapse>
-            {/* </Card>
-          <Card className="card-setting"> */}
             <Accordion.Toggle
               as={Card.Header}
               eventKey="2"
@@ -470,27 +527,8 @@ Unix */}
                             optionArray={eventsList}
                             valueType="Events"
                             isSingle={false}
-                            //testingOut={eventListToView}
                           />
-
                           {eventListToView}
-                          {/* <MultiSelect
-                            optionArray={eventsList}
-                            valueType="Events"
-                          /> */}
-                          {/* <FormControl
-                            // placeholder={
-                            //   this.props.studentData[0].eventsAttended
-                            // }
-                            as="select"
-                            multiple="true"
-                            aria-label="Recipient's username"
-                            aria-describedby="basic-addon2"
-                          /> */}
-                          {/* <InputGroup.Append>
-                            <Button variant="outline-secondary">+</Button>
-                            <Button variant="outline-secondary">-</Button>
-                          </InputGroup.Append> */}
                         </InputGroup>
                       </Col>
                     </Form.Row>
@@ -498,7 +536,6 @@ Unix */}
                 </Form.Group>
               </div>
             </Accordion.Collapse>
-            {/* </Card> */}
           </Accordion>
         </div>
       </div>

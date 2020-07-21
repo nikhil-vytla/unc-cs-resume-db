@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import { analytics } from "firebase";
-import { InputGroup } from "react-bootstrap";
+import { InputGroup, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Firebase from "../../Firebase.js";
 
@@ -11,7 +11,6 @@ export default class SelectOneOption extends Component {
 
     this.state = {
       update: "",
-      makeUpdate: false,
     };
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
@@ -19,6 +18,8 @@ export default class SelectOneOption extends Component {
   }
 
   handleUpdate = (event) => {
+    event.preventDefault();
+
     const currentVal = event.target.value;
     this.setState({
       update: currentVal,
@@ -27,6 +28,7 @@ export default class SelectOneOption extends Component {
   };
 
   handleUpload = (event) => {
+    event.preventDefault();
     Firebase.db
       .collection("students")
       .doc(Firebase.auth.currentUser.uid)
@@ -35,7 +37,11 @@ export default class SelectOneOption extends Component {
       });
   };
 
-  handleMapUpload = () => {
+  // THERE IS A BUG IF THE NAME HAS A . IN IT
+  // EXAMPLE: Vue.js SPLITS INTO Vue with a sub map of js
+  // SOLUTION: FOR NOW DON'T USE NAMES WITH . IN THEM :)
+  handleMapUpload = (event) => {
+    event.preventDefault();
     const valuePlaceHolder = this.props.valueType;
     const currentState = this.state.update;
     const currentObjString = `${valuePlaceHolder}.${currentState}`;
@@ -53,6 +59,13 @@ export default class SelectOneOption extends Component {
       <option>{eachOption}</option>
     ));
 
+    let typingForm;
+    if (this.props.needInput) {
+      typingForm = <FormControl></FormControl>;
+    } else {
+      typingForm = <div></div>;
+    }
+
     return (
       <InputGroup className="mb-3">
         <Form.Group controlId="ControlSelect1">
@@ -61,6 +74,8 @@ export default class SelectOneOption extends Component {
             {optionOptions}
           </Form.Control>
         </Form.Group>
+        {typingForm}
+
         <InputGroup.Append>
           <Button
             variant="outline-secondary"
@@ -70,6 +85,7 @@ export default class SelectOneOption extends Component {
           >
             +
           </Button>
+
           <Button variant="outline-secondary">-</Button>
         </InputGroup.Append>
       </InputGroup>

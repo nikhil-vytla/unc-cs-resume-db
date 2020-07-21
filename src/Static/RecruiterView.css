@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
 .recruiterViewCardDiv{
     background-color: white;
-    width : 50vw;
+    
     flex-wrap: wrap;
     justify-content: space-start;
   }
@@ -9,6 +9,33 @@
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
+  .recruiterViewLeftColumn{
+    padding-right: 1vw !important;
+    padding-left: 0px !important;
+  }
+  .recruiterViewColumn50vw{
+    width: 50vw !important;
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+
+  .recruiterViewColumn65vw{
+    width: 66.5vw !important;
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+  .recruiterViewColumn75vw{
+    width: 77.5vw !important;
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+  .recruiterViewColumn95vw{
+    width: 95vw !important;
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+  
+
   
   .recruiterViewHeader{
     font-size: 30px;
@@ -211,4 +238,9 @@
     height: 100px !important;
     width: 100px !important;
     font-size: 50px;
+  }
+  .recruiterViewRow{
+   margin-right: 0px !important;
+    margin-left: 0px !important;
+
   }

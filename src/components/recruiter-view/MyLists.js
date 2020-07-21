@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import "../../Static/MyList.css"
 import MyListsDropDownWrapper from "./MyListsDropDownWrapper"
+import MyListsHeader from "./MyListsHeader"
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+
+
 
 function MyLists(props) {
 
@@ -61,9 +66,12 @@ function MyLists(props) {
 
     return (
         <div>
-            <div className="d-block">
-                <h1 className="recruiterViewHeader BreeSerif"  style={{width: '25vw'}}>My Lists</h1>
+            <div className="myListsArrowDiv" onClick={() => props.setMyListsToggle()}>
+                <ArrowForwardIcon className="myListsArrowIcon" />
+
             </div>
+            <MyListsHeader />
+
             <div>
                 <MyListsDropDownWrapper  list={listState["My Lists"]} toggleResumeView={(candidate) => props.toggleResumeView(candidate)}/>
                 

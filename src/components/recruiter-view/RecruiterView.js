@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Candidates from "./Candidates"
-import Filter from "./Filter"
-import MyLists from "./MyLists"
+
 import ResumeView from "./ResumeView"
 import { useTransition, animated } from 'react-spring'
 import '../../Static/RecruiterView.css';
 import CandidatesList from "../../Static/Candidates.json"
 import firebase from "../../Firebase"
 import Spinner from 'react-bootstrap/Spinner'
+import RecruiterViewColumns from "./RecruiterViewColumns"
 
 
 
@@ -48,19 +48,7 @@ function RecruiterView() {
         return transitions.map(({ item, key, props }) =>
             item
                 ? <animated.div style={props}>
-                    <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>
-                        <Row className="vw-100">
-                            <Col md="auto" className="recruiterViewColumn">
-                                <Filter />
-                            </Col>
-                            <Col md="auto" className="recruiterViewColumn">
-                                <Candidates candidateCards={cards} toggleResumeView={(candidate) => toggleResumeView(candidate)} />
-                            </Col>
-                            <Col md="auto" className="recruiterViewColumn">
-                                <MyLists toggleResumeView={(candidate) => toggleResumeView(candidate)} />
-                            </Col>
-                        </Row>
-                    </ Container >
+                    <RecruiterViewColumns  cards={cards}/>
                 </animated.div>
                 : <animated.div style={props}>
                     <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>

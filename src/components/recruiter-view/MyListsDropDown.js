@@ -69,6 +69,9 @@ function MyListsDropDown( props){
                     <RemoveIcon className='myListIcons' onClick={() => setColapsed(true)}/>
                 </div>
 
+
+
+             
             </div>
                 {props.students.map( currentStudent =>(
                     <MyListsDropDownItem  student={currentStudent} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} />

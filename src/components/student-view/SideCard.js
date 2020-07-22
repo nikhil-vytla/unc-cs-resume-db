@@ -3,7 +3,6 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./SideCard.css";
 import Firebase from "../../Firebase.js";
-import profileImage from "../../Static/BlankUser.jpg";
 import SideResumeBox from "./SideResumeBox";
 
 // 320 by 780
@@ -11,9 +10,6 @@ export default class SideCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // email: this.props.emailAddress,
-      // fName: this.props.firstName,
-      //lName: this.props.lastName,
       profileImageFile: null,
       profileURL: "",
       resumePDF: null,
@@ -159,7 +155,11 @@ export default class SideCard extends Component {
               <div className="imgDiv" style={{ padding: ".75rem 1.25rem" }}>
                 <img
                   className="SideResumePdfImage"
-                  src={this.state.profileURL}
+                  src={
+                    this.state.profileURL == "blank user"
+                      ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      : this.state.profileImageFile
+                  }
                   style={{ borderRadius: "50%" }}
                   height="100px"
                   width="100px"
@@ -210,46 +210,13 @@ export default class SideCard extends Component {
                 </div>
               </div>
 
-              <div
-                className="emailDiv"
-                // style={{
-                //   // width: "inherit",
-                //   // display: "flex",
-                //   // justifyContent: "center",
-                //   // fontFamily: "Droid Sans",
-                //   // fontStyle: "normal",
-                //   // fontWeight: "normal",
-                //   // fontSize: "20px",
-                //   // lineHeight: "25px",
-                // }}
-              >
-                {this.props.emailAddress}
-              </div>
+              <div className="emailDiv">{this.props.emailAddress}</div>
             </div>
-
-            {/* <Profile
-              firstName={this.state.fName}
-              lastName={this.state.lName}
-              emailAddress={this.state.email}
-            /> */}
           </Card.Header>
           <Card.Body className="SideCardBody">
             <div className="resumeBox">
               <h2 style={{ textAlign: "center", color: "white" }}>Resume</h2>
               <SideResumeBox currentPhoto={this.state.url} />
-              {/* <Card
-                className="SideResumeBoxCard"
-                border="dark"
-                style={{ height: "460px", width: "290px" }}
-              >
-                <img
-                  id="resumeWindowImage"
-                  src={this.state.url}
-                  alt={this.props.resURL}
-                  height="460"
-                  width="auto"
-                ></img>
-              </Card> */}
             </div>
             <div
               style={{

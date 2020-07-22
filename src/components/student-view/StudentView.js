@@ -36,8 +36,8 @@ export class StudentView extends Component {
 
   async componentDidMount() {
     const data = await this.handlingUserInfo();
-    console.log(data);
-    console.log(data["Skills"]);
+    // console.log(data);
+    // console.log(data["Skills"]);
     this.setState({
       studentObject: data,
     });

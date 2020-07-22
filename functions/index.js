@@ -76,11 +76,10 @@ app.post("/newUser", async (req, res) => {
       ["Minors"]: {},
       ["Operating Systems"]: {},
       ["Primary Major"]: "",
-      ["Secondary Major"]: "",
+      ["Secondary Major"]: "Science",
       ["Seeking"]: "",
       ["UID"]: currentUser.uid,
-      ["Profile Image"]:
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      ["Profile Image"]: "blank user",
       ["Resume PDF"]: "",
     };
     await firestore.collection("students").doc(currentUser.uid).set(dataForDB);
@@ -203,6 +202,22 @@ app.post("/queryStudents", async (req, res) => {
         .where(req.body.filter.name8, "==", req.body.filter.value8)
         .where(req.body.filter.name9, "==", req.body.filter.value9)
         .where(req.body.filter.name10, "==", req.body.filter.value10)
+        .get();
+      break;
+    case "11":
+      data = await firestore
+        .collection("students")
+        .where(req.body.filter.name1, "==", req.body.filter.value1)
+        .where(req.body.filter.name2, "==", req.body.filter.value2)
+        .where(req.body.filter.name3, "==", req.body.filter.value3)
+        .where(req.body.filter.name4, "==", req.body.filter.value4)
+        .where(req.body.filter.name5, "==", req.body.filter.value5)
+        .where(req.body.filter.name6, "==", req.body.filter.value6)
+        .where(req.body.filter.name7, "==", req.body.filter.value7)
+        .where(req.body.filter.name8, "==", req.body.filter.value8)
+        .where(req.body.filter.name9, "==", req.body.filter.value9)
+        .where(req.body.filter.name10, "==", req.body.filter.value10)
+        .where(req.body.filter.name11, "==", req.body.filter.value11)
         .get();
       break;
 

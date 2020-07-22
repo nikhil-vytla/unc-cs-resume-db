@@ -19,7 +19,6 @@ export default class SelectOneOption extends Component {
 
   handleUpdate = (event) => {
     event.preventDefault();
-
     const currentVal = event.target.value;
     this.setState({
       update: currentVal,
@@ -29,6 +28,9 @@ export default class SelectOneOption extends Component {
 
   handleUpload = (event) => {
     event.preventDefault();
+    if (this.state.update == "Choose ...") {
+      return;
+    }
     Firebase.db
       .collection("students")
       .doc(Firebase.auth.currentUser.uid)
@@ -42,6 +44,9 @@ export default class SelectOneOption extends Component {
   // SOLUTION: FOR NOW DON'T USE NAMES WITH . IN THEM :)
   handleMapUpload = (event) => {
     event.preventDefault();
+    if (this.state.update == "Choose ...") {
+      return;
+    }
     const valuePlaceHolder = this.props.valueType;
     const currentState = this.state.update;
     const currentObjString = `${valuePlaceHolder}.${currentState}`;

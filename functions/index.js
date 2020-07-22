@@ -59,5 +59,36 @@ app.get("/getProfileInfo", async (req, res) => {
   }
 });
 
+// Creates new user in the database
+app.post("/newUser", async (req, res) => {
+  try {
+    const currentUser = req.body;
+    const dataForDB = {
+      ["Email"]: currentUser.email,
+      ["Database Systems"]: {},
+      ["Programming Languages"]: {},
+      ["Frameworks and Tools"]: {},
+      ["Events"]: {},
+      ["First Name"]: "",
+      ["Last Name"]: "",
+      ["Graduation Year"]: "",
+      ["School"]: "",
+      ["Minors"]: {},
+      ["Operating Systems"]: {},
+      ["Primary Major"]: "",
+      ["Secondary Major"]: "",
+      ["Seeking"]: "",
+      ["UID"]: currentUser.uid,
+      ["Profile Image"]:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      ["Resume PDF"]: "",
+    };
+    await firestore.collection("students").doc(currentUser.uid).set(dataForDB);
+    res.status(201).send();
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // Base API endpoint
 exports.api = functions.https.onRequest(app);

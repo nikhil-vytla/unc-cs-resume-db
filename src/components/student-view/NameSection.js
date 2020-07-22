@@ -25,6 +25,10 @@ export default class NameSection extends Component {
   // sends info to firebase
   handleSubmit = async (event) => {
     event.preventDefault();
+    if (this.state.fName == "" || this.state.lName == "") {
+      alert("Please enter your first and last name");
+      return;
+    }
     await Firebase.db
       .collection("students")
       .doc(Firebase.auth.currentUser.uid)

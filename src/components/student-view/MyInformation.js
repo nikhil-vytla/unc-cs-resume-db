@@ -323,9 +323,30 @@ Unix */
     } else {
       listStuff = <li>Please update your information in the form below!</li>;
     }
+
+    // New Header above the right panel
+    // If the user is new say "New User, Welcome to the UNC Resume Database! Please update your information below"
+    // Otherwise it says "{Your Name}, Welcome to the UNC Resume Database"
+
+    let nameHeader;
+    if (this.props.fNameData !== "" && this.props.lNameData !== "") {
+      nameHeader = (
+        <h3
+          style={{ textAlign: "center" }}
+        >{`${this.props.fNameData} ${this.props.lNameData}`}</h3>
+      );
+    } else {
+      nameHeader = (
+        <h3
+          style={{ textAlign: "center" }}
+        >{`Please update your information below!`}</h3>
+      );
+    }
+
     return (
       <div>
-        <h3>My Information</h3>
+        {nameHeader}
+        {/* <h3>My Information</h3> */}
         <div className="my-information-container">
           <Accordion defaultActiveKey="0">
             <Accordion.Toggle
@@ -333,7 +354,7 @@ Unix */
               eventKey="0"
               style={{ backgroundColor: "#E5E5E5" }}
             >
-              <h3>Basic Information</h3>
+              <h3 className="headersForEachType">Basic Information</h3>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="0">
               <div className="basic-information-form">
@@ -436,7 +457,7 @@ Unix */
               eventKey="1"
               style={{ backgroundColor: "#E5E5E5" }}
             >
-              <h3>Skills / Experience</h3>
+              <h3 className="headersForEachType">Skills / Experience</h3>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="1">
               <div className="basic-information-form">
@@ -515,7 +536,7 @@ Unix */
               eventKey="2"
               style={{ backgroundColor: "#E5E5E5" }}
             >
-              <h3>Events Attended</h3>
+              <h3 className="headersForEachType">Events Attended</h3>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="2">
               <div className="basic-information-form">

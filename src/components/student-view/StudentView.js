@@ -86,6 +86,9 @@ export class StudentView extends Component {
                   opSystemsData={this.state.studentObject["Operating Systems"]}
                   // Database Systems
                   dbSystemsData={this.state.studentObject["Database Systems"]}
+                  // Name for header
+                  fNameData={this.state.studentObject["First Name"]}
+                  lNameData={this.state.studentObject["Last Name"]}
                 />
               </div>
               <div className="updateButtonDiv">

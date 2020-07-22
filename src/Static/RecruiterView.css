@@ -1,10 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
 .recruiterViewCardDiv{
     background-color: white;
-    width : 50vw;
+    
     flex-wrap: wrap;
     justify-content: space-start;
   }
+  .recruiterViewColumn{
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+  .recruiterViewLeftColumn{
+    padding-right: 1vw !important;
+    padding-left: 0px !important;
+  }
+  .recruiterViewColumn50vw{
+    width: 50vw !important;
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+
+  .recruiterViewColumn65vw{
+    width: 66.5vw !important;
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+  .recruiterViewColumn75vw{
+    width: 77.5vw !important;
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+  .recruiterViewColumn95vw{
+    width: 95vw !important;
+    padding-left: 1vw !important;
+    padding-right: 1vw !important;
+  }
+  
+
   
   .recruiterViewHeader{
     font-size: 30px;
@@ -18,7 +49,7 @@
     font-family: 'Bree Serif';
   
   }
-  .recruiterViewCard{
+  /* .recruiterViewCard{
     border-radius: 15px !important;
     border: 1px solid #e5e5e5;
     height: 260px;
@@ -30,38 +61,38 @@
   }
   .recruiterViewCard:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
-  .recruiterViewCardHeader{
+  } */
+  /* .recruiterViewCardHeader{
     background-color: #13294B !important;
     line-height: 20px;
     margin: 0;
   
-  }
-  .recruiterViewCardImg{
+  } */
+  /* .recruiterViewCardImg{
     margin-left: 3px;
     margin-top: 3px;
     margin-bottom: 3px;
     object-fit: cover;
   
-  }
-  .recruiterViewCardIcons{
+  } */
+  /* .recruiterViewCardIcons{
 
     position: absolute;
     bottom: 0;
     width: 150px;
-  }
+  } */
   
-  .recruiterViewCardHeaderText{
+  /* .recruiterViewCardHeaderText{
     font-size: 15px !important;
     color:  #4B9CD3;
     margin: 0;
     text-align: center;
-  }
-  .recruiterViewCardHeaderTextDiv{ 
+  } */
+  /* .recruiterViewCardHeaderTextDiv{ 
     position: relative;
     top: 15%; 
     text-align: center;
-  }
+  } */
   
   .LogoSmallDiv{
     padding-left: 6vw !important;
@@ -207,4 +238,9 @@
     height: 100px !important;
     width: 100px !important;
     font-size: 50px;
+  }
+  .recruiterViewRow{
+   margin-right: 0px !important;
+    margin-left: 0px !important;
+
   }

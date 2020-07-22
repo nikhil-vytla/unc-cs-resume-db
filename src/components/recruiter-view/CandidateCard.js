@@ -4,7 +4,8 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import StarIcon from '@material-ui/icons/Star';
-import CandidateCardTag from "./CandidateCardTag"
+import CandidateCardTag from "./CandidateCardTag";
+import "../../Static/candidates.css"
 
 
 function CandidateCard (props) {
@@ -21,28 +22,28 @@ function CandidateCard (props) {
 
 
     return(
-                <Card  className="recruiterViewCard " > 
+                <Card  className="candidateCard " > 
                     <Card.Header className=" bg-white m-0 p-0 " style={{ borderRadius: "15px"}}>
                         <div className="d-flex">
-                            <img className="rounded-circle recruiterViewCardImg" src={require('../../Static/BlankUser.jpg')} height="75px" width="75px" alt="" ></img>
+                            <img className="rounded-circle cardImg" src={require('../../Static/BlankUser.jpg')} height="75px" width="75px" alt="" ></img>
                             <div style={{width: '75px'}}>
-                                <div className="recruiterViewCardHeaderTextDiv">
-                                    <h1 className='recruiterViewCardHeaderText BreeSerif' style={{color: '#000000'}}>{props.info["First Name"]}</h1>
-                                    <h1 className='recruiterViewCardHeaderText BreeSerif' style={{color: '#000000'}}>{props.info["Last Name"]}</h1>
-                                    <h2 className='recruiterViewCardHeaderText'>{props.info["Graduation Year"] }</h2>
+                                <div className="cardHeaderTextDiv">
+                                    <h1 className='cardHeaderText BreeSerif' style={{color: '#000000'}}>{props.info["First Name"]}</h1>
+                                    <h1 className='cardHeaderText BreeSerif' style={{color: '#000000'}}>{props.info["Last Name"]}</h1>
+                                    <h2 className='cardHeaderText'>{props.info["Graduation Year"] }</h2>
                                 </div>
                                 
                             </div>
                         </div> 
                        
                         
-                        <div className="recruiterViewCardHeader d-flex justify-content-center">
-                            <p className="recruiterViewCardHeaderText BreeSerif" >{props.info["School"]}</p>
+                        <div className="cardHeader d-flex justify-content-center">
+                            <p className="cardSchoolHeaderText BreeSerif" >{props.info["School"]}</p>
                             
                         </div>
                     </Card.Header>
                     <Card.Body className="p-0">
-                        <div className="bg-white BreeSerif d-flex justify-content-start w-100 flex-wrap recruiterViewTagContainer" >
+                        <div className="bg-white BreeSerif d-flex justify-content-start w-100 flex-wrap cardTagContainer" >
 
                             <CandidateCardTag items={props.info.Skills}></CandidateCardTag>
                             <CandidateCardTag items={props.info["Resume Access"]}></CandidateCardTag>
@@ -67,7 +68,7 @@ function CandidateCard (props) {
 
                            
                         </div>
-                        <div className=" d-flex justify-content-around recruiterViewCardIcons">
+                        <div className=" d-flex justify-content-around cardIconDiv">
                                 {star}
                                     <a href={"mailto:"+ props.info.Email} style={{color:"#25282B"}}> 
                                         <MailOutlineIcon className="recruiterViewIcon" />

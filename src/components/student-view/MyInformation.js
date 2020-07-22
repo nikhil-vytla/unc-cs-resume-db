@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import "./StudentView.css";
 import SelectOneOption from "./SelectOneOption";
-//import MultiSelect from "./MultiSelect";
+// import MultiSelect from "./MultiSelect";
 
 export class MyInformation extends Component {
   // function MyInformation(props) {

@@ -19,10 +19,8 @@ export class StudentView extends Component {
   }
 
   handlingUserInfo = async () => {
-    console.log(Firebase.auth.currentUser);
     if (Firebase.currentUser !== null) {
       const obj = await Firebase.getUserInfo(Firebase.auth.currentUser.uid);
-      console.log(obj);
       return obj[0];
     }
   };
@@ -36,8 +34,6 @@ export class StudentView extends Component {
 
   async componentDidMount() {
     const data = await this.handlingUserInfo();
-    // console.log(data);
-    // console.log(data["Skills"]);
     this.setState({
       studentObject: data,
     });
@@ -89,6 +85,8 @@ export class StudentView extends Component {
                   // Name for header
                   fNameData={this.state.studentObject["First Name"]}
                   lNameData={this.state.studentObject["Last Name"]}
+                  // Monitors updates
+                  onStudentDataChange={this.updateStudentPage}
                 />
               </div>
               <div className="updateButtonDiv">

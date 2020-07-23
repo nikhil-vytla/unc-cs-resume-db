@@ -23,26 +23,27 @@ export default class SelectOneOption extends Component {
     this.setState({
       update: currentVal,
     });
-    console.log(currentVal);
   };
 
-  handleUpload = (event) => {
+  handleUpload = async (event) => {
     event.preventDefault();
     if (this.state.update == "Choose ...") {
       return;
     }
-    Firebase.db
+    await Firebase.db
       .collection("students")
       .doc(Firebase.auth.currentUser.uid)
       .update({
         [this.props.valueType]: this.state.update,
       });
+    this.props.monitorChanges();
+    console.log("This is in Select One Option");
   };
 
   // THERE IS A BUG IF THE NAME HAS A . IN IT
   // EXAMPLE: Vue.js SPLITS INTO Vue with a sub map of js
   // SOLUTION: FOR NOW DON'T USE NAMES WITH . IN THEM :)
-  handleMapUpload = (event) => {
+  handleMapUpload = async (event) => {
     event.preventDefault();
     if (this.state.update == "Choose ...") {
       return;
@@ -51,12 +52,13 @@ export default class SelectOneOption extends Component {
     const currentState = this.state.update;
     const currentObjString = `${valuePlaceHolder}.${currentState}`;
 
-    Firebase.db
+    await Firebase.db
       .collection("students")
       .doc(Firebase.auth.currentUser.uid)
       .update({
         [currentObjString]: true,
       });
+    this.props.monitorChanges();
   };
 
   render() {

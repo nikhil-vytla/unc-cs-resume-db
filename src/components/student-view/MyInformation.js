@@ -20,7 +20,13 @@ export class MyInformation extends Component {
       fName: "",
       lName: "",
     };
+    this.handlePropsUpdate = this.handlePropsUpdate.bind(this);
   }
+
+  handlePropsUpdate = () => {
+    this.props.onStudentDataChange();
+  };
+
   render() {
     // Eventually link these lists to firebase and allow clients
     // to edit them to their liking
@@ -314,15 +320,15 @@ Unix */
     }
 
     // OG Skills
-    let listStuff;
-    console.log(this.props.skillsData);
-    if (this.props.skillsData !== null && this.props.skillsData != null) {
-      listStuff = this.props.skillsData.map((listitem) => (
-        <li className="list-group-item list-group-item-primary">{listitem}</li>
-      ));
-    } else {
-      listStuff = <li>Please update your information in the form below!</li>;
-    }
+    // let listStuff;
+    // console.log(this.props.skillsData);
+    // if (this.props.skillsData !== null && this.props.skillsData != null) {
+    //   listStuff = this.props.skillsData.map((listitem) => (
+    //     <li className="list-group-item list-group-item-primary">{listitem}</li>
+    //   ));
+    // } else {
+    //   listStuff = <li>Please update your information in the form below!</li>;
+    // }
 
     // New Header above the right panel
     // If the user is new say "New User, Welcome to the UNC Resume Database! Please update your information below"
@@ -372,6 +378,7 @@ Unix */
                           valueType="School"
                           isSingle={true}
                           needInput={true}
+                          monitorChanges={this.handlePropsUpdate}
                         />
                         <li className="list-group-item list-group-item-primary">
                           {this.props.schoolData}
@@ -390,6 +397,7 @@ Unix */
                           optionArray={gradYearList}
                           valueType="Graduation Year"
                           isSingle={true}
+                          monitorChanges={this.handlePropsUpdate}
                         />
                         <li className="list-group-item list-group-item-primary">
                           {this.props.gradData}
@@ -408,6 +416,7 @@ Unix */
                           optionArray={majorsList}
                           valueType="Primary Major"
                           isSingle={true}
+                          monitorChanges={this.handlePropsUpdate}
                         />
                         <li className="list-group-item list-group-item-primary">
                           {this.props.primMajorData}
@@ -426,6 +435,7 @@ Unix */
                           optionArray={majorsList}
                           valueType="Secondary Major"
                           isSingle={true}
+                          monitorChanges={this.handlePropsUpdate}
                         />
                         <li className="list-group-item list-group-item-primary">
                           {this.props.secMajorData}
@@ -444,6 +454,7 @@ Unix */
                           optionArray={majorsList}
                           valueType="Minors"
                           isSingle={false}
+                          monitorChanges={this.handlePropsUpdate}
                         />
                         {minorsList}
                       </InputGroup>
@@ -475,6 +486,7 @@ Unix */
                             optionArray={progLangauges}
                             valueType="Programming Languages"
                             isSingle={false}
+                            monitorChanges={this.handlePropsUpdate}
                           />
                           {progLangList}
                         </InputGroup>
@@ -492,6 +504,7 @@ Unix */
                           optionArray={frameworksAndTools}
                           valueType="Frameworks and Tools"
                           isSingle={false}
+                          monitorChanges={this.handlePropsUpdate}
                         />
                         {frameAndToolsList}
                       </InputGroup>
@@ -508,6 +521,7 @@ Unix */
                           optionArray={operatingSystems}
                           valueType="Operating Systems"
                           isSingle={false}
+                          monitorChanges={this.handlePropsUpdate}
                         />
                         {opSystemsList}
                       </InputGroup>
@@ -523,6 +537,7 @@ Unix */
                           optionArray={databaseSystems}
                           valueType="Database Systems"
                           isSingle={false}
+                          monitorChanges={this.handlePropsUpdate}
                         />
                         {dbSystemsList}
                       </InputGroup>
@@ -552,6 +567,7 @@ Unix */
                             optionArray={eventsList}
                             valueType="Events"
                             isSingle={false}
+                            monitorChanges={this.handlePropsUpdate}
                           />
                           {eventListToView}
                         </InputGroup>

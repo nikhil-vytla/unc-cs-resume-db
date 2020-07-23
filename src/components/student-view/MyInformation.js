@@ -365,7 +365,7 @@ Unix */
             <Accordion.Collapse eventKey="0">
               <div className="basic-information-form">
                 <Form.Group>
-                  <NameSection />
+                  <NameSection monitorChanges={this.handlePropsUpdate} />
                   <br />
                   <div className="data-row">
                     <Form.Row>

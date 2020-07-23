@@ -36,6 +36,7 @@ export default class NameSection extends Component {
         ["First Name"]: this.state.fName,
         ["Last Name"]: this.state.lName,
       });
+    this.props.monitorChanges();
   };
 
   render() {

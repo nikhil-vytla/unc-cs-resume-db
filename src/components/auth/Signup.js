@@ -70,7 +70,10 @@ export default class Signup extends Component {
           this.state.SignupPassword
         );
         console.log(user);
-        axios.post("/newUser", { user });
+        axios.post(
+          "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newUser",
+          user
+        );
         alert("Sign Up successful! Check console for user object");
       } catch (err) {
         console.log(err);

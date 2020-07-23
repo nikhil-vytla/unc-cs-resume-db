@@ -44,7 +44,6 @@ class Firebase {
   async createUser(email, pass) {
     try {
       const cred = await this.auth.createUserWithEmailAndPassword(email, pass);
-      await this.putNewUserIntoDB(cred.user);
       return cred.user;
     } catch (err) {
       console.error(err);
@@ -109,33 +108,32 @@ class Firebase {
   }
 
   // Call this function after sign up
-  async putNewUserIntoDB(currentUser) {
-    const dataForDB = {
-      Email: currentUser.email,
-      ["Database Systems"]: {},
-      ["Programming Languages"]: {},
-      ["Frameworks and Tools"]: {},
-      Events: {},
-      ["First Name"]: "",
-      ["Last Name"]: "",
-      ["Graduation Year"]: "",
-      ["School"]: "",
-      ["Minors"]: {},
-      ["Operating Systems"]: {},
-      ["Primary Major"]: "",
-      ["Secondary Major"]: "",
-      Seeking: "",
-      UID: currentUser.uid,
-      ["Profile Image"]:
-        "https://lh3.googleusercontent.com/proxy/x42TVsrdqKEF0X_-kXEEgmv3cnwe7elQD4oRE71PJfuoYjIuPulLQh6CLtLTPUJSZOfhekJQja_iNo5CpquBQnk",
-      ["Resume PDF"]: "",
-    };
-    try {
-      await this.db.collection("students").doc(currentUser.uid).set(dataForDB);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async putNewUserIntoDB(currentUser) {
+  //   const dataForDB = {
+  //     Email: currentUser.email,
+  //     ["Database Systems"]: {},
+  //     ["Programming Languages"]: {},
+  //     ["Frameworks and Tools"]: {},
+  //     Events: {},
+  //     ["First Name"]: "",
+  //     ["Last Name"]: "",
+  //     ["Graduation Year"]: "",
+  //     ["School"]: "",
+  //     ["Minors"]: {},
+  //     ["Operating Systems"]: {},
+  //     ["Primary Major"]: "",
+  //     ["Secondary Major"]: "",
+  //     Seeking: "",
+  //     UID: currentUser.uid,
+  //     ["Profile Image"]: "",
+  //     ["Resume PDF"]: "",
+  //   };
+  //   try {
+  //     await this.db.collection("students").doc(currentUser.uid).set(dataForDB);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 }
 
 export default new Firebase();

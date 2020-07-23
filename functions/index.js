@@ -1,6 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const app = require("express")();
+const cors = require("cors");
 
 /* Manually create this file, using json data downloaded at 
 firebase console-> project settings-> service accounts-> generate private key.*/
@@ -12,8 +13,9 @@ admin.initializeApp({
   databaseURL: "https://unc-cs-resume-database-af14e.firebaseio.com",
 });
 
-const firestore = admin.firestore();
+app.use(cors({ origin: true }));
 
+const firestore = admin.firestore();
 // Default response for /api
 app.get("/", (req, res) => {
   res.send("You've reached the base API endpoint");
@@ -58,7 +60,6 @@ app.get("/getProfileInfo", async (req, res) => {
     console.log(error);
   }
 });
-
 // Creates new user in the database
 app.post("/newUser", async (req, res) => {
   try {
@@ -76,11 +77,13 @@ app.post("/newUser", async (req, res) => {
       ["Minors"]: {},
       ["Operating Systems"]: {},
       ["Primary Major"]: "",
-      ["Secondary Major"]: "Science",
+      ["Secondary Major"]: "",
       ["Seeking"]: "",
       ["UID"]: currentUser.uid,
-      ["Profile Image"]: "blank user",
+      ["Profile Image"]:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png",
       ["Resume PDF"]: "",
+      ["Hide Resume"]: true,
     };
     await firestore.collection("students").doc(currentUser.uid).set(dataForDB);
     res.status(201).send();
@@ -89,7 +92,7 @@ app.post("/newUser", async (req, res) => {
   }
 });
 
-// Trashy query endpoint for 10 filters max
+// Trashy query endpoint
 app.post("/queryStudents", async (req, res) => {
   let data;
   switch (req.body.numberOfFilters) {

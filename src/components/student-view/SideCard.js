@@ -155,11 +155,7 @@ export default class SideCard extends Component {
               <div className="imgDiv" style={{ padding: ".75rem 1.25rem" }}>
                 <img
                   className="SideResumePdfImage"
-                  src={
-                    this.state.profileURL == "blank user"
-                      ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                      : this.state.profileImageFile
-                  }
+                  src={this.state.profileURL}
                   style={{ borderRadius: "50%" }}
                   height="100px"
                   width="100px"

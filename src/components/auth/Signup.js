@@ -3,11 +3,16 @@ import Firebase from "../../Firebase";
 import { Form, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./auth.css";
+import axios from "axios";
 
 export default class Signup extends Component {
   constructor() {
     super();
-    this.state = { SignupEmail: "", SignupPassword: "", SignupConfirmPassword: "" };
+    this.state = {
+      SignupEmail: "",
+      SignupPassword: "",
+      SignupConfirmPassword: "",
+    };
   }
 
   render() {
@@ -22,7 +27,7 @@ export default class Signup extends Component {
               placeholder="Email Address"
               value={this.state.SignupEmail}
               onChange={(e) => {
-                this.setState({ "SignupEmail": e.target.value });
+                this.setState({ SignupEmail: e.target.value });
               }}
             />
             <Form.Control
@@ -30,7 +35,7 @@ export default class Signup extends Component {
               placeholder="Password"
               value={this.state.SignupPassword}
               onChange={(e) => {
-                this.setState({ "SignupPassword": e.target.value });
+                this.setState({ SignupPassword: e.target.value });
               }}
             />
             <Form.Control
@@ -39,13 +44,15 @@ export default class Signup extends Component {
               placeholder="Confirm Password"
               value={this.state.SignupConfirmPassword}
               onChange={(e) => {
-                this.setState({ "SignupConfirmPassword": e.target.value });
+                this.setState({ SignupConfirmPassword: e.target.value });
               }}
             />
             <button className="authBtn" type="submit">
               Sign Up
             </button>
-            <p className="authLink">Already have an account? <Link to="/">Login</Link></p>
+            <p className="authLink">
+              Already have an account? <Link to="/">Login</Link>
+            </p>
           </Form>
         </Container>
       </Container>
@@ -63,6 +70,10 @@ export default class Signup extends Component {
           this.state.SignupPassword
         );
         console.log(user);
+        axios.post(
+          " https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newUser",
+          user
+        );
         alert("Sign Up successful! Check console for user object");
       } catch (err) {
         console.log(err);

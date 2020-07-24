@@ -1,10 +1,76 @@
 .filter{
     margin-left: 3vw;
+    position:  relative !important;
 
 
 }
+.filterAnimatedDiv{
+    position: relative !important;
+}
 .filterHeader{
   }
+
+.filterArrowDiv{
+    top:100px;
+    left: calc(15vw - 15px);
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    position: absolute;
+    z-index: 100;
+    width: 30px;
+    height: 30px;
+    border-radius: 150px;
+    border: 1px solid #13294B;
+    background-color: #ffffff;
+    transition: all .2s ease-in-out;
+
+    margin: 0;
+    padding: 0;
+}
+.dummyArrowDiv{
+    top:100px;
+    left: calc(1.5vw - 15px);
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    position: absolute;
+    z-index: 100;
+    width: 30px;
+    height: 30px;
+    border-radius: 150px;
+    border: 1px solid #13294B;
+    background-color: #ffffff;
+    transition: all .2s ease-in-out;
+    margin: 0;
+    padding: 0;
+}
+
+.dummyArrowDiv:hover{
+    transform: scale(1.1);
+
+}
+.filterArrowDiv:hover{
+    transform: scale(1.1);
+}
+
+.filterArrowIcon{
+    height: 25px !important;
+    width: 25px !important;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+.filterDummyColumn{
+    height: 50vh;
+    width: 1.5vw;
+    background-color: #ffffff;
+}
+.filterDummyHeader{
+    background-color: #4B9CD3;
+    height: 40px;
+}
 .filterSearchBar{
     background-color: #ffffff;
     width: 15vw;  
@@ -20,7 +86,7 @@
 
 }
 .filterInput{
-    width: 130px;
+    width: 10vw;
     padding-left: 10px;
     padding-right: 10px;
     height: 20px;
@@ -46,7 +112,9 @@
     font-size: 1.5em;
     margin-bottom: 5px;
     margin-top: 2.5px;
+
 }
+
 
 .filterDropDownHeader{
     background-color: #4B9CD3;
@@ -54,7 +122,7 @@
     width: 15vw;
 }
 .filterDropDownTitle{
-    padding-left: 5px;
+    padding-left: 10px;
     line-height: 40px;
     font-size: 15px;
     color: #ffffff;
@@ -69,6 +137,12 @@
     margin-top: 7.5px;
     font-size: 1.5em;
     color: #ffffff;
+    transition: all .2s ease-in-out;
+
+}
+.filterDropDownIcons:hover{
+    transform: scale(1.1);
+
 }
 .filterCheck{
     height: 25px !important;

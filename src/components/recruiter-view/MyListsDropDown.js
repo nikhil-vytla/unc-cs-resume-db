@@ -4,7 +4,6 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import MyListsDropDownItem from "./MyListsDropDownItem"
-import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from "react-bootstrap/Dropdown"
 
 
@@ -70,6 +69,9 @@ function MyListsDropDown( props){
                     <RemoveIcon className='myListIcons' onClick={() => setColapsed(true)}/>
                 </div>
 
+
+
+             
             </div>
                 {props.students.map( currentStudent =>(
                     <MyListsDropDownItem  student={currentStudent} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} />

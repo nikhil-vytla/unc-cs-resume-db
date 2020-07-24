@@ -40,20 +40,30 @@ function SideResumeBox(props) {
         border="dark"
         style={{ height: "460px", width: "290px" }}
       >
-        <img
+        {/* <img
           src={props.currentPhoto}
           alt=""
           height="460"
           width="auto"
           onClick={handleShow}
-        ></img>
+        ></img> */}
+        <embed
+          src={props.currentPhoto}
+          height="460"
+          width="auto"
+          onClick={handleShow}
+        ></embed>
       </Card>
       <Modal show={show} onHide={handleClose} style={{ marginTop: "0" }}>
-        <img
+        <embed
+          src={props.currentPhoto}
+          style={{ width: "50vw", height: "auto" }}
+        ></embed>
+        {/* <img
           src={props.currentPhoto}
           alt=""
           style={{ width: "50vw", height: "auto" }}
-        ></img>
+        ></img> */}
       </Modal>
     </>
   );

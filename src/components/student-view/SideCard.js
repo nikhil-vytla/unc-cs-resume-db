@@ -229,7 +229,7 @@ export default class SideCard extends Component {
                   <div className="form-group">
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/*, application/pdf"
                       className="form-control-file"
                       id="exampleFormControlFile1"
                       onChange={this.handlePdfChange}

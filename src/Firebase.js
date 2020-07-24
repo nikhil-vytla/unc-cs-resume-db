@@ -98,7 +98,10 @@ class Firebase {
   // gets all students
   async getAllStudents() {
     try {
-      const data = await this.db.collection("students").get();
+      const data = await this.db
+        .collection("students")
+        .where("Hide Resume", "==", false)
+        .get();
       return data.docs.map((doc) => doc.data());
     } catch (err) {
       console.error(err);
@@ -162,6 +165,6 @@ class Firebase {
   //     console.log(error);
   //   }
   // }
-  }
+}
 
 export default new Firebase();

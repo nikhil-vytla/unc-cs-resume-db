@@ -247,6 +247,15 @@ app.post("/queryStudents", async (req, res) => {
 //   res.send(docs);
 // });
 
+// app.post("/query/<RecruiterID>", async (req, res) => {
+
+//   // Recruiter has access to UNC and HACKNC
+
+//   const additonalFilters = {
+//     name: "Events.HackNC", value: true
+//   }
+// });
+
 app.post("/query", async (req, res) => {
   let query = firestore.collection("students");
 
@@ -308,6 +317,18 @@ app.put("/checkboxV2", async (req, res) => {
     const valuePlaceHolder = req.body.valueToSend;
     const updatedOBJ = req.body.update;
 
+    // await firestore
+    //   .collection("students")
+    //   .doc(req.body.uid)
+    //   .set(
+    //     {
+    //       [valuePlaceHolder]: updatedOBJ,
+    //     },
+    //     { merge: true }
+    //   );
+
+    // Replaces whole field with the updated info
+    // rather than update specific fields
     await firestore
       .collection("students")
       .doc(req.body.uid)

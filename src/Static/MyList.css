@@ -139,8 +139,11 @@
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
+    z-index: 100;
 }
 .myListsDummyArrowDiv{
+    z-index: 100;
+
     top:100px;
     left:-15px;
     display: flex;

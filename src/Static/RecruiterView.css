@@ -6,35 +6,76 @@
     justify-content: space-start;
   }
   .recruiterViewColumn{
+    overflow-y: auto;
+    height: calc(100vh - 105px);
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
+  .recruiterViewColumn::-webkit-scrollbar {
+    display: none;
+  }
   .recruiterViewLeftColumn{
+    height: calc(100vh - 105px);
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     padding-right: 1vw !important;
     padding-left: 0px !important;
   }
+  .recruiterViewLeftColumn::-webkit-scrollbar {
+    display: none;
+  }
   .recruiterViewColumn50vw{
+    height: calc(100vh - 105px);
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     width: 50vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-
+  .recruiterViewColumn50vw::-webkit-scrollbar {
+    display: none;
+  }
   .recruiterViewColumn65vw{
+    height: calc(100vh - 105px);
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     width: 66.5vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
+  .recruiterViewColumn65vw::-webkit-scrollbar {
+    display: none;
+  }
   .recruiterViewColumn75vw{
+    height: calc(100vh - 105px);
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     width: 77.5vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
+  .recruiterViewColumn75vw::-webkit-scrollbar {
+    display: none;
+  }
   .recruiterViewColumn95vw{
+    height: calc(100vh - 105px);
+    overflow-y: auto;
+
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     width: 95vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  
+  .recruiterViewColumn95vw::-webkit-scrollbar {
+    display: none;
+  }
 
   
   .recruiterViewHeader{
@@ -49,50 +90,7 @@
     font-family: 'Bree Serif';
   
   }
-  /* .recruiterViewCard{
-    border-radius: 15px !important;
-    border: 1px solid #e5e5e5;
-    height: 260px;
-    width: 150px;
-    margin: 15px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    
-    transition: 0.3s;
-  }
-  .recruiterViewCard:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  } */
-  /* .recruiterViewCardHeader{
-    background-color: #13294B !important;
-    line-height: 20px;
-    margin: 0;
-  
-  } */
-  /* .recruiterViewCardImg{
-    margin-left: 3px;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    object-fit: cover;
-  
-  } */
-  /* .recruiterViewCardIcons{
 
-    position: absolute;
-    bottom: 0;
-    width: 150px;
-  } */
-  
-  /* .recruiterViewCardHeaderText{
-    font-size: 15px !important;
-    color:  #4B9CD3;
-    margin: 0;
-    text-align: center;
-  } */
-  /* .recruiterViewCardHeaderTextDiv{ 
-    position: relative;
-    top: 15%; 
-    text-align: center;
-  } */
   
   .LogoSmallDiv{
     padding-left: 6vw !important;

@@ -42,7 +42,7 @@ export default class SelectOneOption extends Component {
           .add({ SchoolName: this.state.reqSchool });
         this.props.monitorChanges();
         alert(
-          "Your school has been requested to be added, and the admins will review the request. Please check back soon to see if your school has been listed"
+          "Your school has been requested to be added, and the admins will review the request. Please check back soon to see if your school has been listed."
         );
         return;
       }
@@ -109,7 +109,7 @@ export default class SelectOneOption extends Component {
           <Form.Control as="select" onChange={this.handleUpdate}>
             <option>Choose ...</option>
             {optionOptions}
-            <option>Other</option>
+            {this.props.needInput ? <option>Other</option> : <></>}
           </Form.Control>
         </Form.Group>
         {typingForm}
@@ -124,7 +124,7 @@ export default class SelectOneOption extends Component {
             +
           </Button>
 
-          <Button variant="outline-secondary">-</Button>
+          {/* <Button variant="outline-secondary">-</Button> */}
         </InputGroup.Append>
       </InputGroup>
     );

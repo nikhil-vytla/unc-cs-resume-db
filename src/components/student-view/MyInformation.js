@@ -11,6 +11,7 @@ import {
 import "./StudentView.css";
 import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
+import MultiSelect from "./MultiSelect";
 
 export class MyInformation extends Component {
   // function MyInformation(props) {
@@ -488,6 +489,11 @@ Unix */
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
+                        {/* <MultiSelect
+                          optionArray={majorsList}
+                          valueType={"Minors"}
+                          monitorChanges={this.handlePropsUpdate}
+                        /> */}
                         <SelectOneOption
                           optionArray={majorsList}
                           valueType="Minors"
@@ -520,12 +526,17 @@ Unix */
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
-                          <SelectOneOption
+                          <MultiSelect
+                            optionArray={progLangauges}
+                            valueType={"Programming Languages"}
+                            monitorChanges={this.handlePropsUpdate}
+                          />
+                          {/* <SelectOneOption
                             optionArray={progLangauges}
                             valueType="Programming Languages"
                             isSingle={false}
                             monitorChanges={this.handlePropsUpdate}
-                          />
+                          /> */}
                           {progLangList}
                         </InputGroup>
                       </Col>
@@ -538,12 +549,17 @@ Unix */
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        <SelectOneOption
+                        <MultiSelect
+                          optionArray={frameworksAndTools}
+                          valueType={"Frameworks and Tools"}
+                          monitorChanges={this.handlePropsUpdate}
+                        />
+                        {/* <SelectOneOption
                           optionArray={frameworksAndTools}
                           valueType="Frameworks and Tools"
                           isSingle={false}
                           monitorChanges={this.handlePropsUpdate}
-                        />
+                        /> */}
                         {frameAndToolsList}
                       </InputGroup>
                     </Col>
@@ -555,12 +571,17 @@ Unix */
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        <SelectOneOption
+                        <MultiSelect
+                          optionArray={operatingSystems}
+                          valueType={"Operating Systems"}
+                          monitorChanges={this.handlePropsUpdate}
+                        />
+                        {/* <SelectOneOption
                           optionArray={operatingSystems}
                           valueType="Operating Systems"
                           isSingle={false}
                           monitorChanges={this.handlePropsUpdate}
-                        />
+                        /> */}
                         {opSystemsList}
                       </InputGroup>
                     </Col>
@@ -571,12 +592,17 @@ Unix */
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        <SelectOneOption
+                        <MultiSelect
+                          optionArray={databaseSystems}
+                          valueType={"Database Systems"}
+                          monitorChanges={this.handlePropsUpdate}
+                        />
+                        {/* <SelectOneOption
                           optionArray={databaseSystems}
                           valueType="Database Systems"
                           isSingle={false}
                           monitorChanges={this.handlePropsUpdate}
-                        />
+                        /> */}
                         {dbSystemsList}
                       </InputGroup>
                     </Col>
@@ -601,10 +627,16 @@ Unix */
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
-                          <SelectOneOption
+                          {/* <SelectOneOption
                             optionArray={eventsList}
                             valueType="Events"
                             isSingle={false}
+                            monitorChanges={this.handlePropsUpdate}
+                          /> */}
+
+                          <MultiSelect
+                            optionArray={eventsList}
+                            valueType="Events"
                             monitorChanges={this.handlePropsUpdate}
                           />
                           {eventListToView}

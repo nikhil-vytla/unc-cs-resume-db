@@ -12,7 +12,7 @@
 
 .filterArrowDiv{
     top:100px;
-    left: calc(15vw - 15px);
+    right: -1vw;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -30,7 +30,7 @@
 }
 .dummyArrowDiv{
     top:100px;
-    left: calc(1.5vw - 15px);
+    right: -1vw;
     display: flex;
     justify-content: center;
     align-self: center;

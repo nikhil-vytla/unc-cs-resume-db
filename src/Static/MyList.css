@@ -113,7 +113,7 @@
 }
 .myListsArrowDiv{
     top:100px;
-    right: calc(25vw - 15px);
+    left: -1vw;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -145,7 +145,7 @@
     z-index: 100;
 
     top:100px;
-    left:-15px;
+    left:-1vw;
     display: flex;
     justify-content: center;
     align-self: center;

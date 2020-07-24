@@ -43,12 +43,12 @@ function RecruiterView() {
     })
 
 
-    if (cards && cards[0].Skills) {
+    if (cards && cards[0]) {
 
         return transitions.map(({ item, key, props }) =>
             item
                 ? <animated.div style={props}>
-                    <RecruiterViewColumns  cards={cards}/>
+                    <RecruiterViewColumns  cards={cards} toggleResumeView={(candidate) => toggleResumeView(candidate)}/>
                 </animated.div>
                 : <animated.div style={props}>
                     <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>

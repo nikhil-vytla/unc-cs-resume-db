@@ -13,9 +13,6 @@ export default class SelectOneOption extends Component {
       update: "",
       reqSchool: "",
     };
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleUpload = this.handleUpload.bind(this);
-    this.handleMapUpload = this.handleMapUpload.bind(this);
   }
 
   handleUpdate = (event) => {
@@ -30,7 +27,7 @@ export default class SelectOneOption extends Component {
     event.preventDefault();
     // Adds school to request list
     if (this.props.needInput) {
-      if (this.state.update == "Other" && this.state.reqSchool !== "") {
+      if (this.state.update === "Other" && this.state.reqSchool !== "") {
         await Firebase.db
           .collection("students")
           .doc(Firebase.auth.currentUser.uid)
@@ -49,7 +46,7 @@ export default class SelectOneOption extends Component {
     }
 
     // prevents students from choosing Choose ...
-    if (this.state.update == "Choose ...") {
+    if (this.state.update === "Choose ...") {
       return;
     }
     await Firebase.db
@@ -67,7 +64,7 @@ export default class SelectOneOption extends Component {
   // SOLUTION: FOR NOW DON'T USE NAMES WITH . IN THEM :)
   handleMapUpload = async (event) => {
     event.preventDefault();
-    if (this.state.update == "Choose ...") {
+    if (this.state.update === "Choose ...") {
       return;
     }
     const valuePlaceHolder = this.props.valueType;

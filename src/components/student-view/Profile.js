@@ -10,8 +10,6 @@ export default class Profile extends Component {
       lName: this.props.lastName,
       email: this.props.emailAddress,
     };
-
-    this.updateRender = this.updateRender.bind(this);
   }
 
   render() {

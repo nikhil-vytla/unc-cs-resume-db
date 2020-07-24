@@ -19,13 +19,12 @@ export default class NameSection extends Component {
       fName: "",
       lName: "",
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // sends info to firebase
   handleSubmit = async (event) => {
     event.preventDefault();
-    if (this.state.fName == "" || this.state.lName == "") {
+    if (this.state.fName === "" || this.state.lName === "") {
       alert("Please enter your first and last name");
       return;
     }
@@ -33,8 +32,8 @@ export default class NameSection extends Component {
       .collection("students")
       .doc(Firebase.auth.currentUser.uid)
       .update({
-        ["First Name"]: this.state.fName,
-        ["Last Name"]: this.state.lName,
+        "First Name": this.state.fName,
+        "Last Name": this.state.lName,
       });
     this.props.monitorChanges();
   };

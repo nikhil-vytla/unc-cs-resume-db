@@ -11,9 +11,6 @@ export default class MultiSelect extends Component {
     this.state = {
       eventsToggled: [],
     };
-    this.handleUpload = this.handleUpload.bind(this);
-    this.handleCheck = this.handleCheck.bind(this);
-    this.firebaseUpdates = this.firebaseUpdates.bind(this);
   }
 
   // handleUpdate = (event) => {
@@ -98,7 +95,7 @@ export default class MultiSelect extends Component {
       this.setState({
         eventsToggled: currentList,
       });
-    } else if (event.target.checked == false) {
+    } else if (event.target.checked === false) {
       let currentList = this.state.eventsToggled;
       const indexToRemove = currentList.indexOf(event.target.value);
       if (indexToRemove > -1) {

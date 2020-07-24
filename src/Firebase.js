@@ -2,7 +2,6 @@ import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
-import firebase from "firebase";
 import { data } from "jquery";
 
 // Use methods to access firebase SDK
@@ -56,7 +55,17 @@ class Firebase {
       const data = await this.db
         .collection("students")
         .where("Skills", "array-contains", "Python")
-        .where("Graduation Year", "==", 2021)
+        .where("Graduation Year", "==", "2020")
+        .where("Seeking", "==", "Internship")
+        .where("Majors", "==", ["Computer Science"])
+        .where("Minors", "==", ["Biology"])
+        .where("School", "==", "UNC Chapel Hill")
+        .where("First Name", "==", "Sai")
+        .where("Last Name", "==", "Gongidi")
+        .where("Email", "==", "sai@test.com")
+        .where("Frameworks.React", "==", true)
+        .where("Frameworks.Angular", "==", true)
+        .where("Resume Access", "==", ["Hack NC"])
         .get();
       return data.docs.map((doc) => doc.data());
     } catch (err) {

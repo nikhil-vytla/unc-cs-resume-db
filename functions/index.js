@@ -48,7 +48,7 @@ app.post("/data", async (req, res) => {
 // Need to add parameters for this path: userID and user
 app.get("/getProfileInfo", async (req, res) => {
   try {
-    if (firebase.auth().currentUser != null) {
+    if (req.body.currentUser !== null) {
       const data = await firestore.collection
         .doc("students")
         .where("UID", "==", firebase.auth().currentUser.uid)

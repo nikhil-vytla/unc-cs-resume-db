@@ -15,9 +15,6 @@ export default class SideCard extends Component {
       resumePDF: null,
       url: "",
     };
-    this.handleNewUploadClick = this.handleNewUploadClick.bind(this);
-    this.handlePdfChange = this.handlePdfChange.bind(this);
-    this.handleNewPicUpload = this.handleNewPicUpload.bind(this);
   }
 
   handleNewUploadClick = () => {
@@ -63,7 +60,7 @@ export default class SideCard extends Component {
               .collection("students")
               .doc(Firebase.auth.currentUser.uid)
               .update({
-                ["Resume PDF"]: url,
+                "Resume PDF": url,
               });
           });
       }
@@ -122,7 +119,7 @@ export default class SideCard extends Component {
               .collection("students")
               .doc(Firebase.auth.currentUser.uid)
               .update({
-                ["Profile Image"]: profileURL,
+                "Profile Image": profileURL,
               });
           });
       }

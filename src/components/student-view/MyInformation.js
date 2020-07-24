@@ -21,7 +21,6 @@ export class MyInformation extends Component {
       fName: "",
       lName: "",
     };
-    this.handlePropsUpdate = this.handlePropsUpdate.bind(this);
   }
 
   handlePropsUpdate = () => {
@@ -140,34 +139,34 @@ export class MyInformation extends Component {
       "Pearl Hacks",
       "HackReality",
     ];
-    {
-      /* Programming languages 
-Java
-Python
-C (#,++)
-Swift
-Javascript
-HTML
-CSS
+    // {
+    //   Programming languages 
+    //   Java
+    //   Python
+    //   C (#,++)
+    //   Swift
+    //   Javascript
+    //   HTML
+    //   CSS
 
-Frameworks/Tools 
-React 
-Angular
-Ruby on Rails
-Vue.js
-Django
+    //   Frameworks/Tools 
+    //   React 
+    //   Angular
+    //   Ruby on Rails
+    //   Vue.js
+    //   Django
 
-Database Systems
-SQL
-Oracle
-MongoDB
+    //   Database Systems
+    //   SQL
+    //   Oracle
+    //   MongoDB
 
-Operating Systems 
-macOS
-Linux
-Windows
-Unix */
-    }
+    //   Operating Systems 
+    //   macOS
+    //   Linux
+    //   Windows
+    //   Unix
+    // }
 
     const progLangauges = [
       "Java",
@@ -241,7 +240,7 @@ Unix */
       secMajorDataList = <> </>;
     }
 
-    let eventListStuff = new Array();
+    let eventListStuff = [];
 
     // Get all of the trues from the Event data section
     if (this.props.eventData !== null && this.props.eventData != null) {
@@ -262,7 +261,7 @@ Unix */
       eventListToView = <li>Please update your information!</li>;
     }
 
-    let proLangArray = new Array();
+    let proLangArray = [];
 
     // Programming Langauges
     if (this.props.progLangData !== null && this.props.progLangData != null) {
@@ -282,7 +281,7 @@ Unix */
       progLangList = <li>Please update your information!</li>;
     }
 
-    let opSystemsArray = new Array();
+    let opSystemsArray = [];
 
     // Operating Systems
     if (this.props.opSystemsData !== null && this.props.opSystemsData != null) {
@@ -302,7 +301,7 @@ Unix */
       opSystemsList = <li>Please update your information!</li>;
     }
 
-    let dbSystemsArray = new Array();
+    let dbSystemsArray = [];
 
     // Database Systems
     if (this.props.dbSystemsData !== null && this.props.dbSystemsData != null) {
@@ -322,7 +321,7 @@ Unix */
       dbSystemsList = <li>Please update your information!</li>;
     }
 
-    let frameAndToolsArray = new Array();
+    let frameAndToolsArray = [];
 
     // Frameworks and Tools
     if (

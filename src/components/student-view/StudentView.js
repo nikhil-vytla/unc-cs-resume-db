@@ -15,10 +15,6 @@ export class StudentView extends Component {
       studentObject: {},
       isReady: false,
     };
-    this.handlingUserInfo = this.handlingUserInfo.bind(this);
-    this.updateStudentPage = this.updateStudentPage.bind(this);
-    this.handleHideResume = this.handleHideResume.bind(this);
-    this.handleShowResume = this.handleShowResume.bind(this);
   }
 
   handleHideResume = async () => {
@@ -26,7 +22,7 @@ export class StudentView extends Component {
       await Firebase.db
         .collection("students")
         .doc(Firebase.auth.currentUser.uid)
-        .update({ ["Hide Resume"]: true });
+        .update({ "Hide Resume": true });
       this.updateStudentPage();
     }
   };
@@ -36,7 +32,7 @@ export class StudentView extends Component {
       await Firebase.db
         .collection("students")
         .doc(Firebase.auth.currentUser.uid)
-        .update({ ["Hide Resume"]: false });
+        .update({ "Hide Resume": false });
       this.updateStudentPage();
     }
   };

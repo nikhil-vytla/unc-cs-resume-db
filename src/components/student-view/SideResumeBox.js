@@ -27,6 +27,7 @@ import "./SideResumeBox.css";
 
 // Changed this to functional so I can use
 // hooks to show resume when you click on it
+// Had to switch to embed so you can see pdfs
 function SideResumeBox(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

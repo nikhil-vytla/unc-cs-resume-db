@@ -192,6 +192,54 @@ Unix */
 
     const databaseSystems = ["SQL", "Oracle", "MongoDB"];
 
+    let schoolDataList;
+
+    if (this.props.schoolData !== "") {
+      schoolDataList = (
+        <li className="list-group-item list-group-item-primary">
+          {this.props.schoolData}
+        </li>
+      );
+    } else {
+      schoolDataList = <> </>;
+    }
+
+    let gradYearDataList;
+
+    if (this.props.gradData !== "") {
+      gradYearDataList = (
+        <li className="list-group-item list-group-item-primary">
+          {this.props.gradData}
+        </li>
+      );
+    } else {
+      gradYearDataList = <> </>;
+    }
+
+    let primMajorDataList;
+
+    if (this.props.primMajorData !== "") {
+      primMajorDataList = (
+        <li className="list-group-item list-group-item-primary">
+          {this.props.primMajorData}
+        </li>
+      );
+    } else {
+      primMajorDataList = <> </>;
+    }
+
+    let secMajorDataList;
+
+    if (this.props.secMajorData !== "") {
+      secMajorDataList = (
+        <li className="list-group-item list-group-item-primary">
+          {this.props.secMajorData}
+        </li>
+      );
+    } else {
+      secMajorDataList = <> </>;
+    }
+
     let eventListStuff = new Array();
 
     // Get all of the trues from the Event data section
@@ -319,17 +367,6 @@ Unix */
       minorsList = <li>Please update your information!</li>;
     }
 
-    // OG Skills
-    // let listStuff;
-    // console.log(this.props.skillsData);
-    // if (this.props.skillsData !== null && this.props.skillsData != null) {
-    //   listStuff = this.props.skillsData.map((listitem) => (
-    //     <li className="list-group-item list-group-item-primary">{listitem}</li>
-    //   ));
-    // } else {
-    //   listStuff = <li>Please update your information in the form below!</li>;
-    // }
-
     // New Header above the right panel
     // If the user is new say "New User, Welcome to the UNC Resume Database! Please update your information below"
     // Otherwise it says "{Your Name}, Welcome to the UNC Resume Database"
@@ -380,9 +417,7 @@ Unix */
                           needInput={true}
                           monitorChanges={this.handlePropsUpdate}
                         />
-                        <li className="list-group-item list-group-item-primary">
-                          {this.props.schoolData}
-                        </li>
+                        {schoolDataList}
                       </Col>
                     </Form.Row>
                   </div>
@@ -399,9 +434,10 @@ Unix */
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
                         />
-                        <li className="list-group-item list-group-item-primary">
+                        {gradYearDataList}
+                        {/* <li className="list-group-item list-group-item-primary">
                           {this.props.gradData}
-                        </li>
+                        </li> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -418,9 +454,10 @@ Unix */
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
                         />
-                        <li className="list-group-item list-group-item-primary">
+                        {primMajorDataList}
+                        {/* <li className="list-group-item list-group-item-primary">
                           {this.props.primMajorData}
-                        </li>
+                        </li> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -437,9 +474,10 @@ Unix */
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
                         />
-                        <li className="list-group-item list-group-item-primary">
+                        {secMajorDataList}
+                        {/* <li className="list-group-item list-group-item-primary">
                           {this.props.secMajorData}
-                        </li>
+                        </li> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>

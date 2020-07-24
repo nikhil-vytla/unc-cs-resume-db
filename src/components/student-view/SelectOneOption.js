@@ -11,6 +11,7 @@ export default class SelectOneOption extends Component {
 
     this.state = {
       update: "",
+      reqSchool: "",
     };
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
@@ -27,6 +28,27 @@ export default class SelectOneOption extends Component {
 
   handleUpload = async (event) => {
     event.preventDefault();
+    // Adds school to request list
+    if (this.props.needInput) {
+      if (this.state.update == "Other" && this.state.reqSchool !== "") {
+        await Firebase.db
+          .collection("students")
+          .doc(Firebase.auth.currentUser.uid)
+          .update({
+            School: this.state.update,
+          });
+        await Firebase.db
+          .collection("RequestedSchools")
+          .add({ SchoolName: this.state.reqSchool });
+        this.props.monitorChanges();
+        alert(
+          "Your school has been requested to be added, and the admins will review the request. Please check back soon to see if your school has been listed"
+        );
+        return;
+      }
+    }
+
+    // prevents students from choosing Choose ...
     if (this.state.update == "Choose ...") {
       return;
     }
@@ -37,7 +59,7 @@ export default class SelectOneOption extends Component {
         [this.props.valueType]: this.state.update,
       });
     this.props.monitorChanges();
-    console.log("This is in Select One Option");
+    // console.log("This is in Select One Option");
   };
 
   // THERE IS A BUG IF THE NAME HAS A . IN IT
@@ -68,7 +90,15 @@ export default class SelectOneOption extends Component {
 
     let typingForm;
     if (this.props.needInput) {
-      typingForm = <FormControl></FormControl>;
+      typingForm = (
+        <FormControl
+          placeholder="School missing?"
+          value={this.state.reqSchool}
+          onChange={(e) => {
+            this.setState({ reqSchool: e.target.value });
+          }}
+        ></FormControl>
+      );
     } else {
       typingForm = <div></div>;
     }
@@ -79,6 +109,7 @@ export default class SelectOneOption extends Component {
           <Form.Control as="select" onChange={this.handleUpdate}>
             <option>Choose ...</option>
             {optionOptions}
+            <option>Other</option>
           </Form.Control>
         </Form.Group>
         {typingForm}

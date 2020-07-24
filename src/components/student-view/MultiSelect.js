@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import { InputGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Firebase from "../../Firebase.js";
+import axios from "axios";
 
 export default class MultiSelect extends Component {
   constructor(props) {
@@ -24,24 +25,37 @@ export default class MultiSelect extends Component {
   // };
 
   // intermediate function to help facilitate updates
-  firebaseUpdates = async (array) => {
-    array.forEach(async (eachUpdate) => {
-      try {
-        setTimeout(2500);
-        const valuePlaceHolder = this.props.valueType;
-        const currentState = eachUpdate;
-        const currentObjString = `${valuePlaceHolder}.${currentState}`;
+  firebaseUpdates = async (array, type) => {
+    const objToSend = {
+      arrayList: array,
+      uid: Firebase.auth.currentUser.uid,
+      valueToSend: this.props.valueType,
+      typeToSend: type,
+    };
 
-        await Firebase.db
-          .collection("students")
-          .doc(Firebase.auth.currentUser.uid)
-          .update({
-            [currentObjString]: true,
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    });
+    await axios.put(
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/updateCheckbox",
+      objToSend
+    );
+
+    // const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    // array.forEach(async (eachUpdate) => {
+    //   try {
+    //     const valuePlaceHolder = this.props.valueType;
+    //     const currentState = eachUpdate;
+    //     const currentObjString = `${valuePlaceHolder}.${currentState}`;
+
+    //     await Firebase.db
+    //       .collection("students")
+    //       .doc(Firebase.auth.currentUser.uid)
+    //       .update({
+    //         [currentObjString]: type,
+    //       });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    //   await delay(100);
+    // });
   };
 
   handleUpload = async () => {
@@ -53,7 +67,17 @@ export default class MultiSelect extends Component {
 
     // Goes through all of your toggled events
     // updates them in Firebase
-    await this.firebaseUpdates(this.state.eventsToggled);
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    await this.firebaseUpdates(this.state.eventsToggled, true);
+    await delay(500);
+    this.props.monitorChanges();
+  };
+
+  // removes items
+  handleDelete = async () => {
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    await this.firebaseUpdates(this.state.eventsToggled, false);
+    await delay(500);
     this.props.monitorChanges();
   };
 
@@ -118,7 +142,9 @@ export default class MultiSelect extends Component {
           <Button variant="outline-secondary" onClick={this.handleUpload}>
             +
           </Button>
-          {/* <Button variant="outline-secondary">-</Button> */}
+          <Button variant="outline-secondary" onClick={this.handleDelete}>
+            -
+          </Button>
         </InputGroup.Append>
       </InputGroup>
     );

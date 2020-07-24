@@ -280,5 +280,27 @@ app.post("/query", async (req, res) => {
   res.send(docs);
 });
 
+app.put("/updateCheckbox", async (req, res) => {
+  const array = req.body.arrayList;
+  array.forEach(async (eachUpdate) => {
+    try {
+      const valuePlaceHolder = req.body.valueToSend;
+      const currentState = eachUpdate;
+      const currentObjString = `${valuePlaceHolder}.${currentState}`;
+      const type = req.body.typeToSend;
+
+      await firestore
+        .collection("students")
+        .doc(req.body.uid)
+        .update({
+          [currentObjString]: type,
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  res.status(201).send();
+});
+
 // Base API endpoint
 exports.api = functions.https.onRequest(app);

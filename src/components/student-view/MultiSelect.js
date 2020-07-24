@@ -23,15 +23,24 @@ export default class MultiSelect extends Component {
 
   // intermediate function to help facilitate updates
   firebaseUpdates = async (array, type) => {
+    let updatedOBJ = {};
+    array.forEach((element) => {
+      updatedOBJ[element] = type;
+    });
+    console.log(updatedOBJ);
+
     const objToSend = {
-      arrayList: array,
+      //arrayList: array,
       uid: Firebase.auth.currentUser.uid,
       valueToSend: this.props.valueType,
-      typeToSend: type,
+      //typeToSend: type,
+      update: updatedOBJ,
     };
 
+    console.log(objToSend);
+
     await axios.put(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/updateCheckbox",
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/checkboxV2",
       objToSend
     );
 
@@ -66,7 +75,7 @@ export default class MultiSelect extends Component {
     // updates them in Firebase
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, true);
-    await delay(500);
+    await delay(250);
     this.props.monitorChanges();
   };
 
@@ -74,7 +83,7 @@ export default class MultiSelect extends Component {
   handleDelete = async () => {
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, false);
-    await delay(500);
+    await delay(250);
     this.props.monitorChanges();
   };
 

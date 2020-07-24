@@ -282,6 +282,7 @@ app.post("/query", async (req, res) => {
 
 app.put("/updateCheckbox", async (req, res) => {
   const array = req.body.arrayList;
+
   array.forEach(async (eachUpdate) => {
     try {
       const valuePlaceHolder = req.body.valueToSend;
@@ -299,6 +300,22 @@ app.put("/updateCheckbox", async (req, res) => {
       console.log(error);
     }
   });
+  res.status(201).send();
+});
+
+app.put("/checkboxV2", async (req, res) => {
+  const valuePlaceHolder = req.body.valueToSend;
+  //console.log(valuePlaceHolder);
+  // console.log(req.body);
+  const updatedOBJ = req.body.update;
+  //console.log(updatedOBJ);
+
+  await firestore
+    .collection("students")
+    .doc(req.body.uid)
+    .update({
+      [valuePlaceHolder]: updatedOBJ,
+    });
   res.status(201).send();
 });
 

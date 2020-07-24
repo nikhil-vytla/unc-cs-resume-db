@@ -9,12 +9,19 @@
 }
 .left-panel {
   color: white;
-  background-color: lightblue;
-  padding: 2%;
+  /* padding: 2%; */
   margin: 2%;
   margin-top: 0px;
   margin-left: 4%;
   /*min-height: 84vh; */
+}
+#ControlSelect1 {
+  height: auto;
+}
+
+.headersForEachType {
+  padding: 10px;
+  margin: 0px;
 }
 
 .right-panel {

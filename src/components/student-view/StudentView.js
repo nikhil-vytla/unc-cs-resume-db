@@ -6,6 +6,7 @@ import MyInformation from "./MyInformation";
 import Firebase from "../../Firebase.js";
 import Button from "react-bootstrap/Button";
 import firebase from "firebase";
+import Form from "react-bootstrap/Form";
 
 export class StudentView extends Component {
   constructor(props) {
@@ -16,13 +17,33 @@ export class StudentView extends Component {
     };
     this.handlingUserInfo = this.handlingUserInfo.bind(this);
     this.updateStudentPage = this.updateStudentPage.bind(this);
+    this.handleHideResume = this.handleHideResume.bind(this);
+    this.handleShowResume = this.handleShowResume.bind(this);
   }
 
+  handleHideResume = async () => {
+    if (Firebase.currentUser !== null) {
+      await Firebase.db
+        .collection("students")
+        .doc(Firebase.auth.currentUser.uid)
+        .update({ ["Hide Resume"]: true });
+      this.updateStudentPage();
+    }
+  };
+
+  handleShowResume = async () => {
+    if (Firebase.currentUser !== null) {
+      await Firebase.db
+        .collection("students")
+        .doc(Firebase.auth.currentUser.uid)
+        .update({ ["Hide Resume"]: false });
+      this.updateStudentPage();
+    }
+  };
+
   handlingUserInfo = async () => {
-    console.log(Firebase.auth.currentUser);
     if (Firebase.currentUser !== null) {
       const obj = await Firebase.getUserInfo(Firebase.auth.currentUser.uid);
-      console.log(obj);
       return obj[0];
     }
   };
@@ -35,49 +56,13 @@ export class StudentView extends Component {
   };
 
   async componentDidMount() {
-    // const allData = await Firebase.getAllUsers();
-    // console.log(allData);
     const data = await this.handlingUserInfo();
-    console.log(data);
-    console.log(data["Skills"]);
     this.setState({
       studentObject: data,
     });
   }
 
   render() {
-    // let studentInfo = `[
-    //     {
-    //       "id": 1,
-    //       "name": "John Doe",
-    //       "school": "UNC CH",
-    //       "graduatingyear": "2021",
-    //       "major": ["Computer Science", "Computer Engineering"],
-    //       "programmingLanguage": ["python","c++","c#"],
-    //       "frameworkTool": ["react"],
-    //       "operatingSystem": ["linux"],
-    //       "databaseSystem": [],
-    //       "eventsAttended": ["pearl hack", "hackathon", "hackNC"]
-    //     }]`;
-    // let studentInfo1 = `[
-    //     {
-    //       "id": 10,
-    //       "name": "John Doe",
-    //       "basicInfo": {
-    //         "School": ["UNC CH"],
-    //         "Graduating Year": ["2021"],
-    //         "Major": ["Computer Science"]
-    //       },
-    //       "skillsExperience": {
-    //         "Programming Language": ["python", "c++", "c#"],
-    //         "Framework Tool": ["react", "js"],
-    //         "Operating System": ["linux"],
-    //         "Database System": []
-    //       },
-    //       "eventAttended": {"events":["pearl hack", "hackNC"]}
-    //     }
-    //   ]`;
-
     return (
       <div className="full-panel">
         <Container fluid="true">
@@ -99,7 +84,11 @@ export class StudentView extends Component {
                   // Graduation year
                   gradData={this.state.studentObject["Graduation Year"]}
                   // Major(s)
-                  majorData={this.state.studentObject["Majors"]}
+                  primMajorData={this.state.studentObject["Primary Major"]}
+                  //Secondary Major
+                  secMajorData={this.state.studentObject["Secondary Major"]}
+                  // Minor(s)
+                  minorsData={this.state.studentObject["Minors"]}
                   // Skills
                   skillsData={this.state.studentObject["Skills"]}
                   // Events
@@ -116,12 +105,66 @@ export class StudentView extends Component {
                   opSystemsData={this.state.studentObject["Operating Systems"]}
                   // Database Systems
                   dbSystemsData={this.state.studentObject["Database Systems"]}
+                  // Name for header
+                  fNameData={this.state.studentObject["First Name"]}
+                  lNameData={this.state.studentObject["Last Name"]}
+                  // Monitors updates
+                  onStudentDataChange={this.updateStudentPage}
                 />
               </div>
               <div className="updateButtonDiv">
-                <Button variant="primary" onClick={this.updateStudentPage}>
+                {/*Implement Radio for Showing Resume */}
+
+                {/* <Form>
+                  <div key={`inline-radio`} className="mb-3">
+                    <Form.Check
+                      inline
+                      label="Display your resume in the database"
+                      type="radio"
+                      id={`inline-radio-1`}
+                    />
+                    <Form.Check
+                      inline
+                      label="Hide your resume from the database"
+                      type="radio"
+                      id={`inline-radio-2`}
+                    />
+                  </div>
+                </Form> */}
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                    type="radio"
+                    id="customRadioInline1"
+                    name="customRadioInline1"
+                    className="custom-control-input"
+                    onClick={this.handleShowResume}
+                  />
+                  <label class="custom-control-label" for="customRadioInline1">
+                    Display your resume in the database
+                  </label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                    type="radio"
+                    id="customRadioInline2"
+                    name="customRadioInline1"
+                    className="custom-control-input"
+                    onClick={this.handleHideResume}
+                  />
+                  <label class="custom-control-label" for="customRadioInline2">
+                    Hide your resume from the database
+                  </label>
+                </div>
+                <h6>{`Your resume is currently ${
+                  this.state.studentObject["Hide Resume"]
+                    ? "hidden from recruiters."
+                    : "is visible to recruiters!"
+                }`}</h6>
+
+                {/* <Button variant="primary" onClick={this.updateStudentPage}>
                   Display Updates
-                </Button>
+                </Button> */}
               </div>
             </Col>
           </Row>

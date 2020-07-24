@@ -6,6 +6,7 @@ import MyInformation from "./MyInformation";
 import Firebase from "../../Firebase.js";
 import Button from "react-bootstrap/Button";
 import firebase from "firebase";
+import Form from "react-bootstrap/Form";
 
 export class StudentView extends Component {
   constructor(props) {
@@ -16,7 +17,29 @@ export class StudentView extends Component {
     };
     this.handlingUserInfo = this.handlingUserInfo.bind(this);
     this.updateStudentPage = this.updateStudentPage.bind(this);
+    this.handleHideResume = this.handleHideResume.bind(this);
+    this.handleShowResume = this.handleShowResume.bind(this);
   }
+
+  handleHideResume = async () => {
+    if (Firebase.currentUser !== null) {
+      await Firebase.db
+        .collection("students")
+        .doc(Firebase.auth.currentUser.uid)
+        .update({ ["Hide Resume"]: true });
+      this.updateStudentPage();
+    }
+  };
+
+  handleShowResume = async () => {
+    if (Firebase.currentUser !== null) {
+      await Firebase.db
+        .collection("students")
+        .doc(Firebase.auth.currentUser.uid)
+        .update({ ["Hide Resume"]: false });
+      this.updateStudentPage();
+    }
+  };
 
   handlingUserInfo = async () => {
     if (Firebase.currentUser !== null) {
@@ -90,9 +113,58 @@ export class StudentView extends Component {
                 />
               </div>
               <div className="updateButtonDiv">
-                <Button variant="primary" onClick={this.updateStudentPage}>
+                {/*Implement Radio for Showing Resume */}
+
+                {/* <Form>
+                  <div key={`inline-radio`} className="mb-3">
+                    <Form.Check
+                      inline
+                      label="Display your resume in the database"
+                      type="radio"
+                      id={`inline-radio-1`}
+                    />
+                    <Form.Check
+                      inline
+                      label="Hide your resume from the database"
+                      type="radio"
+                      id={`inline-radio-2`}
+                    />
+                  </div>
+                </Form> */}
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                    type="radio"
+                    id="customRadioInline1"
+                    name="customRadioInline1"
+                    className="custom-control-input"
+                    onClick={this.handleShowResume}
+                  />
+                  <label class="custom-control-label" for="customRadioInline1">
+                    Display your resume in the database
+                  </label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                    type="radio"
+                    id="customRadioInline2"
+                    name="customRadioInline1"
+                    className="custom-control-input"
+                    onClick={this.handleHideResume}
+                  />
+                  <label class="custom-control-label" for="customRadioInline2">
+                    Hide your resume from the database
+                  </label>
+                </div>
+                <h6>{`Your resume is currently ${
+                  this.state.studentObject["Hide Resume"]
+                    ? "hidden from recruiters."
+                    : "is visible to recruiters!"
+                }`}</h6>
+
+                {/* <Button variant="primary" onClick={this.updateStudentPage}>
                   Display Updates
-                </Button>
+                </Button> */}
               </div>
             </Col>
           </Row>

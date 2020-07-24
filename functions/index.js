@@ -304,19 +304,18 @@ app.put("/updateCheckbox", async (req, res) => {
 });
 
 app.put("/checkboxV2", async (req, res) => {
-  const valuePlaceHolder = req.body.valueToSend;
-  //console.log(valuePlaceHolder);
-  // console.log(req.body);
-  const updatedOBJ = req.body.update;
-  //console.log(updatedOBJ);
+  return cors()(req, res, async () => {
+    const valuePlaceHolder = req.body.valueToSend;
+    const updatedOBJ = req.body.update;
 
-  await firestore
-    .collection("students")
-    .doc(req.body.uid)
-    .update({
-      [valuePlaceHolder]: updatedOBJ,
-    });
-  res.status(201).send();
+    await firestore
+      .collection("students")
+      .doc(req.body.uid)
+      .update({
+        [valuePlaceHolder]: updatedOBJ,
+      });
+    res.status(201).send();
+  });
 });
 
 // Base API endpoint

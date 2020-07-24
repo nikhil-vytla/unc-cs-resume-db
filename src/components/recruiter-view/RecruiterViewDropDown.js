@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import { preProcessFile } from "typescript";
 
 // The type property allows you to switch between "ResumeView" and "Notes" dropdowns 
 //The primary difference between these two is the type of content that goes inside the expanded container
@@ -12,7 +13,7 @@ import React, {useState} from "react"
 function RecruiterViewDropDown (props) {
     const [collapsed, setCollapsed] = useState(true);
 
-    if(props.items === null || props.items === [] || props.items[0] === undefined){
+    if(props.items === null || props.items ===undefined || props.items === [] || props.items[0] === undefined){
         return null
     }
 

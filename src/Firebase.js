@@ -77,6 +77,25 @@ class Firebase {
     }
   }
 
+  // gets all recruiter
+  async getAllRecruiters() {
+    try {
+      const data = await this.db.collection("recruiters").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  // gets all students
+  async getAllStudents() {
+    try {
+      const data = await this.db.collection("students").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async userInfoV2(userID) {
     try {
       const data = await this.db.collection("students").doc(userID).get();
@@ -134,6 +153,6 @@ class Firebase {
   //     console.log(error);
   //   }
   // }
-}
+  }
 
 export default new Firebase();

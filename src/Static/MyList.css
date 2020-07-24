@@ -11,10 +11,80 @@
 .myListIcons:hover{
     transform: scale(1.1);
 }
+.myListInput{
+    width: 10vw;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 3px;
+    height: 20px;
+    background-color: #e5e5e5;
+    border-radius: 50px;
+    border: none;
+}
+.myListLabel{
+    line-height: 20px;
+    margin-right: 3px;
+    margin-bottom: 0px;
+    color: #13294B;
+    font-weight: 500;
+}
+.myListForm{
+    height: 80px;
+    position: relative;
+    overflow-wrap: normal;    
+}    
+.myListFormDiv{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.myListSubmit{
+    background-color: #4B9CD3 !important;
+    height: 20px;
+    line-height: 20px;
+    line-height: 20px !important;
+    padding: 0px !important;
+    display: flex !important;
+    align-items: center !important;
+    border-radius: 3px !important;
+    border: none !important;
+    
+}
+.submitIcons{
+    height: 20px !important;
+    width: 20px !important;
+    line-height: 20px !important;
+}
+
+.newListIcons{
+    height: 25px !important;
+    width: 25px !important;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 7.5px;
+    margin-top: 7.5px;
+    font-size: 1.5em;
+    transition: all .2s ease-in-out;
+    color: white;
+    
+}
+.myListHeaderDiv{
+    width: 25vw;
+    background-color: #4B9CD3;
+}
+.newListIcons:hover{
+    transform: scale(1.1);
+}
+.newListDiv{
+    margin-left: auto;
+    float: right !important;
+    position: relative !important;
+}
 .myListTitle{
     padding-left: 10px;
     line-height: 40px;
     font-size: 20px;
+    color: #13294B;
 }
 .myListTitleHeader{
     background-color: #e5e5e5;
@@ -40,4 +110,64 @@
     height: 36px;
     margin: 2px;
     border-radius: 150px;
+}
+.myListsArrowDiv{
+    top:100px;
+    right: calc(25vw - 15px);
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    position: absolute;
+    z-index: 100;
+    width: 30px;
+    height: 30px;
+    border-radius: 150px;
+    border: 1px solid #13294B;
+    background-color: #ffffff;
+    transition: all .2s ease-in-out;
+
+    margin: 0;
+    padding: 0;
+}
+.myListsArrowDiv:hover{
+    transform: scale(1.1);
+}
+.myListsArrowIcon{
+    height: 25px !important;
+    width: 25px !important;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+.myListsDummyArrowDiv{
+    top:100px;
+    left:-15px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    position: absolute;
+    z-index: 100;
+    width: 30px;
+    height: 30px;
+    border-radius: 150px;
+    border: 1px solid #13294B;
+    background-color: #ffffff;
+    transition: all .2s ease-in-out;
+    margin: 0;
+    padding: 0;
+}
+.myListsDummyArrowDiv:hover{
+    transform :scale(1.1);
+}
+.myListsDummyHeader{
+    background-color: #4B9CD3;
+    height: 40px;
+}
+.myListsDummyColumn{
+    padding-right: 0px !important;
+    height: 50vh;
+    width: 1.5vw;
+    background-color: #ffffff;
+    position: absolute;
 }

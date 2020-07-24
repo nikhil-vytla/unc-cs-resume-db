@@ -231,5 +231,54 @@ app.post("/queryStudents", async (req, res) => {
   res.send(docs);
 });
 
+// app.post("/query", async (req, res) => {
+//   const test = req.body.filter1;
+
+//   // console.log(test);
+//   const testQuery = "await firestore.collection('students')" + test;
+//   //const data = eval("(async () => {" + testQuery + "})();");
+//   const data = (async () => {
+//     await firestore
+//       .collection("students")
+//       .where("Graduation Year", "==", "2020");
+//   })();
+//   // console.log(testData);
+//   const docs = data.docs.map((doc) => doc.data());
+//   res.send(docs);
+// });
+
+app.post("/query", async (req, res) => {
+  let query = firestore.collection("students");
+
+  const filters = req.body.filters;
+
+  // This is how the request should be filters = [
+  // {
+  //   filters: [
+  //     {
+  //       "name": "Graduation Year",
+  //       "value": "2020",
+  //     },
+  //     {
+  //       "name": "Programming Languages.Python",
+  //       "value": true,
+  //     },
+  //     {
+  //       "name": "Database Systems.Oracle",
+  //       "value": true,
+  //     },
+  //   ],
+  // };
+  let addFilter = (newQuery, filterName, filterValue) => {
+    query = newQuery.where(filterName, "==", filterValue);
+  };
+  filters.forEach((filter) => {
+    addFilter(query, filter.name, filter.value);
+  });
+  const data = await query.get();
+  const docs = data.docs.map((doc) => doc.data());
+  res.send(docs);
+});
+
 // Base API endpoint
 exports.api = functions.https.onRequest(app);

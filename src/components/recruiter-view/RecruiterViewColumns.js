@@ -52,7 +52,7 @@ function RecruiterViewColumns(props ){
                 }
             </Col>
             <Col md="auto" className={cardWidth}  >
-                <Candidates candidateCards={props.cards} style={{width: "100%"}}  toggleResumeView={(candidate) => props.toggleResumeView(candidate)} />
+                <Candidates candidateCards={props.cards} style={{width: "100%"}} recruiter={recruiterObj} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} />
             </Col>
             <Col md="auto"  className="recruiterViewColumn">
                 {myListsTransitions.map(({ item, key, props }) => 

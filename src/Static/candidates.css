@@ -16,6 +16,7 @@
     transition: 0.3s;
 }
 .candidateCard:hover{
+    z-index: 150;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     transform: scale(1.05);
 
@@ -72,4 +73,8 @@
 .candidateCardWrapper{
     background-color: #ffffff;
     position: relative;
+}
+
+.candidateDropDown{
+    z-index: 150;
 }

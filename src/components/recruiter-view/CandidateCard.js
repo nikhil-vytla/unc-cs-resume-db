@@ -7,6 +7,7 @@ import StarIcon from '@material-ui/icons/Star';
 import CandidateCardTag from "./CandidateCardTag";
 import AddIcon from '@material-ui/icons/Add';
 import "../../Static/candidates.css"
+import CandidateCardAdd from "./CandidateCardAdd";
 
 
 function CandidateCard(props) {
@@ -100,7 +101,7 @@ function CandidateCard(props) {
 
                         </a>
 
-                        <AddIcon className="recruiterViewIcon" />
+                        <CandidateCardAdd recruiter={props.recruiter} />
                     </div>
                 </Card.Body>
             </Card>

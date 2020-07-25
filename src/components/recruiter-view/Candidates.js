@@ -9,7 +9,7 @@ function Candidates (props) {
             <h1 className="recruiterViewHeader BreeSerif" style={{width: '100%'}}> Candidates</h1>
                     <div className="d-flex recruiterViewCardDiv">
                         {props.candidateCards.map( Candidate =>(
-                                    <CandidateCard toggleResumeView={(candidate) => props.toggleResumeView(candidate)} key={Candidate.Email} info={Candidate}/>
+                                    <CandidateCard recruiter={props.recruiter} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} key={Candidate.Email} info={Candidate}/>
 
                         ))}
                     </div>

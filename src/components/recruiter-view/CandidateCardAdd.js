@@ -1,10 +1,10 @@
 import React from "react"
 import AddIcon from '@material-ui/icons/Add';
-
+import Dropdown from 'react-bootstrap/Dropdown'
 
 
 function CandidateCardAdd(props) {
-
+    
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <AddIcon
 
@@ -21,15 +21,16 @@ function CandidateCardAdd(props) {
     ));
 
     return (
-            <Dropdown>
+            <Dropdown className="candidateDropDown">
                 <Dropdown.Toggle as={CustomToggle}>
                     Dropdown Button
                         </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    {props.recruiter[0]["My Lists"].map(list =>
+                        <Dropdown.Item >{list.Name}</Dropdown.Item>
+                        
+                        )}
                 </Dropdown.Menu>
             </Dropdown>
 

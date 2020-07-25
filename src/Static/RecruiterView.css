@@ -73,10 +73,7 @@
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn95vw::-webkit-scrollbar {
-    display: none;
-  }
-
+  
   
   .recruiterViewHeader{
     line-height: 40px;
@@ -135,7 +132,8 @@
   }
   
   .resumeViewDiv{
-    width: 80vw;
+    width: 90vw;
+    height: calc(100vh - 20px -105px );
     height: 900px;
     background-color: #E5E5E5;
   }
@@ -144,21 +142,35 @@
     margin-bottom: 30px;
   }
   .resumeImage{
+    overflow-y: auto;
     width: 50vw;
     height: auto;
-    padding-left: 45px;
+    padding-left: 3vw;
   }
+  .resumeViewImageDiv{
+    height: calc(100vh - 145px);
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    overflow-y: auto;
+    
+  }
+  .resumeViewImageDiv::-webkit-scrollbar {
+    display: none;
+  }
+
+
   .resumeViewDiv{
     padding-bottom: 5px;
     padding-top: 5px;
   }
   .resumeViewHeader{
     background-color: #4B9CD3;
-    width: 30vw;
+    width: 40vw;
     text-align: center;
     color: white;
   }
   .resumeViewContainer{
+    height: calc(100vh - 105px);
     overflow: hidden !important;
   }
   .vw-100{
@@ -166,16 +178,22 @@
   }
   
   .resumeViewDropDownDiv{
-    width: 30vw;
+    width: 40vw;
     height: 40px;
     color: #ffffff;
     background-color: #4B9CD3;
     display: flex;
     justify-content: space-between;
   }
-  
+  .resumeViewItems{
+    width: 40vw;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+  }
   .classInfoDiv{
-    width: 30vw;
+    width: 40vw;
     height: 40px;
     font-size: 25px;
     background-color: #E5E5E5;
@@ -196,12 +214,35 @@
     font-size: 1.5em;
   }
   .resumeViewNotes{
-    width: 30vw;
+    width: 40vw;
     height: 200px;
     padding: 5px !important;
     background-color: #FFFFFF;
   
   }
+  .resumeViewRightPanel{
+    height: calc(100vh - 145px);
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+  }
+
+  .resumeViewRightPanel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .resumeViewDropDowns{
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+
+  }
+  .resumeViewDropDowns::-webkit-scrollbar {
+    display: none;
+  }
+
   .recruiterViewItems{
     font-size: 25px;
     color: #25282B;
@@ -242,4 +283,7 @@
    margin-right: 0px !important;
     margin-left: 0px !important;
 
+  }
+  .recruiterViewAnimatedDiv{
+    position: relative !important;
   }

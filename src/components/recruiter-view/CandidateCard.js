@@ -5,6 +5,7 @@ import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import StarIcon from '@material-ui/icons/Star';
 import CandidateCardTag from "./CandidateCardTag";
+import AddIcon from '@material-ui/icons/Add';
 import "../../Static/candidates.css"
 
 
@@ -42,7 +43,7 @@ function CandidateCard(props) {
     } else {
         return (
             <Card className="candidateCard " >
-                <Card.Header className=" bg-white m-0 p-0 " style={{ borderRadius: "15px" }}>
+                <Card.Header className=" bg-white m-0 p-0 " style={{ borderRadius: "15px" }} onClick={() => props.toggleResumeView(props.info)}>
                     <div className="d-flex" >
                         <img className="rounded-circle cardImg" src={props.info["Profile Image"]} height="75px" width="75px" alt="" ></img>
                         <div style={{ width: '75px', overflow:"hidden" }} >
@@ -61,8 +62,8 @@ function CandidateCard(props) {
 
                     </div>
                 </Card.Header>
-                <Card.Body className="p-0">
-                    <div className="bg-white BreeSerif d-flex justify-content-start w-100 flex-wrap cardTagContainer" >
+                <Card.Body className="p-0" >
+                    <div className="bg-white BreeSerif d-flex justify-content-start w-100 flex-wrap cardTagContainer" onClick={() => props.toggleResumeView(props.info)}>
 
                         <CandidateCardTag items={props.info["Frame Works and Tools"]}></CandidateCardTag>
                         <CandidateCardTag items={props.info["Database Systems"]}></CandidateCardTag>
@@ -100,7 +101,7 @@ function CandidateCard(props) {
 
                         </a>
 
-                        <ZoomInOutlinedIcon className="recruiterViewIcon" onClick={() => props.toggleResumeView(props.info)} />
+                        <AddIcon className="recruiterViewIcon" />
                     </div>
                 </Card.Body>
             </Card>

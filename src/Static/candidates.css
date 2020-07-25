@@ -68,3 +68,8 @@
 .cardTagContainer::-webkit-scrollbar {
     display: none;
   }
+
+.candidateCardWrapper{
+    background-color: #ffffff;
+    position: relative;
+}

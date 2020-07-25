@@ -19,7 +19,7 @@ export default class MultiSelect extends Component {
     array.forEach((element) => {
       updatedOBJ[element] = type;
     });
-    console.log(updatedOBJ);
+    //console.log(updatedOBJ);
 
     const objToSend = {
       //arrayList: array,
@@ -29,18 +29,12 @@ export default class MultiSelect extends Component {
       update: updatedOBJ,
     };
 
-    console.log(objToSend);
+    // console.log(objToSend);
 
     await axios.put(
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/checkboxV2",
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/checkboxV2",
       objToSend
     );
-
-    // await axios.post(
-    //   "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/query",
-    //   filterOBJ
-    // );
-
     // const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     // array.forEach(async (eachUpdate) => {
     //   try {
@@ -66,7 +60,7 @@ export default class MultiSelect extends Component {
     // updates them in Firebase
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, true);
-    // await delay();
+    // await delay(250);
     this.props.monitorChanges();
   };
 
@@ -116,7 +110,7 @@ export default class MultiSelect extends Component {
           </div>
         </Form.Group>
         <InputGroup.Append>
-          <Button variant="outline-secondary" onClick={this.handleUpload}>
+          <Button variant="primary" onClick={this.handleUpload}>
             Update
           </Button>
           {/* <Button variant="outline-secondary" onClick={this.handleDelete}>

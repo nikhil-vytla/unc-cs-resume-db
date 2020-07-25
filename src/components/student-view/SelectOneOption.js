@@ -5,6 +5,7 @@ import { InputGroup, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Firebase from "../../Firebase.js";
 import axios from "axios";
+import "./SelectOne.css";
 
 export default class SelectOneOption extends Component {
   constructor(props) {
@@ -123,7 +124,8 @@ export default class SelectOneOption extends Component {
 
         <InputGroup.Append>
           <Button
-            variant="outline-secondary"
+            className="updateBtn"
+            variant="primary"
             onClick={
               this.props.isSingle ? this.handleUpload : this.handleMapUpload
             }

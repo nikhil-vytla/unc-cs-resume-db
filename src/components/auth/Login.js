@@ -1,59 +1,70 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import Firebase from "../../Firebase";
-import { Form, Container } from "react-bootstrap";
-import { withRouter, Redirect, Link } from "react-router-dom";
+import { Form, Container, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./auth.css";
 
-const Login = () => {
-  const [redirect, setRedirect] = useState(null);
+export default class Login extends Component {
+  constructor() {
+    super();
+    this.state = { LoginEmail: "", LoginPassword: "" };
+  }
 
-  const handleLogin = async (event) => {
+  render() {
+    return (
+      <Container className="authContainer">
+        <Container id="LoginComponent" className="authComponent">
+
+          {/* Test Button to run sample query */}
+          <Button type="button" onClick={this.handleQuery}>Run Query</Button>
+
+          <Form className="authForm" onSubmit={this.handleLogin}>
+            <h1>Login</h1>
+
+            <Form.Control
+              type="email"
+              placeholder="Email Address"
+              value={this.state.LoginEmail}
+              onChange={(e) => {
+                this.setState({ "LoginEmail": e.target.value });
+              }}
+            />
+            <Form.Control
+              id="LoginPassword"
+              type="password"
+              placeholder="Password"
+              value={this.state.LoginPassword}
+              onChange={(e) => {
+                this.setState({ "LoginPassword": e.target.value });
+              }}
+            />
+            <button className="authBtn" type="submit">
+              Login
+            </button>
+          </Form>
+          <p className="authLink" >Don't have an account? <Link to="/signup">Signup</Link></p>
+        </Container>
+      </Container>
+    );
+  }
+
+  handleLogin = async (event) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
-    await Firebase.login(email.value, password.value)
-    .catch(err => console.log(err));
-
-    const { currentUser } = Firebase.auth;
-    const claims = (await currentUser.getIdTokenResult(true)
-    .catch(err => console.log(err))).claims;
-
-    if(claims.admin) {
-      setRedirect(<Redirect to="/admin" />);
-    } else if(claims.recruiter) {
-      setRedirect(<Redirect to="/recruiter" />);
-    } else if (claims.student) {
-      setRedirect(<Redirect to="/student" />);
-    } else {
-      setRedirect(<Redirect to="/" />);
+    try {
+      const user = await Firebase.login(this.state.LoginEmail, this.state.LoginPassword);
+      console.log(await (await Firebase.db.collection("students").doc(user.uid).get()).data());
+      alert("Check console for logged in user");
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  return (
-    <Container className="authContainer">
-      <Container id="LoginComponent" className="authComponent">
-        {redirect}
-
-        <Form className="authForm" onSubmit={handleLogin}>
-          <h1>Login</h1>
-
-          <Form.Control
-            name="email"
-            type="email"
-            placeholder="Email Address"
-          />
-          <Form.Control
-            name="password"
-            type="password"
-            placeholder="Password"
-          />
-          <button className="authBtn" type="submit">
-            Login
-          </button>
-        </Form>
-        <p className="authLink" >Don't have an account? <Link to="/signup">Signup</Link></p>
-      </Container>
-    </Container>
-  );
+  // Sample query handler
+  handleQuery = async (e) => {
+    try {
+      const result = await Firebase.runQuery();
+      console.log(result);
+      alert("Check console for result");
+    } catch(err) {console.log(err);}
+  }
 }
-
-export default withRouter(Login);

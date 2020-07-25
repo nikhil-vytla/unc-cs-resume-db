@@ -2,6 +2,7 @@ import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import { data } from "jquery";
 
 // Use methods to access firebase SDK
 class Firebase {

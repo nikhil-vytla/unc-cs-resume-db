@@ -231,22 +231,6 @@ app.post("/queryStudents", async (req, res) => {
   res.send(docs);
 });
 
-// app.post("/query", async (req, res) => {
-//   const test = req.body.filter1;
-
-//   // console.log(test);
-//   const testQuery = "await firestore.collection('students')" + test;
-//   //const data = eval("(async () => {" + testQuery + "})();");
-//   const data = (async () => {
-//     await firestore
-//       .collection("students")
-//       .where("Graduation Year", "==", "2020");
-//   })();
-//   // console.log(testData);
-//   const docs = data.docs.map((doc) => doc.data());
-//   res.send(docs);
-// });
-
 // app.post("/query/<RecruiterID>", async (req, res) => {
 
 //   // Recruiter has access to UNC and HACKNC
@@ -255,6 +239,18 @@ app.post("/queryStudents", async (req, res) => {
 //     name: "Events.HackNC", value: true
 //   }
 // });
+
+// adds requested school to request list
+app.post("/requestSchool", async (req, res) => {
+  const schoolValue = req.body.school;
+  await firestore
+    .collection("Schools")
+    .doc("RequestedSchools")
+    .update({
+      schoolsList: admin.firestore.FieldValue.arrayUnion(schoolValue),
+    });
+  res.status(201).send();
+});
 
 app.post("/query", async (req, res) => {
   let query = firestore.collection("students");

@@ -341,22 +341,21 @@ app.put("/checkboxV2", async (req, res) => {
 //  listName: nameOfList,
 // }
 app.put("/newList", async (req, res) => {
-  try {
-    const listOBJ = {
-      Name: req.body.listName,
-      Students: [],
-    };
-    await firestore
-      .collection("recruiters")
-      .doc(req.body.recruiterUID)
-      .update({
-        "My Lists": admin.firestore.FieldValue.arrayUnion(listOBJ),
-      });
+  console.log(req.body);
+  console.log(req.body.recruiterUID);
+  const listOBJ = {
+    Name: req.body.nameOfList,
+    Students: [],
+  };
+  console.log(listOBJ);
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      "My Lists": admin.firestore.FieldValue.arrayUnion(listOBJ),
+    });
 
-    res.status(201).send();
-  } catch (error) {
-    console.error(error);
-  }
+  res.status(201).send();
 });
 
 // Base API endpoint

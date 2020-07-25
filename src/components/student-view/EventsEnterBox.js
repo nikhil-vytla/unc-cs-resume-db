@@ -12,7 +12,6 @@ import "./StudentView.css";
 import Firebase from "../../Firebase";
 
 export default class EventsEnterBox extends Component {
-  // function MyInformation(props) {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,20 +28,14 @@ export default class EventsEnterBox extends Component {
     }
 
     const allCodesPreData = await Firebase.getEventCodes();
-    //const allCodes = allCodesPreData.codes;
-    //console.log(allCodes);
     const allCodes = allCodesPreData["codes"];
-    // console.log(test);
 
-    //   const allCodes = allCodesPreData.docs.map((doc) => doc.data());
-
-    //    console.log(allCodes);
     if (
       allCodes[this.state.eventCode] !== "" ||
       allCodes[this.state.eventCode] !== null ||
       allCodes[this.state.eventCode] != ""
     ) {
-      console.log(allCodes[this.state.eventCode]);
+      // console.log(allCodes[this.state.eventCode]);
       const currentEvent = allCodes[this.state.eventCode];
       const fullEventRef = `Events.${currentEvent}`;
       await Firebase.db
@@ -68,7 +61,7 @@ export default class EventsEnterBox extends Component {
               />
             </InputGroup>
             <InputGroup.Append>
-              <Button variant="outline-secondary" type="submit">
+              <Button variant="primary" type="submit">
                 Update
               </Button>
             </InputGroup.Append>

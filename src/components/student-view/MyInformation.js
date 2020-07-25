@@ -22,6 +22,13 @@ export class MyInformation extends Component {
     this.state = {
       fName: "",
       lName: "",
+      languagesState: [],
+      gradYearState: [],
+      dbSystemsState: [],
+      opSystemsState: [],
+      majorsState: [],
+      frameworksAndToolsState: [],
+      schoolsState: [],
     };
   }
 
@@ -45,171 +52,43 @@ export class MyInformation extends Component {
     this.props.onStudentDataChange();
   };
 
+  getListArrays = async (collection, doc) => {
+    const data = await Firebase.db.collection(collection).doc(doc).get();
+    return data.data();
+  };
+
+  async componentDidMount() {
+    const gradHolder = await this.getListArrays("Graduation Year", "gradYears");
+    const languageHolder = await this.getListArrays(
+      "Programming Languages",
+      "progLanguages"
+    );
+    const dbSystemHolder = await this.getListArrays(
+      "Database Systems",
+      "databaseSystems"
+    );
+    const opSystemHolder = await this.getListArrays(
+      "Operating Systems",
+      "operatingSystems"
+    );
+    const majorsHolder = await this.getListArrays("Majors", "majorsList");
+    const frameworksHolder = await this.getListArrays(
+      "Frameworks and Tools",
+      "frameworksAndTools"
+    );
+    const schoolsHolder = await this.getListArrays("Schools", "SchoolsList");
+
+    this.setState({
+      gradYearState: gradHolder.gradYearList,
+      languagesState: languageHolder.progLanguages,
+      dbSystemsState: dbSystemHolder.databaseSystems,
+      opSystemsState: opSystemHolder.operatingSystems,
+      majorsState: majorsHolder.majorsList,
+      frameworksAndToolsState: frameworksHolder.frameworksAndTools,
+      schoolsState: schoolsHolder.schoolsList,
+    });
+  }
   render() {
-    // Eventually link these lists to firebase and allow clients
-    // to edit them to their liking
-    const schoolsList = [
-      "UNC Chapel Hill",
-      "North Carolina State University",
-      "UNC Charlotte",
-      "Duke University",
-      "University of Central Florida",
-      "Georgia Tech",
-      "UNC Greensboro",
-      "Virginia Tech",
-      "University of Maryland",
-      "Florida International University",
-      "University of Florida",
-      "University of Virginia",
-      "Appalachian State University",
-      "University of Maryland",
-    ];
-    const gradYearList = ["2020", "2021", "2022", "2023", "2024", "202X"];
-    const majorsList = [
-      "Aerospace Engineering",
-      "Anthropology",
-      "Apparel/Textile Design",
-      "Applied Science",
-      "Architecture",
-      "Arts Management",
-      "Astronomy",
-      "Athletic Training",
-      "Aviation/Aeronautics",
-      "Biology",
-      "Biomedical Engineering",
-      "Business/Finance",
-      "Chemical Engineering",
-      "Chemistry",
-      "Civil Engineering",
-      "Communication Studies",
-      "Computer Engineering",
-      "Computer Science",
-      "Construction Management",
-      "Dance",
-      "Data Science",
-      "Dentistry",
-      "Dramatic Arts",
-      "Economics",
-      "Education",
-      "Electrical Engineering",
-      "Engineering",
-      "English/Writing",
-      "Entertainment Management",
-      "Environmental Studies",
-      "Exercise Science/Kinesiology",
-      "Family/Consumer Science",
-      "Film/Broadcast",
-      "Fine/Studio Art",
-      "Fisheries and Wildlife",
-      "Food Science",
-      "Forensic Science",
-      "Forest Management",
-      "Geography/Global Studies",
-      "Graphic Design",
-      "Health Policy and Management",
-      "History",
-      "Industrial Design",
-      "Industrial Engineering",
-      "Information Science",
-      "Journalism",
-      "Landscape Architecture",
-      "Language Studies",
-      "Linguistics",
-      "Marine Science",
-      "Materials Science",
-      "Mathematics",
-      "Mechanical Engineering",
-      "Military Science/ROTC",
-      "Music",
-      "Neuroscience",
-      "Non-ProfitManagement",
-      "Nursing (RN/BSN)",
-      "Peace/Conflict Studies",
-      "Pharmacy",
-      "Philosophy",
-      "Physics",
-      "Political Science",
-      "Pre-Dental",
-      "Pre-Medical",
-      "Pre-Veterinary",
-      "Medicine",
-      "Psychology",
-      "Public Health",
-      "Recreation & Tourism Management",
-      "Social Science",
-      "Sport Management",
-      "Statistics",
-      "Studio Art",
-      "Theatre",
-      "Urban Planning",
-      "Video Game Design",
-      "Web Design/Digital Media",
-      "Women/Gender Studies",
-      "Other",
-    ];
-
-    const eventsList = [
-      "HackNC",
-      "Queer_Hack",
-      "Global Game Jam",
-      "AfroPix",
-      "Carolina Data Challenge",
-      "Pearl Hacks",
-      "HackReality",
-    ];
-    // {
-    //   Programming languages
-    //   Java
-    //   Python
-    //   C (#,++)
-    //   Swift
-    //   Javascript
-    //   HTML
-    //   CSS
-
-    //   Frameworks/Tools
-    //   React
-    //   Angular
-    //   Ruby on Rails
-    //   Vue.js
-    //   Django
-
-    //   Database Systems
-    //   SQL
-    //   Oracle
-    //   MongoDB
-
-    //   Operating Systems
-    //   macOS
-    //   Linux
-    //   Windows
-    //   Unix
-    // }
-
-    const progLangauges = [
-      "Java",
-      "Python",
-      "C#",
-      "C++",
-      "C",
-      "Swift",
-      "Javascript",
-      "HTML",
-      "CSS",
-    ];
-
-    const frameworksAndTools = [
-      "React",
-      "Angular",
-      "Ruby on Rails",
-      "Vue",
-      "Django",
-    ];
-
-    const operatingSystems = ["macOS", "Linux", "Windows", "Unix"];
-
-    const databaseSystems = ["SQL", "Oracle", "MongoDB"];
-
     let schoolDataList;
 
     if (this.props.schoolData !== "") {
@@ -471,7 +350,7 @@ export class MyInformation extends Component {
                       </Form.Label>
                       <Col>
                         <SelectOneOption
-                          optionArray={schoolsList}
+                          optionArray={this.state.schoolsState}
                           valueType="School"
                           isSingle={true}
                           needInput={true}
@@ -489,7 +368,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <SelectOneOption
-                          optionArray={gradYearList}
+                          optionArray={this.state.gradYearState}
                           valueType="Graduation Year"
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
@@ -509,7 +388,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <SelectOneOption
-                          optionArray={majorsList}
+                          optionArray={this.state.majorsState}
                           valueType="Primary Major"
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
@@ -529,7 +408,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <SelectOneOption
-                          optionArray={majorsList}
+                          optionArray={this.state.majorsState}
                           valueType="Secondary Major"
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
@@ -554,7 +433,7 @@ export class MyInformation extends Component {
                           monitorChanges={this.handlePropsUpdate}
                         /> */}
                         <SelectOneOption
-                          optionArray={majorsList}
+                          optionArray={this.state.majorsState}
                           valueType="Minors"
                           isSingle={false}
                           monitorChanges={this.handlePropsUpdate}
@@ -586,7 +465,7 @@ export class MyInformation extends Component {
                       <Col>
                         <InputGroup className="mb-3">
                           <MultiSelect
-                            optionArray={progLangauges}
+                            optionArray={this.state.languagesState}
                             valueType={"Programming Languages"}
                             monitorChanges={this.handlePropsUpdate}
                           />
@@ -609,7 +488,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <MultiSelect
-                          optionArray={frameworksAndTools}
+                          optionArray={this.state.frameworksAndToolsState}
                           valueType={"Frameworks and Tools"}
                           monitorChanges={this.handlePropsUpdate}
                         />
@@ -631,7 +510,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <MultiSelect
-                          optionArray={operatingSystems}
+                          optionArray={this.state.opSystemsState}
                           valueType={"Operating Systems"}
                           monitorChanges={this.handlePropsUpdate}
                         />
@@ -652,7 +531,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <MultiSelect
-                          optionArray={databaseSystems}
+                          optionArray={this.state.dbSystemsState}
                           valueType={"Database Systems"}
                           monitorChanges={this.handlePropsUpdate}
                         />
@@ -686,13 +565,6 @@ export class MyInformation extends Component {
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
-                          {/* <SelectOneOption
-                            optionArray={eventsList}
-                            valueType="Events"
-                            isSingle={false}
-                            monitorChanges={this.handlePropsUpdate}
-                          /> */}
-
                           {/* <MultiSelect
                             optionArray={eventsList}
                             valueType="Events"

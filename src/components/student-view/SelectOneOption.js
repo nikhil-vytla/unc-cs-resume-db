@@ -37,7 +37,7 @@ export default class SelectOneOption extends Component {
             School: this.state.update,
           });
         axios.post(
-          "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/requestSchool",
+          "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/requestSchool",
           { school: this.state.reqSchool }
         );
         // await Firebase.db

@@ -117,6 +117,15 @@ class Firebase {
     }
   }
 
+  async getEventCodes() {
+    try {
+      const data = await this.db.collection("Events").doc("eventCodes").get();
+      return data.data();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // gets all current profile information for the recruiter
   async getRecruiterInfo(userID) {
     try {

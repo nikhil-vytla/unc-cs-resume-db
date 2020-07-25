@@ -13,6 +13,7 @@ import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
 import MultiSelect from "./MultiSelect";
 import Firebase from "../../Firebase.js";
+import EventsEnterBox from "./EventsEnterBox";
 
 export class MyInformation extends Component {
   // function MyInformation(props) {
@@ -692,9 +693,12 @@ export class MyInformation extends Component {
                             monitorChanges={this.handlePropsUpdate}
                           /> */}
 
-                          <MultiSelect
+                          {/* <MultiSelect
                             optionArray={eventsList}
                             valueType="Events"
+                            monitorChanges={this.handlePropsUpdate}
+                          /> */}
+                          <EventsEnterBox
                             monitorChanges={this.handlePropsUpdate}
                           />
                           {eventListToView}

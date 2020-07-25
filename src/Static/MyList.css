@@ -113,7 +113,7 @@
 }
 .myListsArrowDiv{
     top:100px;
-    right: calc(25vw - 15px);
+    left: -1vw;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -139,10 +139,13 @@
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
+    z-index: 100;
 }
 .myListsDummyArrowDiv{
+    z-index: 100;
+
     top:100px;
-    left:-15px;
+    left:-1vw;
     display: flex;
     justify-content: center;
     align-self: center;

@@ -9,19 +9,8 @@ import RemoveIcon from '@material-ui/icons/Remove';
 
 
 
-function RecruiterViewDropDown(props) {
+function ResumeViewDropDownText(props) {
     const [collapsed, setCollapsed] = useState(false);
-    let itemArray = []
-
-    if (props.items !== null && props.items !== undefined) {
-        Object.keys(props.items).forEach((key, index) => {
-            if (props.items[key] === true) {
-                itemArray.push(key);
-            }
-
-        })
-
-    }
     let expandedView = null;
     let icon = <AddIcon  className="resumeViewDropDownIcon" />
 
@@ -30,12 +19,7 @@ function RecruiterViewDropDown(props) {
         expandedView = (
 
             <div className="d-flex justify-content-start resumeViewItems">
-
-                {itemArray.map(item => (
-
-                    <h1 className="recruiterViewItems BreeSerif "> {item} </h1>
-
-                ))}
+                    <h1 className="recruiterViewItems BreeSerif "> {props.items} </h1>
             </div>
 
 
@@ -62,8 +46,8 @@ function RecruiterViewDropDown(props) {
     //     </div>
     // );
 
-    console.log(itemArray)
-    if (props.items === null || itemArray.length === 0) {
+  
+    if (props.items === null || props.items === "") {
         return null
     } else {
         return (
@@ -82,4 +66,4 @@ function RecruiterViewDropDown(props) {
 
 }
 
-export default RecruiterViewDropDown
+export default ResumeViewDropDownText

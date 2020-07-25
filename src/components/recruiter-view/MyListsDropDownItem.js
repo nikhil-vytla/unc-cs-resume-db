@@ -6,14 +6,15 @@ import firebase from "../../Firebase"
 
 
 function MyListsDropDownItem(props){
-
-    function handleZoom(){
-        let data = firebase.getUserInfo(props.student.UID)
-        data.then( data =>{
+    async function handleZoom() {
+        try{
+            let data = await firebase.getUserInfo(props.student.UID)
             props.toggleResumeView(data[0]);
-
-        })
-        console.log(data)
+        } catch{
+            console.log("invalid uid");
+        }
+        
+    
     }
 
     return (

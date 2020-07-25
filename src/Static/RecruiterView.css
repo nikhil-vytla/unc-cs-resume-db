@@ -6,77 +6,38 @@
     justify-content: space-start;
   }
   .recruiterViewColumn{
-    overflow-y: auto;
-    height: calc(100vh - 105px);
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn::-webkit-scrollbar {
-    display: none;
-  }
   .recruiterViewLeftColumn{
-    height: calc(100vh - 105px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     padding-right: 1vw !important;
     padding-left: 0px !important;
   }
-  .recruiterViewLeftColumn::-webkit-scrollbar {
-    display: none;
-  }
   .recruiterViewColumn50vw{
-    height: calc(100vh - 105px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     width: 50vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn50vw::-webkit-scrollbar {
-    display: none;
-  }
+
   .recruiterViewColumn65vw{
-    height: calc(100vh - 105px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     width: 66.5vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn65vw::-webkit-scrollbar {
-    display: none;
-  }
   .recruiterViewColumn75vw{
-    height: calc(100vh - 105px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     width: 77.5vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn75vw::-webkit-scrollbar {
-    display: none;
-  }
   .recruiterViewColumn95vw{
-    height: calc(100vh - 105px);
-    overflow-y: auto;
-
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     width: 95vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
   
+
   
   .recruiterViewHeader{
-    line-height: 40px;
     font-size: 30px;
     text-align: center;
     background-color: #4B9CD3;
@@ -88,7 +49,50 @@
     font-family: 'Bree Serif';
   
   }
+  /* .recruiterViewCard{
+    border-radius: 15px !important;
+    border: 1px solid #e5e5e5;
+    height: 260px;
+    width: 150px;
+    margin: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    
+    transition: 0.3s;
+  }
+  .recruiterViewCard:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  } */
+  /* .recruiterViewCardHeader{
+    background-color: #13294B !important;
+    line-height: 20px;
+    margin: 0;
+  
+  } */
+  /* .recruiterViewCardImg{
+    margin-left: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    object-fit: cover;
+  
+  } */
+  /* .recruiterViewCardIcons{
 
+    position: absolute;
+    bottom: 0;
+    width: 150px;
+  } */
+  
+  /* .recruiterViewCardHeaderText{
+    font-size: 15px !important;
+    color:  #4B9CD3;
+    margin: 0;
+    text-align: center;
+  } */
+  /* .recruiterViewCardHeaderTextDiv{ 
+    position: relative;
+    top: 15%; 
+    text-align: center;
+  } */
   
   .LogoSmallDiv{
     padding-left: 6vw !important;
@@ -132,8 +136,7 @@
   }
   
   .resumeViewDiv{
-    width: 90vw;
-    height: calc(100vh - 20px -105px );
+    width: 80vw;
     height: 900px;
     background-color: #E5E5E5;
   }
@@ -142,35 +145,21 @@
     margin-bottom: 30px;
   }
   .resumeImage{
-    overflow-y: auto;
     width: 50vw;
     height: auto;
-    padding-left: 3vw;
+    padding-left: 45px;
   }
-  .resumeViewImageDiv{
-    height: calc(100vh - 145px);
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-    overflow-y: auto;
-    
-  }
-  .resumeViewImageDiv::-webkit-scrollbar {
-    display: none;
-  }
-
-
   .resumeViewDiv{
     padding-bottom: 5px;
     padding-top: 5px;
   }
   .resumeViewHeader{
     background-color: #4B9CD3;
-    width: 40vw;
+    width: 30vw;
     text-align: center;
     color: white;
   }
   .resumeViewContainer{
-    height: calc(100vh - 105px);
     overflow: hidden !important;
   }
   .vw-100{
@@ -178,22 +167,16 @@
   }
   
   .resumeViewDropDownDiv{
-    width: 40vw;
+    width: 30vw;
     height: 40px;
     color: #ffffff;
     background-color: #4B9CD3;
     display: flex;
     justify-content: space-between;
   }
-  .resumeViewItems{
-    width: 40vw;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-bottom: 10px;
-    flex-wrap: wrap;
-  }
+  
   .classInfoDiv{
-    width: 40vw;
+    width: 30vw;
     height: 40px;
     font-size: 25px;
     background-color: #E5E5E5;
@@ -214,35 +197,12 @@
     font-size: 1.5em;
   }
   .resumeViewNotes{
-    width: 40vw;
+    width: 30vw;
     height: 200px;
     padding: 5px !important;
     background-color: #FFFFFF;
   
   }
-  .resumeViewRightPanel{
-    height: calc(100vh - 145px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-
-  }
-
-  .resumeViewRightPanel::-webkit-scrollbar {
-    display: none;
-  }
-
-  .resumeViewDropDowns{
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-
-
-  }
-  .resumeViewDropDowns::-webkit-scrollbar {
-    display: none;
-  }
-
   .recruiterViewItems{
     font-size: 25px;
     color: #25282B;
@@ -283,7 +243,4 @@
    margin-right: 0px !important;
     margin-left: 0px !important;
 
-  }
-  .recruiterViewAnimatedDiv{
-    position: relative !important;
   }

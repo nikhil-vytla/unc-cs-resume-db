@@ -12,8 +12,6 @@ import "./StudentView.css";
 import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
 import MultiSelect from "./MultiSelect";
-import Firebase from "../../Firebase.js";
-import EventsEnterBox from "./EventsEnterBox";
 
 export class MyInformation extends Component {
   // function MyInformation(props) {
@@ -22,13 +20,6 @@ export class MyInformation extends Component {
     this.state = {
       fName: "",
       lName: "",
-      languagesState: [],
-      gradYearState: [],
-      dbSystemsState: [],
-      opSystemsState: [],
-      majorsState: [],
-      frameworksAndToolsState: [],
-      schoolsState: [],
     };
   }
 
@@ -36,59 +27,171 @@ export class MyInformation extends Component {
     this.props.onStudentDataChange();
   };
 
-  handleFullTime = async () => {
-    await Firebase.db
-      .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
-      .update({ Seeking: "Full Time" });
-    this.props.onStudentDataChange();
-  };
-
-  handleInternship = async () => {
-    await Firebase.db
-      .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
-      .update({ Seeking: "Internship" });
-    this.props.onStudentDataChange();
-  };
-
-  getListArrays = async (collection, doc) => {
-    const data = await Firebase.db.collection(collection).doc(doc).get();
-    return data.data();
-  };
-
-  async componentDidMount() {
-    const gradHolder = await this.getListArrays("Graduation Year", "gradYears");
-    const languageHolder = await this.getListArrays(
-      "Programming Languages",
-      "progLanguages"
-    );
-    const dbSystemHolder = await this.getListArrays(
-      "Database Systems",
-      "databaseSystems"
-    );
-    const opSystemHolder = await this.getListArrays(
-      "Operating Systems",
-      "operatingSystems"
-    );
-    const majorsHolder = await this.getListArrays("Majors", "majorsList");
-    const frameworksHolder = await this.getListArrays(
-      "Frameworks and Tools",
-      "frameworksAndTools"
-    );
-    const schoolsHolder = await this.getListArrays("Schools", "SchoolsList");
-
-    this.setState({
-      gradYearState: gradHolder.gradYearList,
-      languagesState: languageHolder.progLanguages,
-      dbSystemsState: dbSystemHolder.databaseSystems,
-      opSystemsState: opSystemHolder.operatingSystems,
-      majorsState: majorsHolder.majorsList,
-      frameworksAndToolsState: frameworksHolder.frameworksAndTools,
-      schoolsState: schoolsHolder.schoolsList,
-    });
-  }
   render() {
+    // Eventually link these lists to firebase and allow clients
+    // to edit them to their liking
+    const schoolsList = [
+      "UNC Chapel Hill",
+      "North Carolina State University",
+      "UNC Charlotte",
+      "Duke University",
+      "University of Central Florida",
+      "Georgia Tech",
+      "UNC Greensboro",
+      "Virginia Tech",
+      "University of Maryland",
+      "Florida International University",
+      "University of Florida",
+      "University of Virginia",
+      "Appalachian State University",
+      "University of Maryland",
+    ];
+    const gradYearList = ["2020", "2021", "2022", "2023", "2024", "202X"];
+    const majorsList = [
+      "Aerospace Engineering",
+      "Anthropology",
+      "Apparel/Textile Design",
+      "Applied Science",
+      "Architecture",
+      "Arts Management",
+      "Astronomy",
+      "Athletic Training",
+      "Aviation/Aeronautics",
+      "Biology",
+      "Biomedical Engineering",
+      "Business/Finance",
+      "Chemical Engineering",
+      "Chemistry",
+      "Civil Engineering",
+      "Communication Studies",
+      "Computer Engineering",
+      "Computer Science",
+      "Construction Management",
+      "Dance",
+      "Data Science",
+      "Dentistry",
+      "Dramatic Arts",
+      "Economics",
+      "Education",
+      "Electrical Engineering",
+      "Engineering",
+      "English/Writing",
+      "Entertainment Management",
+      "Environmental Studies",
+      "Exercise Science/Kinesiology",
+      "Family/Consumer Science",
+      "Film/Broadcast",
+      "Fine/Studio Art",
+      "Fisheries and Wildlife",
+      "Food Science",
+      "Forensic Science",
+      "Forest Management",
+      "Geography/Global Studies",
+      "Graphic Design",
+      "Health Policy and Management",
+      "History",
+      "Industrial Design",
+      "Industrial Engineering",
+      "Information Science",
+      "Journalism",
+      "Landscape Architecture",
+      "Language Studies",
+      "Linguistics",
+      "Marine Science",
+      "Materials Science",
+      "Mathematics",
+      "Mechanical Engineering",
+      "Military Science/ROTC",
+      "Music",
+      "Neuroscience",
+      "Non-ProfitManagement",
+      "Nursing (RN/BSN)",
+      "Peace/Conflict Studies",
+      "Pharmacy",
+      "Philosophy",
+      "Physics",
+      "Political Science",
+      "Pre-Dental",
+      "Pre-Medical",
+      "Pre-Veterinary",
+      "Medicine",
+      "Psychology",
+      "Public Health",
+      "Recreation & Tourism Management",
+      "Social Science",
+      "Sport Management",
+      "Statistics",
+      "Studio Art",
+      "Theatre",
+      "Urban Planning",
+      "Video Game Design",
+      "Web Design/Digital Media",
+      "Women/Gender Studies",
+      "Other",
+    ];
+
+    const eventsList = [
+      "HackNC",
+      "Queer_Hack",
+      "Global Game Jam",
+      "AfroPix",
+      "Carolina Data Challenge",
+      "Pearl Hacks",
+      "HackReality",
+    ];
+    // {
+    //   Programming languages 
+    //   Java
+    //   Python
+    //   C (#,++)
+    //   Swift
+    //   Javascript
+    //   HTML
+    //   CSS
+
+    //   Frameworks/Tools 
+    //   React 
+    //   Angular
+    //   Ruby on Rails
+    //   Vue.js
+    //   Django
+
+    //   Database Systems
+    //   SQL
+    //   Oracle
+    //   MongoDB
+
+    //   Operating Systems 
+    //   macOS
+    //   Linux
+    //   Windows
+    //   Unix
+    // }
+
+    const progLangauges = [
+      "Java",
+      "Python",
+      "C#",
+      "C++",
+      "C",
+      "Swift",
+      "Javascript",
+      "HTML",
+      "CSS",
+    ];
+
+    const frameworksAndTools = [
+      "React",
+      "Angular",
+      "Ruby on Rails",
+      "Vue",
+      "Django",
+    ];
+
+    const operatingSystems = ["macOS", "Linux", "Windows", "Unix"];
+
+    const databaseSystems = ["SQL", "Oracle", "MongoDB"];
+
     let schoolDataList;
 
     if (this.props.schoolData !== "") {
@@ -286,6 +389,7 @@ export class MyInformation extends Component {
     return (
       <div>
         {nameHeader}
+        {/* <h3>My Information</h3> */}
         <div className="my-information-container">
           <Accordion defaultActiveKey="0">
             <Accordion.Toggle
@@ -300,49 +404,6 @@ export class MyInformation extends Component {
                 <Form.Group>
                   <NameSection monitorChanges={this.handlePropsUpdate} />
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
-                      <div className="data-row-label">Position Seeking</div>
-                    </Form.Label>
-                    <Col>
-                      <InputGroup className="mb-3">
-                        <div className="custom-control custom-radio custom-control-inline">
-                          <input
-                            type="radio"
-                            id="customRadioInline3"
-                            name="customRadioInline1"
-                            className="custom-control-input"
-                            onClick={this.handleInternship}
-                          />
-                          <label
-                            className="custom-control-label"
-                            for="customRadioInline3"
-                          >
-                            Internship
-                          </label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                          <input
-                            type="radio"
-                            id="customRadioInline4"
-                            name="customRadioInline1"
-                            className="custom-control-input"
-                            onClick={this.handleFullTime}
-                          />
-                          <label
-                            className="custom-control-label"
-                            for="customRadioInline4"
-                          >
-                            Full Time
-                          </label>
-                        </div>
-                        <h6>{`You are currently seeking ${
-                          this.props.seekingData == "Internship" ? "an" : "a"
-                        } ${this.props.seekingData} position!`}</h6>
-                      </InputGroup>
-                    </Col>
-                  </Form.Row>
-                  <br />
                   <div className="data-row">
                     <Form.Row>
                       <Form.Label column lg={2}>
@@ -350,7 +411,7 @@ export class MyInformation extends Component {
                       </Form.Label>
                       <Col>
                         <SelectOneOption
-                          optionArray={this.state.schoolsState}
+                          optionArray={schoolsList}
                           valueType="School"
                           isSingle={true}
                           needInput={true}
@@ -368,7 +429,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <SelectOneOption
-                          optionArray={this.state.gradYearState}
+                          optionArray={gradYearList}
                           valueType="Graduation Year"
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
@@ -388,7 +449,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <SelectOneOption
-                          optionArray={this.state.majorsState}
+                          optionArray={majorsList}
                           valueType="Primary Major"
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
@@ -408,7 +469,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <SelectOneOption
-                          optionArray={this.state.majorsState}
+                          optionArray={majorsList}
                           valueType="Secondary Major"
                           isSingle={true}
                           monitorChanges={this.handlePropsUpdate}
@@ -433,7 +494,7 @@ export class MyInformation extends Component {
                           monitorChanges={this.handlePropsUpdate}
                         /> */}
                         <SelectOneOption
-                          optionArray={this.state.majorsState}
+                          optionArray={majorsList}
                           valueType="Minors"
                           isSingle={false}
                           monitorChanges={this.handlePropsUpdate}
@@ -465,7 +526,7 @@ export class MyInformation extends Component {
                       <Col>
                         <InputGroup className="mb-3">
                           <MultiSelect
-                            optionArray={this.state.languagesState}
+                            optionArray={progLangauges}
                             valueType={"Programming Languages"}
                             monitorChanges={this.handlePropsUpdate}
                           />
@@ -488,7 +549,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <MultiSelect
-                          optionArray={this.state.frameworksAndToolsState}
+                          optionArray={frameworksAndTools}
                           valueType={"Frameworks and Tools"}
                           monitorChanges={this.handlePropsUpdate}
                         />
@@ -510,7 +571,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <MultiSelect
-                          optionArray={this.state.opSystemsState}
+                          optionArray={operatingSystems}
                           valueType={"Operating Systems"}
                           monitorChanges={this.handlePropsUpdate}
                         />
@@ -531,7 +592,7 @@ export class MyInformation extends Component {
                     <Col>
                       <InputGroup className="mb-3">
                         <MultiSelect
-                          optionArray={this.state.dbSystemsState}
+                          optionArray={databaseSystems}
                           valueType={"Database Systems"}
                           monitorChanges={this.handlePropsUpdate}
                         />
@@ -565,12 +626,16 @@ export class MyInformation extends Component {
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
-                          {/* <MultiSelect
+                          {/* <SelectOneOption
                             optionArray={eventsList}
                             valueType="Events"
+                            isSingle={false}
                             monitorChanges={this.handlePropsUpdate}
                           /> */}
-                          <EventsEnterBox
+
+                          <MultiSelect
+                            optionArray={eventsList}
+                            valueType="Events"
                             monitorChanges={this.handlePropsUpdate}
                           />
                           {eventListToView}

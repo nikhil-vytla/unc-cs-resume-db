@@ -8,12 +8,13 @@ import CandidatesList from "../../Static/Candidates.json"
 import firebase from "../../Firebase"
 import Spinner from 'react-bootstrap/Spinner'
 import RecruiterViewColumns from "./RecruiterViewColumns"
+
+
+
 import { Col, Row, Container } from "react-bootstrap"
-import Firebase from "../../Firebase"
 
 function RecruiterView() {
     const [resumeView, setResumeView] = useState(true)
-    const [recruiter, setRecruiter] = useState(null)
     const [candidate, setCandidate] = useState(CandidatesList.CandidatesList[0])
     function toggleResumeView(info) {
         setResumeView(!resumeView);
@@ -24,11 +25,10 @@ function RecruiterView() {
 
     useEffect(() => {
         async function fetchUsers() {
-            const data = await firebase.getAllUsers();
-            const recruiter = await firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
-            setRecruiter(recruiter)
-            setCards(data);
-            
+            const data = firebase.getAllUsers();
+            data.then((data) => {
+                setCards(data);
+            })
         }
         fetchUsers()
 
@@ -43,12 +43,12 @@ function RecruiterView() {
     })
 
 
-    if (cards && cards[0]) {
+    if (cards && cards[0].Skills) {
 
         return transitions.map(({ item, key, props }) =>
             item
                 ? <animated.div style={props}>
-                    <RecruiterViewColumns  cards={cards} recruiterObj={recruiter} toggleResumeView={(candidate) => toggleResumeView(candidate)}/>
+                    <RecruiterViewColumns  cards={cards}/>
                 </animated.div>
                 : <animated.div style={props}>
                     <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>

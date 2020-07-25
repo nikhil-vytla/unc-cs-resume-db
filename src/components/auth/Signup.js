@@ -71,7 +71,7 @@ export default class Signup extends Component {
         );
         console.log(user);
         axios.post(
-          "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newUser",
+          " https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newUser",
           user
         );
         alert("Sign Up successful! Check console for user object");

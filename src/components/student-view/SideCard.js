@@ -70,8 +70,10 @@ export default class SideCard extends Component {
   handlePdfChange = async (event) => {
     const resumePDF = event.target.files[0];
     this.setState(() => ({ resumePDF }));
+    console.log(resumePDF);
     const profileImageFile = event.target.files[0];
     this.setState(() => ({ profileImageFile }));
+    console.log(profileImageFile);
   };
 
   handleNewPicUpload = () => {
@@ -82,11 +84,7 @@ export default class SideCard extends Component {
     const { profileImageFile } = this.state;
 
     // checks if you have a file url in the database already
-    if (
-      this.props.profileImgURL !== "" &&
-      this.props.profileImgURL !==
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
-    ) {
+    if (this.props.profileImgURL !== "") {
       // Delete current file in storage
       // Send request to delete current file
       Firebase.storage

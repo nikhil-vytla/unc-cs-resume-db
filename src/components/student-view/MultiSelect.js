@@ -13,28 +13,28 @@ export default class MultiSelect extends Component {
     };
   }
 
+  // handleUpdate = (event) => {
+  //   const currentVal = event.target.value;
+  //   this.setState({
+  //     update: currentVal,
+  //   });
+  //   console.log(currentVal);
+  // };
+
   // intermediate function to help facilitate updates
   firebaseUpdates = async (array, type) => {
-    let updatedOBJ = {};
-    array.forEach((element) => {
-      updatedOBJ[element] = type;
-    });
-    //console.log(updatedOBJ);
-
     const objToSend = {
-      //arrayList: array,
+      arrayList: array,
       uid: Firebase.auth.currentUser.uid,
       valueToSend: this.props.valueType,
-      //typeToSend: type,
-      update: updatedOBJ,
+      typeToSend: type,
     };
 
-    // console.log(objToSend);
-
     await axios.put(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/checkboxV2",
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/updateCheckbox",
       objToSend
     );
+
     // const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     // array.forEach(async (eachUpdate) => {
     //   try {
@@ -56,11 +56,17 @@ export default class MultiSelect extends Component {
   };
 
   handleUpload = async () => {
+    // checks to see if the stuff is nothing is toggled
+    // if (this.state.eventsToggled == []) {
+    //   alert(`Please select ${this.props.valueType} before pressing +`);
+    //   return;
+    // }
+
     // Goes through all of your toggled events
     // updates them in Firebase
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, true);
-    // await delay(250);
+    await delay(500);
     this.props.monitorChanges();
   };
 
@@ -68,9 +74,19 @@ export default class MultiSelect extends Component {
   handleDelete = async () => {
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, false);
-    //await delay(250);
+    await delay(500);
     this.props.monitorChanges();
   };
+
+  // handleChangeForCheckbox = (event) => {
+  //   if (event.target.checked) {
+  //     const optionCheckboxList = this.props.optionArray.map((eachThing) => {
+  //       return { name: eachThing, value: false };
+  //     });
+  //     this.setState({});
+  //   } else if (event.target.checked == false) {
+  //   }
+  // };
 
   handleCheck = (event) => {
     if (event.target.checked) {
@@ -91,6 +107,16 @@ export default class MultiSelect extends Component {
     }
   };
 
+  // componentDidMount() {
+  //   const optionCheckboxList = this.props.optionArray.map((eachThing) => {
+  //     return { name: eachThing, value: false };
+  //   });
+  //   //console.log(optionCheckboxList);
+  //   this.setState({
+  //     eventsToggled: optionCheckboxList,
+  //   });
+  // }
+
   render() {
     const optionOptions = this.props.optionArray.map((eachOption) => (
       <Form.Check
@@ -110,12 +136,12 @@ export default class MultiSelect extends Component {
           </div>
         </Form.Group>
         <InputGroup.Append>
-          <Button variant="primary" onClick={this.handleUpload}>
-            Update
+          <Button variant="outline-secondary" onClick={this.handleUpload}>
+            +
           </Button>
-          {/* <Button variant="outline-secondary" onClick={this.handleDelete}>
+          <Button variant="outline-secondary" onClick={this.handleDelete}>
             -
-          </Button> */}
+          </Button>
         </InputGroup.Append>
       </InputGroup>
     );

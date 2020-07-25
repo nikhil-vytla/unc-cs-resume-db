@@ -63,8 +63,8 @@ export default class NameSection extends Component {
               />
             </InputGroup>
             <InputGroup.Append>
-              <Button variant="primary" type="submit">
-                Update
+              <Button variant="outline-secondary" type="submit">
+                +
               </Button>
             </InputGroup.Append>
           </Col>

@@ -97,10 +97,7 @@ class Firebase {
   // gets all students
   async getAllStudents() {
     try {
-      const data = await this.db
-        .collection("students")
-        .where("Hide Resume", "==", false)
-        .get();
+      const data = await this.db.collection("students").get();
       return data.docs.map((doc) => doc.data());
     } catch (err) {
       console.error(err);
@@ -111,15 +108,6 @@ class Firebase {
     try {
       const data = await this.db.collection("students").doc(userID).get();
       return data.docs.map((doc) => doc.data());
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async getEventCodes() {
-    try {
-      const data = await this.db.collection("Events").doc("eventCodes").get();
-      return data.data();
     } catch (error) {
       console.log(error);
     }
@@ -137,10 +125,6 @@ class Firebase {
       console.log(err);
     }
   }
-
-
-
-
   async getAllUsers() {
     try {
       const data = await this.db.collection("students").get();
@@ -177,6 +161,6 @@ class Firebase {
   //     console.log(error);
   //   }
   // }
-}
+  }
 
 export default new Firebase();

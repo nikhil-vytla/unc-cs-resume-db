@@ -9,6 +9,7 @@ import firebase from "../../Firebase"
 import Spinner from 'react-bootstrap/Spinner'
 import RecruiterViewColumns from "./RecruiterViewColumns"
 import { Col, Row, Container } from "react-bootstrap"
+import Firebase from "../../Firebase"
 
 function RecruiterView() {
     const [resumeView, setResumeView] = useState(true)
@@ -24,7 +25,7 @@ function RecruiterView() {
     useEffect(() => {
         async function fetchUsers() {
             const data = await firebase.getAllUsers();
-            const recruiter = await firebase.getRecruiterInfo("THp40DIPMSXODexAA9X3QIkPEg52");
+            const recruiter = await firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
             setRecruiter(recruiter)
             setCards(data);
             

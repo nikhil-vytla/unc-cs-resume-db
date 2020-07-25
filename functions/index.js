@@ -231,21 +231,26 @@ app.post("/queryStudents", async (req, res) => {
   res.send(docs);
 });
 
-// app.post("/query", async (req, res) => {
-//   const test = req.body.filter1;
+// app.post("/query/<RecruiterID>", async (req, res) => {
 
-//   // console.log(test);
-//   const testQuery = "await firestore.collection('students')" + test;
-//   //const data = eval("(async () => {" + testQuery + "})();");
-//   const data = (async () => {
-//     await firestore
-//       .collection("students")
-//       .where("Graduation Year", "==", "2020");
-//   })();
-//   // console.log(testData);
-//   const docs = data.docs.map((doc) => doc.data());
-//   res.send(docs);
+//   // Recruiter has access to UNC and HACKNC
+
+//   const additonalFilters = {
+//     name: "Events.HackNC", value: true
+//   }
 // });
+
+// adds requested school to request list
+app.post("/requestSchool", async (req, res) => {
+  const schoolValue = req.body.school;
+  await firestore
+    .collection("Schools")
+    .doc("RequestedSchools")
+    .update({
+      schoolsList: admin.firestore.FieldValue.arrayUnion(schoolValue),
+    });
+  res.status(201).send();
+});
 
 app.post("/query", async (req, res) => {
   let query = firestore.collection("students");
@@ -282,6 +287,7 @@ app.post("/query", async (req, res) => {
 
 app.put("/updateCheckbox", async (req, res) => {
   const array = req.body.arrayList;
+
   array.forEach(async (eachUpdate) => {
     try {
       const valuePlaceHolder = req.body.valueToSend;
@@ -300,6 +306,33 @@ app.put("/updateCheckbox", async (req, res) => {
     }
   });
   res.status(201).send();
+});
+
+app.put("/checkboxV2", async (req, res) => {
+  return cors()(req, res, async () => {
+    const valuePlaceHolder = req.body.valueToSend;
+    const updatedOBJ = req.body.update;
+
+    // await firestore
+    //   .collection("students")
+    //   .doc(req.body.uid)
+    //   .set(
+    //     {
+    //       [valuePlaceHolder]: updatedOBJ,
+    //     },
+    //     { merge: true }
+    //   );
+
+    // Replaces whole field with the updated info
+    // rather than update specific fields
+    await firestore
+      .collection("students")
+      .doc(req.body.uid)
+      .update({
+        [valuePlaceHolder]: updatedOBJ,
+      });
+    res.status(201).send();
+  });
 });
 
 // Base API endpoint

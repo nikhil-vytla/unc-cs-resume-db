@@ -4,6 +4,8 @@ import { analytics } from "firebase";
 import { InputGroup, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Firebase from "../../Firebase.js";
+import axios from "axios";
+import "./SelectOne.css";
 
 export default class SelectOneOption extends Component {
   constructor(props) {
@@ -34,9 +36,18 @@ export default class SelectOneOption extends Component {
           .update({
             School: this.state.update,
           });
-        await Firebase.db
-          .collection("RequestedSchools")
-          .add({ SchoolName: this.state.reqSchool });
+        axios.post(
+          "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/requestSchool",
+          { school: this.state.reqSchool }
+        );
+        // await Firebase.db
+        //   .collection("Schools")
+        //   .doc("schoolsList")
+        //   .update({
+        //     schoolsList: Firebase.db.FieldValue.arrayUnion(
+        //       this.state.reqSchool
+        //     ),
+        //   });
         this.props.monitorChanges();
         alert(
           "Your school has been requested to be added, and the admins will review the request. Please check back soon to see if your school has been listed."
@@ -113,12 +124,13 @@ export default class SelectOneOption extends Component {
 
         <InputGroup.Append>
           <Button
-            variant="outline-secondary"
+            className="updateBtn"
+            variant="primary"
             onClick={
               this.props.isSingle ? this.handleUpload : this.handleMapUpload
             }
           >
-            +
+            Update
           </Button>
 
           {/* <Button variant="outline-secondary">-</Button> */}

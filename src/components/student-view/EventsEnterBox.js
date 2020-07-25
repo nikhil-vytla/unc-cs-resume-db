@@ -11,54 +11,52 @@ import {
 import "./StudentView.css";
 import Firebase from "../../Firebase";
 
-export default class NameSection extends Component {
-  // function MyInformation(props) {
+export default class EventsEnterBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fName: "",
-      lName: "",
+      eventCode: "",
     };
   }
 
   // sends info to firebase
   handleSubmit = async (event) => {
     event.preventDefault();
-    if (this.state.fName === "" || this.state.lName === "") {
-      alert("Please enter your first and last name");
+    if (this.state.eventCode === "") {
+      alert("Please enter your event code!");
       return;
     }
-    await Firebase.db
-      .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
-      .update({
-        "First Name": this.state.fName,
-        "Last Name": this.state.lName,
-      });
-    this.props.monitorChanges();
+
+    const allCodesPreData = await Firebase.getEventCodes();
+    const allCodes = allCodesPreData["codes"];
+
+    if (
+      allCodes[this.state.eventCode] !== "" ||
+      allCodes[this.state.eventCode] !== null ||
+      allCodes[this.state.eventCode] != ""
+    ) {
+      // console.log(allCodes[this.state.eventCode]);
+      const currentEvent = allCodes[this.state.eventCode];
+      const fullEventRef = `Events.${currentEvent}`;
+      await Firebase.db
+        .collection("students")
+        .doc(Firebase.auth.currentUser.uid)
+        .update({ [fullEventRef]: true });
+      this.props.monitorChanges();
+    }
   };
 
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Row>
-          <Form.Label column lg={2}>
-            Name
-          </Form.Label>
           <Col>
             <InputGroup className="mb-3">
               <FormControl
                 type="text"
-                placeholder="First Name"
+                placeholder="Enter Event Code"
                 onChange={(event) => {
-                  this.setState({ fName: event.target.value });
-                }}
-              />
-              <FormControl
-                type="text"
-                placeholder="Last Name"
-                onChange={(event) => {
-                  this.setState({ lName: event.target.value });
+                  this.setState({ eventCode: event.target.value });
                 }}
               />
             </InputGroup>

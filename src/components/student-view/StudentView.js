@@ -106,6 +106,8 @@ export class StudentView extends Component {
                   lNameData={this.state.studentObject["Last Name"]}
                   // Monitors updates
                   onStudentDataChange={this.updateStudentPage}
+                  // Seeking Data
+                  seekingData={this.state.studentObject["Seeking"]}
                 />
               </div>
               <div className="updateButtonDiv">

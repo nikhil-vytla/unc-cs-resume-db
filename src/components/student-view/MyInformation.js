@@ -12,6 +12,7 @@ import "./StudentView.css";
 import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
 import MultiSelect from "./MultiSelect";
+import Firebase from "../../Firebase.js";
 
 export class MyInformation extends Component {
   // function MyInformation(props) {
@@ -24,6 +25,22 @@ export class MyInformation extends Component {
   }
 
   handlePropsUpdate = () => {
+    this.props.onStudentDataChange();
+  };
+
+  handleFullTime = async () => {
+    await Firebase.db
+      .collection("students")
+      .doc(Firebase.auth.currentUser.uid)
+      .update({ Seeking: "Full Time" });
+    this.props.onStudentDataChange();
+  };
+
+  handleInternship = async () => {
+    await Firebase.db
+      .collection("students")
+      .doc(Firebase.auth.currentUser.uid)
+      .update({ Seeking: "Internship" });
     this.props.onStudentDataChange();
   };
 
@@ -140,7 +157,7 @@ export class MyInformation extends Component {
       "HackReality",
     ];
     // {
-    //   Programming languages 
+    //   Programming languages
     //   Java
     //   Python
     //   C (#,++)
@@ -149,8 +166,8 @@ export class MyInformation extends Component {
     //   HTML
     //   CSS
 
-    //   Frameworks/Tools 
-    //   React 
+    //   Frameworks/Tools
+    //   React
     //   Angular
     //   Ruby on Rails
     //   Vue.js
@@ -161,7 +178,7 @@ export class MyInformation extends Component {
     //   Oracle
     //   MongoDB
 
-    //   Operating Systems 
+    //   Operating Systems
     //   macOS
     //   Linux
     //   Windows
@@ -389,7 +406,6 @@ export class MyInformation extends Component {
     return (
       <div>
         {nameHeader}
-        {/* <h3>My Information</h3> */}
         <div className="my-information-container">
           <Accordion defaultActiveKey="0">
             <Accordion.Toggle
@@ -403,6 +419,49 @@ export class MyInformation extends Component {
               <div className="basic-information-form">
                 <Form.Group>
                   <NameSection monitorChanges={this.handlePropsUpdate} />
+                  <br />
+                  <Form.Row>
+                    <Form.Label column lg={2}>
+                      <div className="data-row-label">Position Seeking</div>
+                    </Form.Label>
+                    <Col>
+                      <InputGroup className="mb-3">
+                        <div className="custom-control custom-radio custom-control-inline">
+                          <input
+                            type="radio"
+                            id="customRadioInline3"
+                            name="customRadioInline1"
+                            className="custom-control-input"
+                            onClick={this.handleInternship}
+                          />
+                          <label
+                            className="custom-control-label"
+                            for="customRadioInline3"
+                          >
+                            Internship
+                          </label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input
+                            type="radio"
+                            id="customRadioInline4"
+                            name="customRadioInline1"
+                            className="custom-control-input"
+                            onClick={this.handleFullTime}
+                          />
+                          <label
+                            className="custom-control-label"
+                            for="customRadioInline4"
+                          >
+                            Full Time
+                          </label>
+                        </div>
+                        <h6>{`You are currently seeking ${
+                          this.props.seekingData == "Internship" ? "an" : "a"
+                        } ${this.props.seekingData} position!`}</h6>
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
                   <br />
                   <div className="data-row">
                     <Form.Row>

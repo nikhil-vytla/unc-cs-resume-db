@@ -128,7 +128,7 @@ export default class SelectOneOption extends Component {
               this.props.isSingle ? this.handleUpload : this.handleMapUpload
             }
           >
-            +
+            Update
           </Button>
 
           {/* <Button variant="outline-secondary">-</Button> */}

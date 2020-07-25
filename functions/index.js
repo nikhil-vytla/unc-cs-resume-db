@@ -355,5 +355,26 @@ app.put("/newList", async (req, res) => {
   res.status(201).send();
 });
 
+/*
+Input needs to match the entire object in firebase 
+ie., need everything in the list inorder to delete
+*/
+app.put("/removeList", async (req, res) => {
+  const listOBJ = {
+    Name: req.body.nameOfList,
+    // array of the student objects, needs to match what is in the database
+    Students: req.body.studentsOBJ,
+  };
+  // removes the list from the array in the database
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      "My Lists": admin.firestore.FieldValue.arrayRemove(listOBJ),
+    });
+
+  res.status(201).send();
+});
+
 // Base API endpoint
 exports.api = functions.https.onRequest(app);

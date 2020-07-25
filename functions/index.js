@@ -335,5 +335,29 @@ app.put("/checkboxV2", async (req, res) => {
   });
 });
 
+// endpoint for recruiters to create a new list
+// input: obj = {
+//  recruiterUID: uid,
+//  listName: nameOfList,
+// }
+app.put("/newList", async (req, res) => {
+  try {
+    const listOBJ = {
+      Name: req.body.listName,
+      Students: [],
+    };
+    await firestore
+      .collection("recruiters")
+      .doc(req.body.recruiterUID)
+      .update({
+        "My Lists": admin.firestore.FieldValue.arrayUnion(listOBJ),
+      });
+
+    res.status(201).send();
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // Base API endpoint
 exports.api = functions.https.onRequest(app);

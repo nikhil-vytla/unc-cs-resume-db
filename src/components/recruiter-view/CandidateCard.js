@@ -30,7 +30,6 @@ function CandidateCard(props) {
 
 
 
-
     var star
     if (!starToggle) {
         star = <StarBorderOutlinedIcon className="recruiterViewIcon" onClick={() => setStarToggle(true)} />

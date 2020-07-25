@@ -18,7 +18,6 @@ function ResumeView (props) {
     const operatingSystems = props.candidate["Operating Systems"]
     const events = props.candidate["Events"]
     const primaryMajor = props.candidate["Primary Major"]
-    console.log(props.candidate["Primary Major"])
     const secondaryMajor = props.candidate["Secondary Major"]
     const minors = [props.candidate.Minors]
 

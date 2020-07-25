@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {useTransition, animated} from 'react-spring'
 import Filter from "./Filter"
 import MyLists from "./MyLists"
@@ -11,7 +11,7 @@ import MyListsDummyColumn from "./MyListsDummyColumn"
 function RecruiterViewColumns(props ){
     const [myListsToggle, setMyListsToggle] = useState(true);
     const [filterToggle, setFilterToggle] = useState(true);
-
+    const [recruiterObj, setRecruiterObject] = useState(props.recruiterObj)
     let leftColumn = "recruiterViewColumn"
 
     let cardWidth = "recruiterViewColumn50vw";
@@ -26,7 +26,7 @@ function RecruiterViewColumns(props ){
         cardWidth = "recruiterViewColumn75vw"
         
     }
-
+    let toggleResumeView=props.toggleResumeView;
 
     const filterTransitions = useTransition(filterToggle, null, {
         from: {opacity: 1, transform: 'translateX(-100%)'},
@@ -38,11 +38,7 @@ function RecruiterViewColumns(props ){
         enter: {opacity: 1, transform: 'translateX(0%)' },
         leave: { opacity: 1, transform: 'translateX(0%)' },
     })
-
-
-
       
-
 
     return (
     <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>
@@ -61,7 +57,7 @@ function RecruiterViewColumns(props ){
             <Col md="auto"  className="recruiterViewColumn">
                 {myListsTransitions.map(({ item, key, props }) => 
                     item
-                    ? <animated.div className="filterAnimatedDiv" style={props}><MyLists toggleResumeView={(candidate) => props.toggleResumeView(candidate)} setMyListsToggle={() => setMyListsToggle(!myListsToggle)} /></animated.div>
+                    ? <animated.div className="filterAnimatedDiv" style={props}><MyLists myListsRecruiter={recruiterObj} toggleResumeView={(candidate) => toggleResumeView(candidate)} setMyListsToggle={() => setMyListsToggle(!myListsToggle)} /></animated.div>
                     : <animated.div className="filterAnimatedDiv" style={props}><MyListsDummyColumn setMyListsToggle={() => setMyListsToggle(!myListsToggle)}/></animated.div>
                     )
                 }

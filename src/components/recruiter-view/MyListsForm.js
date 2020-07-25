@@ -13,7 +13,7 @@ function MyListsForm() {
       nameOfList: listName,
       recruiterUID: Firebase.auth.currentUser.uid,
     };
-    console.log(objToSend);
+    //console.log(objToSend);
     if (listName !== null && listName !== "") {
       axios.put(
         "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newList",

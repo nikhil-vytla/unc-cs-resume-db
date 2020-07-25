@@ -139,9 +139,6 @@ class Firebase {
     }
   }
 
-
-
-
   async getAllUsers() {
     try {
       const data = await this.db.collection("students").get();
@@ -150,34 +147,6 @@ class Firebase {
       console.log(error);
     }
   }
-
-  // Call this function after sign up
-  // async putNewUserIntoDB(currentUser) {
-  //   const dataForDB = {
-  //     Email: currentUser.email,
-  //     ["Database Systems"]: {},
-  //     ["Programming Languages"]: {},
-  //     ["Frameworks and Tools"]: {},
-  //     Events: {},
-  //     ["First Name"]: "",
-  //     ["Last Name"]: "",
-  //     ["Graduation Year"]: "",
-  //     ["School"]: "",
-  //     ["Minors"]: {},
-  //     ["Operating Systems"]: {},
-  //     ["Primary Major"]: "",
-  //     ["Secondary Major"]: "",
-  //     Seeking: "",
-  //     UID: currentUser.uid,
-  //     ["Profile Image"]: "",
-  //     ["Resume PDF"]: "",
-  //   };
-  //   try {
-  //     await this.db.collection("students").doc(currentUser.uid).set(dataForDB);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 }
 
 export default new Firebase();

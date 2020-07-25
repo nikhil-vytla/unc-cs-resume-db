@@ -341,13 +341,10 @@ app.put("/checkboxV2", async (req, res) => {
 //  listName: nameOfList,
 // }
 app.put("/newList", async (req, res) => {
-  console.log(req.body);
-  console.log(req.body.recruiterUID);
   const listOBJ = {
     Name: req.body.nameOfList,
     Students: [],
   };
-  console.log(listOBJ);
   await firestore
     .collection("recruiters")
     .doc(req.body.recruiterUID)

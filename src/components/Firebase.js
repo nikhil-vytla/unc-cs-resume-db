@@ -5,7 +5,7 @@ import "firebase/storage";
 // import { data } from "jquery";
 
 // Use methods to access firebase SDK
-class Firebase {
+export default class Firebase {
   constructor() {
     app.initializeApp({
       apiKey: "AIzaSyC6nY6LMRHW7GX_p1NXTAoZ9vOafS9DzPE",
@@ -112,5 +112,3 @@ class Firebase {
 //     .catch(err => console.log(err));
 //   }
 }
-
-export default new Firebase();

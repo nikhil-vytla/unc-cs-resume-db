@@ -101,7 +101,7 @@ function CandidateCard(props) {
 
                         </a>
 
-                        <CandidateCardAdd recruiter={props.recruiter} />
+                        <CandidateCardAdd updateRecruiter={() => props.updateRecruiter()} recruiter={props.recruiter} student={props.info} />
                     </div>
                 </Card.Body>
             </Card>

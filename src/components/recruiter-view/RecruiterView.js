@@ -5,7 +5,6 @@ import ResumeView from "./ResumeView"
 import { useTransition, animated } from 'react-spring'
 import '../../Static/RecruiterView.css';
 import CandidatesList from "../../Static/Candidates.json"
-import firebase from "../../Firebase"
 import Spinner from 'react-bootstrap/Spinner'
 import RecruiterViewColumns from "./RecruiterViewColumns"
 import { Col, Row, Container } from "react-bootstrap"
@@ -20,12 +19,15 @@ function RecruiterView() {
         setCandidate(info);
     }
     const [cards, setCards] = useState(null)
-
+    async function updateRecruiter(){
+        const data = await Firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
+        setRecruiter(data)
+    }
 
     useEffect(() => {
         async function fetchUsers() {
-            const data = await firebase.getAllUsers();
-            const recruiter = await firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
+            const data = await Firebase.getAllUsers();
+            const recruiter = await Firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
             setRecruiter(recruiter)
             setCards(data);
             
@@ -48,7 +50,7 @@ function RecruiterView() {
         return transitions.map(({ item, key, props }) =>
             item
                 ? <animated.div style={props}>
-                    <RecruiterViewColumns  cards={cards} recruiterObj={recruiter} toggleResumeView={(candidate) => toggleResumeView(candidate)}/>
+                    <RecruiterViewColumns  updateRecruiter={() => updateRecruiter()} cards={cards} recruiterObj={recruiter} toggleResumeView={(candidate) => toggleResumeView(candidate)}/>
                 </animated.div>
                 : <animated.div style={props}>
                     <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>

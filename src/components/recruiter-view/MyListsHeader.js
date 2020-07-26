@@ -24,7 +24,7 @@ function MyListsHeader(props) {
         icon = (<div className="newListDiv">< RemoveIcon className="newListIcons"/> </div>)
     }
 
-
+    let updateRecruiterOutside = () => props.updateRecruiter();
 
 
 
@@ -39,7 +39,7 @@ function MyListsHeader(props) {
             {divTransitions.map(({ item, key, props }) =>
                 item && <animated.div key={key} style={props}>
                     <div className="d-block" style={{backgroundColor : "#ffffff"}}>
-                        <MyListsForm />
+                        <MyListsForm updateRecruiter={() => updateRecruiterOutside()} />
                     </div>
                 </animated.div>)}
         </div>

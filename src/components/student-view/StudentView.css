@@ -27,16 +27,16 @@
 .right-panel {
   color: white;
   background-color: #4b9cd3;
-
-  padding: 2%;
-  margin: 2%;
+  height: calc(100vh - 105px);
+  overflow-y: auto;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
   margin-top: 0px;
   margin-right: 4%;
 }
 
 .my-information-container {
   background-color: white;
-  padding: 1%;
   color: black;
   min-height: 100%;
   width: 100%;
@@ -69,4 +69,17 @@
 .updateButtonDiv {
   text-align: center;
   margin: 4%;
+}
+.my-information-accordion{
+  padding: 0px !important;
+}
+.accordionHeader{
+  color: white;
+  border-radius: 0px !important;
+}
+.uploadButton{
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  background-color: #4b9cd3 !important;
+  
 }

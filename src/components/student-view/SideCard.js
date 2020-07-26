@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import "./SideCard.css";
 import Firebase from "../../Firebase.js";
 import SideResumeBox from "./SideResumeBox";
+import PublishIcon from '@material-ui/icons/Publish';
 
 // 320 by 780
 export default class SideCard extends Component {
@@ -44,7 +45,7 @@ export default class SideCard extends Component {
 
     uploadFile.on(
       "state_changed",
-      (snapshot) => {},
+      (snapshot) => { },
       (error) => {
         console.log(error);
       },
@@ -85,7 +86,7 @@ export default class SideCard extends Component {
     if (
       this.props.profileImgURL !== "" &&
       this.props.profileImgURL !==
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
     ) {
       // Delete current file in storage
       // Send request to delete current file
@@ -105,7 +106,7 @@ export default class SideCard extends Component {
 
     uploadFile.on(
       "state_changed",
-      (snapshot) => {},
+      (snapshot) => { },
       (error) => {
         console.log(error);
       },
@@ -147,71 +148,25 @@ export default class SideCard extends Component {
       <div>
         <Card id="SideCardCard">
           <Card.Header className="SideCardProfileHeader">
-            <div
-              className="d-flex"
-              id="ProfileDiv"
-              style={{ height: "190px", width: "320px", flexWrap: "wrap" }}
-            >
-              <div className="imgDiv" style={{ padding: ".75rem 1.25rem" }}>
-                <img
-                  className="SideResumePdfImage"
-                  src={this.state.profileURL}
-                  style={{ borderRadius: "50%" }}
-                  height="100px"
-                  width="100px"
-                  alt=""
-                />
-              </div>
+            <div className="d-block justify-content-center" id="ProfileDiv">
+              <div className="d-flex justify-content-center">
 
-              <div style={{ width: "200" }}>
-                <div
-                  className="nameDiv"
-                  style={{
-                    width: "180px",
-                    display: "flex",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                    padding: ".75rem 1.25rem",
-                  }}
-                >
-                  <h2
-                    style={{
-                      fontFamily: "Droid Sans",
-                      fontStyle: "normal",
-                      fontWeight: "normal",
-                      fontSize: "30px",
-                      lineHeight: "35px",
-                      display: "flex",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    {this.props.firstName}
-                  </h2>
-                  <h2
-                    style={{
-                      fontFamily: "Droid Sans",
-                      fontStyle: "normal",
-                      fontWeight: "normal",
-                      fontSize: "30px",
-                      lineHeight: "35px",
-                      display: "flex",
-                      alignItems: "center",
-                      textAlign: "center",
-                      marginTop: "0px",
-                    }}
-                  >
-                    {this.props.lastName}
-                  </h2>
+              
+                <div className="imgDiv" >
+                  <img className="SideResumePdfImage" src={this.state.profileURL} alt="" />
+                </div>
+
+                <div className="nameDiv" >
+                  <h2 className="nameText"> {this.props.firstName} </h2>
+                  <h2 className="nameText"> {this.props.lastName} </h2>
                 </div>
               </div>
-
               <div className="emailDiv">{this.props.emailAddress}</div>
+              
             </div>
           </Card.Header>
           <Card.Body className="SideCardBody">
             <div className="resumeBox">
-              <h2 style={{ textAlign: "center", color: "white" }}>Resume</h2>
               <SideResumeBox currentPhoto={this.state.url} />
             </div>
             <div
@@ -237,15 +192,17 @@ export default class SideCard extends Component {
                   </div>
                 </form>
               </div>
-              <div style={{ textAlign: "center" }}>
-                <Button variant="primary" onClick={this.handleNewUploadClick}>
-                  Upload Resume
-                </Button>
-              </div>
-              <div style={{ textAlign: "center", marginTop: "5%" }}>
-                <Button variant="primary" onClick={this.handleNewPicUpload}>
-                  Upload Profile Picture
-                </Button>
+              <div className="d-flex justify-content-center">
+                <div style={{ textAlign: "center" }}>
+                  <Button variant="primary" className="uploadButton" onClick={this.handleNewUploadClick}>
+                    <PublishIcon /> Resume
+                  </Button>
+                </div>
+                <div style={{ textAlign: "center"} } >
+                  <Button variant="primary" className="uploadButton" onClick={this.handleNewPicUpload}>
+                    <PublishIcon /> Profile Picture
+                  </Button>
+                </div>
               </div>
             </div>
           </Card.Body>

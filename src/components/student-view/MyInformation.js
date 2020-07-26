@@ -268,30 +268,31 @@ export class MyInformation extends Component {
     // If the user is new say "New User, Welcome to the UNC Resume Database! Please update your information below"
     // Otherwise it says "{Your Name}, Welcome to the UNC Resume Database"
 
-    let nameHeader;
-    if (this.props.fNameData !== "" && this.props.lNameData !== "") {
-      nameHeader = (
-        <h3
-          style={{ textAlign: "center" }}
-        >{`${this.props.fNameData} ${this.props.lNameData}`}</h3>
-      );
-    } else {
-      nameHeader = (
-        <h3
-          style={{ textAlign: "center" }}
-        >{`Please update your information below!`}</h3>
-      );
-    }
+    // let nameHeader;
+    // if (this.props.fNameData !== "" && this.props.lNameData !== "") {
+    //   nameHeader = (
+    //     <h3
+    //       style={{ textAlign: "center" }}
+    //     >{`${this.props.fNameData} ${this.props.lNameData}`}</h3>
+    //   );
+    // } else {
+    //   nameHeader = (
+    //     <h3
+    //       style={{ textAlign: "center" }}
+    //     >{`Please update your information below!`}</h3>
+    //   );
+    // }
 
     return (
       <div>
-        {nameHeader}
+        {/* {nameHeader} */}
         <div className="my-information-container">
-          <Accordion defaultActiveKey="0">
+          <Accordion defaultActiveKey="0" className="my-information-accordion">
             <Accordion.Toggle
+              className="accordionHeader"
               as={Card.Header}
               eventKey="0"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
               <h3 className="headersForEachType">Basic Information</h3>
             </Accordion.Toggle>
@@ -446,9 +447,10 @@ export class MyInformation extends Component {
               </div>
             </Accordion.Collapse>
             <Accordion.Toggle
+            className="accordionHeader"
               as={Card.Header}
               eventKey="1"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
               <h3 className="headersForEachType">Skills / Experience</h3>
             </Accordion.Toggle>
@@ -551,7 +553,7 @@ export class MyInformation extends Component {
             <Accordion.Toggle
               as={Card.Header}
               eventKey="2"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
               <h3 className="headersForEachType">Events Attended</h3>
             </Accordion.Toggle>

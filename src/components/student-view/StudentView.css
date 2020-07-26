@@ -14,6 +14,16 @@
   margin-top: 0px;
   margin-left: 4%;
   /*min-height: 84vh; */
+  height: calc(100vh - 105px) !important;
+  overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  overflow-x: hidden;
+
+}
+.left-panel::-webkit-scrollbar{
+  display: none;
+
 }
 #ControlSelect1 {
   height: auto;

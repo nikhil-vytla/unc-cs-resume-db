@@ -1,10 +1,10 @@
-import { https } from "firebase-functions";
-import { initializeApp, credential, firestore, auth } from "firebase-admin";
-import cors from "cors";
+const { https } = require("firebase-functions");
+const { initializeApp, credential, firestore, auth } = require("firebase-admin");
+const cors = require("cors");
 
 /* Manually create this file, using json data downloaded at 
 firebase console-> project settings-> service accounts-> generate private key.*/
-import adminConfig from "./adminConfig.json";
+const adminConfig = require("./adminConfig.json");
 
 const app = require("express")();
 const bp = require("body-parser");
@@ -123,6 +123,21 @@ app.post("/newRecruiter", async (req, res) => {
   res.status(201).send();
 });
 
+app.post("/newAdmin", async (req, res) => {
+  const user = await auth().getUserByEmail(req.body.email)
+  .catch(err => {
+    res.status(404).send(err);
+  });
+
+  await auth().setCustomUserClaims(user.uid, {
+    student: false,
+    recruiter: true,
+    admin: true,
+  }).catch(err => {
+    res.status(500).send(err);
+  });
+});
+
 // app.post("/query/<RecruiterID>", async (req, res) => {
 
 //   // Recruiter has access to UNC and HACKNC
@@ -227,4 +242,4 @@ app.put("/checkboxV2", async (req, res) => {
   });
 });
 
-export const api = https.onRequest(app);
+exports.api = https.onRequest(app);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import Firebase from "../Firebase";
+import Firebase from "../../Firebase";
 // import { render } from "@testing-library/react";
 
 const getClaims = async () => {

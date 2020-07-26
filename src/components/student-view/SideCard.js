@@ -182,13 +182,16 @@ export default class SideCard extends Component {
               <div>
                 <form>
                   <div className="form-group">
+                  <label>
                     <input
                       type="file"
                       accept="image/*, application/pdf"
                       className="form-control-file"
                       id="exampleFormControlFile1"
                       onChange={this.handlePdfChange}
+                      style={{color:"#000000"}}
                     />
+                  </label>
                   </div>
                 </form>
               </div>

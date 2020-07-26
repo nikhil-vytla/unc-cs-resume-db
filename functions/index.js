@@ -335,44 +335,54 @@ app.put("/checkboxV2", async (req, res) => {
   });
 });
 
-// endpoint for recruiters to create a new list
-// input: obj = {
-//  recruiterUID: uid,
-//  listName: nameOfList,
-// }
+// adds a new list
 app.put("/newList", async (req, res) => {
-  const listOBJ = {
-    Name: req.body.nameOfList,
-    Students: [],
-  };
+  // takes in uid and list name
   await firestore
     .collection("recruiters")
     .doc(req.body.recruiterUID)
     .update({
-      "My Lists": admin.firestore.FieldValue.arrayUnion(listOBJ),
+      [`Lists.${req.body.nameOfList}`]: [],
     });
-
   res.status(201).send();
 });
 
-/*
-Input needs to match the entire object in firebase 
-ie., need everything in the list inorder to delete
-*/
+// removes a list
 app.put("/removeList", async (req, res) => {
-  const listOBJ = {
-    Name: req.body.nameOfList,
-    // array of the student objects, needs to match what is in the database
-    Students: req.body.studentsOBJ,
-  };
-  // removes the list from the array in the database
   await firestore
     .collection("recruiters")
     .doc(req.body.recruiterUID)
     .update({
-      "My Lists": admin.firestore.FieldValue.arrayRemove(listOBJ),
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.delete(),
     });
+  res.status(201).send();
+});
 
+// adds a student to a recruiter's list
+app.put("/addStudent", async (req, res) => {
+  // input: nameOfList, recruiterUID, student
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayUnion(
+        req.body.student
+      ),
+    });
+  res.status(201).send();
+});
+
+// endpoint for recruiters to remove students from lists
+app.put("/deleteStudent", async (req, res) => {
+  // input: nameOfList, recruiterUID, student
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayRemove(
+        req.body.student
+      ),
+    });
   res.status(201).send();
 });
 

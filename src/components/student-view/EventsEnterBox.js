@@ -59,11 +59,14 @@ export default class EventsEnterBox extends Component {
                   this.setState({ eventCode: event.target.value });
                 }}
               />
-            </InputGroup>
-            <InputGroup.Append>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" className="formBtn">
                 Update
               </Button>
+            </InputGroup>
+            <InputGroup.Append>
+              {/* <Button variant="primary" type="submit">
+                Update
+              </Button> */}
             </InputGroup.Append>
           </Col>
         </Form.Row>

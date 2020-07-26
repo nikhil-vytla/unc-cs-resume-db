@@ -2,7 +2,7 @@ import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
-import { data } from "jquery";
+// import { data } from "jquery";
 
 // Use methods to access firebase SDK
 class Firebase {
@@ -22,162 +22,95 @@ class Firebase {
     this.storage = app.storage();
   }
 
-  async login(email, pass) {
-    try {
-      const cred = await this.auth.signInWithEmailAndPassword(email, pass);
-      return cred.user;
-    } catch (err) {
-      console.error(err);
-    }
+  async signout() {
+    return await this.auth.signOut()
+    .catch(err => console.log(err));
   }
 
   async logout() {
-    try {
-      return await this.auth.signOut();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  // Creates user and returns User object
-  async createUser(email, pass) {
-    try {
-      const cred = await this.auth.createUserWithEmailAndPassword(email, pass);
-      return cred.user;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  // returns a sample query
-  async runQuery() {
-    try {
-      const data = await this.db
-        .collection("students")
-        .where("Skills", "array-contains", "Python")
-        .where("Graduation Year", "==", "2020")
-        .where("Seeking", "==", "Internship")
-        .where("Majors", "==", ["Computer Science"])
-        .where("Minors", "==", ["Biology"])
-        .where("School", "==", "UNC Chapel Hill")
-        .where("First Name", "==", "Sai")
-        .where("Last Name", "==", "Gongidi")
-        .where("Email", "==", "sai@test.com")
-        .where("Frameworks.React", "==", true)
-        .where("Frameworks.Angular", "==", true)
-        .where("Resume Access", "==", ["Hack NC"])
-        .get();
-      return data.docs.map((doc) => doc.data());
-    } catch (err) {
-      console.error(err);
-    }
+    return await this.auth.signOut()
+    .catch(err => console.log(err));
   }
 
   // gets all current profile information for the user
   async getUserInfo(userID) {
-    try {
-      const data = await this.db
-        .collection("students")
-        .where("UID", "==", userID)
-        .get();
-      return data.docs.map((doc) => doc.data());
-    } catch (err) {
-      console.log(err);
-    }
+    const data = await this.db
+    .collection("students")
+    .where("UID", "==", userID)
+    .get()
+    .catch(err => console.log(err));
+    return data.docs.map((doc) => doc.data());
   }
 
   // gets all recruiter
   async getAllRecruiters() {
-    try {
-      const data = await this.db.collection("recruiters").get();
-      return data.docs.map((doc) => doc.data());
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.db.collection("recruiters").get()
+    .catch(err => console.log(err));
+    return data.docs.map((doc) => doc.data());
   }
+
   // gets all students
   async getAllStudents() {
-    try {
-      const data = await this.db
-        .collection("students")
-        .where("Hide Resume", "==", false)
-        .get();
-      return data.docs.map((doc) => doc.data());
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.db
+    .collection("students")
+    .where("Hide Resume", "==", false)
+    .get()
+    .catch(err => console.log(err));
+    return data.docs.map((doc) => doc.data());
   }
 
   async userInfoV2(userID) {
-    try {
-      const data = await this.db.collection("students").doc(userID).get();
-      return data.docs.map((doc) => doc.data());
-    } catch (error) {
-      console.log(error);
-    }
+    const data = await this.db.collection("students").doc(userID).get()
+    .catch(err => console.log(err));
+    return data.docs.map((doc) => doc.data());
   }
 
   async getEventCodes() {
-    try {
-      const data = await this.db.collection("Events").doc("eventCodes").get();
-      return data.data();
-    } catch (error) {
-      console.log(error);
-    }
+    const data = await this.db.collection("Events").doc("eventCodes").get()
+    .catch(err => console.log(err));
+    return data.data();
   }
 
   // gets all current profile information for the recruiter
   async getRecruiterInfo(userID) {
-    try {
-      const data = await this.db
-        .collection("recruiters")
-        .where("UID", "==", userID)
-        .get();
-      return data.docs.map((doc) => doc.data());
-    } catch (err) {
-      console.log(err);
-    }
+    const data = await this.db
+    .collection("recruiters")
+    .where("UID", "==", userID)
+    .get()
+    .catch(err => console.log(err));
+    return data.docs.map((doc) => doc.data());
   }
-
-
-
 
   async getAllUsers() {
-    try {
-      const data = await this.db.collection("students").get();
-      return data.docs.map((doc) => doc.data());
-    } catch (error) {
-      console.log(error);
-    }
+    const data = await this.db.collection("students").get()
+    .catch(err => console.log(err));
+    return data.docs.map((doc) => doc.data());
   }
 
-  // Call this function after sign up
-  // async putNewUserIntoDB(currentUser) {
-  //   const dataForDB = {
-  //     Email: currentUser.email,
-  //     ["Database Systems"]: {},
-  //     ["Programming Languages"]: {},
-  //     ["Frameworks and Tools"]: {},
-  //     Events: {},
-  //     ["First Name"]: "",
-  //     ["Last Name"]: "",
-  //     ["Graduation Year"]: "",
-  //     ["School"]: "",
-  //     ["Minors"]: {},
-  //     ["Operating Systems"]: {},
-  //     ["Primary Major"]: "",
-  //     ["Secondary Major"]: "",
-  //     Seeking: "",
-  //     UID: currentUser.uid,
-  //     ["Profile Image"]: "",
-  //     ["Resume PDF"]: "",
-  //   };
-  //   try {
-  //     await this.db.collection("students").doc(currentUser.uid).set(dataForDB);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+//   // Call this function after sign up
+//   async putNewUserIntoDB(currentUser) {
+//     const dataForDB = {
+//       Email: currentUser.email,
+//       "Database Systems": {},
+//       "Programming Languages": {},
+//       "Frameworks and Tools": {},
+//       Events: {},
+//       "First Name": "",
+//       "Last Name": "",
+//       "Graduation Year": "",
+//       "School": "",
+//       "Minors": {},
+//       "Operating Systems": {},
+//       "Primary Major": "",
+//       "Secondary Major": "",
+//       Seeking: "",
+//       UID: currentUser.uid,
+//       "Profile Image": "",
+//       "Resume PDF": "",
+//     };
+//     await this.db.collection("students").doc(currentUser.uid).set(dataForDB)
+//     .catch(err => console.log(err));
+//   }
 }
 
 export default new Firebase();

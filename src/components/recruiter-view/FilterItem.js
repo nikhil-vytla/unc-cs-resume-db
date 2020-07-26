@@ -4,9 +4,25 @@ import { useTransition, animated } from 'react-spring'
 import StopIcon from '@material-ui/icons/Stop';
 
 function FilterItem(props) {
-    var text = props.itemName.Name;
+    var text = props.itemName;
     const [checked, setChecked] = useState(props.itemName.Active)
+    const multNames = [ "Database Systems", "Frameworks and Tools", "Operating Systems", "Programming Languages", "Events"];
+    props.addFilters()
 
+
+    function handleCheck(){
+        checked="true"
+        const filterName = ""
+        if(multNames.includes(props.title)){
+            
+        }
+
+    }
+
+
+    function handleUncheck(){
+
+    }
 
     const transitions = useTransition(checked, null, {
         from: { position: 'absolute', opacity: 0 },

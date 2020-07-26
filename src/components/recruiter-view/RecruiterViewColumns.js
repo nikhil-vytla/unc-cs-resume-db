@@ -13,6 +13,8 @@ function RecruiterViewColumns(props ){
     const [filterToggle, setFilterToggle] = useState(true);
     const recruiterObj = props.recruiterObj
     let leftColumn = "recruiterViewColumn"
+    let filters = props.filters
+
 
     let cardWidth = "recruiterViewColumn50vw";
 
@@ -40,13 +42,14 @@ function RecruiterViewColumns(props ){
     })
       
     let updateRecruiterOutside = () => props.updateRecruiter();
+    let addFilter =(filterName) => props.addFilter(filterName);
     return (
     <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>
         <Row className="vw-100 recruiterViewRow">
             <Col md="auto" className={leftColumn}>
             {filterTransitions.map(({ item, key, props }) => 
                 item
-                ? <animated.div className="filterAnimatedDiv" style={props}><Filter  setFilterToggle={() => setFilterToggle(!filterToggle)}/></animated.div>
+                ? <animated.div className="filterAnimatedDiv" style={props}><Filter  addFilter={addFilter} filters={filters} setFilterToggle={() => setFilterToggle(!filterToggle)}/></animated.div>
                 : <animated.div className="filterAnimatedDiv" style={props}><FilterDummyColumn setFilterToggle={() => setFilterToggle(!filterToggle)}/></animated.div>
                 )
                 }

@@ -14,12 +14,78 @@ function RecruiterView() {
     const [resumeView, setResumeView] = useState(true)
     const [recruiter, setRecruiter] = useState(null)
     const [candidate, setCandidate] = useState(CandidatesList.CandidatesList[0])
+    const [filters, setFilters] = useState(null)
     function toggleResumeView(info) {
         setResumeView(!resumeView);
         setCandidate(info);
     }
+
+    async function getListArrays(collection, doc) {
+        const data = await Firebase.db.collection(collection).doc(doc).get();
+        return data.data();
+    };
+    async function collectData() {
+        const gradHolder = await getListArrays("Graduation Year", "gradYears");
+        const languageHolder = await getListArrays(
+            "Programming Languages",
+            "progLanguages"
+        );
+        const dbSystemHolder = await getListArrays(
+            "Database Systems",
+            "databaseSystems"
+        );
+        const opSystemHolder = await getListArrays(
+            "Operating Systems",
+            "operatingSystems"
+        );
+        const majorsHolder = await getListArrays("Majors", "majorsList");
+        const frameworksHolder = await getListArrays(
+            "Frameworks and Tools",
+            "frameworksAndTools"
+        );
+        const schoolsHolder = await getListArrays("Schools", "SchoolsList");
+
+        const eventHolder = await getListArrays("Events", "eventsList");
+
+        
+        setFilters(
+            {
+            "Graduation Year": gradHolder.gradYearList,
+            "Programming Languages": languageHolder.progLanguages,
+            "Database Systems": dbSystemHolder.databaseSystems,
+            "Operating Systems": opSystemHolder.operatingSystems,
+            "Primary Major": majorsHolder.majorsList,
+            "Secondary Major": majorsHolder.majorsList,
+            "Minors": majorsHolder.majorsList,
+            "Frameworks and Tools": frameworksHolder.frameworksAndTools,
+            "School": schoolsHolder.schoolsList,
+            "Events":eventHolder.eventsList,
+            "Active Filters": [],
+            }
+
+
+        )
+
+
+    }
+
+    function addFilter( filterName) {
+        let filterArr = filters["Active Filters"]
+        if(!filterArr.includes(filterName)){
+            setFilters(prev => (
+                {
+
+                ...prev,
+                "Active Filters":filterArr.push(filterName),
+                }
+            ))     
+        }
+    }
+
+
+
     const [cards, setCards] = useState(null)
-    async function updateRecruiter(){
+    async function updateRecruiter() {
         const data = await Firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
         setRecruiter(data)
     }
@@ -30,9 +96,10 @@ function RecruiterView() {
             const recruiter = await Firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
             setRecruiter(recruiter)
             setCards(data);
-            
+
         }
-        fetchUsers()
+        fetchUsers();
+        collectData();
 
 
     }, []);
@@ -45,12 +112,12 @@ function RecruiterView() {
     })
 
 
-    if (cards && cards[0]) {
+    if (cards && cards[0] && filters !== null && recruiter !== null ) {
 
         return transitions.map(({ item, key, props }) =>
             item
                 ? <animated.div style={props}>
-                    <RecruiterViewColumns  updateRecruiter={() => updateRecruiter()} cards={cards} recruiterObj={recruiter} toggleResumeView={(candidate) => toggleResumeView(candidate)}/>
+                    <RecruiterViewColumns addFilter={(filterName) => addFilter(filterName)} filters={filters} updateRecruiter={() => updateRecruiter()} cards={cards} recruiterObj={recruiter} toggleResumeView={(candidate) => toggleResumeView(candidate)} />
                 </animated.div>
                 : <animated.div style={props}>
                     <Container fluid className="p-0 vw-100 recruiterViewContainer" style={{ backgroundColor: '#13294B' }}>

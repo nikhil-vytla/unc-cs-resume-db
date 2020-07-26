@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import AddIcon from "@material-ui/icons/Add";
 import Firebase from "../../Firebase";
+
 import axios from "axios";
 
 function MyListsForm() {
@@ -16,7 +17,7 @@ function MyListsForm() {
     //console.log(objToSend);
     if (listName !== null && listName !== "") {
       axios.put(
-        "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newList",
+        "http://localhost:5000/unc-cs-resume-database-af14e/us-central1/api/newList",
         objToSend
       );
     }

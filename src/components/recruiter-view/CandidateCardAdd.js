@@ -20,15 +20,15 @@ function CandidateCardAdd(props) {
         </AddIcon>
     ));
 
-    return (
+    return ( 
             <Dropdown className="candidateDropDown">
                 <Dropdown.Toggle as={CustomToggle}>
                     Dropdown Button
                         </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    {props.recruiter[0]["My Lists"].map(list =>
-                        <Dropdown.Item >{list.Name}</Dropdown.Item>
+                    {Object.keys(props.recruiter[0]["Lists"]).map(list =>
+                        <Dropdown.Item >{list}</Dropdown.Item>
                         
                         )}
                 </Dropdown.Menu>

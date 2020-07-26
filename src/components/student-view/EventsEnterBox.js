@@ -9,7 +9,7 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "./StudentView.css";
-import Firebase from "../../Firebase";
+import Firebase from "../Firebase/Firebase";
 
 export default class EventsEnterBox extends Component {
   constructor(props) {

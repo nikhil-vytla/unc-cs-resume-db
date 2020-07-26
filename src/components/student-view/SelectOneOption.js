@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import { analytics } from "firebase";
 import { InputGroup, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Firebase from "../../Firebase.js";
+import Firebase from "../Firebase/Firebase.js";
 import axios from "axios";
 import "./SelectOne.css";
 

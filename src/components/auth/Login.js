@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Firebase from "../../Firebase";
+import Firebase from "../Firebase/Firebase";
 import { Form, Container } from "react-bootstrap";
 import { withRouter, Redirect, Link } from "react-router-dom";
 import "./auth.css";

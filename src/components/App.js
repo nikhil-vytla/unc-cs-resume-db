@@ -9,12 +9,12 @@ import AdminView from "./admin-view/AdminView";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./auth/PrivateRoute";
-import FirebaseContext from "./FirebaseContext";
+import Firebase, { FirebaseContext } from './Firebase';
 
 const App = () => {
   return (
     <div className="App">
-      <FirebaseContext>
+      <FirebaseContext.Provider value={new Firebase()}>
         <Router>
           <Nav />
           <Switch>
@@ -25,7 +25,7 @@ const App = () => {
             <PrivateRoute exact path="/student" claimKey="student" component={StudentView} />
           </Switch>
         </Router>
-      </FirebaseContext>
+      </FirebaseContext.Provider>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import Firebase from "../../Firebase";
-// import { render } from "@testing-library/react";
+import Firebase from "../Firebase/Firebase";
+import { FirebaseContext } from '../Firebase';
 
 const getClaims = async () => {
     return (await Firebase.auth.currentUser
@@ -11,6 +11,8 @@ const getClaims = async () => {
 }
 
 export default class PrivateRoute extends Component {
+    static contextType = FirebaseContext;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -26,6 +28,8 @@ export default class PrivateRoute extends Component {
     }
 
     render() {
+        console.log(this.context)
+
         const { component: RouteComponent, ...rest } = this.props;
         const { claim } = this.state;
 

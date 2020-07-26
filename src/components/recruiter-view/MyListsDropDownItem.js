@@ -2,7 +2,7 @@ import React from 'react'
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
-import firebase from "../../Firebase"
+import firebase from "../Firebase/Firebase"
 
 
 function MyListsDropDownItem(props){

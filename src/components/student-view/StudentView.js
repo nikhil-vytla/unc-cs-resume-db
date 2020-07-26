@@ -3,7 +3,7 @@ import { Container, Col, Row } from "react-bootstrap";
 import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
-import Firebase from "../../Firebase.js";
+import Firebase from "../Firebase/Firebase.js";
 import Button from "react-bootstrap/Button";
 import firebase from "firebase";
 import Form from "react-bootstrap/Form";

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./SideCard.css";
-import Firebase from "../../Firebase.js";
+import Firebase from "../Firebase/Firebase.js";
 import SideResumeBox from "./SideResumeBox";
 
 // 320 by 780

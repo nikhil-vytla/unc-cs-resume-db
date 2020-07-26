@@ -12,7 +12,7 @@ import "./StudentView.css";
 import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
 import MultiSelect from "./MultiSelect";
-import Firebase from "../../Firebase.js";
+import Firebase from "../Firebase/Firebase.js";
 import EventsEnterBox from "./EventsEnterBox";
 
 export class MyInformation extends Component {

@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import FilterSearchBar from './FilterSearchBar'
 import "../../Static/Filter.css"
 import FilterDropDown from "./FilterDropDown"
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 
-function Filter( props) {
+function Filter() {
     const [filter, setFilter] = useState(
         {
             "Filters": [
@@ -194,12 +192,7 @@ function Filter( props) {
     return (
         <div className="filter d-block">
             <h1 className="recruiterViewHeader filterHeader BreeSerif" style={{ width: '15vw' }}>New Search</h1>
-            
             <FilterSearchBar height="80px" filterName="Name"/>
-            <div className="filterArrowDiv" onClick={() => props.setFilterToggle()}>
-                <ArrowBackIcon className="filterArrowIcon" />
-
-            </div>
             {filter.Filters.map((filter) => (
                 <FilterDropDown key={filter.FilterName} inside={filter.Items} title={filter.FilterName} />
             ))}

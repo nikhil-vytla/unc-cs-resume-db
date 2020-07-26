@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import { InputGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Firebase from "../../Firebase.js";
+import Firebase from "../Firebase/Firebase.js";
 import axios from "axios";
 
 export default class MultiSelect extends Component {

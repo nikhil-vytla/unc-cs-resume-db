@@ -1,6 +1,17 @@
 .updateBtn {
   /* color: teal; */
-  height: 30px;
-  width: 60px;
-  padding: 10px 5px 10px 5px;
+  height: 40px!important;
+  line-height: 30px;
+  padding-bottom: 5px !important;
+  padding-top: 5px !important;
+  margin-top: 15px!important;
+  margin-left: 20px !important;
+  background-color: #4b9cd3 !important;
+  border: none !important;
+}
+
+.selectOneInput{
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  height: 40px !important;
 }

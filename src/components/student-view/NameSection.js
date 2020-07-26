@@ -41,13 +41,14 @@ export default class NameSection extends Component {
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Row>
-          <Form.Label column lg={2}>
+        <Form.Row className="formRow">
+          <Form.Label className="data-row-label" column lg={3}>
             Name
           </Form.Label>
-          <Col>
-            <InputGroup className="mb-3">
+          {/* <Col className="formColumn"> */}
+            <InputGroup className="mb-3 inputGroup">
               <FormControl
+                className="textForm"
                 type="text"
                 placeholder="First Name"
                 onChange={(event) => {
@@ -55,19 +56,23 @@ export default class NameSection extends Component {
                 }}
               />
               <FormControl
+                className="textForm"
                 type="text"
                 placeholder="Last Name"
                 onChange={(event) => {
                   this.setState({ lName: event.target.value });
                 }}
               />
+               <Button variant="primary" className="formBtn" type="submit">
+                Update
+              </Button>
             </InputGroup>
-            <InputGroup.Append>
+            {/* <InputGroup.Append>
               <Button variant="primary" type="submit">
                 Update
               </Button>
-            </InputGroup.Append>
-          </Col>
+            </InputGroup.Append> */}
+          {/* </Col> */}
         </Form.Row>
       </Form>
     );

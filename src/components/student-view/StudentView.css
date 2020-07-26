@@ -29,6 +29,7 @@
   background-color: #4b9cd3;
   height: calc(100vh - 105px);
   overflow-y: auto;
+  max-height: fit-content !important;
   padding-right: 0px !important;
   padding-left: 0px !important;
   margin-top: 0px;
@@ -55,7 +56,54 @@
   display: inline-block;
   margin-left: 15px;
 }
-
+.data-row-label{
+  font-size: 30px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.inputGroup{
+  width: auto !important;
+  margin-right: 20px !important;
+}
+.radioInput{
+  margin-left: 10px !important;
+  margin-top: 15px !important;
+}
+.currentlySeeking{
+  margin-bottom: 0px !important;
+  line-height: 1.5 !important;
+}
+.formBtn{
+  height: 40px!important;
+  line-height: 30px;
+  padding-bottom: 5px !important;
+  padding-top: 5px !important;
+  margin-top: 15px!important;
+  margin-left: 20px !important;
+  background-color: #4b9cd3 !important;
+  border: none !important;
+}
+.multiBtn{
+  height: 40px!important;
+  line-height: 30px;
+  padding-bottom: 5px !important;
+  padding-top: 5px !important;
+  margin-top: 15px!important;
+  margin-left: 10px !important;
+  background-color: #4b9cd3 !important;
+  border: none !important;
+}
+.formRow{
+  display: block !important;
+}
+.formColumn{
+  width: 100%;
+}
+.textForm{
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  height: 40px !important;
+}
 .data-row-control {
   width: 60vw;
   max-width: 90%;
@@ -74,12 +122,35 @@
   padding: 0px !important;
 }
 .accordionHeader{
+  font-size: 30px !important;
+  height: 72.5px !important;
   color: white;
   border-radius: 0px !important;
+}
+h3{
+  font-size: inherit !important;
 }
 .uploadButton{
   margin-left: 10px !important;
   margin-right: 10px !important;
   background-color: #4b9cd3 !important;
   
+}
+.checkBoxes{
+  margin-left: 10px !important;
+}
+.list-group-item{
+  background-color: #4b9cd3 !important;
+  height: 40px !important;
+  line-height: 30px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  color: white !important;
+  width: fit-content !important;
+  min-width: 50px;
+  margin-left: 10px !important;
+}
+
+.form-control{
+  width: 220px !important;
 }

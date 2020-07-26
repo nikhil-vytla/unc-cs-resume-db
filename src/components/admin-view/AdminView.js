@@ -12,6 +12,7 @@ import Firebase from "../../Firebase";
 import RecruiterListComponent from "./RecruiterListComponent";
 import StudentListComponent from "./StudentListComponent";
 import "./AdminView.css";
+import EventModification from "./EventModification";
 
 export default class AdminView extends Component {
   constructor(props) {
@@ -19,14 +20,17 @@ export default class AdminView extends Component {
     this.state = {
       recruiters: [],
       students: [],
+      events: [],
       value: "Recruiters",
     };
     this.handleQueryAllRecruiters = this.handleQueryAllRecruiters.bind(this);
     this.handleQueryAllStudents = this.handleQueryAllStudents.bind(this);
+    this.handleQueryAllEvents = this.handleQueryAllEvents.bind(this);
   }
   componentDidMount() {
     this.handleQueryAllRecruiters();
     this.handleQueryAllStudents();
+    this.handleQueryAllEvents();
   }
 
   handleQueryAllRecruiters = async (e) => {
@@ -48,19 +52,20 @@ export default class AdminView extends Component {
       console.error(err);
     }
   };
+  handleQueryAllEvents = async (e) => {
+    try {
+      let data = await Firebase.getAllEvents();
+      this.setState({ events: data });
+      // console.log(this.state.students);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   render() {
     const parentState = (e) => {
-      e === "Recruiters"
-        ? this.setState({ value: "Recruiters" })
-        : this.setState({ value: "Students" });
-      return this.state;
-    };
-    const parentStateRecruiters = () => {
-      return this.state.recruiters;
-    };
-    const parentStateStudents = () => {
-      return this.state.students;
+      this.setState({ value: e });
+      console.log(this.state.value);
     };
 
     function ToggleButtonGroup() {
@@ -68,6 +73,15 @@ export default class AdminView extends Component {
       const radios = [
         { name: "Recruiters", value: "Recruiters" },
         { name: "Students", value: "Students" },
+        { name: "Event Modification", value: "Event Modification" },
+        {
+          name: "Basic Information Modification",
+          value: "Basic Information Modification",
+        },
+        {
+          name: "Skills & Experience Modification",
+          value: "Skills & Experience Modification",
+        },
       ];
 
       return (
@@ -82,7 +96,6 @@ export default class AdminView extends Component {
               checked={radioValue === radio.value}
               onChange={(e) => {
                 setRadioValue(e.currentTarget.value);
-                // onToggleQuery(e.currentTarget.value);
                 parentState(e.currentTarget.value);
               }}
             >
@@ -92,36 +105,20 @@ export default class AdminView extends Component {
         </ButtonGroup>
       );
     }
-    function onToggleQuery(e) {
-      e === "Recruiters"
-        ? console.log(parentStateRecruiters())
-        : console.log(parentStateStudents());
-    }
 
     return (
       <div className="master-container">
         <ToggleButtonGroup />
         <Link to="/recruiter"></Link>
-        <Button onClick={this.handleQuery} variant="info">
+        {/* <Button onClick={this.handleQuery} variant="info">
           Recruiter View
-        </Button>
+        </Button> */}
         {/* {console.log("state " + this.state.value)} */}
         <div className="full-panel">
           <Container fluid="true">
             <Row>
               <Col className="right-panel">
-                {this.state.value === "Recruiters" ? (
-                  <RecruiterListComponent
-                    title={this.state.value}
-                    datas={parentStateRecruiters()}
-                  />
-                ) : (
-                  <StudentListComponent
-                    title={this.state.value}
-                    datas={parentStateStudents()}
-                  />
-                )}
-                {/* <h2>{this.state.value}</h2> */}
+                {this.RenderCorrectComponents()}
               </Col>
             </Row>
           </Container>
@@ -130,15 +127,44 @@ export default class AdminView extends Component {
     );
   }
 
-  //  query handler
-  handleQuery = async (e) => {
-    try {
-      // const result = await Firebase.runQuery();
-      const result = await Firebase.getAllRecruiters();
-      console.log(result);
-      // alert("Check console for result");
-    } catch (err) {
-      console.log(err);
+  RenderCorrectComponents = () => {
+    switch (this.state.value) {
+      case "Recruiters":
+        // console.log("in recruiters switch");
+        return (
+          <RecruiterListComponent
+            title={this.state.value}
+            datas={this.state.recruiters}
+            // datas={parentStateRecruiters()}
+            updateRecruitersx={this.updateRecruiters}
+          />
+        );
+      case "Students":
+        return (
+          <StudentListComponent
+            title={this.state.value}
+            datas={this.state.students}
+          />
+        );
+      case "Event Modification":
+        return (
+          <EventModification
+            title={this.state.value}
+            datas={this.state.events}
+            updateEventsx={this.updateEvents}
+          />
+        );
+      case "Basic Information Modification":
+        return console.log("Basic Info Component");
+      case "Skills & Experience Modification":
+        return console.log("Skills & Experience Modification");
     }
+  };
+
+  updateRecruiters = async () => {
+    await this.handleQueryAllRecruiters();
+  };
+  updateEvents = async () => {
+    await this.handleQueryAllEvents();
   };
 }

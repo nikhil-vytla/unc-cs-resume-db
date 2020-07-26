@@ -96,7 +96,6 @@ class Firebase {
     }
   }
 
-
   async userInfoV2(userID) {
     try {
       const data = await this.db.collection("students").doc(userID).get();
@@ -105,7 +104,6 @@ class Firebase {
       console.log(error);
     }
   }
-
 
   // gets all current profile information for the recruiter
   async getRecruiterInfo(userID) {
@@ -120,16 +118,23 @@ class Firebase {
     }
   }
   async getAllUsers() {
-
-    try{
+    try {
       const data = await this.db.collection("students").get();
       return data.docs.map((doc) => doc.data());
-    } catch (error){
+    } catch (error) {
       console.log(error);
     }
+  }
 
-  } 
-
+  // gets all events
+  async getAllEvents() {
+    try {
+      const data = await this.db.collection("Events").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
 
 export default new Firebase();

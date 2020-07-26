@@ -31,6 +31,7 @@ const Signup = () => {
   return (
     <Container className="authContainer">
       <Container className="authComponent">
+        {redirect}
         <Form className="authForm" onSubmit={handleSignup}>
           <h1>Sign Up</h1>
 
@@ -54,7 +55,6 @@ const Signup = () => {
           </button>
           <p className="authLink">Already have an account? <Link to="/">Login</Link></p>
         </Form>
-        {redirect}
       </Container>
     </Container>
   );

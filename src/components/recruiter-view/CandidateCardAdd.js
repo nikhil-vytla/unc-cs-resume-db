@@ -1,10 +1,36 @@
 import React from "react"
 import AddIcon from '@material-ui/icons/Add';
 import Dropdown from 'react-bootstrap/Dropdown'
+import Firebase from "../../Firebase";
+import axios from "axios"
 
 
 function CandidateCardAdd(props) {
     
+    const  handleChange = async (listName) => {
+        // Checks if listName is empty then sends to endpoint
+        const objToSend = {
+          nameOfList: listName,
+          recruiterUID: Firebase.auth.currentUser.uid,
+          student: {
+              Email: props.student["Email"],
+              "First Name": props.student["First Name"],
+              "Last Name": props.student["Last Name"],
+              "UID": props.student["UID"],
+              "Profile Image":props.student["Profile Image"]
+          }
+        };
+        //console.log(objToSend);
+        if (listName !== null && listName !== "") {
+          await axios.put(
+            "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/addStudent",
+            objToSend
+          );
+        }
+        props.updateRecruiter();
+      };
+
+
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <AddIcon
 
@@ -28,7 +54,7 @@ function CandidateCardAdd(props) {
 
                 <Dropdown.Menu>
                     {Object.keys(props.recruiter[0]["Lists"]).map(list =>
-                        <Dropdown.Item >{list}</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleChange(list)} >{list}</Dropdown.Item>
                         
                         )}
                 </Dropdown.Menu>

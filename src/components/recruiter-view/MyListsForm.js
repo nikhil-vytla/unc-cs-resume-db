@@ -5,9 +5,9 @@ import Firebase from "../../Firebase";
 
 import axios from "axios";
 
-function MyListsForm() {
+function MyListsForm(props) {
   const [listName, setListName] = useState("");
-  const handleChange = (evt) => {
+  const handleChange = async (evt) => {
     evt.preventDefault();
     // Checks if listName is empty then sends to endpoint
     const objToSend = {
@@ -16,12 +16,12 @@ function MyListsForm() {
     };
     //console.log(objToSend);
     if (listName !== null && listName !== "") {
-      axios.put(
-        "http://localhost:5000/unc-cs-resume-database-af14e/us-central1/api/newList",
+      await axios.put(
+        "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newList",
         objToSend
       );
     }
-    alert(`Submitting Name ${listName}`);
+    props.updateRecruiter();
   };
 
   return (

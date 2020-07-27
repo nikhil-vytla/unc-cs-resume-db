@@ -1,11 +1,11 @@
 import React from "react"
 import AddIcon from '@material-ui/icons/Add';
 import Dropdown from 'react-bootstrap/Dropdown'
-import {withFirebase} from "../../Firebase"
+import {withFirebase} from "../Firebase"
 import axios from "axios"
 
 
-function CandidateCardAdd(props, {Firebase}) {
+function CandidateCardAdd({Firebase, ...props}) {
     
     const  handleChange = async (listName) => {
         // Checks if listName is empty then sends to endpoint

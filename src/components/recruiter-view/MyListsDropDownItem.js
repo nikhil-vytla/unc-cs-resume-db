@@ -2,7 +2,7 @@ import React from 'react'
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
-import withFirebase from "../../Firebase"
+import withFirebase from "../Firebase"
 import axios from "axios"
 
 

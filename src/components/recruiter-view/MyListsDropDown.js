@@ -5,7 +5,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import MyListsDropDownItem from "./MyListsDropDownItem"
 import Dropdown from "react-bootstrap/Dropdown"
-import {withFirebase} from "../../Firebase"
+import {withFirebase} from "../Firebase"
 import axios from "axios"
 
 

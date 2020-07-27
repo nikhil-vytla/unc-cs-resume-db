@@ -7,7 +7,7 @@ import CandidatesList from "../../Static/Candidates.json";
 import Spinner from "react-bootstrap/Spinner";
 import RecruiterViewColumns from "./RecruiterViewColumns";
 import { Col, Row, Container } from "react-bootstrap";
-import withFirebase from "../../Firebase";
+import withFirebase from "../Firebase";
 import axios from "axios";
 
 function RecruiterView( {Firebase, ...props} ) {

@@ -144,8 +144,9 @@
   .resumeImage{
     overflow-y: auto;
     width: 50vw;
-    height: auto;
+    height: calc(100vh - 145px);
     padding-left: 3vw;
+    border: none;
   }
   .resumeViewImageDiv{
     height: calc(100vh - 145px);

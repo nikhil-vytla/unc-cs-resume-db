@@ -64,26 +64,58 @@ function RecruiterView() {
   }
 
   async function addFilter(filterName) {
-    //console.log(filters);
     let filterArr = filters["Active Filters"];
-    // console.log(filterArr);
-    // console.log(filterArr.includes(filterName));
-    if (!filterArr.includes(filterName)) {
-      filterArr.push(filterName);
-      setFilters((prev) => ({
-        ...prev,
-        "Active Filters": filterArr,
-      }));
-      const preData = await axios.post(
-        "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/query",
-        { filtersForQuery: filterArr }
-      );
-      const data = preData.data;
-      console.log(data);
-      setCards(data);
-    }
+    
+    filterArr.push(filterName);
+    setFilters((prev) => ({
+    ...prev,
+    "Active Filters": filterArr,
+    }));
+    const preData = await axios.post(
+    "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/query",
+    { filtersForQuery: filterArr }
+    );
+    const data = preData.data;
+    setCards(data);
+    
+  }
+  async function removeFilter(filterName) {
+    let filterArr = filters["Active Filters"];
+    console.log(filterArr);
+    console.log(filterName);
 
-    // console.log(filters);
+    filterArr.splice(filterArr.indexOf(filterName), 1);
+    setFilters((prev) => ({
+    ...prev,
+    "Active Filters": filterArr,
+    }));
+    const preData = await axios.post(
+    "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/query",
+    { filtersForQuery: filterArr }
+    );
+    console.log(data)
+    const data = preData.data;
+    setCards(data);
+    
+  }
+
+  function isCurrentFilter(objToAdd){
+    if(filters["Active Filters"] !== undefined  && filters["Active Filters"].length !== 0){
+        let newArr = filters["Active Filters"].filter((item) => {
+            console.log(item.name === objToAdd.name )
+            console.log(item.value === objToAdd.value)
+            return (item.name === objToAdd.name && item.value === objToAdd.value);
+        })
+        console.log(newArr);
+        return ( newArr.length !== 0)
+    } else {
+        return(false);
+    }
+    
+    
+
+    
+       
   }
 
   const [cards, setCards] = useState(null);
@@ -111,12 +143,14 @@ function RecruiterView() {
     leave: { opacity: 0 },
   });
 
-  if (cards && cards[0] && filters !== null && recruiter !== null) {
+  if (filters !== null && recruiter !== null) {
     return transitions.map(({ item, key, props }) =>
       item ? (
         <animated.div style={props}>
           <RecruiterViewColumns
             addFilter={(filterName) => addFilter(filterName)}
+            isCurrentFilter={(objToAdd) => isCurrentFilter(objToAdd)}
+            removeFilter={(filterName) => removeFilter(filterName)}
             filters={filters}
             updateRecruiter={() => updateRecruiter()}
             cards={cards}

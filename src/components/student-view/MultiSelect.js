@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import { InputGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Firebase from "../../Firebase.js";
+import { withFirebase } from "../Firebase";
 import axios from "axios";
 
-export default class MultiSelect extends Component {
+class MultiSelect extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       eventsToggled: [],
     };
@@ -23,7 +24,7 @@ export default class MultiSelect extends Component {
 
     const objToSend = {
       //arrayList: array,
-      uid: Firebase.auth.currentUser.uid,
+      uid: this.Firebase.auth.currentUser.uid,
       valueToSend: this.props.valueType,
       //typeToSend: type,
       update: updatedOBJ,
@@ -105,14 +106,18 @@ export default class MultiSelect extends Component {
     return (
       <InputGroup className="mb-3">
         <Form.Group controlId="ControlSelect1 checkBoxes">
-          <div key={`default-checkbox`} className="mb-3 checkBoxes" >
+          <div key={`default-checkbox`} className="mb-3 checkBoxes">
             {optionOptions}
           </div>
-          <Button variant="primary" className="multiBtn " onClick={this.handleUpload}>
+          <Button
+            variant="primary"
+            className="multiBtn "
+            onClick={this.handleUpload}
+          >
             Update
           </Button>
         </Form.Group>
-        
+
         <InputGroup.Append>
           {/* <Button variant="primary" className="formBtn" onClick={this.handleUpload}>
             Update
@@ -125,3 +130,5 @@ export default class MultiSelect extends Component {
     );
   }
 }
+
+export default withFirebase(MultiSelect);

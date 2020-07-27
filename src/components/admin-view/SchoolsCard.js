@@ -11,10 +11,8 @@ import {
 } from "react-bootstrap";
 import Firebase from "../../Firebase";
 import * as firebase from "firebase";
-import MajorsCard from "./MajorsCard";
-import SchoolsCard from "./SchoolsCard";
 
-export class BasicInformationModification extends Component {
+export class SchoolsCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,22 +21,15 @@ export class BasicInformationModification extends Component {
       collection: "",
       doc: "",
       field: "",
-      graduationYear: [],
-      majors: [],
       schools: [],
       schoolsRequest: [],
     };
   }
-
   componentDidMount() {
     this.handleQueryAllData();
   }
   handleQueryAllData = async (e) => {
     try {
-      //   let data = await Firebase.getAllGraduationYear();
-      //   this.setState({ graduationYear: data });
-      //   data = await Firebase.getAllMajors();
-      //   this.setState({ majors: data });
       let data = await Firebase.getAllSchools();
       this.setState({ schools: data[1].schoolsList });
       this.setState({ schoolsRequest: data[0].schoolsList });
@@ -49,10 +40,9 @@ export class BasicInformationModification extends Component {
   render() {
     return (
       <div>
-        <h2>{this.props.title}</h2>
-        <Accordion defaultActiveKey="0">
-          {/*}
-          <Card>
+        <div>
+          <h2>{this.props.title}</h2>
+          <Card key="currentSchool">
             <Accordion.Toggle
               as={Card.Header}
               eventKey="schools"
@@ -79,7 +69,7 @@ export class BasicInformationModification extends Component {
                       >
                         <option>Select School</option>
                         {this.state.schools.map((eachOption) => (
-                          <option>{eachOption}</option>
+                          <option key={eachOption}>{eachOption}</option>
                         ))}
                       </Form.Control>
                       <FormControl
@@ -127,7 +117,7 @@ export class BasicInformationModification extends Component {
                       >
                         <option>Select School</option>
                         {this.state.schoolsRequest.map((eachOption) => (
-                          <option>{eachOption}</option>
+                          <option key={eachOption}>{eachOption}</option>
                         ))}
                       </Form.Control>
                     </Form.Group>
@@ -154,107 +144,104 @@ export class BasicInformationModification extends Component {
               </div>
             </Accordion.Collapse>
           </Card>
-                        */}
-          <SchoolsCard />
-          <MajorsCard />
-        </Accordion>
+        </div>
       </div>
     );
   }
-  //   updateStates = (input, coll, docName, field) => {
-  //     this.setState({ eventInput: input });
-  //     this.setState({ collection: coll });
-  //     this.setState({ doc: docName });
-  //     this.setState({ field: field });
-  //     {
-  //       console.log("schools");
-  //       console.log(this.state.schools);
-  //       console.log("schools Request");
-  //       console.log(this.state.schoolsRequest);
-  //     }
-  //   };
 
-  //   handleAddRequest = async (event) => {
-  //     event.preventDefault();
-  //     console.log(this.state.reqSchoolName);
-  //     try {
-  //       const res = await Firebase.db
-  //         .collection("Schools")
-  //         .doc("SchoolsList")
-  //         .update({
-  //           ["schoolsList"]: firebase.firestore.FieldValue.arrayUnion(
-  //             this.state.reqSchoolName
-  //           ),
-  //         });
-  //       this.handleUpdate();
-  //       const res2 = await Firebase.db
-  //         .collection("Schools")
-  //         .doc("RequestedSchools")
-  //         .update({
-  //           ["schoolsList"]: firebase.firestore.FieldValue.arrayRemove(
-  //             this.state.reqSchoolName
-  //           ),
-  //         });
-  //       this.handleUpdate();
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   handleRemoveRequest = async (event) => {
-  //     event.preventDefault();
-  //     console.log(this.state.reqSchoolName);
-  //     try {
-  //       const res = await Firebase.db
-  //         .collection("Schools")
-  //         .doc("RequestedSchools")
-  //         .update({
-  //           ["schoolsList"]: firebase.firestore.FieldValue.arrayRemove(
-  //             this.state.reqSchoolName
-  //           ),
-  //         });
-  //       this.handleUpdate();
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+  updateStates = (input, coll, docName, field) => {
+    this.setState({ eventInput: input });
+    this.setState({ collection: coll });
+    this.setState({ doc: docName });
+    this.setState({ field: field });
+    // {
+    //   console.log("schools");
+    //   console.log(this.state.schools);
+    //   console.log("schools Request");
+    //   console.log(this.state.schoolsRequest);
+    // }
+  };
 
-  //   handleAdd = async (event) => {
-  //     event.preventDefault();
-  //     try {
-  //       const res = await Firebase.db
-  //         .collection(this.state.collection)
-  //         .doc(this.state.doc)
-  //         .update({
-  //           [this.state.field]: firebase.firestore.FieldValue.arrayUnion(
-  //             this.state.eventInput
-  //           ),
-  //         });
-  //       this.handleUpdate();
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+  handleAddRequest = async (event) => {
+    event.preventDefault();
+    console.log(this.state.reqSchoolName);
+    try {
+      const res = await Firebase.db
+        .collection("Schools")
+        .doc("SchoolsList")
+        .update({
+          ["schoolsList"]: firebase.firestore.FieldValue.arrayUnion(
+            this.state.reqSchoolName
+          ),
+        });
+      const res2 = await Firebase.db
+        .collection("Schools")
+        .doc("RequestedSchools")
+        .update({
+          ["schoolsList"]: firebase.firestore.FieldValue.arrayRemove(
+            this.state.reqSchoolName
+          ),
+        });
+      this.handleUpdate();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  handleRemoveRequest = async (event) => {
+    event.preventDefault();
+    console.log(this.state.reqSchoolName);
+    try {
+      const res = await Firebase.db
+        .collection("Schools")
+        .doc("RequestedSchools")
+        .update({
+          ["schoolsList"]: firebase.firestore.FieldValue.arrayRemove(
+            this.state.reqSchoolName
+          ),
+        });
+      this.handleUpdate();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  //   //Remove resume access
-  //   handleRemove = async (event) => {
-  //     event.preventDefault();
-  //     try {
-  //       const res = await Firebase.db
-  //         .collection(this.state.collection)
-  //         .doc(this.state.doc)
-  //         .update({
-  //           [this.state.field]: firebase.firestore.FieldValue.arrayRemove(
-  //             this.state.eventInput
-  //           ),
-  //         });
-  //       this.handleUpdate();
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   handleUpdate = async () => {
-  //     await this.handleQueryAllData();
-  //   };
+  handleAdd = async (event) => {
+    event.preventDefault();
+    try {
+      const res = await Firebase.db
+        .collection(this.state.collection)
+        .doc(this.state.doc)
+        .update({
+          [this.state.field]: firebase.firestore.FieldValue.arrayUnion(
+            this.state.eventInput
+          ),
+        });
+      this.handleUpdate();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //Remove resume access
+  handleRemove = async (event) => {
+    event.preventDefault();
+    try {
+      const res = await Firebase.db
+        .collection(this.state.collection)
+        .doc(this.state.doc)
+        .update({
+          [this.state.field]: firebase.firestore.FieldValue.arrayRemove(
+            this.state.eventInput
+          ),
+        });
+      this.handleUpdate();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  handleUpdate = async () => {
+    await this.handleQueryAllData();
+  };
 }
 
-export default BasicInformationModification;
+export default SchoolsCard;

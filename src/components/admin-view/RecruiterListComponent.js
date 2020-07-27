@@ -20,44 +20,19 @@ export class RecruiterListComponent extends Component {
   }
 
   render(props) {
-    let resumeAccess;
-    const tempAllTheEvents = [
-      "HackNC",
-      "Pearl Hacks",
-      "UNC Students",
-      "Hackathon",
-      "Carolina Data Challenge",
-      "Queer_hack",
-      "Global Game Jam",
-      "HackReality",
-      "AfroPix",
-    ];
-
-    function resumeChecker(data) {
-      Object.entries(data).map((key, val) => {
-        if (key.includes("Resume Access")) {
-          resumeAccess = key[1];
-          return key[1];
-        }
-      });
-    }
-
     return (
       <div>
         <h2>{this.props.title}</h2>
         <Accordion defaultActiveKey="0">
           {this.props.datas.map((data, index) => (
-            <Card>
+            <Card key={index}>
               <Accordion.Toggle
                 as={Card.Header}
                 eventKey={data.Name}
                 style={{ backgroundColor: "#E5E5E5", color: "Black" }}
               >
                 <h3 className="recruiter-name">{data.Name}</h3>
-                {resumeChecker(data)}
-                {/* {data["Resume Access"]} */}
-                {resumeAccess.map((item, inx) => (
-                  // {data.(["Resume Access"]).map((item, inx) => (
+                {data["Resume Access"].map((item, inx) => (
                   <li className="resume-access-list" key={inx}>
                     {item}
                   </li>

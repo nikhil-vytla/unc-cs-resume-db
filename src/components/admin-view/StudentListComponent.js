@@ -49,7 +49,7 @@ export class StudentListComponent extends Component {
 
         <Accordion defaultActiveKey="0">
           {this.props.datas.map((data, index) => (
-            <Card>
+            <Card key={index}>
               {/* {console.log(data)} */}
               <Accordion.Toggle
                 as={Card.Header}

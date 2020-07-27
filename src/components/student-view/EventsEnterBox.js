@@ -13,8 +13,9 @@ import { withFirebase } from "../Firebase";
 
 class EventsEnterBox extends Component {
   constructor(props) {
-    this.Firebase = props.Firebase;
     super(props);
+    this.Firebase = props.Firebase;
+
     this.state = {
       eventCode: "",
     };

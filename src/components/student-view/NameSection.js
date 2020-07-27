@@ -14,8 +14,8 @@ import { withFirebase } from "../Firebase";
 class NameSection extends Component {
   // function MyInformation(props) {
   constructor(props) {
-    this.Firebase = props.Firebase;
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       fName: "",
       lName: "",

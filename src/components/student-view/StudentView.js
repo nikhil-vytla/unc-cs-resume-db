@@ -10,8 +10,8 @@ import Form from "react-bootstrap/Form";
 
 class StudentView extends Component {
   constructor(props) {
-    this.Firebase = props.Firebase;
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       studentObject: {},
       isReady: false,

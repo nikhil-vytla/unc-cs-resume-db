@@ -124,12 +124,15 @@
     background-color: #4B9CD3;
     height: 40px;
     width: 15vw;
+    overflow: hidden;
 }
 .filterDropDownTitle{
     padding-left: 10px;
     line-height: 40px;
     font-size: 15px;
     color: #ffffff;
+    width: fit-content  !important;
+    text-overflow: ellipsis !important;
     user-select: none;
 }
 .filterDropDownIcons{
@@ -170,11 +173,13 @@
 }
 
 .filterItemText{
+    width: fit-content  !important;
+    text-overflow: ellipsis !important;
+
     margin-left: 20px;
     font-size: 15px;
     line-height: 20px;
     align-items: center;
-    text-overflow: ellipsis !important;
     margin-bottom: 0px;
 }
 .filterItem{

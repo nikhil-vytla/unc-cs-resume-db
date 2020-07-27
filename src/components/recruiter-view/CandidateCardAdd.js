@@ -5,8 +5,7 @@ import {withFirebase} from "../Firebase"
 import axios from "axios"
 
 
-function CandidateCardAdd({Firebase, ...props}) {
-    
+function CandidateCardAdd({ Firebase, ...props}) {
     const  handleChange = async (listName) => {
         // Checks if listName is empty then sends to endpoint
         const objToSend = {

@@ -8,21 +8,20 @@ import {
   ButtonGroup,
   ToggleButton,
 } from "react-bootstrap";
-import Firebase from "../../Firebase";
+import {withFirebase} from "../Firebase";
 import RecruiterListComponent from "./RecruiterListComponent";
 import StudentListComponent from "./StudentListComponent";
 import "./AdminView.css";
 
-export default class AdminView extends Component {
+class AdminView extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       recruiters: [],
       students: [],
       value: "Recruiters",
     };
-    this.handleQueryAllRecruiters = this.handleQueryAllRecruiters.bind(this);
-    this.handleQueryAllStudents = this.handleQueryAllStudents.bind(this);
   }
   componentDidMount() {
     this.handleQueryAllRecruiters();
@@ -31,7 +30,7 @@ export default class AdminView extends Component {
 
   handleQueryAllRecruiters = async (e) => {
     try {
-      let data = await Firebase.getAllRecruiters();
+      let data = await this.Firebase.getAllRecruiters();
       this.setState({ recruiters: data });
       // console.log(this.state.recruiters);
     } catch (err) {
@@ -41,7 +40,7 @@ export default class AdminView extends Component {
 
   handleQueryAllStudents = async (e) => {
     try {
-      let data = await Firebase.getAllStudents();
+      let data = await this.Firebase.getAllStudents();
       this.setState({ students: data });
       // console.log(this.state.students);
     } catch (err) {
@@ -134,7 +133,7 @@ export default class AdminView extends Component {
   handleQuery = async (e) => {
     try {
       // const result = await Firebase.runQuery();
-      const result = await Firebase.getAllRecruiters();
+      const result = await this.Firebase.getAllRecruiters();
       console.log(result);
       // alert("Check console for result");
     } catch (err) {
@@ -142,3 +141,5 @@ export default class AdminView extends Component {
     }
   };
 }
+
+export default withFirebase(AdminView);

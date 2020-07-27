@@ -185,7 +185,7 @@ export default class SideCard extends Component {
                   <label>
                     <input
                       type="file"
-                      accept="application/pdf"
+                      accept="image/*, application/pdf"
                       className="form-control-file"
                       id="exampleFormControlFile1"
                       onChange={this.handlePdfChange}

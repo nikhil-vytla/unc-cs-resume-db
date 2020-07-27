@@ -13,14 +13,12 @@ function FilterItem(props) {
     ];
     const text = props.itemName;
     const [checked, setChecked] = useState(props.isCurrentFilter(computeFilterName()));
-    console.log(props.isCurrentFilter(computeFilterName()));
-
     // useEffect(() => {
     //     setChecked(props.isCurrentFilter(computeFilterName()));
 
     // })
 
-
+    //Creates the filter name to be used in the filter object
     function computeFilterName() {
         if (multNames.includes(props.title)) {
             const nameTitle = `${props.title}.${text}`;
@@ -37,13 +35,13 @@ function FilterItem(props) {
 
     }
 
-
+    //wrapper for checking
     function handleCheck() {
         props.addFilter(computeFilterName());
         setChecked(true);
 
     }
-
+    //wrapper for unChecking
     function handleUncheck() {
         props.removeFilter(computeFilterName());
         setChecked(false);

@@ -9,12 +9,13 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "./StudentView.css";
-import Firebase from "../../Firebase";
+import { withFirebase } from "../Firebase";
 
-export default class NameSection extends Component {
+class NameSection extends Component {
   // function MyInformation(props) {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       fName: "",
       lName: "",
@@ -28,9 +29,9 @@ export default class NameSection extends Component {
       alert("Please enter your first and last name");
       return;
     }
-    await Firebase.db
+    await this.Firebase.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.Firebase.auth.currentUser.uid)
       .update({
         "First Name": this.state.fName,
         "Last Name": this.state.lName,
@@ -46,28 +47,28 @@ export default class NameSection extends Component {
             Name
           </Form.Label>
           {/* <Col className="formColumn"> */}
-            <InputGroup className="mb-3 inputGroup">
-              <FormControl
-                className="textForm"
-                type="text"
-                placeholder="First Name"
-                onChange={(event) => {
-                  this.setState({ fName: event.target.value });
-                }}
-              />
-              <FormControl
-                className="textForm"
-                type="text"
-                placeholder="Last Name"
-                onChange={(event) => {
-                  this.setState({ lName: event.target.value });
-                }}
-              />
-               <Button variant="primary" className="formBtn" type="submit">
-                Update
-              </Button>
-            </InputGroup>
-            {/* <InputGroup.Append>
+          <InputGroup className="mb-3 inputGroup">
+            <FormControl
+              className="textForm"
+              type="text"
+              placeholder="First Name"
+              onChange={(event) => {
+                this.setState({ fName: event.target.value });
+              }}
+            />
+            <FormControl
+              className="textForm"
+              type="text"
+              placeholder="Last Name"
+              onChange={(event) => {
+                this.setState({ lName: event.target.value });
+              }}
+            />
+            <Button variant="primary" className="formBtn" type="submit">
+              Update
+            </Button>
+          </InputGroup>
+          {/* <InputGroup.Append>
               <Button variant="primary" type="submit">
                 Update
               </Button>
@@ -78,3 +79,5 @@ export default class NameSection extends Component {
     );
   }
 }
+
+export default withFirebase(NameSection);

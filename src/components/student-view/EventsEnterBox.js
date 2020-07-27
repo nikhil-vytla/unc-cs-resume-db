@@ -9,11 +9,13 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "./StudentView.css";
-import Firebase from "../../Firebase";
+import { withFirebase } from "../Firebase";
 
-export default class EventsEnterBox extends Component {
+class EventsEnterBox extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
+
     this.state = {
       eventCode: "",
     };
@@ -27,7 +29,7 @@ export default class EventsEnterBox extends Component {
       return;
     }
 
-    const allCodesPreData = await Firebase.getEventCodes();
+    const allCodesPreData = await this.Firebase.getEventCodes();
     const allCodes = allCodesPreData["codes"];
 
     if (
@@ -38,9 +40,9 @@ export default class EventsEnterBox extends Component {
       // console.log(allCodes[this.state.eventCode]);
       const currentEvent = allCodes[this.state.eventCode];
       const fullEventRef = `Events.${currentEvent}`;
-      await Firebase.db
+      await this.Firebase.db
         .collection("students")
-        .doc(Firebase.auth.currentUser.uid)
+        .doc(this.Firebase.auth.currentUser.uid)
         .update({ [fullEventRef]: true });
       this.props.monitorChanges();
     }
@@ -74,3 +76,5 @@ export default class EventsEnterBox extends Component {
     );
   }
 }
+
+export default withFirebase(EventsEnterBox);

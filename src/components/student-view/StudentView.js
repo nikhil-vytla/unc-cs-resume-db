@@ -3,14 +3,15 @@ import { Container, Col, Row } from "react-bootstrap";
 import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
-import Firebase from "../../Firebase.js";
+import { withFirebase } from "../Firebase";
 import Button from "react-bootstrap/Button";
 import firebase from "firebase";
 import Form from "react-bootstrap/Form";
 
-export class StudentView extends Component {
+class StudentView extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       studentObject: {},
       isReady: false,
@@ -18,28 +19,30 @@ export class StudentView extends Component {
   }
 
   handleHideResume = async () => {
-    if (Firebase.currentUser !== null) {
-      await Firebase.db
+    if (this.Firebase.currentUser !== null) {
+      await this.Firebase.db
         .collection("students")
-        .doc(Firebase.auth.currentUser.uid)
+        .doc(this.Firebase.auth.currentUser.uid)
         .update({ "Hide Resume": true });
       this.updateStudentPage();
     }
   };
 
   handleShowResume = async () => {
-    if (Firebase.currentUser !== null) {
-      await Firebase.db
+    if (this.Firebase.currentUser !== null) {
+      await this.Firebase.db
         .collection("students")
-        .doc(Firebase.auth.currentUser.uid)
+        .doc(this.Firebase.auth.currentUser.uid)
         .update({ "Hide Resume": false });
       this.updateStudentPage();
     }
   };
 
   handlingUserInfo = async () => {
-    if (Firebase.currentUser !== null) {
-      const obj = await Firebase.getUserInfo(Firebase.auth.currentUser.uid);
+    if (this.Firebase.currentUser !== null) {
+      const obj = await this.Firebase.getUserInfo(
+        this.Firebase.auth.currentUser.uid
+      );
       return obj[0];
     }
   };
@@ -172,4 +175,4 @@ export class StudentView extends Component {
   }
 }
 
-export default StudentView;
+export default withFirebase(StudentView);

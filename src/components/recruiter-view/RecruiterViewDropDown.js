@@ -3,10 +3,6 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
 
-
-
-
-
 function RecruiterViewDropDown(props) {
     const [collapsed, setCollapsed] = useState(false);
     let itemArray = []

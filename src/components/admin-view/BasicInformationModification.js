@@ -17,6 +17,7 @@ export class BasicInformationModification extends Component {
     super(props);
     this.state = {
       eventInput: "",
+      reqSchoolName: "",
       collection: "",
       doc: "",
       field: "",
@@ -39,16 +40,6 @@ export class BasicInformationModification extends Component {
       data = await Firebase.getAllSchools();
       this.setState({ schools: data[1].schoolsList });
       this.setState({ schoolsRequest: data[0].schoolsList });
-      //   {
-      //     console.log("gradyr");
-      //     console.log(this.state.graduationYear);
-      //     console.log("majors");
-      //     console.log(this.state.majors);
-      //     console.log("schools");
-      //     console.log(this.state.schools);
-      //     console.log("schools Request");
-      //     console.log(this.state.schoolsRequest);
-      //   }
     } catch (err) {
       console.error(err);
     }
@@ -68,20 +59,22 @@ export class BasicInformationModification extends Component {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="schools">
               <div style={{ color: "Black" }}>
-                <Card.Title
-                  style={{ color: "Black", padding: "3%" }}
-                ></Card.Title>
                 <Card.Body>
                   <Form>
                     <Form.Group controlId="school modification">
                       <Form.Label>Current Schools</Form.Label>
                       <Form.Control
                         as="select"
-                        //   onChange={(e) => console.log(e.currentTarget.value)}
                         onChange={(e) =>
-                          this.setState({ eventInput: e.currentTarget.value })
+                          this.updateStates(
+                            e.currentTarget.value,
+                            "Schools",
+                            "SchoolsList",
+                            "schoolsList"
+                          )
                         }
                       >
+                        <option>Select School</option>
                         {this.state.schools.map((eachOption) => (
                           <option>{eachOption}</option>
                         ))}
@@ -118,15 +111,18 @@ export class BasicInformationModification extends Component {
                         Remove
                       </Button>
                     </InputGroup.Append>
+
                     <Form.Group controlId="school request modification">
                       <Form.Label>Requested Schools</Form.Label>
                       <Form.Control
                         as="select"
-                        //   onChange={(e) => console.log(e.currentTarget.value)}
                         onChange={(e) =>
-                          this.setState({ eventInput: e.currentTarget.value })
+                          this.setState({
+                            reqSchoolName: e.currentTarget.value,
+                          })
                         }
                       >
+                        <option>Select School</option>
                         {this.state.schoolsRequest.map((eachOption) => (
                           <option>{eachOption}</option>
                         ))}
@@ -136,14 +132,15 @@ export class BasicInformationModification extends Component {
                       <InputGroup.Append>
                         <Button
                           variant="outline-success"
-                          onClick={this.handleAdd}
+                          //   onClick={this.handleAdd}
+                          onClick={this.handleAddRequest}
                         >
                           Add
                         </Button>
                         <Button
                           variant="outline-danger"
                           // onClick={console.log(this.state.eventInput)}
-                          onClick={this.handleRemove}
+                          onClick={this.handleRemoveRequest}
                         >
                           Remove
                         </Button>
@@ -160,9 +157,59 @@ export class BasicInformationModification extends Component {
   }
   updateStates = (input, coll, docName, field) => {
     this.setState({ eventInput: input });
-    this.setState({ doc: docName });
     this.setState({ collection: coll });
+    this.setState({ doc: docName });
     this.setState({ field: field });
+    {
+      console.log("schools");
+      console.log(this.state.schools);
+      console.log("schools Request");
+      console.log(this.state.schoolsRequest);
+    }
+  };
+
+  handleAddRequest = async (event) => {
+    event.preventDefault();
+    console.log(this.state.reqSchoolName);
+    try {
+      const res = await Firebase.db
+        .collection("Schools")
+        .doc("SchoolsList")
+        .update({
+          ["schoolsList"]: firebase.firestore.FieldValue.arrayUnion(
+            this.state.reqSchoolName
+          ),
+        });
+      this.handleUpdate();
+      const res2 = await Firebase.db
+        .collection("Schools")
+        .doc("RequestedSchools")
+        .update({
+          ["schoolsList"]: firebase.firestore.FieldValue.arrayRemove(
+            this.state.reqSchoolName
+          ),
+        });
+      this.handleUpdate();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  handleRemoveRequest = async (event) => {
+    event.preventDefault();
+    console.log(this.state.reqSchoolName);
+    try {
+      const res = await Firebase.db
+        .collection("Schools")
+        .doc("RequestedSchools")
+        .update({
+          ["schoolsList"]: firebase.firestore.FieldValue.arrayRemove(
+            this.state.reqSchoolName
+          ),
+        });
+      this.handleUpdate();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   handleAdd = async (event) => {

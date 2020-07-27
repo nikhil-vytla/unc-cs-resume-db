@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import Firebase from "../Firebase/Firebase";
+import React, { useState, useContext } from "react";
+import { FirebaseContext } from '../Firebase';
 import { Form, Container } from "react-bootstrap";
 import { withRouter, Redirect, Link } from "react-router-dom";
 import "./auth.css";
 
 const Login = () => {
   const [redirect, setRedirect] = useState(null);
+  const Firebase = useContext(FirebaseContext);
+  console.log(Firebase)
 
   const handleLogin = async (event) => {
     event.preventDefault();

@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import Firebase from "../Firebase/Firebase";
 import { FirebaseContext } from '../Firebase';
-
-const getClaims = async () => {
-    return (await Firebase.auth.currentUser
-        .getIdTokenResult(true)
-        .catch(err => console.log(err)))
-        .claims;
-}
 
 export default class PrivateRoute extends Component {
     static contextType = FirebaseContext;
@@ -20,10 +12,18 @@ export default class PrivateRoute extends Component {
         };
     }
 
+    async getClaims() {
+        return (await this.context.auth.currentUser
+            .getIdTokenResult(true)
+            .catch(err => console.log(err)))
+            .claims
+    }
+
     async componentDidMount() {
         const { claimKey } = this.props;
-        const claim = await getClaims()
-            .catch((e) => console.log(e));
+        const claim = await this.getClaims()
+            .catch((err) => console.log(err));
+        console.log(claim)
         this.setState({ claim: claim[claimKey] });
     }
 

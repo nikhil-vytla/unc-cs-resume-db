@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./SideCard.css";
-import Firebase from "../Firebase/Firebase.js";
+import { FirebaseContext } from '../Firebase';
 import SideResumeBox from "./SideResumeBox";
 
 // 320 by 780
 export default class SideCard extends Component {
+  static contextType = FirebaseContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -28,14 +29,14 @@ export default class SideCard extends Component {
     if (this.props.resURL !== "") {
       // Delete current file in storage
       // Send request to delete current file
-      Firebase.storage
-        .ref(`resumePDFs/${Firebase.auth.currentUser.uid}`)
+      this.context.storage
+        .ref(`resumePDFs/${this.context.auth.currentUser.uid}`)
         .delete();
     }
 
     // reference to the location of where the file should be placed
-    const uploadFile = Firebase.storage
-      .ref(`resumePDFs/${Firebase.auth.currentUser.uid}`)
+    const uploadFile = this.context.storage
+      .ref(`resumePDFs/${this.context.auth.currentUser.uid}`)
       .put(resumePDF);
 
     // Uploads file to firebase
@@ -49,16 +50,16 @@ export default class SideCard extends Component {
         console.log(error);
       },
       () => {
-        Firebase.storage
+        this.context.storage
           .ref("resumePDFs")
-          .child(`${Firebase.auth.currentUser.uid}`)
+          .child(`${this.context.auth.currentUser.uid}`)
           .getDownloadURL()
           .then((url) => {
             this.setState(() => ({ url }));
 
-            Firebase.db
+            this.context.db
               .collection("students")
-              .doc(Firebase.auth.currentUser.uid)
+              .doc(this.context.auth.currentUser.uid)
               .update({
                 "Resume PDF": url,
               });
@@ -89,14 +90,14 @@ export default class SideCard extends Component {
     ) {
       // Delete current file in storage
       // Send request to delete current file
-      Firebase.storage
-        .ref(`profilePictures/${Firebase.auth.currentUser.uid}`)
+      this.context.storage
+        .ref(`profilePictures/${this.context.auth.currentUser.uid}`)
         .delete();
     }
 
     // reference to the location of where the file should be placed
-    const uploadFile = Firebase.storage
-      .ref(`profilePictures/${Firebase.auth.currentUser.uid}`)
+    const uploadFile = this.context.storage
+      .ref(`profilePictures/${this.context.auth.currentUser.uid}`)
       .put(profileImageFile);
 
     // Uploads file to firebase
@@ -110,16 +111,16 @@ export default class SideCard extends Component {
         console.log(error);
       },
       () => {
-        Firebase.storage
+        this.context.storage
           .ref("profilePictures")
-          .child(`${Firebase.auth.currentUser.uid}`)
+          .child(`${this.context.auth.currentUser.uid}`)
           .getDownloadURL()
           .then((profileURL) => {
             this.setState(() => ({ profileURL }));
 
-            Firebase.db
+            this.context.db
               .collection("students")
-              .doc(Firebase.auth.currentUser.uid)
+              .doc(this.context.auth.currentUser.uid)
               .update({
                 "Profile Image": profileURL,
               });

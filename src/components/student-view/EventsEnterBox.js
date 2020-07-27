@@ -9,9 +9,10 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "./StudentView.css";
-import Firebase from "../Firebase/Firebase";
+import { FirebaseContext } from '../Firebase';
 
 export default class EventsEnterBox extends Component {
+  static contextType = FirebaseContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -27,20 +28,20 @@ export default class EventsEnterBox extends Component {
       return;
     }
 
-    const allCodesPreData = await Firebase.getEventCodes();
+    const allCodesPreData = await this.context.getEventCodes();
     const allCodes = allCodesPreData["codes"];
 
     if (
       allCodes[this.state.eventCode] !== "" ||
       allCodes[this.state.eventCode] !== null ||
-      allCodes[this.state.eventCode] != ""
+      allCodes[this.state.eventCode] !== ""
     ) {
       // console.log(allCodes[this.state.eventCode]);
       const currentEvent = allCodes[this.state.eventCode];
       const fullEventRef = `Events.${currentEvent}`;
-      await Firebase.db
+      await this.context.db
         .collection("students")
-        .doc(Firebase.auth.currentUser.uid)
+        .doc(this.context.auth.currentUser.uid)
         .update({ [fullEventRef]: true });
       this.props.monitorChanges();
     }

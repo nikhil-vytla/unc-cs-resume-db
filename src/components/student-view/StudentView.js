@@ -3,12 +3,12 @@ import { Container, Col, Row } from "react-bootstrap";
 import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
-import Firebase from "../Firebase/Firebase.js";
 import Button from "react-bootstrap/Button";
-import firebase from "firebase";
+import { FirebaseContext } from '../Firebase';
 import Form from "react-bootstrap/Form";
 
 export class StudentView extends Component {
+  static contextType = FirebaseContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -18,28 +18,28 @@ export class StudentView extends Component {
   }
 
   handleHideResume = async () => {
-    if (Firebase.currentUser !== null) {
-      await Firebase.db
+    if (this.context.currentUser !== null) {
+      await this.context.db
         .collection("students")
-        .doc(Firebase.auth.currentUser.uid)
+        .doc(this.context.auth.currentUser.uid)
         .update({ "Hide Resume": true });
       this.updateStudentPage();
     }
   };
 
   handleShowResume = async () => {
-    if (Firebase.currentUser !== null) {
-      await Firebase.db
+    if (this.context.currentUser !== null) {
+      await this.context.db
         .collection("students")
-        .doc(Firebase.auth.currentUser.uid)
+        .doc(this.context.auth.currentUser.uid)
         .update({ "Hide Resume": false });
       this.updateStudentPage();
     }
   };
 
   handlingUserInfo = async () => {
-    if (Firebase.currentUser !== null) {
-      const obj = await Firebase.getUserInfo(Firebase.auth.currentUser.uid);
+    if (this.context.currentUser !== null) {
+      const obj = await this.context.getUserInfo(this.context.auth.currentUser.uid);
       return obj[0];
     }
   };

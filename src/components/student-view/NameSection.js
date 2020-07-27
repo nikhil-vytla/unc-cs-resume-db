@@ -9,10 +9,10 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "./StudentView.css";
-import Firebase from "../Firebase/Firebase";
+import { FirebaseContext } from '../Firebase';
 
 export default class NameSection extends Component {
-  // function MyInformation(props) {
+  static contextType = FirebaseContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -28,9 +28,9 @@ export default class NameSection extends Component {
       alert("Please enter your first and last name");
       return;
     }
-    await Firebase.db
+    await this.context.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.context.auth.currentUser.uid)
       .update({
         "First Name": this.state.fName,
         "Last Name": this.state.lName,

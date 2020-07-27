@@ -3,11 +3,12 @@ import Form from "react-bootstrap/Form";
 import { analytics } from "firebase";
 import { InputGroup, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Firebase from "../Firebase/Firebase.js";
+import { FirebaseContext } from '../Firebase';
 import axios from "axios";
 import "./SelectOne.css";
 
 export default class SelectOneOption extends Component {
+  static contextType = FirebaseContext;
   constructor(props) {
     super(props);
 
@@ -30,9 +31,9 @@ export default class SelectOneOption extends Component {
     // Adds school to request list
     if (this.props.needInput) {
       if (this.state.update === "Other" && this.state.reqSchool !== "") {
-        await Firebase.db
+        await this.context.db
           .collection("students")
-          .doc(Firebase.auth.currentUser.uid)
+          .doc(this.context.auth.currentUser.uid)
           .update({
             School: this.state.update,
           });
@@ -40,11 +41,11 @@ export default class SelectOneOption extends Component {
           "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/requestSchool",
           { school: this.state.reqSchool }
         );
-        // await Firebase.db
+        // await this.context.db
         //   .collection("Schools")
         //   .doc("schoolsList")
         //   .update({
-        //     schoolsList: Firebase.db.FieldValue.arrayUnion(
+        //     schoolsList: this.context.db.FieldValue.arrayUnion(
         //       this.state.reqSchool
         //     ),
         //   });
@@ -60,9 +61,9 @@ export default class SelectOneOption extends Component {
     if (this.state.update === "Choose ...") {
       return;
     }
-    await Firebase.db
+    await this.context.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.context.auth.currentUser.uid)
       .update({
         [this.props.valueType]: this.state.update,
       });
@@ -82,9 +83,9 @@ export default class SelectOneOption extends Component {
     const currentState = this.state.update;
     const currentObjString = `${valuePlaceHolder}.${currentState}`;
 
-    await Firebase.db
+    await this.context.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.context.auth.currentUser.uid)
       .update({
         [currentObjString]: true,
       });

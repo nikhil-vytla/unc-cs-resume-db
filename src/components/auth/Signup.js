@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Firebase from "../Firebase/Firebase";
+import React, { useState, useContext } from "react";
+import { FirebaseContext } from '../Firebase';
 import { Form, Container } from "react-bootstrap";
 import { Link, withRouter, Redirect } from "react-router-dom";
 import "./auth.css";
@@ -7,6 +7,7 @@ const axios = require('axios');
 
 const Signup = () => {
   const [redirect, setRedirect] = useState(null);
+  const Firebase = useContext(FirebaseContext);
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -21,8 +22,8 @@ const Signup = () => {
     .createUserWithEmailAndPassword(email.value, password.value)
     .catch(err => console.log(err));
 
-    await axios.post("/api/newStudent", {
-      email: email,
+    await axios.post("http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newStudent", {
+      "email": email.value,
     }).catch(err => console.log(err.message));
 
     setRedirect(<Redirect to="/student" />);

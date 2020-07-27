@@ -12,10 +12,11 @@ import "./StudentView.css";
 import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
 import MultiSelect from "./MultiSelect";
-import Firebase from "../Firebase/Firebase.js";
+import { FirebaseContext } from '../Firebase';
 import EventsEnterBox from "./EventsEnterBox";
 
 export class MyInformation extends Component {
+  static contextType = FirebaseContext;
   // function MyInformation(props) {
   constructor(props) {
     super(props);
@@ -37,23 +38,23 @@ export class MyInformation extends Component {
   };
 
   handleFullTime = async () => {
-    await Firebase.db
+    await this.context.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.context.auth.currentUser.uid)
       .update({ Seeking: "Full Time" });
     this.props.onStudentDataChange();
   };
 
   handleInternship = async () => {
-    await Firebase.db
+    await this.context.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.context.auth.currentUser.uid)
       .update({ Seeking: "Internship" });
     this.props.onStudentDataChange();
   };
 
   getListArrays = async (collection, doc) => {
-    const data = await Firebase.db.collection(collection).doc(doc).get();
+    const data = await this.context.db.collection(collection).doc(doc).get();
     return data.data();
   };
 

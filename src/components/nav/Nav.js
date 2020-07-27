@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
 import logo from "../../Static/CSLogo.png";
-import Firebase from "../../Firebase";
 import { Button } from "react-bootstrap";
+import { FirebaseContext } from '../Firebase';
 
 export class Nav extends Component {
+  static contextType = FirebaseContext;
   handleSignOut = async(e) => {
     try {
-      await Firebase.signout();
+      await this.context.signout();
       console.log("Sign out successfull");
     } catch(err) {
       console.log(err);

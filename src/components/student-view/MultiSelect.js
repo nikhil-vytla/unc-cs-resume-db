@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import { InputGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Firebase from "../Firebase/Firebase.js";
+import { FirebaseContext } from '../Firebase';
 import axios from "axios";
 
 export default class MultiSelect extends Component {
+  static contextType = FirebaseContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +24,7 @@ export default class MultiSelect extends Component {
 
     const objToSend = {
       //arrayList: array,
-      uid: Firebase.auth.currentUser.uid,
+      uid: this.context.auth.currentUser.uid,
       valueToSend: this.props.valueType,
       //typeToSend: type,
       update: updatedOBJ,

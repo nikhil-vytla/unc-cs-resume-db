@@ -45,7 +45,7 @@ app.get("/getUserClaims", async (req, res) => {
 // Adds new student to the database
 // request body = {"email": "example@email.com"}
 app.post("/newStudent", async (req, res) => {
-  const unc_email_re = /^\S+@(\S*\.|)unc.edu$/;
+  // const unc_email_re = /^\S+@(\S*\.|)unc.edu$/;
 
   const user = await auth().getUserByEmail(req.body.email)
   .catch(err => {

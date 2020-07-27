@@ -6,7 +6,7 @@ import withFirebase from "../../Firebase"
 import axios from "axios"
 
 
-function MyListsDropDownItem(props, {Firebase}) {
+function MyListsDropDownItem({Firebase, ...props}) {
     async function handleZoom() {
         try {
             let data = await Firebase.getUserInfo(props.student.UID)

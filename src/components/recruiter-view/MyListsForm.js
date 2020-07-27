@@ -5,7 +5,7 @@ import withFirebase from "../../Firebase";
 
 import axios from "axios";
 
-function MyListsForm(props, {Firebase}) {
+function MyListsForm({Firebase, ...props}) {
   const [listName, setListName] = useState("");
   const handleChange = async (evt) => {
     evt.preventDefault();

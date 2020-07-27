@@ -9,7 +9,7 @@ import {withFirebase} from "../../Firebase"
 import axios from "axios"
 
 
-function MyListsDropDown( props, {Firebase} ){
+function MyListsDropDown( {Firebase, ...props} ){
     const [collapsed, setColapsed] = useState(true)
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <MoreVertIcon

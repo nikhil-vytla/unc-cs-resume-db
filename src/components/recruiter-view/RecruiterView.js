@@ -10,7 +10,7 @@ import { Col, Row, Container } from "react-bootstrap";
 import withFirebase from "../../Firebase";
 import axios from "axios";
 
-function RecruiterView( {Firebase} ) {
+function RecruiterView( {Firebase, ...props} ) {
   const [resumeView, setResumeView] = useState(true);
   const [recruiter, setRecruiter] = useState(null);
   const [candidate, setCandidate] = useState(CandidatesList.CandidatesList[0]);

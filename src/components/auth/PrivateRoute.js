@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { FirebaseContext } from '../Firebase';
+import { withFirebase } from '../Firebase';
 
-export default class PrivateRoute extends Component {
-    static contextType = FirebaseContext;
-
+class PrivateRoute extends Component {
     constructor(props) {
         super(props);
+        this.Firebase = props.Firebase;
         this.state = {
             claim: null,
         };
     }
 
     async getClaims() {
-        return (await this.context.auth.currentUser
+        return (await this.Firebase.auth.currentUser
             .getIdTokenResult(true)
             .catch(err => console.log(err)))
             .claims
@@ -47,3 +46,5 @@ export default class PrivateRoute extends Component {
         );
     }
 }
+
+export default withFirebase(PrivateRoute);

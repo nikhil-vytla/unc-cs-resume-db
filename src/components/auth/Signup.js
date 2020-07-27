@@ -21,7 +21,7 @@ const Signup = ({Firebase}) => {
     .createUserWithEmailAndPassword(email.value, password.value)
     .catch(err => console.log(err));
 
-    await axios.post("http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newStudent", {
+    await axios.post("https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newStudent", {
       "email": email.value,
     }).catch(err => console.log(err.message));
 

@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./auth/PrivateRoute";
 import { withFirebase } from "./Firebase";
 
-const App = () => {
+const App = ({Firebase}) => {
   return (
     <div className="App">
       <Router>

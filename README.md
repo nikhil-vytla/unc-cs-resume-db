@@ -23,19 +23,19 @@ To use cloud functions, manually add the file 'functions/**adminConfig.json**', 
 
 ### Developers
 
-- Adam W.
+- Adam W. - [Github](https://github.com/AdamWinek)
 - Jack G.
-- Maitreyi S.
-- Sai G.
-- Seul (Eric) K.
-- Tucker R.
+- Maitreyi S. - [Github](https://github.com/maitsiv)
+- Sai G. - [Github](https://github.com/sgongidi)
+- Seul (Eric) K. - [Github](https://github.com/kimseul91)
+- Tucker R. - [Github](https://github.com/treisig)
 
 ### Mentors
 
 - Josh C.
 - Ronald D.
-- Nikhil V.
-- Ty C.
+- Nikhil V. - [Github](https://github.com/nikhil-vytla)
+- Ty C. - [Github](https://github.com/tygcrawford)
 
 ### Clients
 

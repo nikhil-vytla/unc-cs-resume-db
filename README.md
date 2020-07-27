@@ -35,6 +35,7 @@ To use cloud functions, manually add the file 'functions/**adminConfig.json**', 
 - Josh C.
 - Ronald D.
 - Nikhil V.
+- Ty C.
 
 ### Clients
 

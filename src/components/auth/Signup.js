@@ -1,13 +1,12 @@
-import React, { useState, useContext } from "react";
-import { FirebaseContext } from '../Firebase';
+import React, { useState } from "react";
+import { withFirebase } from '../Firebase';
 import { Form, Container } from "react-bootstrap";
-import { Link, withRouter, Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./auth.css";
 const axios = require('axios');
 
-const Signup = () => {
+const Signup = ({Firebase}) => {
   const [redirect, setRedirect] = useState(null);
-  const Firebase = useContext(FirebaseContext);
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -61,4 +60,4 @@ const Signup = () => {
   );
 }
 
-export default withRouter(Signup);
+export default withFirebase(Signup);

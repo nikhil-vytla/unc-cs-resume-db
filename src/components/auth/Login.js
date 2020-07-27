@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
-import { FirebaseContext } from '../Firebase';
+import React, { useState } from "react";
+import { withFirebase } from '../Firebase';
 import { Form, Container } from "react-bootstrap";
-import { withRouter, Redirect, Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import "./auth.css";
 
-const Login = () => {
+const Login = ({ Firebase }) => {
   const [redirect, setRedirect] = useState(null);
-  const Firebase = useContext(FirebaseContext);
+  console.log(Firebase);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -22,11 +22,11 @@ const Login = () => {
     .catch(err => console.log(err)))
     .claims;
 
-    if(admin) {
+    if(!!admin) {
       setRedirect(<Redirect to="/admin" />);
-    } else if(recruiter) {
+    } else if(!!recruiter) {
       setRedirect(<Redirect to="/recruiter" />);
-    } else if (student) {
+    } else if (!!student) {
       setRedirect(<Redirect to="/student" />);
     } else {
       setRedirect(<Redirect to="/" />);
@@ -60,4 +60,4 @@ const Login = () => {
   );
 }
 
-export default withRouter(Login);
+export default withFirebase(Login);

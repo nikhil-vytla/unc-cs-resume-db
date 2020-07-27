@@ -135,6 +135,71 @@ class Firebase {
       console.error(err);
     }
   }
+
+  // gets all db
+  async getAllDatabaseSystems() {
+    try {
+      const data = await this.db.collection("Database Systems").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  // gets all frameworks&tools
+  async getAllFrameworksAndTools() {
+    try {
+      const data = await this.db.collection("Frameworks and Tools").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // gets all grad yr
+  async getAllGraduationYear() {
+    try {
+      const data = await this.db.collection("Graduation Year").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  // gets all events
+  async getAllMajors() {
+    try {
+      const data = await this.db.collection("Majors").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  // gets all events
+  async getAllOperatingSystems() {
+    try {
+      const data = await this.db.collection("OperatingSystems").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  // gets all events
+  async getAllProgrammingLanguages() {
+    try {
+      const data = await this.db.collection("Programming Languages").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  // gets all events
+  async getAllSchools() {
+    try {
+      const data = await this.db.collection("Schools").get();
+      return data.docs.map((doc) => doc.data());
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
 
 export default new Firebase();

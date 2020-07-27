@@ -13,6 +13,7 @@ import RecruiterListComponent from "./RecruiterListComponent";
 import StudentListComponent from "./StudentListComponent";
 import "./AdminView.css";
 import EventModification from "./EventModification";
+import BasicInformationModification from "./BasicInformationModification";
 
 export default class AdminView extends Component {
   constructor(props) {
@@ -23,16 +24,30 @@ export default class AdminView extends Component {
       events: [],
       value: "Recruiters",
     };
+    this.handleQueryAll = this.handleQueryAll(this);
     this.handleQueryAllRecruiters = this.handleQueryAllRecruiters.bind(this);
     this.handleQueryAllStudents = this.handleQueryAllStudents.bind(this);
     this.handleQueryAllEvents = this.handleQueryAllEvents.bind(this);
   }
   componentDidMount() {
+    // this.handleQueryAll();
     this.handleQueryAllRecruiters();
     this.handleQueryAllStudents();
     this.handleQueryAllEvents();
   }
 
+  handleQueryAll = async (e) => {
+    try {
+      let data = await Firebase.getAllRecruiters();
+      this.setState({ recruiters: data });
+      data = await Firebase.getAllStudents();
+      this.setState({ students: data });
+      data = await Firebase.getAllEvents();
+      this.setState({ events: data });
+    } catch (err) {
+      console.error(err);
+    }
+  };
   handleQueryAllRecruiters = async (e) => {
     try {
       let data = await Firebase.getAllRecruiters();
@@ -42,7 +57,6 @@ export default class AdminView extends Component {
       console.error(err);
     }
   };
-
   handleQueryAllStudents = async (e) => {
     try {
       let data = await Firebase.getAllStudents();
@@ -137,6 +151,7 @@ export default class AdminView extends Component {
             datas={this.state.recruiters}
             // datas={parentStateRecruiters()}
             updateRecruitersx={this.updateRecruiters}
+            // updateRecruitersx={this.updateQueryAll}
           />
         );
       case "Students":
@@ -155,10 +170,15 @@ export default class AdminView extends Component {
           />
         );
       case "Basic Information Modification":
-        return console.log("Basic Info Component");
+        // return console.log("Basic Info Component");
+        return <BasicInformationModification title={this.state.value} />;
       case "Skills & Experience Modification":
         return console.log("Skills & Experience Modification");
     }
+  };
+
+  updateQueryAll = async () => {
+    await this.handleQueryAll();
   };
 
   updateRecruiters = async () => {

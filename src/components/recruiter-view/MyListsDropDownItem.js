@@ -2,11 +2,11 @@ import React from 'react'
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
-import Firebase from "../../Firebase"
+import withFirebase from "../../Firebase"
 import axios from "axios"
 
 
-function MyListsDropDownItem(props) {
+function MyListsDropDownItem(props, {Firebase}) {
     async function handleZoom() {
         try {
             let data = await Firebase.getUserInfo(props.student.UID)
@@ -30,7 +30,6 @@ function MyListsDropDownItem(props) {
                 "Profile Image": props.student["Profile Image"]
             }
         };
-        //console.log(objToSend);
         if (props.listTitle !== null && props.listTitle !== "") {
             await axios.put(
                 "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/deleteStudent",
@@ -57,4 +56,4 @@ function MyListsDropDownItem(props) {
         </div>
     )
 }
-export default MyListsDropDownItem
+export default withFirebase(MyListsDropDownItem)

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Candidates from "./Candidates";
 
 import ResumeView from "./ResumeView";
 import { useTransition, animated } from "react-spring";
@@ -8,10 +7,10 @@ import CandidatesList from "../../Static/Candidates.json";
 import Spinner from "react-bootstrap/Spinner";
 import RecruiterViewColumns from "./RecruiterViewColumns";
 import { Col, Row, Container } from "react-bootstrap";
-import Firebase from "../../Firebase";
+import withFirebase from "../../Firebase";
 import axios from "axios";
 
-function RecruiterView() {
+function RecruiterView( {Firebase} ) {
   const [resumeView, setResumeView] = useState(true);
   const [recruiter, setRecruiter] = useState(null);
   const [candidate, setCandidate] = useState(CandidatesList.CandidatesList[0]);
@@ -81,8 +80,6 @@ function RecruiterView() {
   }
   async function removeFilter(filterName) {
     let filterArr = filters["Active Filters"];
-    console.log(filterArr);
-    console.log(filterName);
 
     filterArr.splice(filterArr.indexOf(filterName), 1);
     setFilters((prev) => ({
@@ -93,7 +90,6 @@ function RecruiterView() {
     "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/query",
     { filtersForQuery: filterArr }
     );
-    console.log(data)
     const data = preData.data;
     setCards(data);
     
@@ -188,4 +184,4 @@ function RecruiterView() {
     );
   }
 }
-export default RecruiterView;
+export default withFirebase(RecruiterView);

@@ -42,12 +42,3 @@ function Filter(props) {
   );
 }
 export default Filter;
-
-// const Priority = ["Favorited", "Contacted", "Notes On Profile"]
-// const GradYear = ["2020", "2021", "2022, 2023"]
-// const School = ["UNC", "Duke", "App State", "State"]
-// const Skills = ["Java", "Python", "C#", "C++", "Javascript", "HTML", "CSS"]
-// const Events = ["Hack NC", "Queer_Hack", "GLobal Game Jam", "Pearl Hacks"]
-// const PrimraryMaj = ["Computer Science", "Mathematics", "Econ"]
-// const SecondaryMaj = ["Computer Science", "Mathematics", "Econ"]
-// const Minors = ["Computer Science", "Mathematics", "Econ"]

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTransition, animated } from 'react-spring'
+import { useTransition} from 'react-spring'
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 

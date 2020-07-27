@@ -14,8 +14,6 @@ function FilterDropDown(props ) {
 
     }
 
-
-
     if (collapsed) {
         return (
             <div className="d-flex justify-content-between filterDropDownHeader" onClick={() => setColapsed(false)}  >

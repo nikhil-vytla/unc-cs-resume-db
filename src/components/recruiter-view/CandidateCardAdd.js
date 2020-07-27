@@ -1,11 +1,11 @@
 import React from "react"
 import AddIcon from '@material-ui/icons/Add';
 import Dropdown from 'react-bootstrap/Dropdown'
-import Firebase from "../../Firebase";
+import {withFirebase} from "../../Firebase"
 import axios from "axios"
 
 
-function CandidateCardAdd(props) {
+function CandidateCardAdd(props, {Firebase}) {
     
     const  handleChange = async (listName) => {
         // Checks if listName is empty then sends to endpoint
@@ -20,7 +20,8 @@ function CandidateCardAdd(props) {
               "Profile Image":props.student["Profile Image"]
           }
         };
-        //console.log(objToSend);
+
+        // Adds a recruiter to a list then updates the myLists
         if (listName !== null && listName !== "") {
           await axios.put(
             "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/addStudent",
@@ -68,4 +69,4 @@ function CandidateCardAdd(props) {
 
 
 
-} export default CandidateCardAdd
+} export default withFirebase(CandidateCardAdd)

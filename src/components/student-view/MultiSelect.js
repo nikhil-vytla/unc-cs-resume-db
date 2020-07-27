@@ -13,28 +13,28 @@ export default class MultiSelect extends Component {
     };
   }
 
-  // handleUpdate = (event) => {
-  //   const currentVal = event.target.value;
-  //   this.setState({
-  //     update: currentVal,
-  //   });
-  //   console.log(currentVal);
-  // };
-
   // intermediate function to help facilitate updates
   firebaseUpdates = async (array, type) => {
+    let updatedOBJ = {};
+    array.forEach((element) => {
+      updatedOBJ[element] = type;
+    });
+    //console.log(updatedOBJ);
+
     const objToSend = {
-      arrayList: array,
+      //arrayList: array,
       uid: Firebase.auth.currentUser.uid,
       valueToSend: this.props.valueType,
-      typeToSend: type,
+      //typeToSend: type,
+      update: updatedOBJ,
     };
 
+    // console.log(objToSend);
+
     await axios.put(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/updateCheckbox",
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/checkboxV2",
       objToSend
     );
-
     // const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     // array.forEach(async (eachUpdate) => {
     //   try {
@@ -56,17 +56,11 @@ export default class MultiSelect extends Component {
   };
 
   handleUpload = async () => {
-    // checks to see if the stuff is nothing is toggled
-    // if (this.state.eventsToggled == []) {
-    //   alert(`Please select ${this.props.valueType} before pressing +`);
-    //   return;
-    // }
-
     // Goes through all of your toggled events
     // updates them in Firebase
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, true);
-    await delay(500);
+    // await delay(250);
     this.props.monitorChanges();
   };
 
@@ -74,19 +68,9 @@ export default class MultiSelect extends Component {
   handleDelete = async () => {
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, false);
-    await delay(500);
+    //await delay(250);
     this.props.monitorChanges();
   };
-
-  // handleChangeForCheckbox = (event) => {
-  //   if (event.target.checked) {
-  //     const optionCheckboxList = this.props.optionArray.map((eachThing) => {
-  //       return { name: eachThing, value: false };
-  //     });
-  //     this.setState({});
-  //   } else if (event.target.checked == false) {
-  //   }
-  // };
 
   handleCheck = (event) => {
     if (event.target.checked) {
@@ -107,16 +91,6 @@ export default class MultiSelect extends Component {
     }
   };
 
-  // componentDidMount() {
-  //   const optionCheckboxList = this.props.optionArray.map((eachThing) => {
-  //     return { name: eachThing, value: false };
-  //   });
-  //   //console.log(optionCheckboxList);
-  //   this.setState({
-  //     eventsToggled: optionCheckboxList,
-  //   });
-  // }
-
   render() {
     const optionOptions = this.props.optionArray.map((eachOption) => (
       <Form.Check
@@ -130,18 +104,22 @@ export default class MultiSelect extends Component {
 
     return (
       <InputGroup className="mb-3">
-        <Form.Group controlId="ControlSelect1">
-          <div key={`default-checkbox`} className="mb-3">
+        <Form.Group controlId="ControlSelect1 checkBoxes">
+          <div key={`default-checkbox`} className="mb-3 checkBoxes" >
             {optionOptions}
           </div>
+          <Button variant="primary" className="multiBtn " onClick={this.handleUpload}>
+            Update
+          </Button>
         </Form.Group>
+        
         <InputGroup.Append>
-          <Button variant="outline-secondary" onClick={this.handleUpload}>
-            +
-          </Button>
-          <Button variant="outline-secondary" onClick={this.handleDelete}>
+          {/* <Button variant="primary" className="formBtn" onClick={this.handleUpload}>
+            Update
+          </Button> */}
+          {/* <Button variant="outline-secondary" onClick={this.handleDelete}>
             -
-          </Button>
+          </Button> */}
         </InputGroup.Append>
       </InputGroup>
     );

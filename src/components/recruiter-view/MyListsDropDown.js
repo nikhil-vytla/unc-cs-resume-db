@@ -5,6 +5,8 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import MyListsDropDownItem from "./MyListsDropDownItem"
 import Dropdown from "react-bootstrap/Dropdown"
+import Firebase from "../../Firebase"
+import axios from "axios"
 
 
 function MyListsDropDown( props){
@@ -25,6 +27,21 @@ function MyListsDropDown( props){
       ));
 
 
+    const handleDelete = async () => {
+        // Checks if listName is empty then sends to endpoint
+        const objToSend = {
+            nameOfList: props.listTitle,
+            recruiterUID: Firebase.auth.currentUser.uid,
+        };
+        //console.log(objToSend);
+        if (props.listTitle !== null && props.listTitle !== "") {
+           await axios.put(
+                "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/removeList",
+                objToSend
+            );
+        }
+        props.updateRecruiter();
+    };
     if (collapsed) {
         return (
             <div className="d-flex justify-content-between myListTitleHeader"   >
@@ -36,7 +53,7 @@ function MyListsDropDown( props){
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDelete()}>Delete List</Dropdown.Item>
                             <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                         </Dropdown.Menu>
@@ -59,7 +76,7 @@ function MyListsDropDown( props){
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item  onClick={() => handleDelete()}>Delete List</Dropdown.Item>
                             <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                         </Dropdown.Menu>
@@ -74,7 +91,7 @@ function MyListsDropDown( props){
              
             </div>
                 {props.students.map( currentStudent =>(
-                    <MyListsDropDownItem  student={currentStudent} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} />
+                    <MyListsDropDownItem  updateRecruiter={() => props.updateRecruiter()} listTitle={props.listTitle} student={currentStudent} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} />
                 ))}
 
 

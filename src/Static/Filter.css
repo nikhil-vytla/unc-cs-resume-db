@@ -12,7 +12,7 @@
 
 .filterArrowDiv{
     top:100px;
-    left: calc(15vw - 15px);
+    right: -1vw;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -30,7 +30,7 @@
 }
 .dummyArrowDiv{
     top:100px;
-    left: calc(1.5vw - 15px);
+    right: -1vw;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -43,6 +43,8 @@
     background-color: #ffffff;
     transition: all .2s ease-in-out;
     margin: 0;
+    z-index: 100;
+
     padding: 0;
 }
 
@@ -55,6 +57,8 @@
 }
 
 .filterArrowIcon{
+    z-index: 100;
+
     height: 25px !important;
     width: 25px !important;
     margin-top: auto;
@@ -120,12 +124,15 @@
     background-color: #4B9CD3;
     height: 40px;
     width: 15vw;
+    overflow: hidden;
 }
 .filterDropDownTitle{
     padding-left: 10px;
     line-height: 40px;
     font-size: 15px;
     color: #ffffff;
+    width: fit-content  !important;
+    text-overflow: ellipsis !important;
     user-select: none;
 }
 .filterDropDownIcons{
@@ -166,11 +173,13 @@
 }
 
 .filterItemText{
+    width: fit-content  !important;
+    text-overflow: ellipsis !important;
+
     margin-left: 20px;
     font-size: 15px;
     line-height: 20px;
     align-items: center;
-    text-overflow: ellipsis !important;
     margin-bottom: 0px;
 }
 .filterItem{
@@ -183,6 +192,10 @@
 .filterList{
     margin: 0;
     padding-left: 0;
+    list-style: none;
+}
+ul{
+    list-style: none;
 }
 .filterLi{
     height: 40px;

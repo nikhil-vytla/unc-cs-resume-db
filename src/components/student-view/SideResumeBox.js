@@ -27,6 +27,7 @@ import "./SideResumeBox.css";
 
 // Changed this to functional so I can use
 // hooks to show resume when you click on it
+// Had to switch to embed so you can see pdfs
 function SideResumeBox(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -38,22 +39,32 @@ function SideResumeBox(props) {
       <Card
         className="SideResumeBoxCard"
         border="dark"
-        style={{ height: "460px", width: "290px" }}
+        style={{ height: "auto", width: "22vw" }}
       >
-        <img
+        {/* <img
           src={props.currentPhoto}
           alt=""
           height="460"
           width="auto"
           onClick={handleShow}
-        ></img>
+        ></img> */}
+        <embed
+          src={props.currentPhoto}
+          height="460"
+          width="auto"
+          onClick={handleShow}
+        ></embed>
       </Card>
       <Modal show={show} onHide={handleClose} style={{ marginTop: "0" }}>
-        <img
+        <embed
+          src={props.currentPhoto}
+          style={{ width: "50vw", height: "auto" }}
+        ></embed>
+        {/* <img
           src={props.currentPhoto}
           alt=""
           style={{ width: "50vw", height: "auto" }}
-        ></img>
+        ></img> */}
       </Modal>
     </>
   );

@@ -98,7 +98,10 @@ class Firebase {
   // gets all students
   async getAllStudents() {
     try {
-      const data = await this.db.collection("students").get();
+      const data = await this.db
+        .collection("students")
+        .where("Hide Resume", "==", false)
+        .get();
       return data.docs.map((doc) => doc.data());
     } catch (err) {
       console.error(err);
@@ -109,6 +112,15 @@ class Firebase {
     try {
       const data = await this.db.collection("students").doc(userID).get();
       return data.docs.map((doc) => doc.data());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getEventCodes() {
+    try {
+      const data = await this.db.collection("Events").doc("eventCodes").get();
+      return data.data();
     } catch (error) {
       console.log(error);
     }
@@ -126,6 +138,7 @@ class Firebase {
       console.log(err);
     }
   }
+
   async getAllUsers() {
     try {
       const data = await this.db.collection("students").get();
@@ -134,34 +147,6 @@ class Firebase {
       console.log(error);
     }
   }
-
-  // Call this function after sign up
-  // async putNewUserIntoDB(currentUser) {
-  //   const dataForDB = {
-  //     Email: currentUser.email,
-  //     ["Database Systems"]: {},
-  //     ["Programming Languages"]: {},
-  //     ["Frameworks and Tools"]: {},
-  //     Events: {},
-  //     ["First Name"]: "",
-  //     ["Last Name"]: "",
-  //     ["Graduation Year"]: "",
-  //     ["School"]: "",
-  //     ["Minors"]: {},
-  //     ["Operating Systems"]: {},
-  //     ["Primary Major"]: "",
-  //     ["Secondary Major"]: "",
-  //     Seeking: "",
-  //     UID: currentUser.uid,
-  //     ["Profile Image"]: "",
-  //     ["Resume PDF"]: "",
-  //   };
-  //   try {
-  //     await this.db.collection("students").doc(currentUser.uid).set(dataForDB);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-  }
+}
 
 export default new Firebase();

@@ -231,26 +231,31 @@ app.post("/queryStudents", async (req, res) => {
   res.send(docs);
 });
 
-// app.post("/query", async (req, res) => {
-//   const test = req.body.filter1;
+// app.post("/query/<RecruiterID>", async (req, res) => {
 
-//   // console.log(test);
-//   const testQuery = "await firestore.collection('students')" + test;
-//   //const data = eval("(async () => {" + testQuery + "})();");
-//   const data = (async () => {
-//     await firestore
-//       .collection("students")
-//       .where("Graduation Year", "==", "2020");
-//   })();
-//   // console.log(testData);
-//   const docs = data.docs.map((doc) => doc.data());
-//   res.send(docs);
+//   // Recruiter has access to UNC and HACKNC
+
+//   const additonalFilters = {
+//     name: "Events.HackNC", value: true
+//   }
 // });
+
+// adds requested school to request list
+app.post("/requestSchool", async (req, res) => {
+  const schoolValue = req.body.school;
+  await firestore
+    .collection("Schools")
+    .doc("RequestedSchools")
+    .update({
+      schoolsList: admin.firestore.FieldValue.arrayUnion(schoolValue),
+    });
+  res.status(201).send();
+});
 
 app.post("/query", async (req, res) => {
   let query = firestore.collection("students");
 
-  const filters = req.body.filters;
+  const filters = req.body.filtersForQuery;
 
   // This is how the request should be filters = [
   // {
@@ -282,6 +287,7 @@ app.post("/query", async (req, res) => {
 
 app.put("/updateCheckbox", async (req, res) => {
   const array = req.body.arrayList;
+
   array.forEach(async (eachUpdate) => {
     try {
       const valuePlaceHolder = req.body.valueToSend;
@@ -299,6 +305,84 @@ app.put("/updateCheckbox", async (req, res) => {
       console.log(error);
     }
   });
+  res.status(201).send();
+});
+
+app.put("/checkboxV2", async (req, res) => {
+  return cors()(req, res, async () => {
+    const valuePlaceHolder = req.body.valueToSend;
+    const updatedOBJ = req.body.update;
+
+    // await firestore
+    //   .collection("students")
+    //   .doc(req.body.uid)
+    //   .set(
+    //     {
+    //       [valuePlaceHolder]: updatedOBJ,
+    //     },
+    //     { merge: true }
+    //   );
+
+    // Replaces whole field with the updated info
+    // rather than update specific fields
+    await firestore
+      .collection("students")
+      .doc(req.body.uid)
+      .update({
+        [valuePlaceHolder]: updatedOBJ,
+      });
+    res.status(201).send();
+  });
+});
+
+// adds a new list
+app.put("/newList", async (req, res) => {
+  // takes in uid and list name
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: [],
+    });
+  res.status(201).send();
+});
+
+// removes a list
+app.put("/removeList", async (req, res) => {
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.delete(),
+    });
+  res.status(201).send();
+});
+
+// adds a student to a recruiter's list
+app.put("/addStudent", async (req, res) => {
+  // input: nameOfList, recruiterUID, student
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayUnion(
+        req.body.student
+      ),
+    });
+  res.status(201).send();
+});
+
+// endpoint for recruiters to remove students from lists
+app.put("/deleteStudent", async (req, res) => {
+  // input: nameOfList, recruiterUID, student
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayRemove(
+        req.body.student
+      ),
+    });
   res.status(201).send();
 });
 

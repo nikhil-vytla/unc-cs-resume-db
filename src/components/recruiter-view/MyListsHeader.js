@@ -26,8 +26,6 @@ function MyListsHeader(props) {
 
     let updateRecruiterOutside = () => props.updateRecruiter();
 
-
-
     return (
         <div className="d-block">
             <div className="d-flex myListHeaderDiv justify-content-center" style={{ width: '25vw' }} onClick={() => setCollapsed(!collapsed)}>

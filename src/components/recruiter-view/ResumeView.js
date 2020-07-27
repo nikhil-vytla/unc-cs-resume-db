@@ -8,9 +8,6 @@ import ResumeViewDropDownText from "./ResumeViewDropDownText"
 
 import ResumeViewNotes from "./ResumeViewNotes"
 
-
-
-
 function ResumeView (props) {
     const frameWorks = props.candidate["Frameworks and Tools"]
     const databaseSystems = props.candidate["Database System"]

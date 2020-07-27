@@ -1,11 +1,9 @@
 import React, { useState } from "react"
 import Card from 'react-bootstrap/Card'
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import StarIcon from '@material-ui/icons/Star';
 import CandidateCardTag from "./CandidateCardTag";
-import AddIcon from '@material-ui/icons/Add';
 import "../../Static/candidates.css"
 import CandidateCardAdd from "./CandidateCardAdd";
 
@@ -64,7 +62,6 @@ function CandidateCard(props) {
                 </Card.Header>
                 <Card.Body className="p-0" >
                     <div className="bg-white BreeSerif d-flex justify-content-start w-100 flex-wrap cardTagContainer" onClick={() => props.toggleResumeView(props.info)}>
-
                         <CandidateCardTag items={props.info["Frame Works and Tools"]}></CandidateCardTag>
                         <CandidateCardTag items={props.info["Database Systems"]}></CandidateCardTag>
                         <CandidateCardTag items={props.info["Programming Languages"]}></CandidateCardTag>
@@ -74,9 +71,6 @@ function CandidateCard(props) {
                         {primaryMajor}
                         {secondaryMajor}
                         <CandidateCardTag items={props.info["Minors"]}></CandidateCardTag>
-
-                        
-
                         {/* {props.info.Skills.map(skill =>
                                     
                                     <p className="recruiterViewTag BreeSerif" key={skill}> {skill}</p>
@@ -90,9 +84,6 @@ function CandidateCard(props) {
                             {props.info["Minors"] && props.info["Minors"].map(minor =>
                                 <p className="recruiterViewTag BreeSerif" key={minor}> {minor}</p>
                             ) } */}
-
-
-
                     </div>
                     <div className=" d-flex justify-content-around cardIconDiv">
                         {star}

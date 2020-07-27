@@ -12,13 +12,14 @@ import "./StudentView.css";
 import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
 import MultiSelect from "./MultiSelect";
-import Firebase from "../../Firebase.js";
+import { withFirebase } from "../Firebase";
 import EventsEnterBox from "./EventsEnterBox";
 
-export class MyInformation extends Component {
+class MyInformation extends Component {
   // function MyInformation(props) {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       fName: "",
       lName: "",
@@ -37,23 +38,23 @@ export class MyInformation extends Component {
   };
 
   handleFullTime = async () => {
-    await Firebase.db
+    await this.Firebase.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.Firebase.auth.currentUser.uid)
       .update({ Seeking: "Full Time" });
     this.props.onStudentDataChange();
   };
 
   handleInternship = async () => {
-    await Firebase.db
+    await this.Firebase.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.Firebase.auth.currentUser.uid)
       .update({ Seeking: "Internship" });
     this.props.onStudentDataChange();
   };
 
   getListArrays = async (collection, doc) => {
-    const data = await Firebase.db.collection(collection).doc(doc).get();
+    const data = await this.Firebase.db.collection(collection).doc(doc).get();
     return data.data();
   };
 
@@ -302,45 +303,45 @@ export class MyInformation extends Component {
                   <NameSection monitorChanges={this.handlePropsUpdate} />
                   <br />
                   <Form.Row>
-                    <Form.Label column  className="data-row-label ">
+                    <Form.Label column className="data-row-label ">
                       Position Seeking
                     </Form.Label>
                     {/* <Col> */}
-                      <InputGroup className="mb-3 radioInput">
-                        <div className="custom-control custom-radio custom-control-inline">
-                          <input
-                            type="radio"
-                            id="customRadioInline3"
-                            name="customRadioInline1"
-                            className="custom-control-input"
-                            onClick={this.handleInternship}
-                          />
-                          <label
-                            className="custom-control-label"
-                            for="customRadioInline3"
-                          >
-                            Internship
-                          </label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                          <input
-                            type="radio"
-                            id="customRadioInline4"
-                            name="customRadioInline1"
-                            className="custom-control-input"
-                            onClick={this.handleFullTime}
-                          />
-                          <label
-                            className="custom-control-label"
-                            for="customRadioInline4"
-                          >
-                            Full Time
-                          </label>
-                        </div>
-                        <h6 className="currentlySeeking">{`You are currently seeking ${
-                          this.props.seekingData == "Internship" ? "an" : "a"
-                        } ${this.props.seekingData} position!`}</h6>
-                      </InputGroup>
+                    <InputGroup className="mb-3 radioInput">
+                      <div className="custom-control custom-radio custom-control-inline">
+                        <input
+                          type="radio"
+                          id="customRadioInline3"
+                          name="customRadioInline1"
+                          className="custom-control-input"
+                          onClick={this.handleInternship}
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="customRadioInline3"
+                        >
+                          Internship
+                        </label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input
+                          type="radio"
+                          id="customRadioInline4"
+                          name="customRadioInline1"
+                          className="custom-control-input"
+                          onClick={this.handleFullTime}
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="customRadioInline4"
+                        >
+                          Full Time
+                        </label>
+                      </div>
+                      <h6 className="currentlySeeking">{`You are currently seeking ${
+                        this.props.seekingData == "Internship" ? "an" : "a"
+                      } ${this.props.seekingData} position!`}</h6>
+                    </InputGroup>
                     {/* </Col> */}
                   </Form.Row>
                   <br />
@@ -362,7 +363,7 @@ export class MyInformation extends Component {
                     </Form.Row>
                   </div>
                   <br />
-                  <Form.Row className="formRow"> 
+                  <Form.Row className="formRow">
                     <Form.Label className="data-row-label " column lg={2}>
                       Graduation Year
                     </Form.Label>
@@ -400,7 +401,7 @@ export class MyInformation extends Component {
                         </li> */}
                       </InputGroup>
                     </Col>
-                  </Form.Row >
+                  </Form.Row>
                   <br />
                   <Form.Row className="formRow">
                     <Form.Label className="data-row-label " column lg={2}>
@@ -423,7 +424,7 @@ export class MyInformation extends Component {
                   </Form.Row>
                   <br />
                   <Form.Row className="formRow">
-                    <Form.Label  className="data-row-label "column lg={2}>
+                    <Form.Label className="data-row-label " column lg={2}>
                       Minors
                     </Form.Label>
                     <Col>
@@ -447,7 +448,7 @@ export class MyInformation extends Component {
               </div>
             </Accordion.Collapse>
             <Accordion.Toggle
-            className="accordionHeader"
+              className="accordionHeader"
               as={Card.Header}
               eventKey="1"
               style={{ backgroundColor: "#4B9CD3" }}
@@ -460,9 +461,7 @@ export class MyInformation extends Component {
                   <div className="data-row">
                     <Form.Row className="formRow">
                       <Form.Label className="data-row-label " column lg={2}>
-                        
-                          Programming Languages
-                      
+                        Programming Languages
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
@@ -525,7 +524,7 @@ export class MyInformation extends Component {
                         {opSystemsList}
                       </InputGroup>
                     </Col>
-                  </Form.Row >
+                  </Form.Row>
                   <Form.Row className="formRow">
                     <Form.Label className="data-row-label " column lg={2}>
                       Database Systems
@@ -592,4 +591,4 @@ export class MyInformation extends Component {
   }
 }
 
-export default MyInformation;
+export default withFirebase(MyInformation);

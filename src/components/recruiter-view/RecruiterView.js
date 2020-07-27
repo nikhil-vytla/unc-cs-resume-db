@@ -72,7 +72,7 @@ function RecruiterView() {
     "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-    "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/query",
+    "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/query",
     { filtersForQuery: filterArr }
     );
     const data = preData.data;
@@ -90,7 +90,7 @@ function RecruiterView() {
     "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-    "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/query",
+    "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/query",
     { filtersForQuery: filterArr }
     );
     console.log(data)

@@ -36,7 +36,7 @@ function MyListsDropDown( props){
         //console.log(objToSend);
         if (props.listTitle !== null && props.listTitle !== "") {
            await axios.put(
-                "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeList",
+                "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/removeList",
                 objToSend
             );
         }

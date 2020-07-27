@@ -16,6 +16,7 @@ admin.initializeApp({
 app.use(cors({ origin: true }));
 
 const firestore = admin.firestore();
+const auth = admin.auth;
 // Default response for /api
 app.get("/", (req, res) => {
   res.send("You've reached the base API endpoint");
@@ -38,7 +39,7 @@ app.get("/getProfileInfo", async (req, res) => {
     if (req.body.currentUser !== null) {
       const data = await firestore.collection
         .doc("students")
-        .where("UID", "==", firebase.auth().currentUser.uid)
+        .where("UID", "==", auth().currentUser.uid)
         .get();
       const docs = data.docs.map((doc) => doc.data());
       res.send(docs);
@@ -59,16 +60,19 @@ app.get("/getUserClaims", async (req, res) => {
 app.post("/newStudent", async (req, res) => {
   // const unc_email_re = /^\S+@(\S*\.|)unc.edu$/;
 
-  const user = await auth().getUserByEmail(req.body.email)
-  .catch(err => {
-    res.status(404).send(err);
-  });
+  const user = await auth()
+    .getUserByEmail(req.body.email)
+    .catch((err) => {
+      res.status(404).send(err);
+    });
 
-  await auth().setCustomUserClaims(user.uid, {
-    student: true,
-    recruiter: false,
-    admin: false,
-  }).catch(err => console.log(err));
+  await auth()
+    .setCustomUserClaims(user.uid, {
+      student: true,
+      recruiter: false,
+      admin: false,
+    })
+    .catch((err) => console.log(err));
 
   console.log(user);
   const studentData = {
@@ -93,61 +97,69 @@ app.post("/newStudent", async (req, res) => {
     ["Hide Resume"]: true,
   };
 
-  await firestore().collection("students")
+  await firestore
+    .collection("students")
     .doc(user.uid)
     .set(studentData)
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
   res.status(201).send();
 });
 
 // Adds new recruiter to the database
 // request body = {"email": "example@email.com", "name": "myName"}
 app.post("/newRecruiter", async (req, res) => {
-  const user = await auth().getUserByEmail(req.body.email)
-  .catch(err => {
-    res.status(404).send(err);
-  });
+  const user = await auth()
+    .getUserByEmail(req.body.email)
+    .catch((err) => {
+      res.status(404).send(err);
+    });
 
-  await auth().setCustomUserClaims(user.uid, {
-    student: false,
-    recruiter: true,
-    admin: false,
-  }).catch(err => {
-    res.status(500).send(err);
-  });
+  await auth()
+    .setCustomUserClaims(user.uid, {
+      student: false,
+      recruiter: true,
+      admin: false,
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 
   const recruiterData = {
     ["Name"]: req.body.name,
     ["Email"]: req.body.email,
     ["UID"]: user.uid,
     ["Lists"]: {
-      ["Favorites"]: []
+      ["Favorites"]: [],
     },
-    ["Resume Access"]: []
-  }
+    ["Resume Access"]: [],
+  };
 
-  await firestore().collection("recruiters")
+  await firestore
+    .collection("recruiters")
     .doc(user.uid)
     .set(recruiterData)
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send(err);
     });
   res.status(201).send();
 });
 
 app.post("/newAdmin", async (req, res) => {
-  const user = await auth().getUserByEmail(req.body.email)
-  .catch(err => {
-    res.status(404).send(err);
-  });
+  const user = await auth()
+    .getUserByEmail(req.body.email)
+    .catch((err) => {
+      res.status(404).send(err);
+    });
 
-  await auth().setCustomUserClaims(user.uid, {
-    student: false,
-    recruiter: true,
-    admin: true,
-  }).catch(err => {
-    res.status(500).send(err);
-  });
+  await auth()
+    .setCustomUserClaims(user.uid, {
+      student: false,
+      recruiter: true,
+      admin: true,
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
 // adds requested school to request list

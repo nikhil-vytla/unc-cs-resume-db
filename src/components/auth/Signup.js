@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { withFirebase } from '../Firebase';
+import { withFirebase } from "../Firebase";
 import { Form, Container } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
 import "./auth.css";
-const axios = require('axios');
+const axios = require("axios");
 
-const Signup = ({Firebase}) => {
+const Signup = ({ Firebase }) => {
   const [redirect, setRedirect] = useState(null);
 
   const handleSignup = async (event) => {
@@ -18,12 +18,25 @@ const Signup = ({Firebase}) => {
     }
 
     await Firebase.auth
-    .createUserWithEmailAndPassword(email.value, password.value)
-    .catch(err => console.log(err));
+      .createUserWithEmailAndPassword(email.value, password.value)
+      .catch((err) => console.log(err));
 
-    await axios.post("https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newStudent", {
-      "email": email.value,
-    }).catch(err => console.log(err.message));
+    // await axios.post("https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newStudent", {
+    //   "email": email.value,
+    // }).catch(err => console.log(err.message));
+
+    axios({
+      method: "post",
+      headers: {
+        "Access-Control-Allow-Origin":
+          "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net",
+      },
+      url:
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newStudent",
+      data: {
+        email: email.value,
+      },
+    }).catch((err) => console.log(err.message));
 
     setRedirect(<Redirect to="/student" />);
   };
@@ -35,11 +48,7 @@ const Signup = ({Firebase}) => {
         <Form className="authForm" onSubmit={handleSignup}>
           <h1>Sign Up</h1>
 
-          <Form.Control
-            name="email"
-            type="email"
-            placeholder="Email Address"
-          />
+          <Form.Control name="email" type="email" placeholder="Email Address" />
           <Form.Control
             name="password"
             type="password"
@@ -53,11 +62,13 @@ const Signup = ({Firebase}) => {
           <button className="authBtn" type="submit">
             Sign Up
           </button>
-          <p className="authLink">Already have an account? <Link to="/">Login</Link></p>
+          <p className="authLink">
+            Already have an account? <Link to="/">Login</Link>
+          </p>
         </Form>
       </Container>
     </Container>
   );
-}
+};
 
 export default withFirebase(Signup);

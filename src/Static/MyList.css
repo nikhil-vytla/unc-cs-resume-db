@@ -174,3 +174,8 @@
     background-color: #ffffff;
     position: absolute;
 }
+
+.myListsBigOlDiv{
+    height: calc(100vh - 105px - 15px);
+    background-color: white;
+}

@@ -1,22 +1,28 @@
 import React from 'react';
 import "../../Static/MyList.css"
-import MyListDropDown from "./MyListsDropDown"
-import lists from "../../Static/MyLists.json"
+import MyListsDropDownWrapper from "./MyListsDropDownWrapper";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import MyListsHeader from "./MyListsHeader";
 
 function MyLists(props) {
 
-    
-    return (
-        <div>
-            <div className="d-block">
-                <h1 className="recruiterViewHeader BreeSerif"  style={{width: '25vw'}}>My Lists</h1>
-            </div>
-            <div>
-                {lists.MyList.map((list) => (
-                    <MyListDropDown key={list.Title} listTitle={list.Title} students={list.Students} toggleResumeView={(candidate) => props.toggleResumeView(candidate)}/>
-                ))}
-                
 
+    let listWrapper = null;
+    if (props.myListsRecruiter !== null && props.myListsRecruiter !== undefined) {
+        listWrapper = (<MyListsDropDownWrapper updateRecruiter={() => props.updateRecruiter()} list={props.myListsRecruiter[0]["Lists"]} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} />);
+
+    }
+
+    return (
+        <div className="myListsBigOlDiv">
+            <div className="myListsArrowDiv" onClick={() => props.setMyListsToggle()}>
+                <ArrowForwardIcon className="myListsArrowIcon" />
+
+            </div>
+            <MyListsHeader updateRecruiter={() => props.updateRecruiter()} />
+
+            <div>
+                {listWrapper}
             </div>
         </div>
 

@@ -162,7 +162,7 @@ app.post("/requestSchool", async (req, res) => {
 app.post("/query", async (req, res) => {
   let query = firestore().collection("students");
 
-  const filters = req.body.filters;
+  const filters = req.body.filtersForQuery;
 
   // This is how the request should be filters = [
   // {
@@ -242,4 +242,56 @@ app.put("/checkboxV2", async (req, res) => {
   });
 });
 
-exports.api = https.onRequest(app);
+// adds a new list
+app.put("/newList", async (req, res) => {
+  // takes in uid and list name
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: [],
+    });
+  res.status(201).send();
+});
+
+// removes a list
+app.put("/removeList", async (req, res) => {
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.delete(),
+    });
+  res.status(201).send();
+});
+
+// adds a student to a recruiter's list
+app.put("/addStudent", async (req, res) => {
+  // input: nameOfList, recruiterUID, student
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayUnion(
+        req.body.student
+      ),
+    });
+  res.status(201).send();
+});
+
+// endpoint for recruiters to remove students from lists
+app.put("/deleteStudent", async (req, res) => {
+  // input: nameOfList, recruiterUID, student
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .update({
+      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayRemove(
+        req.body.student
+      ),
+    });
+  res.status(201).send();
+});
+
+// Base API endpoint
+exports.api = functions.https.onRequest(app);

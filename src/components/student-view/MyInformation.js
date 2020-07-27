@@ -99,7 +99,7 @@ export class MyInformation extends Component {
         </li>
       );
     } else {
-      schoolDataList = <> </>;
+      schoolDataList = <> null </>;
     }
 
     let gradYearDataList;
@@ -269,30 +269,31 @@ export class MyInformation extends Component {
     // If the user is new say "New User, Welcome to the UNC Resume Database! Please update your information below"
     // Otherwise it says "{Your Name}, Welcome to the UNC Resume Database"
 
-    let nameHeader;
-    if (this.props.fNameData !== "" && this.props.lNameData !== "") {
-      nameHeader = (
-        <h3
-          style={{ textAlign: "center" }}
-        >{`${this.props.fNameData} ${this.props.lNameData}`}</h3>
-      );
-    } else {
-      nameHeader = (
-        <h3
-          style={{ textAlign: "center" }}
-        >{`Please update your information below!`}</h3>
-      );
-    }
+    // let nameHeader;
+    // if (this.props.fNameData !== "" && this.props.lNameData !== "") {
+    //   nameHeader = (
+    //     <h3
+    //       style={{ textAlign: "center" }}
+    //     >{`${this.props.fNameData} ${this.props.lNameData}`}</h3>
+    //   );
+    // } else {
+    //   nameHeader = (
+    //     <h3
+    //       style={{ textAlign: "center" }}
+    //     >{`Please update your information below!`}</h3>
+    //   );
+    // }
 
     return (
       <div>
-        {nameHeader}
+        {/* {nameHeader} */}
         <div className="my-information-container">
-          <Accordion defaultActiveKey="0">
+          <Accordion defaultActiveKey="0" className="my-information-accordion">
             <Accordion.Toggle
+              className="accordionHeader"
               as={Card.Header}
               eventKey="0"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
               <h3 className="headersForEachType">Basic Information</h3>
             </Accordion.Toggle>
@@ -302,11 +303,11 @@ export class MyInformation extends Component {
                   <NameSection monitorChanges={this.handlePropsUpdate} />
                   <br />
                   <Form.Row>
-                    <Form.Label column lg={2}>
-                      <div className="data-row-label">Position Seeking</div>
+                    <Form.Label column  className="data-row-label ">
+                      Position Seeking
                     </Form.Label>
-                    <Col>
-                      <InputGroup className="mb-3">
+                    {/* <Col> */}
+                      <InputGroup className="mb-3 radioInput">
                         <div className="custom-control custom-radio custom-control-inline">
                           <input
                             type="radio"
@@ -337,17 +338,17 @@ export class MyInformation extends Component {
                             Full Time
                           </label>
                         </div>
-                        <h6>{`You are currently seeking ${
+                        <h6 className="currentlySeeking">{`You are currently seeking ${
                           this.props.seekingData == "Internship" ? "an" : "a"
                         } ${this.props.seekingData} position!`}</h6>
                       </InputGroup>
-                    </Col>
+                    {/* </Col> */}
                   </Form.Row>
                   <br />
                   <div className="data-row">
-                    <Form.Row>
-                      <Form.Label column lg={2}>
-                        <div className="data-row-label">School</div>
+                    <Form.Row className="formRow">
+                      <Form.Label className="data-row-label " column lg={2}>
+                        School
                       </Form.Label>
                       <Col>
                         <SelectOneOption
@@ -362,8 +363,8 @@ export class MyInformation extends Component {
                     </Form.Row>
                   </div>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow"> 
+                    <Form.Label className="data-row-label " column lg={2}>
                       Graduation Year
                     </Form.Label>
                     <Col>
@@ -382,8 +383,8 @@ export class MyInformation extends Component {
                     </Col>
                   </Form.Row>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Primary Major
                     </Form.Label>
                     <Col>
@@ -400,10 +401,10 @@ export class MyInformation extends Component {
                         </li> */}
                       </InputGroup>
                     </Col>
-                  </Form.Row>
+                  </Form.Row >
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Secondary Major
                     </Form.Label>
                     <Col>
@@ -422,8 +423,8 @@ export class MyInformation extends Component {
                     </Col>
                   </Form.Row>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label  className="data-row-label "column lg={2}>
                       Minors
                     </Form.Label>
                     <Col>
@@ -447,9 +448,10 @@ export class MyInformation extends Component {
               </div>
             </Accordion.Collapse>
             <Accordion.Toggle
+            className="accordionHeader"
               as={Card.Header}
               eventKey="1"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
               <h3 className="headersForEachType">Skills / Experience</h3>
             </Accordion.Toggle>
@@ -457,11 +459,11 @@ export class MyInformation extends Component {
               <div className="basic-information-form">
                 <Form.Group>
                   <div className="data-row">
-                    <Form.Row>
-                      <Form.Label column lg={2}>
-                        <div className="data-row-label">
+                    <Form.Row className="formRow">
+                      <Form.Label className="data-row-label " column lg={2}>
+                        
                           Programming Languages
-                        </div>
+                      
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
@@ -482,8 +484,8 @@ export class MyInformation extends Component {
                     </Form.Row>
                   </div>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Frameworks / Tools
                     </Form.Label>
                     <Col>
@@ -504,8 +506,8 @@ export class MyInformation extends Component {
                     </Col>
                   </Form.Row>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Operating Systems
                     </Form.Label>
                     <Col>
@@ -524,9 +526,9 @@ export class MyInformation extends Component {
                         {opSystemsList}
                       </InputGroup>
                     </Col>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  </Form.Row >
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Database Systems
                     </Form.Label>
                     <Col>
@@ -550,9 +552,10 @@ export class MyInformation extends Component {
               </div>
             </Accordion.Collapse>
             <Accordion.Toggle
+              className="accordionHeader"
               as={Card.Header}
               eventKey="2"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
               <h3 className="headersForEachType">Events Attended</h3>
             </Accordion.Toggle>
@@ -560,9 +563,9 @@ export class MyInformation extends Component {
               <div className="basic-information-form">
                 <Form.Group>
                   <div className="data-row">
-                    <Form.Row>
-                      <Form.Label column lg={2}>
-                        <div className="data-row-label">Events</div>
+                    <Form.Row className="formRow">
+                      <Form.Label className="data-row-label " column lg={2}>
+                        Events
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
@@ -574,9 +577,10 @@ export class MyInformation extends Component {
                           <EventsEnterBox
                             monitorChanges={this.handlePropsUpdate}
                           />
-                          {eventListToView}
+                          {/* {eventlistToView} */}
                         </InputGroup>
                       </Col>
+                      {eventListToView}
                     </Form.Row>
                   </div>
                 </Form.Group>

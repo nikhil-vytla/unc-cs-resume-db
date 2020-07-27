@@ -39,7 +39,7 @@ function SideResumeBox(props) {
       <Card
         className="SideResumeBoxCard"
         border="dark"
-        style={{ height: "460px", width: "290px" }}
+        style={{ height: "auto", width: "22vw" }}
       >
         {/* <img
           src={props.currentPhoto}

@@ -100,7 +100,7 @@ export default class SelectOneOption extends Component {
     let typingForm;
     if (this.props.needInput) {
       typingForm = (
-        <FormControl
+        <FormControl className="textForm"
           placeholder="School missing?"
           value={this.state.reqSchool}
           onChange={(e) => {
@@ -114,8 +114,9 @@ export default class SelectOneOption extends Component {
 
     return (
       <InputGroup className="mb-3">
-        <Form.Group controlId="ControlSelect1">
-          <Form.Control as="select" onChange={this.handleUpdate}>
+        <Form.Group controlId="ControlSelect1 ">
+          <Form.Control className="selectOneInput"
+          as="select" onChange={this.handleUpdate}>
             <option>Choose ...</option>
             {optionOptions}
             {this.props.needInput ? <option>Other</option> : <></>}
@@ -123,7 +124,7 @@ export default class SelectOneOption extends Component {
         </Form.Group>
         {typingForm}
 
-        <InputGroup.Append>
+        {/* <InputGroup.Append> */}
           <Button
             className="updateBtn"
             variant="primary"
@@ -135,7 +136,7 @@ export default class SelectOneOption extends Component {
           </Button>
 
           {/* <Button variant="outline-secondary">-</Button> */}
-        </InputGroup.Append>
+        {/* </InputGroup.Append> */}
       </InputGroup>
     );
   }

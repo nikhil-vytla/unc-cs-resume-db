@@ -28,8 +28,11 @@ function ResumeView (props) {
                 </div>
             </div>
             <div className="w-100 d-flex" >
-                <img className="resumeImage" src={require('../../Static/ResumeTemplate.jpg')}  alt=""></img>
-                <div>
+                <div className="resumeViewImageDiv">
+                    <iframe title="Resume" className="resumeImage" src={props.candidate["Resume PDF"]}  alt=""></iframe>
+
+                </div>
+                <div className="resumeViewRightPanel">
                     <div className='resumeViewHeader' >
                         <h1 style={{ fontSize: '30px' }} className="BreeSerif">Adam Winek</h1>
                         <div className='d-flex justify-content-between classInfoDiv'>

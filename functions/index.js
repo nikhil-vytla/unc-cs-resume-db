@@ -32,19 +32,6 @@ app.get("/users", async (req, res) => {
   }
 });
 
-// Send POST request to /api/data to write data to firestore
-app.post("/data", async (req, res) => {
-  try {
-    const data = await firestore
-      .collection("data")
-      .doc("test")
-      .set({ test: "mydata" });
-    res.send(data);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
 // Need to add parameters for this path: userID and user
 app.get("/getProfileInfo", async (req, res) => {
   try {
@@ -60,185 +47,108 @@ app.get("/getProfileInfo", async (req, res) => {
     console.log(error);
   }
 });
-// Creates new user in the database
-app.post("/newUser", async (req, res) => {
-  try {
-    const currentUser = req.body;
-    const dataForDB = {
-      ["Email"]: currentUser.email,
-      ["Database Systems"]: {},
-      ["Programming Languages"]: {},
-      ["Frameworks and Tools"]: {},
-      ["Events"]: {},
-      ["First Name"]: "",
-      ["Last Name"]: "",
-      ["Graduation Year"]: "",
-      ["School"]: "",
-      ["Minors"]: {},
-      ["Operating Systems"]: {},
-      ["Primary Major"]: "",
-      ["Secondary Major"]: "",
-      ["Seeking"]: "",
-      ["UID"]: currentUser.uid,
-      ["Profile Image"]:
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png",
-      ["Resume PDF"]: "",
-      ["Hide Resume"]: true,
-    };
-    await firestore.collection("students").doc(currentUser.uid).set(dataForDB);
-    res.status(201).send();
-  } catch (error) {
-    console.error(error);
-  }
+
+app.get("/getUserClaims", async (req, res) => {
+  const { email } = req.body;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
+  res.send(claims);
 });
 
-// Trashy query endpoint
-app.post("/queryStudents", async (req, res) => {
-  let data;
-  switch (req.body.numberOfFilters) {
-    case "1":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .get();
-      break;
-    case "2":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .get();
-      break;
-    case "3":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .get();
+// Adds new student to the database
+// request body = {"email": "example@email.com"}
+app.post("/newStudent", async (req, res) => {
+  // const unc_email_re = /^\S+@(\S*\.|)unc.edu$/;
 
-      break;
-    case "4":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .where(req.body.filter.name4, "==", req.body.filter.value4)
-        .get();
+  const user = await auth().getUserByEmail(req.body.email)
+  .catch(err => {
+    res.status(404).send(err);
+  });
 
-      break;
-    case "5":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .where(req.body.filter.name4, "==", req.body.filter.value4)
-        .where(req.body.filter.name5, "==", req.body.filter.value5)
-        .get();
+  await auth().setCustomUserClaims(user.uid, {
+    student: true,
+    recruiter: false,
+    admin: false,
+  }).catch(err => console.log(err));
 
-      break;
-    case "6":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .where(req.body.filter.name4, "==", req.body.filter.value4)
-        .where(req.body.filter.name5, "==", req.body.filter.value5)
-        .where(req.body.filter.name6, "==", req.body.filter.value6)
-        .get();
+  console.log(user);
+  const studentData = {
+    ["Email"]: user.email,
+    ["Database Systems"]: {},
+    ["Programming Languages"]: {},
+    ["Frameworks and Tools"]: {},
+    ["Events"]: {},
+    ["First Name"]: "",
+    ["Last Name"]: "",
+    ["Graduation Year"]: "",
+    ["School"]: "",
+    ["Minors"]: {},
+    ["Operating Systems"]: {},
+    ["Primary Major"]: "",
+    ["Secondary Major"]: "",
+    ["Seeking"]: "",
+    ["UID"]: user.uid,
+    ["Profile Image"]:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png",
+    ["Resume PDF"]: "",
+    ["Hide Resume"]: true,
+  };
 
-      break;
-    case "7":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .where(req.body.filter.name4, "==", req.body.filter.value4)
-        .where(req.body.filter.name5, "==", req.body.filter.value5)
-        .where(req.body.filter.name6, "==", req.body.filter.value6)
-        .where(req.body.filter.name7, "==", req.body.filter.value7)
-        .get();
-
-      break;
-    case "8":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .where(req.body.filter.name4, "==", req.body.filter.value4)
-        .where(req.body.filter.name5, "==", req.body.filter.value5)
-        .where(req.body.filter.name6, "==", req.body.filter.value6)
-        .where(req.body.filter.name7, "==", req.body.filter.value7)
-        .where(req.body.filter.name8, "==", req.body.filter.value8)
-        .get();
-
-      break;
-    case "9":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .where(req.body.filter.name4, "==", req.body.filter.value4)
-        .where(req.body.filter.name5, "==", req.body.filter.value5)
-        .where(req.body.filter.name6, "==", req.body.filter.value6)
-        .where(req.body.filter.name7, "==", req.body.filter.value7)
-        .where(req.body.filter.name8, "==", req.body.filter.value8)
-        .where(req.body.filter.name9, "==", req.body.filter.value9)
-        .get();
-      break;
-    case "10":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .where(req.body.filter.name4, "==", req.body.filter.value4)
-        .where(req.body.filter.name5, "==", req.body.filter.value5)
-        .where(req.body.filter.name6, "==", req.body.filter.value6)
-        .where(req.body.filter.name7, "==", req.body.filter.value7)
-        .where(req.body.filter.name8, "==", req.body.filter.value8)
-        .where(req.body.filter.name9, "==", req.body.filter.value9)
-        .where(req.body.filter.name10, "==", req.body.filter.value10)
-        .get();
-      break;
-    case "11":
-      data = await firestore
-        .collection("students")
-        .where(req.body.filter.name1, "==", req.body.filter.value1)
-        .where(req.body.filter.name2, "==", req.body.filter.value2)
-        .where(req.body.filter.name3, "==", req.body.filter.value3)
-        .where(req.body.filter.name4, "==", req.body.filter.value4)
-        .where(req.body.filter.name5, "==", req.body.filter.value5)
-        .where(req.body.filter.name6, "==", req.body.filter.value6)
-        .where(req.body.filter.name7, "==", req.body.filter.value7)
-        .where(req.body.filter.name8, "==", req.body.filter.value8)
-        .where(req.body.filter.name9, "==", req.body.filter.value9)
-        .where(req.body.filter.name10, "==", req.body.filter.value10)
-        .where(req.body.filter.name11, "==", req.body.filter.value11)
-        .get();
-      break;
-
-    default:
-      break;
-  }
-  const docs = data.docs.map((doc) => doc.data());
-  res.send(docs);
+  await firestore().collection("students")
+    .doc(user.uid)
+    .set(studentData)
+    .catch(err => console.log(err));
+  res.status(201).send();
 });
 
-// app.post("/query/<RecruiterID>", async (req, res) => {
+// Adds new recruiter to the database
+// request body = {"email": "example@email.com", "name": "myName"}
+app.post("/newRecruiter", async (req, res) => {
+  const user = await auth().getUserByEmail(req.body.email)
+  .catch(err => {
+    res.status(404).send(err);
+  });
 
-//   // Recruiter has access to UNC and HACKNC
+  await auth().setCustomUserClaims(user.uid, {
+    student: false,
+    recruiter: true,
+    admin: false,
+  }).catch(err => {
+    res.status(500).send(err);
+  });
 
-//   const additonalFilters = {
-//     name: "Events.HackNC", value: true
-//   }
-// });
+  const recruiterData = {
+    ["Name"]: req.body.name,
+    ["Email"]: req.body.email,
+    ["UID"]: user.uid,
+    ["Lists"]: {
+      ["Favorites"]: []
+    },
+    ["Resume Access"]: []
+  }
+
+  await firestore().collection("recruiters")
+    .doc(user.uid)
+    .set(recruiterData)
+    .catch(err => {
+      res.status(500).send(err);
+    });
+  res.status(201).send();
+});
+
+app.post("/newAdmin", async (req, res) => {
+  const user = await auth().getUserByEmail(req.body.email)
+  .catch(err => {
+    res.status(404).send(err);
+  });
+
+  await auth().setCustomUserClaims(user.uid, {
+    student: false,
+    recruiter: true,
+    admin: true,
+  }).catch(err => {
+    res.status(500).send(err);
+  });
+});
 
 // adds requested school to request list
 app.post("/requestSchool", async (req, res) => {

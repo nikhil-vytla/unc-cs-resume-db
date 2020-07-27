@@ -7,7 +7,6 @@ import "./auth.css";
 const Login = () => {
   const [redirect, setRedirect] = useState(null);
   const Firebase = useContext(FirebaseContext);
-  console.log(Firebase)
 
   const handleLogin = async (event) => {
     event.preventDefault();

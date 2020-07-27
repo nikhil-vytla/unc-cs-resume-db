@@ -7,7 +7,7 @@ import FilterItem from "./FilterItem"
 function FilterDropDown(props ) {
     const [collapsed, setColapsed] = useState(true)
     
-    var inside;
+    let inside;
 
     if (props.hasSearch === "true"){
         inside = <FilterSearchBar height="40px" title={props.title} /> 

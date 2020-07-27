@@ -294,4 +294,4 @@ app.put("/deleteStudent", async (req, res) => {
 });
 
 // Base API endpoint
-exports.api = functions.https.onRequest(app);
+exports.api = https.onRequest(app);

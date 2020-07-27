@@ -4,9 +4,7 @@ import {
   Card,
   Form,
   Col,
-  Button,
   InputGroup,
-  FormControl,
 } from "react-bootstrap";
 import "./StudentView.css";
 import NameSection from "./NameSection.js";
@@ -339,7 +337,7 @@ export class MyInformation extends Component {
                           </label>
                         </div>
                         <h6 className="currentlySeeking">{`You are currently seeking ${
-                          this.props.seekingData == "Internship" ? "an" : "a"
+                          this.props.seekingData === "Internship" ? "an" : "a"
                         } ${this.props.seekingData} position!`}</h6>
                       </InputGroup>
                     {/* </Col> */}

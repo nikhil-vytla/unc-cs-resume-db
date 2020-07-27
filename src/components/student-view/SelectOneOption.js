@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
-import { analytics } from "firebase";
 import { InputGroup, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { FirebaseContext } from '../Firebase';
@@ -41,14 +40,6 @@ export default class SelectOneOption extends Component {
           "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/requestSchool",
           { school: this.state.reqSchool }
         );
-        // await this.context.db
-        //   .collection("Schools")
-        //   .doc("schoolsList")
-        //   .update({
-        //     schoolsList: this.context.db.FieldValue.arrayUnion(
-        //       this.state.reqSchool
-        //     ),
-        //   });
         this.props.monitorChanges();
         alert(
           "Your school has been requested to be added, and the admins will review the request. Please check back soon to see if your school has been listed."

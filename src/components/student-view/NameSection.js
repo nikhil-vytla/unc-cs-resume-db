@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import {
-  Accordion,
-  Card,
   Form,
-  Col,
   Button,
   InputGroup,
   FormControl,

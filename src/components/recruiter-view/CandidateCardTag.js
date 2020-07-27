@@ -1,7 +1,5 @@
 import React from "react"
 
-
-
 function CandidateCardTag(props) {
     let itemArray = []
 
@@ -10,9 +8,7 @@ function CandidateCardTag(props) {
             if (props.items[key] === true) {
                 itemArray.push(key);
             }
-
         })
-
     }
     if (props.items === null || props.items === undefined) {
         return null;
@@ -21,9 +17,6 @@ function CandidateCardTag(props) {
             <p className="recruiterViewTag BreeSerif" key={item}> {item}</p>
         )
     }
-
-
     return null;
-
 }
 export default CandidateCardTag;

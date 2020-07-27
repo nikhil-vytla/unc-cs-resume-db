@@ -1,13 +1,6 @@
 import React, { useState } from "react"
-import { preProcessFile } from "typescript";
-import { useTransition, animated } from 'react-spring'
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-
-
-
-
-
 
 function ResumeViewDropDownText(props) {
     const [collapsed, setCollapsed] = useState(false);

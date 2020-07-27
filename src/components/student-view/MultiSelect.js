@@ -59,7 +59,7 @@ export default class MultiSelect extends Component {
   handleUpload = async () => {
     // Goes through all of your toggled events
     // updates them in Firebase
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    // const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, true);
     // await delay(250);
     this.props.monitorChanges();
@@ -67,7 +67,7 @@ export default class MultiSelect extends Component {
 
   // removes items
   handleDelete = async () => {
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    // const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, false);
     //await delay(250);
     this.props.monitorChanges();
@@ -115,12 +115,6 @@ export default class MultiSelect extends Component {
         </Form.Group>
         
         <InputGroup.Append>
-          {/* <Button variant="primary" className="formBtn" onClick={this.handleUpload}>
-            Update
-          </Button> */}
-          {/* <Button variant="outline-secondary" onClick={this.handleDelete}>
-            -
-          </Button> */}
         </InputGroup.Append>
       </InputGroup>
     );

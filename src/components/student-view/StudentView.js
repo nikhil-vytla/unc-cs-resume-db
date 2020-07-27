@@ -3,9 +3,7 @@ import { Container, Col, Row } from "react-bootstrap";
 import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
-import Button from "react-bootstrap/Button";
 import { FirebaseContext } from '../Firebase';
-import Form from "react-bootstrap/Form";
 
 export class StudentView extends Component {
   static contextType = FirebaseContext;
@@ -111,25 +109,6 @@ export class StudentView extends Component {
                 />
               </div>
               <div className="updateButtonDiv">
-                {/*Implement Radio for Showing Resume */}
-
-                {/* <Form>
-                  <div key={`inline-radio`} className="mb-3">
-                    <Form.Check
-                      inline
-                      label="Display your resume in the database"
-                      type="radio"
-                      id={`inline-radio-1`}
-                    />
-                    <Form.Check
-                      inline
-                      label="Hide your resume from the database"
-                      type="radio"
-                      id={`inline-radio-2`}
-                    />
-                  </div>
-                </Form> */}
-
                 <div class="custom-control custom-radio custom-control-inline">
                   <input
                     type="radio"
@@ -159,10 +138,6 @@ export class StudentView extends Component {
                     ? "hidden from recruiters."
                     : "is visible to recruiters!"
                 }`}</h6>
-
-                {/* <Button variant="primary" onClick={this.updateStudentPage}>
-                  Display Updates
-                </Button> */}
               </div>
             </Col>
           </Row>

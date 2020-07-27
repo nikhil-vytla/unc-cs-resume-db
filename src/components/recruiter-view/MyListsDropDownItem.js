@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ClearIcon from '@material-ui/icons/Clear';
 import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
-import Firebase from "../../Firebase"
+import {FirebaseContext} from "../Firebase"
 import axios from "axios"
 
 
 function MyListsDropDownItem(props) {
+    const Firebase = useContext(FirebaseContext);
     async function handleZoom() {
         try {
             let data = await Firebase.getUserInfo(props.student.UID)

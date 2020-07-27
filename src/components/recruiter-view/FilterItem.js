@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import { useTransition, animated } from "react-spring";
 import StopIcon from "@material-ui/icons/Stop";
@@ -13,13 +13,6 @@ function FilterItem(props) {
     ];
     const text = props.itemName;
     const [checked, setChecked] = useState(props.isCurrentFilter(computeFilterName()));
-    console.log(props.isCurrentFilter(computeFilterName()));
-
-    // useEffect(() => {
-    //     setChecked(props.isCurrentFilter(computeFilterName()));
-
-    // })
-
 
     function computeFilterName() {
         if (multNames.includes(props.title)) {

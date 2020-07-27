@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from "react"
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import MyListsDropDownItem from "./MyListsDropDownItem"
 import Dropdown from "react-bootstrap/Dropdown"
-import Firebase from "../../Firebase"
+import {FirebaseContext} from "../Firebase"
 import axios from "axios"
 
 
-function MyListsDropDown( props){
+function MyListsDropDown(props){
+    const Firebase = useContext(FirebaseContext);
     const [collapsed, setColapsed] = useState(true)
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <MoreVertIcon

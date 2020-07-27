@@ -1,12 +1,12 @@
-import React from "react"
+import React, { useContext } from "react"
 import AddIcon from '@material-ui/icons/Add';
 import Dropdown from 'react-bootstrap/Dropdown'
-import Firebase from "../../Firebase";
+import {FirebaseContext} from "../Firebase";
 import axios from "axios"
 
 
 function CandidateCardAdd(props) {
-    
+    const Firebase = useContext(FirebaseContext);
     const  handleChange = async (listName) => {
         // Checks if listName is empty then sends to endpoint
         const objToSend = {

@@ -1,14 +1,11 @@
 import React, { useState } from "react"
 import Card from 'react-bootstrap/Card'
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import StarIcon from '@material-ui/icons/Star';
 import CandidateCardTag from "./CandidateCardTag";
-import AddIcon from '@material-ui/icons/Add';
 import "../../Static/candidates.css"
 import CandidateCardAdd from "./CandidateCardAdd";
-
 
 function CandidateCard(props) {
     const [starToggle, setStarToggle] = useState(false);
@@ -28,10 +25,7 @@ function CandidateCard(props) {
         secondaryMajor = null
     }
 
-
-
-
-    var star
+    let star
     if (!starToggle) {
         star = <StarBorderOutlinedIcon className="recruiterViewIcon" onClick={() => setStarToggle(true)} />
     } else {

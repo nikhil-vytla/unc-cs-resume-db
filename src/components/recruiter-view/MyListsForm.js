@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import AddIcon from "@material-ui/icons/Add";
-import Firebase from "../../Firebase";
-
+import {FirebaseContext} from "../Firebase";
 import axios from "axios";
 
 function MyListsForm(props) {
+  const Firebase = useContext(FirebaseContext);
   const [listName, setListName] = useState("");
   const handleChange = async (evt) => {
     evt.preventDefault();

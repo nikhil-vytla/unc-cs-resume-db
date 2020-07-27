@@ -2,7 +2,7 @@
 
 ## Description
 
-The UNC CS Department wants to create a dynamic resume book for sponsors and recruiters. Currently, resumes are available via PDF and also via Handshake but they would like to use a curated approach so that recruiters can search. This will be a **web-based application** and will greatly help recruiting in a post-COVID-19 world. Relevant languages/technical experience are *up to the discretion of the team* because no work has been done on this product so far, but it will be a website.
+The UNC CS Department through the Unc Summer of Code program has created a dynamic resume database. This resume data allows recruiters to filter through students based on criteria such as graduation year and specific programming languages. Additionally, recruiters can organize students into lists to save qualified candidates for later review. Currently, resumes are available via PDF and also via Handshake. This site is built with React and Firebase and will greatly help recruiting in a post-COVID-19 world. 
 
 ## Getting started
 

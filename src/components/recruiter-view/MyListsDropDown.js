@@ -5,11 +5,11 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import MyListsDropDownItem from "./MyListsDropDownItem"
 import Dropdown from "react-bootstrap/Dropdown"
-import Firebase from "../../Firebase"
+import {withFirebase} from "../Firebase"
 import axios from "axios"
 
 
-function MyListsDropDown( props){
+function MyListsDropDown( {Firebase, ...props} ){
     const [collapsed, setColapsed] = useState(true)
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <MoreVertIcon
@@ -33,10 +33,10 @@ function MyListsDropDown( props){
             nameOfList: props.listTitle,
             recruiterUID: Firebase.auth.currentUser.uid,
         };
-        //console.log(objToSend);
+        //deletes the current list if the list name is not null
         if (props.listTitle !== null && props.listTitle !== "") {
            await axios.put(
-                "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeList",
+                "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/removeList",
                 objToSend
             );
         }
@@ -101,4 +101,4 @@ function MyListsDropDown( props){
     }
     
 } 
-export default MyListsDropDown
+export default withFirebase(MyListsDropDown)

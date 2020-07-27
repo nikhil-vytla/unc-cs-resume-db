@@ -3,14 +3,14 @@ import Form from "react-bootstrap/Form";
 import { analytics } from "firebase";
 import { InputGroup, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Firebase from "../../Firebase.js";
+import { withFirebase } from "../Firebase";
 import axios from "axios";
 import "./SelectOne.css";
 
-export default class SelectOneOption extends Component {
+class SelectOneOption extends Component {
   constructor(props) {
     super(props);
-
+    this.Firebase = props.Firebase;
     this.state = {
       update: "",
       reqSchool: "",
@@ -30,9 +30,9 @@ export default class SelectOneOption extends Component {
     // Adds school to request list
     if (this.props.needInput) {
       if (this.state.update === "Other" && this.state.reqSchool !== "") {
-        await Firebase.db
+        await this.Firebase.db
           .collection("students")
-          .doc(Firebase.auth.currentUser.uid)
+          .doc(this.Firebase.auth.currentUser.uid)
           .update({
             School: this.state.update,
           });
@@ -60,9 +60,9 @@ export default class SelectOneOption extends Component {
     if (this.state.update === "Choose ...") {
       return;
     }
-    await Firebase.db
+    await this.Firebase.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.Firebase.auth.currentUser.uid)
       .update({
         [this.props.valueType]: this.state.update,
       });
@@ -82,9 +82,9 @@ export default class SelectOneOption extends Component {
     const currentState = this.state.update;
     const currentObjString = `${valuePlaceHolder}.${currentState}`;
 
-    await Firebase.db
+    await this.Firebase.db
       .collection("students")
-      .doc(Firebase.auth.currentUser.uid)
+      .doc(this.Firebase.auth.currentUser.uid)
       .update({
         [currentObjString]: true,
       });
@@ -99,7 +99,8 @@ export default class SelectOneOption extends Component {
     let typingForm;
     if (this.props.needInput) {
       typingForm = (
-        <FormControl className="textForm"
+        <FormControl
+          className="textForm"
           placeholder="School missing?"
           value={this.state.reqSchool}
           onChange={(e) => {
@@ -114,8 +115,11 @@ export default class SelectOneOption extends Component {
     return (
       <InputGroup className="mb-3">
         <Form.Group controlId="ControlSelect1 ">
-          <Form.Control className="selectOneInput"
-          as="select" onChange={this.handleUpdate}>
+          <Form.Control
+            className="selectOneInput"
+            as="select"
+            onChange={this.handleUpdate}
+          >
             <option>Choose ...</option>
             {optionOptions}
             {this.props.needInput ? <option>Other</option> : <></>}
@@ -124,19 +128,21 @@ export default class SelectOneOption extends Component {
         {typingForm}
 
         {/* <InputGroup.Append> */}
-          <Button
-            className="updateBtn"
-            variant="primary"
-            onClick={
-              this.props.isSingle ? this.handleUpload : this.handleMapUpload
-            }
-          >
-            Update
-          </Button>
+        <Button
+          className="updateBtn"
+          variant="primary"
+          onClick={
+            this.props.isSingle ? this.handleUpload : this.handleMapUpload
+          }
+        >
+          Update
+        </Button>
 
-          {/* <Button variant="outline-secondary">-</Button> */}
+        {/* <Button variant="outline-secondary">-</Button> */}
         {/* </InputGroup.Append> */}
       </InputGroup>
     );
   }
 }
+
+export default withFirebase(SelectOneOption);

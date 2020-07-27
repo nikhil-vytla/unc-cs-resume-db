@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import AddIcon from "@material-ui/icons/Add";
-import Firebase from "../../Firebase";
+import withFirebase from "../Firebase";
 
 import axios from "axios";
 
-function MyListsForm(props) {
+function MyListsForm({Firebase, ...props}) {
   const [listName, setListName] = useState("");
   const handleChange = async (evt) => {
     evt.preventDefault();
@@ -14,10 +14,9 @@ function MyListsForm(props) {
       nameOfList: listName,
       recruiterUID: Firebase.auth.currentUser.uid,
     };
-    //console.log(objToSend);
     if (listName !== null && listName !== "") {
       await axios.put(
-        "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newList",
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newList",
         objToSend
       );
     }
@@ -48,4 +47,4 @@ function MyListsForm(props) {
     </form>
   );
 }
-export default MyListsForm;
+export default withFirebase(MyListsForm);

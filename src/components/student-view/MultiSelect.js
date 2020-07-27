@@ -106,14 +106,18 @@ class MultiSelect extends Component {
     return (
       <InputGroup className="mb-3">
         <Form.Group controlId="ControlSelect1 checkBoxes">
-          <div key={`default-checkbox`} className="mb-3 checkBoxes" >
+          <div key={`default-checkbox`} className="mb-3 checkBoxes">
             {optionOptions}
           </div>
-          <Button variant="primary" className="multiBtn " onClick={this.handleUpload}>
+          <Button
+            variant="primary"
+            className="multiBtn "
+            onClick={this.handleUpload}
+          >
             Update
           </Button>
         </Form.Group>
-        
+
         <InputGroup.Append>
           {/* <Button variant="primary" className="formBtn" onClick={this.handleUpload}>
             Update

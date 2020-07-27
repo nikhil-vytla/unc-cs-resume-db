@@ -37,7 +37,7 @@ function ResumeView (props) {
             </div>
             <div className="w-100 d-flex" >
                 <div className="resumeViewImageDiv">
-                    <img className="resumeImage" src={props.candidate["Resume PDF"]}  alt=""></img>
+                    <iframe className="resumeImage" src={props.candidate["Resume PDF"]}  alt=""></iframe>
 
                 </div>
                 <div className="resumeViewRightPanel">

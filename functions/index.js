@@ -255,7 +255,7 @@ app.post("/requestSchool", async (req, res) => {
 app.post("/query", async (req, res) => {
   let query = firestore.collection("students");
 
-  const filters = req.body.filters;
+  const filters = req.body.filtersForQuery;
 
   // This is how the request should be filters = [
   // {

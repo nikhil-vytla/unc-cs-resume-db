@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import "./SideCard.css";
 import Firebase from "../../Firebase.js";
 import SideResumeBox from "./SideResumeBox";
-import PublishIcon from '@material-ui/icons/Publish';
+import PublishIcon from "@material-ui/icons/Publish";
 
 // 320 by 780
 export default class SideCard extends Component {
@@ -45,7 +45,7 @@ export default class SideCard extends Component {
 
     uploadFile.on(
       "state_changed",
-      (snapshot) => { },
+      (snapshot) => {},
       (error) => {
         console.log(error);
       },
@@ -86,7 +86,7 @@ export default class SideCard extends Component {
     if (
       this.props.profileImgURL !== "" &&
       this.props.profileImgURL !==
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
     ) {
       // Delete current file in storage
       // Send request to delete current file
@@ -106,7 +106,7 @@ export default class SideCard extends Component {
 
     uploadFile.on(
       "state_changed",
-      (snapshot) => { },
+      (snapshot) => {},
       (error) => {
         console.log(error);
       },
@@ -150,19 +150,20 @@ export default class SideCard extends Component {
           <Card.Header className="SideCardProfileHeader">
             <div className="d-block justify-content-center" id="ProfileDiv">
               <div className="d-flex justify-content-center">
-
-              
-                <div className="imgDiv" >
-                  <img className="SideResumePdfImage" src={this.state.profileURL} alt="" />
+                <div className="imgDiv">
+                  <img
+                    className="SideResumePdfImage"
+                    src={this.state.profileURL}
+                    alt=""
+                  />
                 </div>
 
-                <div className="nameDiv" >
+                <div className="nameDiv">
                   <h2 className="nameText"> {this.props.firstName} </h2>
                   <h2 className="nameText"> {this.props.lastName} </h2>
                 </div>
               </div>
               <div className="emailDiv">{this.props.emailAddress}</div>
-              
             </div>
           </Card.Header>
           <Card.Body className="SideCardBody">
@@ -182,27 +183,35 @@ export default class SideCard extends Component {
               <div>
                 <form>
                   <div className="form-group">
-                  <label>
-                    <input
-                      type="file"
-                      accept="application/pdf"
-                      className="form-control-file"
-                      id="exampleFormControlFile1"
-                      onChange={this.handlePdfChange}
-                      style={{color:"#000000"}}
-                    />
-                  </label>
+                    <label>
+                      <input
+                        type="file"
+                        accept="image/*, application/pdf"
+                        className="form-control-file"
+                        id="exampleFormControlFile1"
+                        onChange={this.handlePdfChange}
+                        style={{ color: "#000000" }}
+                      />
+                    </label>
                   </div>
                 </form>
               </div>
               <div className="d-flex justify-content-center">
                 <div style={{ textAlign: "center" }}>
-                  <Button variant="primary" className="uploadButton" onClick={this.handleNewUploadClick}>
+                  <Button
+                    variant="primary"
+                    className="uploadButton"
+                    onClick={this.handleNewUploadClick}
+                  >
                     <PublishIcon /> Resume
                   </Button>
                 </div>
-                <div style={{ textAlign: "center"} } >
-                  <Button variant="primary" className="uploadButton" onClick={this.handleNewPicUpload}>
+                <div style={{ textAlign: "center" }}>
+                  <Button
+                    variant="primary"
+                    className="uploadButton"
+                    onClick={this.handleNewPicUpload}
+                  >
                     <PublishIcon /> Profile Picture
                   </Button>
                 </div>

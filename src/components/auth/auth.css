@@ -1,6 +1,7 @@
 .authContainer {
     padding-top: 18px;
-    background-image: url("../../Static/oldwell.jpg");
+    display: flex;
+    justify-content: center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -24,8 +25,12 @@
   
 .authBtn {
     background-color: #4B9CD3;
-    font-size: 20px;
+    font-size: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+
     padding: 10px;
+    padding-bottom: 10px;
     margin-top: 15px;
     color: white;
     border: none;
@@ -37,13 +42,15 @@
 }
 
 .form-control {
-    padding: 10px;
+    padding: 20px;
     margin: auto;
-    margin-top: 15px;
-    min-width: 10vw;
-    max-width: 15vw;
+    margin-top: 40px;
+    min-width: 15vw !important;
+    max-width: 20vw !important;
 }
-
+.studentSignUp{
+    color: #4B9CD3 !important;
+}
 .authForm {
     position: relative;
     height: auto;
@@ -52,4 +59,7 @@
 
 .authLink {
     padding: 15px;
+}
+.loginHeader{
+    font-size: 50px !important;
 }

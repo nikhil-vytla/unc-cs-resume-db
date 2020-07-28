@@ -37,7 +37,7 @@ const Login = ({ Firebase }) => {
     <Container className="authContainer">
       <Container id="LoginComponent" className="authComponent">
         <Form className="authForm" onSubmit={handleLogin}>
-          <h1>Login</h1>
+          <h1 className="loginHeader">Login</h1>
 
           <Form.Control
             name="email"
@@ -53,7 +53,7 @@ const Login = ({ Firebase }) => {
             Login
           </button>
         </Form>
-        <p className="authLink" >Don't have an account? <Link to="/signup">Signup</Link></p>
+        <p className="authLink" >Don't have an account? <Link to="/signup" className="studentSignUp">Student Sign-up</Link></p>
         {redirect}
       </Container>
     </Container>

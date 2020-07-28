@@ -6,75 +6,45 @@
     justify-content: space-start;
   }
   .recruiterViewColumn{
-    overflow-y: auto;
     height: calc(100vh - 105px);
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn::-webkit-scrollbar {
-    display: none;
-  }
+  
   .recruiterViewLeftColumn{
     height: calc(100vh - 105px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    
     padding-right: 1vw !important;
     padding-left: 0px !important;
   }
-  .recruiterViewLeftColumn::-webkit-scrollbar {
-    display: none;
-  }
+
   .recruiterViewColumn50vw{
     height: calc(100vh - 105px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     width: 50vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn50vw::-webkit-scrollbar {
-    display: none;
-  }
+
   .recruiterViewColumn65vw{
     height: calc(100vh - 105px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     width: 66.5vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn65vw::-webkit-scrollbar {
-    display: none;
-  }
+
   .recruiterViewColumn75vw{
     height: calc(100vh - 105px);
-    overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     width: 77.5vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  .recruiterViewColumn75vw::-webkit-scrollbar {
-    display: none;
-  }
   .recruiterViewColumn95vw{
     height: calc(100vh - 105px);
-    overflow-y: auto;
-
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     width: 95vw !important;
     padding-left: 1vw !important;
     padding-right: 1vw !important;
   }
-  
-  
   .recruiterViewHeader{
     line-height: 40px;
     font-size: 30px;

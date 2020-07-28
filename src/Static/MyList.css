@@ -179,3 +179,13 @@
     height: calc(100vh - 105px - 15px);
     background-color: white;
 }
+.myListsScroll{
+    max-height: calc(100vh - 145px - 15px) !important;
+    overflow-y: auto !important;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+
+}
+.myListsScroll::-webkit-scrollbar {
+    display: none;
+  }

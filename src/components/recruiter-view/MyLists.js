@@ -24,7 +24,7 @@ function MyLists(props) {
             </div>
             <MyListsHeader updateRecruiter={() => props.updateRecruiter()} />
 
-            <div>
+            <div className="myListsScroll">
                 {listWrapper}
 
 

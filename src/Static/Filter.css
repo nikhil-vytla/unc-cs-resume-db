@@ -203,4 +203,13 @@ ul{
     border-collapse: collapse;
 
 }
+.filterScroll{
+    max-height: calc(100vh - 145px - 15px) !important;
+    overflow-y: auto !important;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
 
+.filterScroll::-webkit-scrollbar {
+    display: none;
+  } 

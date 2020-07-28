@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { withFirebase } from '../Firebase';
 
+// Route wrapper to check auth claims
 class PrivateRoute extends Component {
     constructor(props) {
         super(props);

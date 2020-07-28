@@ -3,7 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
 
-// Use methods to access firebase SDK
+// Use this class to access firebase SDK
 export default class Firebase {
   constructor() {
     app.initializeApp({

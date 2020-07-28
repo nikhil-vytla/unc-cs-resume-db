@@ -50,9 +50,9 @@ function FilterItem(props) {
 
 
     const transitions = useTransition(checked, null, {
-        from: { position: "absolute", opacity: 0 },
-        enter: { opacity: 1 },
-        leave: { opacity: 0 },
+        from: { position: "relative", opacity: 0 },
+        enter: {position: "relative", opacity: 1 },
+        leave: { position: "relative", opacity: 0 },
     });
     return transitions.map(({ item, key, props }) =>
         item ? (

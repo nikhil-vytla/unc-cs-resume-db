@@ -78,3 +78,38 @@
 .candidateDropDown{
     z-index: 150;
 }
+.recruiterViewCardWrapper{
+    background-color: #ffffff !important;
+    max-height: calc(100vh - 145px - 15px) !important;
+    overflow-y: auto !important;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+.recruiterViewCardWrapper::-webkit-scrollbar {
+    display: none;
+  }
+  .cardHeaderUNC {
+    background-color: #4B9CD3 !important;
+    max-height: 44px;
+    margin: 0;
+  }
+  .cardHeaderTextUNC {
+    font-size: 15px !important;
+    color: white;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis !important;
+  }
+
+  .cardHeaderOther {
+    background-color: #13294B !important;
+    max-height: 44px;
+    margin: 0;
+}
+.cardHeaderTextOther {
+    font-size: 15px !important;
+    color:  #4B9CD3;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis !important;
+}

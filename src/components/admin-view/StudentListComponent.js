@@ -9,7 +9,7 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import { withFirebase } from "../../Firebase";
+import { withFirebase } from "../Firebase";
 import "./AdminView.css";
 
 class StudentListComponent extends Component {

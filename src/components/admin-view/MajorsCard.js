@@ -9,7 +9,7 @@ import {
   Accordion,
   DropdownButton,
 } from "react-bootstrap";
-import { withFirebase } from "../../Firebase";
+import { withFirebase } from "../Firebase";
 
 class MajorsCard extends Component {
   constructor(props) {

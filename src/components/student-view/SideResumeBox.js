@@ -48,18 +48,18 @@ function SideResumeBox(props) {
           width="auto"
           onClick={handleShow}
         ></img> */}
-        <embed
+        <iframe
           src={props.currentPhoto}
           height="460"
           width="auto"
           onClick={handleShow}
-        ></embed>
+        ></iframe>
       </Card>
       <Modal show={show} onHide={handleClose} style={{ marginTop: "0" }}>
-        <embed
+        <iframe
           src={props.currentPhoto}
           style={{ width: "50vw", height: "auto" }}
-        ></embed>
+        ></iframe>
         {/* <img
           src={props.currentPhoto}
           alt=""

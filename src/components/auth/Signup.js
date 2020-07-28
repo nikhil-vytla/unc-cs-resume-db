@@ -63,7 +63,7 @@ const Signup = ({ Firebase }) => {
             Sign Up
           </button>
           <p className="authLink">
-            Already have an account? <Link to="/">Login</Link>
+            Already have an account? <Link  className="studentSignUp" to="/">Login</Link>
           </p>
         </Form>
       </Container>

@@ -35,9 +35,14 @@ function FilterDropDown(props ) {
                 </ div>
                 <ul className="filterList">
                     {inside}
-                    {props.inside.map( item =>{
+                    {props.inside.filter( (item) => {
+                        console.log(item.includes(props.filterSearch))
+                        console.log(props.filterSearch)
+                        return item.includes(props.filterSearch);
+                    }).map( item =>{
                         return<li className="filterLi"><FilterItem  isCurrentFilter={(objToAdd) => props.isCurrentFilter(objToAdd)} removeFilter={(filterName) => props.removeFilter(filterName)}  addFilter={(filterName) => props.addFilter(filterName)} itemName={item} title={props.title} /></li>
                     })}
+                    
                 </ul>
             </div>
         )

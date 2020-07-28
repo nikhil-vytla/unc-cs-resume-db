@@ -7,7 +7,8 @@ import { propTypes } from "react-bootstrap/esm/Image";
 
 function Filter(props) {
   //console.log(props.filters);
-
+  const [filterSearch, setFilterSearch] = useState("")
+  console.log(filterSearch)
   return (
     <div className="filter d-block">
       <h1
@@ -17,7 +18,7 @@ function Filter(props) {
         New Search
       </h1>
       <div className="filterScroll">
-        <FilterSearchBar height="80px" filterName="Name" />
+        <FilterSearchBar height="80px" filterName="Name" setFilterSearch={(text) => setFilterSearch(text)}  filterSearch={filterSearch}/>
         <div className="filterArrowDiv" onClick={() => props.setFilterToggle()}>
           <ArrowBackIcon className="filterArrowIcon" />
         </div>
@@ -28,6 +29,7 @@ function Filter(props) {
           .map(
             (filter) => (
               <FilterDropDown
+                filterSearch={filterSearch}
                 isCurrentFilter={(objToAdd) => props.isCurrentFilter(objToAdd)}
                 removeFilter={(filterName) => props.removeFilter(filterName)}
                 key={filter}

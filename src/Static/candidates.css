@@ -1,0 +1,115 @@
+.cardIconDiv{
+    position: absolute;
+    bottom: 0;
+    width: 148px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.candidateCard{
+    border-radius: 15px !important;
+    border: 1px solid #e5e5e5;
+    height: 260px;
+    width: 150px;
+    margin: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+.candidateCard:hover{
+    z-index: 150;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    transform: scale(1.05);
+
+}
+
+.cardImg{
+    margin-left: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    object-fit: cover;
+  
+}
+.cardHeaderTextDiv{
+    position: relative;
+    top: 15%; 
+    text-align: center;
+}
+.cardHeaderText{
+    font-size: 15px !important;
+    color:  #4B9CD3;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis !important;
+    overflow: hidden;
+    white-space: nowrap !important;
+    max-height: 20px;
+}
+.cardSchoolHeaderText{
+    font-size: 15px !important;
+    color:  #4B9CD3;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis !important;
+}
+
+.cardHeader{
+    background-color: #13294B !important;
+    max-height: 44px;
+    margin: 0;
+  
+}
+.cardTagContainer{
+    padding : 10px;
+    max-height: 125px;
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+}
+.cardTagContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+.candidateCardWrapper{
+    background-color: #ffffff;
+    position: relative;
+}
+
+.candidateDropDown{
+    z-index: 150;
+}
+.recruiterViewCardWrapper{
+    background-color: #ffffff !important;
+    max-height: calc(100vh - 145px - 15px) !important;
+    overflow-y: auto !important;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+.recruiterViewCardWrapper::-webkit-scrollbar {
+    display: none;
+  }
+  .cardHeaderUNC {
+    background-color: #4B9CD3 !important;
+    max-height: 44px;
+    margin: 0;
+  }
+  .cardHeaderTextUNC {
+    font-size: 15px !important;
+    color: white;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis !important;
+  }
+
+  .cardHeaderOther {
+    background-color: #13294B !important;
+    max-height: 44px;
+    margin: 0;
+}
+.cardHeaderTextOther {
+    font-size: 15px !important;
+    color:  #4B9CD3;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis !important;
+}

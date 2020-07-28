@@ -9,74 +9,136 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "./StudentView.css";
+import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
-//import MultiSelect from "./MultiSelect";
+import MultiSelect from "./MultiSelect";
+import { withFirebase } from "../Firebase";
+import EventsEnterBox from "./EventsEnterBox";
 
-export class MyInformation extends Component {
+class MyInformation extends Component {
   // function MyInformation(props) {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
-      userInfo: {},
+      fName: "",
+      lName: "",
+      languagesState: [],
+      gradYearState: [],
+      dbSystemsState: [],
+      opSystemsState: [],
+      majorsState: [],
+      frameworksAndToolsState: [],
+      schoolsState: [],
     };
   }
+
+  handlePropsUpdate = () => {
+    this.props.onStudentDataChange();
+  };
+
+  handleFullTime = async () => {
+    await this.Firebase.db
+      .collection("students")
+      .doc(this.Firebase.auth.currentUser.uid)
+      .update({ Seeking: "Full Time" });
+    this.props.onStudentDataChange();
+  };
+
+  handleInternship = async () => {
+    await this.Firebase.db
+      .collection("students")
+      .doc(this.Firebase.auth.currentUser.uid)
+      .update({ Seeking: "Internship" });
+    this.props.onStudentDataChange();
+  };
+
+  getListArrays = async (collection, doc) => {
+    const data = await this.Firebase.db.collection(collection).doc(doc).get();
+    return data.data();
+  };
+
+  async componentDidMount() {
+    const gradHolder = await this.getListArrays("Graduation Year", "gradYears");
+    const languageHolder = await this.getListArrays(
+      "Programming Languages",
+      "progLanguages"
+    );
+    const dbSystemHolder = await this.getListArrays(
+      "Database Systems",
+      "databaseSystems"
+    );
+    const opSystemHolder = await this.getListArrays(
+      "Operating Systems",
+      "operatingSystems"
+    );
+    const majorsHolder = await this.getListArrays("Majors", "majorsList");
+    const frameworksHolder = await this.getListArrays(
+      "Frameworks and Tools",
+      "frameworksAndTools"
+    );
+    const schoolsHolder = await this.getListArrays("Schools", "SchoolsList");
+
+    this.setState({
+      gradYearState: gradHolder.gradYearList,
+      languagesState: languageHolder.progLanguages,
+      dbSystemsState: dbSystemHolder.databaseSystems,
+      opSystemsState: opSystemHolder.operatingSystems,
+      majorsState: majorsHolder.majorsList,
+      frameworksAndToolsState: frameworksHolder.frameworksAndTools,
+      schoolsState: schoolsHolder.schoolsList,
+    });
+  }
   render() {
-    const schoolsList = [
-      "UNC Chapel Hill",
-      "North Carolina State University",
-      "UNC Charlotte",
-      "Duke University",
-      "University of Central Florida",
-      "Georgia Tech",
-      "UNC Greensboro",
-      "Virginia Tech",
-      "University of Maryland",
-      "Florida International University",
-      "University of Florida",
-      "University of Virginia",
-      "Appalachian State University",
-      "University of Maryland",
-    ];
-    const gradYearList = ["2020", "2021", "2022", "2023", "2024", "202X"];
-    const majorsList = [
-      "Computer Science",
-      "Mathematics",
-      "Physics",
-      "Information Science",
-    ];
-    const eventsList = [
-      "HackNC",
-      "Queer_Hack",
-      "Global Game Jam",
-      "Carolina Data Challenge",
-      "Pearl Hacks",
-    ];
+    let schoolDataList;
 
-    const progLangauges = [
-      "Java",
-      "Python",
-      "C#",
-      "C++",
-      "C",
-      "Swift",
-      "Javascript",
-      "HTML",
-      "CSS",
-    ];
+    if (this.props.schoolData !== "") {
+      schoolDataList = (
+        <li className="list-group-item list-group-item-primary">
+          {this.props.schoolData}
+        </li>
+      );
+    } else {
+      schoolDataList = <></>;
+    }
 
-    const frameworksAndTools = [
-      "React",
-      "Angular",
-      "Ruby on Rails",
-      "Vue.js",
-      "Django",
-    ];
+    let gradYearDataList;
 
-    const operatingSystems = ["macOS", "Linux", "Windows", "Unix"];
+    if (this.props.gradData !== "") {
+      gradYearDataList = (
+        <li className="list-group-item list-group-item-primary">
+          {this.props.gradData}
+        </li>
+      );
+    } else {
+      gradYearDataList = <> </>;
+    }
 
-    const databaseSystems = ["SQL", "Oracle", "MongoDB"];
+    let primMajorDataList;
 
-    let eventListStuff = new Array();
+    if (this.props.primMajorData !== "") {
+      primMajorDataList = (
+        <li className="list-group-item list-group-item-primary">
+          {this.props.primMajorData}
+        </li>
+      );
+    } else {
+      primMajorDataList = <> </>;
+    }
+
+    let secMajorDataList;
+
+    if (this.props.secMajorData !== "") {
+      secMajorDataList = (
+        <li className="list-group-item list-group-item-primary">
+          {this.props.secMajorData}
+        </li>
+      );
+    } else {
+      secMajorDataList = <> </>;
+    }
+
+    let eventListStuff = [];
 
     // Get all of the trues from the Event data section
     if (this.props.eventData !== null && this.props.eventData != null) {
@@ -97,7 +159,7 @@ export class MyInformation extends Component {
       eventListToView = <li>Please update your information!</li>;
     }
 
-    let proLangArray = new Array();
+    let proLangArray = [];
 
     // Programming Langauges
     if (this.props.progLangData !== null && this.props.progLangData != null) {
@@ -117,7 +179,7 @@ export class MyInformation extends Component {
       progLangList = <li>Please update your information!</li>;
     }
 
-    let opSystemsArray = new Array();
+    let opSystemsArray = [];
 
     // Operating Systems
     if (this.props.opSystemsData !== null && this.props.opSystemsData != null) {
@@ -137,7 +199,7 @@ export class MyInformation extends Component {
       opSystemsList = <li>Please update your information!</li>;
     }
 
-    let dbSystemsArray = new Array();
+    let dbSystemsArray = [];
 
     // Database Systems
     if (this.props.dbSystemsData !== null && this.props.dbSystemsData != null) {
@@ -157,7 +219,7 @@ export class MyInformation extends Component {
       dbSystemsList = <li>Please update your information!</li>;
     }
 
-    let frameAndToolsArray = new Array();
+    let frameAndToolsArray = [];
 
     // Frameworks and Tools
     if (
@@ -183,322 +245,345 @@ export class MyInformation extends Component {
       frameAndToolsList = <li>Please update your information!</li>;
     }
 
-    // OG Skills
-    let listStuff;
-    console.log(this.props.skillsData);
-    if (this.props.skillsData !== null && this.props.skillsData != null) {
-      listStuff = this.props.skillsData.map((listitem) => (
-        <li className="list-group-item list-group-item-primary">{listitem}</li>
+    // Minors
+    let minorsArray = [];
+    if (this.props.minorsData !== null && this.props.minorsData != null) {
+      Object.keys(this.props.minorsData).forEach((key, index) => {
+        if (this.props.minorsData[key]) {
+          minorsArray.push(key);
+        }
+      });
+    }
+
+    let minorsList;
+
+    if (this.props.minorsData !== null && this.props.minorsData != null) {
+      minorsList = minorsArray.map((eachLang) => (
+        <li className="list-group-item list-group-item-primary">{eachLang}</li>
       ));
     } else {
-      listStuff = <li>Please update your information in the form below!</li>;
+      minorsList = <li>Please update your information!</li>;
     }
+
+    // New Header above the right panel
+    // If the user is new say "New User, Welcome to the UNC Resume Database! Please update your information below"
+    // Otherwise it says "{Your Name}, Welcome to the UNC Resume Database"
+
+    // let nameHeader;
+    // if (this.props.fNameData !== "" && this.props.lNameData !== "") {
+    //   nameHeader = (
+    //     <h3
+    //       style={{ textAlign: "center" }}
+    //     >{`${this.props.fNameData} ${this.props.lNameData}`}</h3>
+    //   );
+    // } else {
+    //   nameHeader = (
+    //     <h3
+    //       style={{ textAlign: "center" }}
+    //     >{`Please update your information below!`}</h3>
+    //   );
+    // }
+
     return (
       <div>
-        <h3>My Information</h3>
+        {/* {nameHeader} */}
         <div className="my-information-container">
-          <Accordion defaultActiveKey="0">
-            {/* <Card className="card-setting"> */}
+          <Accordion defaultActiveKey="0" className="my-information-accordion">
             <Accordion.Toggle
+              className="accordionHeader"
               as={Card.Header}
               eventKey="0"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
-              <h3>Basic Information</h3>
+              <h3 className="headersForEachType">Basic Information</h3>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="0">
               <div className="basic-information-form">
                 <Form.Group>
+                  <NameSection monitorChanges={this.handlePropsUpdate} />
+                  <br />
+                  <Form.Row>
+                    <Form.Label column className="data-row-label ">
+                      Position Seeking
+                    </Form.Label>
+                    {/* <Col> */}
+                    <InputGroup className="mb-3 radioInput">
+                      <div className="custom-control custom-radio custom-control-inline">
+                        <input
+                          type="radio"
+                          id="customRadioInline3"
+                          name="customRadioInline1"
+                          className="custom-control-input"
+                          onClick={this.handleInternship}
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="customRadioInline3"
+                        >
+                          Internship
+                        </label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input
+                          type="radio"
+                          id="customRadioInline4"
+                          name="customRadioInline1"
+                          className="custom-control-input"
+                          onClick={this.handleFullTime}
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="customRadioInline4"
+                        >
+                          Full Time
+                        </label>
+                      </div>
+                      <h6 className="currentlySeeking">{`You are currently seeking ${
+                        this.props.seekingData == "Internship" ? "an" : "a"
+                      } ${this.props.seekingData} position!`}</h6>
+                    </InputGroup>
+                    {/* </Col> */}
+                  </Form.Row>
+                  <br />
                   <div className="data-row">
-                    <Form.Row>
-                      <Form.Label column lg={2}>
-                        <div className="data-row-label">School</div>
+                    <Form.Row className="formRow">
+                      <Form.Label className="data-row-label " column lg={2}>
+                        School
                       </Form.Label>
                       <Col>
                         <SelectOneOption
-                          optionArray={schoolsList}
+                          optionArray={this.state.schoolsState}
                           valueType="School"
                           isSingle={true}
+                          needInput={true}
+                          monitorChanges={this.handlePropsUpdate}
                         />
-                        {/* <InputGroup className="mb-3">
-                          
-                          <FormControl
-                            placeholder={this.props.studentData[0].school}
-                            aria-label="Recipient's username"
-                            aria-describedby="basic-addon2"
-                          />
-                          
-                        </InputGroup> */}
-
-                        <div className="testDiv">
-                          <li className="list-group-item list-group-item-primary">
-                            {this.props.schoolData}
-                          </li>
-                          {/* <li>{this.props.testingData}</li> */}
-                          {/* {listStuff} */}
-                          {/* yooooooo */}
-                        </div>
+                        {schoolDataList}
                       </Col>
                     </Form.Row>
                   </div>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Graduation Year
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
                         <SelectOneOption
-                          optionArray={gradYearList}
+                          optionArray={this.state.gradYearState}
                           valueType="Graduation Year"
                           isSingle={true}
+                          monitorChanges={this.handlePropsUpdate}
                         />
-                        <li className="list-group-item list-group-item-primary">
+                        {gradYearDataList}
+                        {/* <li className="list-group-item list-group-item-primary">
                           {this.props.gradData}
-                        </li>
-
-                        {/* <FormControl
-                          placeholder={this.props.studentData[0].graduatingyear}
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                        /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
+                        </li> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Primary Major
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
                         <SelectOneOption
-                          optionArray={majorsList}
-                          valueType="Majors"
+                          optionArray={this.state.majorsState}
+                          valueType="Primary Major"
                           isSingle={true}
+                          monitorChanges={this.handlePropsUpdate}
                         />
-                        <li className="list-group-item list-group-item-primary">
-                          {this.props.majorData}
-                        </li>
-                        {/* <FormControl
-                          placeholder={this.props.studentData[0].major}
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
+                        {primMajorDataList}
+                        {/* <li className="list-group-item list-group-item-primary">
+                          {this.props.primMajorData}
+                        </li> */}
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+                  <br />
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
+                      Secondary Major
+                    </Form.Label>
+                    <Col>
+                      <InputGroup className="mb-3">
+                        <SelectOneOption
+                          optionArray={this.state.majorsState}
+                          valueType="Secondary Major"
+                          isSingle={true}
+                          monitorChanges={this.handlePropsUpdate}
+                        />
+                        {secMajorDataList}
+                        {/* <li className="list-group-item list-group-item-primary">
+                          {this.props.secMajorData}
+                        </li> */}
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+                  <br />
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
+                      Minors
+                    </Form.Label>
+                    <Col>
+                      <InputGroup className="mb-3">
+                        {/* <MultiSelect
+                          optionArray={majorsList}
+                          valueType={"Minors"}
+                          monitorChanges={this.handlePropsUpdate}
                         /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
+                        <SelectOneOption
+                          optionArray={this.state.majorsState}
+                          valueType="Minors"
+                          isSingle={false}
+                          monitorChanges={this.handlePropsUpdate}
+                        />
+                        {minorsList}
                       </InputGroup>
                     </Col>
                   </Form.Row>
                 </Form.Group>
               </div>
             </Accordion.Collapse>
-            {/* </Card> */}
-            {/* <Card className="card-setting"> */}
             <Accordion.Toggle
+              className="accordionHeader"
               as={Card.Header}
               eventKey="1"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
-              <h3>Skills / Experience</h3>
+              <h3 className="headersForEachType">Skills / Experience</h3>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="1">
               <div className="basic-information-form">
                 <Form.Group>
                   <div className="data-row">
-                    <Form.Row>
-                      <Form.Label column lg={2}>
-                        <div className="data-row-label">
-                          Programming Languages
-                        </div>
+                    <Form.Row className="formRow">
+                      <Form.Label className="data-row-label " column lg={2}>
+                        Programming Languages
                       </Form.Label>
                       <Col>
-                        {/* Programming languages 
-Java
-Python
-C (#,++)
-Swift
-Javascript
-HTML
-CSS
-
-Frameworks/Tools 
-React 
-Angular
-Ruby on Rails
-Vue.js
-Django
-
-Database Systems
-SQL
-Oracle
-MongoDB
-
-Operating Systems 
-macOS
-Linux
-Windows
-Unix */}
-
                         <InputGroup className="mb-3">
-                          <SelectOneOption
+                          <MultiSelect
+                            optionArray={this.state.languagesState}
+                            valueType={"Programming Languages"}
+                            monitorChanges={this.handlePropsUpdate}
+                          />
+                          {/* <SelectOneOption
                             optionArray={progLangauges}
                             valueType="Programming Languages"
                             isSingle={false}
-                          />
-                          {progLangList}
-                          {/* <FormControl
-                            placeholder={
-                              this.props.studentData[0].programmingLanguage
-                            }
-                            aria-label="Recipient's username"
-                            aria-describedby="basic-addon2"
+                            monitorChanges={this.handlePropsUpdate}
                           /> */}
-                          {/* <InputGroup.Append>
-                            <Button variant="outline-secondary">+</Button>
-                            <Button variant="outline-secondary">-</Button>
-                          </InputGroup.Append> */}
+                          {progLangList}
                         </InputGroup>
                       </Col>
                     </Form.Row>
                   </div>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Frameworks / Tools
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        <SelectOneOption
+                        <MultiSelect
+                          optionArray={this.state.frameworksAndToolsState}
+                          valueType={"Frameworks and Tools"}
+                          monitorChanges={this.handlePropsUpdate}
+                        />
+                        {/* <SelectOneOption
                           optionArray={frameworksAndTools}
                           valueType="Frameworks and Tools"
                           isSingle={false}
-                        />
-                        {frameAndToolsList}
-                        {/* <FormControl
-                          placeholder={this.props.studentData[0].frameworkTool}
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
+                          monitorChanges={this.handlePropsUpdate}
                         /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
+                        {frameAndToolsList}
                       </InputGroup>
                     </Col>
                   </Form.Row>
                   <br />
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Operating Systems
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        <SelectOneOption
+                        <MultiSelect
+                          optionArray={this.state.opSystemsState}
+                          valueType={"Operating Systems"}
+                          monitorChanges={this.handlePropsUpdate}
+                        />
+                        {/* <SelectOneOption
                           optionArray={operatingSystems}
                           valueType="Operating Systems"
                           isSingle={false}
-                        />
-                        {opSystemsList}
-                        {/* <FormControl
-                          placeholder={
-                            this.props.studentData[0].operatingSystem
-                          }
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
+                          monitorChanges={this.handlePropsUpdate}
                         /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
+                        {opSystemsList}
                       </InputGroup>
                     </Col>
                   </Form.Row>
-                  <Form.Row>
-                    <Form.Label column lg={2}>
+                  <Form.Row className="formRow">
+                    <Form.Label className="data-row-label " column lg={2}>
                       Database Systems
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        <SelectOneOption
+                        <MultiSelect
+                          optionArray={this.state.dbSystemsState}
+                          valueType={"Database Systems"}
+                          monitorChanges={this.handlePropsUpdate}
+                        />
+                        {/* <SelectOneOption
                           optionArray={databaseSystems}
                           valueType="Database Systems"
                           isSingle={false}
-                        />
-                        {dbSystemsList}
-                        {/* <FormControl
-                          placeholder={this.props.studentData[0].databaseSystem}
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
+                          monitorChanges={this.handlePropsUpdate}
                         /> */}
-                        {/* <InputGroup.Append>
-                          <Button variant="outline-secondary">+</Button>
-                          <Button variant="outline-secondary">-</Button>
-                        </InputGroup.Append> */}
+                        {dbSystemsList}
                       </InputGroup>
                     </Col>
                   </Form.Row>
                 </Form.Group>
               </div>
             </Accordion.Collapse>
-            {/* </Card>
-          <Card className="card-setting"> */}
             <Accordion.Toggle
+              className="accordionHeader"
               as={Card.Header}
               eventKey="2"
-              style={{ backgroundColor: "#E5E5E5" }}
+              style={{ backgroundColor: "#4B9CD3" }}
             >
-              <h3>Events Attended</h3>
+              <h3 className="headersForEachType">Events Attended</h3>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="2">
               <div className="basic-information-form">
                 <Form.Group>
                   <div className="data-row">
-                    <Form.Row>
-                      <Form.Label column lg={2}>
-                        <div className="data-row-label">Events</div>
+                    <Form.Row className="formRow">
+                      <Form.Label className="data-row-label " column lg={2}>
+                        Events
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
-                          <SelectOneOption
-                            optionArray={eventsList}
-                            valueType="Events"
-                            isSingle={false}
-                            //testingOut={eventListToView}
-                          />
-
-                          {eventListToView}
                           {/* <MultiSelect
                             optionArray={eventsList}
                             valueType="Events"
+                            monitorChanges={this.handlePropsUpdate}
                           /> */}
-                          {/* <FormControl
-                            // placeholder={
-                            //   this.props.studentData[0].eventsAttended
-                            // }
-                            as="select"
-                            multiple="true"
-                            aria-label="Recipient's username"
-                            aria-describedby="basic-addon2"
-                          /> */}
-                          {/* <InputGroup.Append>
-                            <Button variant="outline-secondary">+</Button>
-                            <Button variant="outline-secondary">-</Button>
-                          </InputGroup.Append> */}
+                          <EventsEnterBox
+                            monitorChanges={this.handlePropsUpdate}
+                          />
+                          {/* {eventlistToView} */}
                         </InputGroup>
                       </Col>
+                      {eventListToView}
                     </Form.Row>
                   </div>
                 </Form.Group>
               </div>
             </Accordion.Collapse>
-            {/* </Card> */}
           </Accordion>
         </div>
       </div>
@@ -506,4 +591,4 @@ Unix */}
   }
 }
 
-export default MyInformation;
+export default withFirebase(MyInformation);

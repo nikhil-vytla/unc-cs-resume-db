@@ -2,26 +2,21 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./SideCard.css";
-import Firebase from "../../Firebase.js";
-import profileImage from "../../Static/BlankUser.jpg";
+import { withFirebase } from "../Firebase";
 import SideResumeBox from "./SideResumeBox";
+import PublishIcon from "@material-ui/icons/Publish";
 
 // 320 by 780
-export default class SideCard extends Component {
+class SideCard extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
-      // email: this.props.emailAddress,
-      // fName: this.props.firstName,
-      //lName: this.props.lastName,
       profileImageFile: null,
       profileURL: "",
       resumePDF: null,
       url: "",
     };
-    this.handleNewUploadClick = this.handleNewUploadClick.bind(this);
-    this.handlePdfChange = this.handlePdfChange.bind(this);
-    this.handleNewPicUpload = this.handleNewPicUpload.bind(this);
   }
 
   handleNewUploadClick = () => {
@@ -35,14 +30,14 @@ export default class SideCard extends Component {
     if (this.props.resURL !== "") {
       // Delete current file in storage
       // Send request to delete current file
-      Firebase.storage
-        .ref(`resumePDFs/${Firebase.auth.currentUser.uid}`)
+      this.Firebase.storage
+        .ref(`resumePDFs/${this.Firebase.auth.currentUser.uid}`)
         .delete();
     }
 
     // reference to the location of where the file should be placed
-    const uploadFile = Firebase.storage
-      .ref(`resumePDFs/${Firebase.auth.currentUser.uid}`)
+    const uploadFile = this.Firebase.storage
+      .ref(`resumePDFs/${this.Firebase.auth.currentUser.uid}`)
       .put(resumePDF);
 
     // Uploads file to firebase
@@ -56,18 +51,18 @@ export default class SideCard extends Component {
         console.log(error);
       },
       () => {
-        Firebase.storage
+        this.Firebase.storage
           .ref("resumePDFs")
-          .child(`${Firebase.auth.currentUser.uid}`)
+          .child(`${this.Firebase.auth.currentUser.uid}`)
           .getDownloadURL()
           .then((url) => {
             this.setState(() => ({ url }));
 
-            Firebase.db
+            this.Firebase.db
               .collection("students")
-              .doc(Firebase.auth.currentUser.uid)
+              .doc(this.Firebase.auth.currentUser.uid)
               .update({
-                ["Resume PDF"]: url,
+                "Resume PDF": url,
               });
           });
       }
@@ -77,10 +72,8 @@ export default class SideCard extends Component {
   handlePdfChange = async (event) => {
     const resumePDF = event.target.files[0];
     this.setState(() => ({ resumePDF }));
-    console.log(resumePDF);
     const profileImageFile = event.target.files[0];
     this.setState(() => ({ profileImageFile }));
-    console.log(profileImageFile);
   };
 
   handleNewPicUpload = () => {
@@ -91,17 +84,21 @@ export default class SideCard extends Component {
     const { profileImageFile } = this.state;
 
     // checks if you have a file url in the database already
-    if (this.props.profileImgURL !== "") {
+    if (
+      this.props.profileImgURL !== "" &&
+      this.props.profileImgURL !==
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
+    ) {
       // Delete current file in storage
       // Send request to delete current file
-      Firebase.storage
-        .ref(`profilePictures/${Firebase.auth.currentUser.uid}`)
+      this.Firebase.storage
+        .ref(`profilePictures/${this.Firebase.auth.currentUser.uid}`)
         .delete();
     }
 
     // reference to the location of where the file should be placed
-    const uploadFile = Firebase.storage
-      .ref(`profilePictures/${Firebase.auth.currentUser.uid}`)
+    const uploadFile = this.Firebase.storage
+      .ref(`profilePictures/${this.Firebase.auth.currentUser.uid}`)
       .put(profileImageFile);
 
     // Uploads file to firebase
@@ -115,18 +112,18 @@ export default class SideCard extends Component {
         console.log(error);
       },
       () => {
-        Firebase.storage
+        this.Firebase.storage
           .ref("profilePictures")
-          .child(`${Firebase.auth.currentUser.uid}`)
+          .child(`${this.Firebase.auth.currentUser.uid}`)
           .getDownloadURL()
           .then((profileURL) => {
             this.setState(() => ({ profileURL }));
 
-            Firebase.db
+            this.Firebase.db
               .collection("students")
-              .doc(Firebase.auth.currentUser.uid)
+              .doc(this.Firebase.auth.currentUser.uid)
               .update({
-                ["Profile Image"]: profileURL,
+                "Profile Image": profileURL,
               });
           });
       }
@@ -146,109 +143,33 @@ export default class SideCard extends Component {
     }
   }
 
+  // now allows pdfs
   render() {
     return (
       <div>
         <Card id="SideCardCard">
           <Card.Header className="SideCardProfileHeader">
-            <div
-              className="d-flex"
-              id="ProfileDiv"
-              style={{ height: "190px", width: "320px", flexWrap: "wrap" }}
-            >
-              <div className="imgDiv" style={{ padding: ".75rem 1.25rem" }}>
-                <img
-                  className="SideResumePdfImage"
-                  src={this.state.profileURL}
-                  style={{ borderRadius: "50%" }}
-                  height="100px"
-                  width="100px"
-                  alt=""
-                />
-              </div>
+            <div className="d-block justify-content-center" id="ProfileDiv">
+              <div className="d-flex justify-content-center">
+                <div className="imgDiv">
+                  <img
+                    className="SideResumePdfImage"
+                    src={this.state.profileURL}
+                    alt=""
+                  />
+                </div>
 
-              <div style={{ width: "200" }}>
-                <div
-                  className="nameDiv"
-                  style={{
-                    width: "180px",
-                    display: "flex",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                    padding: ".75rem 1.25rem",
-                  }}
-                >
-                  <h2
-                    style={{
-                      fontFamily: "Droid Sans",
-                      fontStyle: "normal",
-                      fontWeight: "normal",
-                      fontSize: "30px",
-                      lineHeight: "35px",
-                      display: "flex",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    {this.props.firstName}
-                  </h2>
-                  <h2
-                    style={{
-                      fontFamily: "Droid Sans",
-                      fontStyle: "normal",
-                      fontWeight: "normal",
-                      fontSize: "30px",
-                      lineHeight: "35px",
-                      display: "flex",
-                      alignItems: "center",
-                      textAlign: "center",
-                      marginTop: "0px",
-                    }}
-                  >
-                    {this.props.lastName}
-                  </h2>
+                <div className="nameDiv">
+                  <h2 className="nameText"> {this.props.firstName} </h2>
+                  <h2 className="nameText"> {this.props.lastName} </h2>
                 </div>
               </div>
-
-              <div
-                className="emailDiv"
-                // style={{
-                //   // width: "inherit",
-                //   // display: "flex",
-                //   // justifyContent: "center",
-                //   // fontFamily: "Droid Sans",
-                //   // fontStyle: "normal",
-                //   // fontWeight: "normal",
-                //   // fontSize: "20px",
-                //   // lineHeight: "25px",
-                // }}
-              >
-                {this.props.emailAddress}
-              </div>
+              <div className="emailDiv">{this.props.emailAddress}</div>
             </div>
-
-            {/* <Profile
-              firstName={this.state.fName}
-              lastName={this.state.lName}
-              emailAddress={this.state.email}
-            /> */}
           </Card.Header>
           <Card.Body className="SideCardBody">
             <div className="resumeBox">
               <SideResumeBox currentPhoto={this.state.url} />
-              {/* <Card
-                className="SideResumeBoxCard"
-                border="dark"
-                style={{ height: "460px", width: "290px" }}
-              >
-                <img
-                  id="resumeWindowImage"
-                  src={this.state.url}
-                  alt={this.props.resURL}
-                  height="460"
-                  width="auto"
-                ></img>
-              </Card> */}
             </div>
             <div
               style={{
@@ -263,25 +184,38 @@ export default class SideCard extends Component {
               <div>
                 <form>
                   <div className="form-group">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="form-control-file"
-                      id="exampleFormControlFile1"
-                      onChange={this.handlePdfChange}
-                    />
+                    <label>
+                      <input
+                        type="file"
+                        accept="image/*, application/pdf"
+                        className="form-control-file"
+                        id="exampleFormControlFile1"
+                        onChange={this.handlePdfChange}
+                        style={{ color: "#000000" }}
+                      />
+                    </label>
                   </div>
                 </form>
               </div>
-              <div style={{ textAlign: "center" }}>
-                <Button variant="primary" onClick={this.handleNewUploadClick}>
-                  Upload Resume
-                </Button>
-              </div>
-              <div style={{ textAlign: "center", marginTop: "5%" }}>
-                <Button variant="primary" onClick={this.handleNewPicUpload}>
-                  Upload Profile Picture
-                </Button>
+              <div className="d-flex justify-content-center">
+                <div style={{ textAlign: "center" }}>
+                  <Button
+                    variant="primary"
+                    className="uploadButton"
+                    onClick={this.handleNewUploadClick}
+                  >
+                    <PublishIcon /> Resume
+                  </Button>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  <Button
+                    variant="primary"
+                    className="uploadButton"
+                    onClick={this.handleNewPicUpload}
+                  >
+                    <PublishIcon /> Profile Picture
+                  </Button>
+                </div>
               </div>
             </div>
           </Card.Body>
@@ -290,3 +224,5 @@ export default class SideCard extends Component {
     );
   }
 }
+
+export default withFirebase(SideCard);

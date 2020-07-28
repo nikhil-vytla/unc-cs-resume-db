@@ -177,8 +177,6 @@ class AdminView extends Component {
       // return console.log("Skills & Experience Modification");
       default:
         return;
-    }
-  };
 
   updateQueryAll = async () => {
     await this.handleQueryAll().catch((err) => console.log(err));

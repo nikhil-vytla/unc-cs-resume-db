@@ -6,13 +6,16 @@ function Candidates (props) {
     return (
         <div style={{width:'100%'}}>
             <h1 className="recruiterViewHeader BreeSerif" style={{width: '100%'}}> Candidates</h1>
-            
-                    <div className="d-flex recruiterViewCardDiv">
-                        {props.candidateCards.map( Candidate =>(
-                                    <CandidateCard updateRecruiter={() => props.updateRecruiter()} recruiter={props.recruiter} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} key={Candidate.Email} info={Candidate}/>
+                    <div className="d-flex justify-content-center recruiterViewCardWrapper">
+                        <div className="d-flex recruiterViewCardDiv">
+                            {props.candidateCards.map( Candidate =>(
+                                        <CandidateCard updateRecruiter={() => props.updateRecruiter()} recruiter={props.recruiter} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} key={Candidate.Email} info={Candidate}/>
 
-                        ))}
+                            ))}
+                        </div>
+
                     </div>
+                    
         </div>
         
     );

@@ -17,47 +17,51 @@ app.use(cors({ origin: true }));
 
 const firestore = admin.firestore();
 const auth = admin.auth;
+
 // Default response for /api
 app.get("/", (req, res) => {
   res.send("You've reached the base API endpoint");
 });
 
-// Send GET request to /api/users to get array of all users
-app.get("/users", async (req, res) => {
-  try {
-    const data = await firestore.collection("students").get();
-    const docs = data.docs.map((doc) => doc.data());
-    res.send(docs);
-  } catch (err) {
-    console.error(err);
-  }
-});
+// // Send GET request to /api/users to get array of all users
+// app.get("/users", async (req, res) => {
+//   const data = await firestore.collection("students").get()
+//   .catch(err => {
+//     res.status(400).send(err);
+//   });
+//   const docs = data.docs.map((doc) => doc.data());
+//   res.send(docs);
+// });
 
-// Need to add parameters for this path: userID and user
-app.get("/getProfileInfo", async (req, res) => {
-  try {
-    if (req.body.currentUser !== null) {
-      const data = await firestore.collection
-        .doc("students")
-        .where("UID", "==", auth().currentUser.uid)
-        .get();
-      const docs = data.docs.map((doc) => doc.data());
-      res.send(docs);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
+// // Need to add parameters for this path: userID and user
+// app.get("/getProfileInfo", async (req, res) => {
+//   if (req.body.currentUser !== null) {
+//     const data = await firestore.collection
+//       .doc("students")
+//       .where("UID", "==", auth().currentUser.uid)
+//       .get()
+//       .catch(err => res.status(500).send(err));
+//     const docs = data.docs.map((doc) => doc.data());
+//     res.send(docs);
+//   }
+// });
 
+// Gets auth claims for user acct
+// request body = {"email": "example@email.com"}
 app.get("/getUserClaims", async (req, res) => {
+  if (!req.body.email) res.status(400).send("Must include email in request body");
+
   const { email } = req.body;
-  const claims = (await auth().getUserByEmail(email)).customClaims;
-  res.send(claims);
+  const claims = await auth().getUserByEmail(email)
+  .catch(err => res.status(404).send(err))
+  .customClaims;
+  res.status(200).send(claims);
 });
 
-// Adds new student to the database
+// Adds new student with auth claims to the database
 // request body = {"email": "example@email.com"}
 app.post("/newStudent", async (req, res) => {
+  if (!req.body.email) res.status(400).send("Must include email in request body");
   // const unc_email_re = /^\S+@(\S*\.|)unc.edu$/;
 
   const user = await auth()
@@ -72,9 +76,8 @@ app.post("/newStudent", async (req, res) => {
       recruiter: false,
       admin: false,
     })
-    .catch((err) => console.log(err));
+    .catch((err) => res.status(500).send(err));
 
-  console.log(user);
   const studentData = {
     ["Email"]: user.email,
     ["Database Systems"]: {},
@@ -101,13 +104,16 @@ app.post("/newStudent", async (req, res) => {
     .collection("students")
     .doc(user.uid)
     .set(studentData)
-    .catch((err) => console.log(err));
+    .catch(err => res.status(400).send(err));
   res.status(201).send();
 });
 
-// Adds new recruiter to the database
+// Adds new recruiter with auth claims to the database
 // request body = {"email": "example@email.com", "name": "myName"}
 app.post("/newRecruiter", async (req, res) => {
+  if(!req.body.email || !req.body.name) {
+    res.status(400).send("Must include an email and name in request");
+  }
   const user = await auth()
     .getUserByEmail(req.body.email)
     .catch((err) => {
@@ -121,7 +127,7 @@ app.post("/newRecruiter", async (req, res) => {
       admin: false,
     })
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(400).send(err);
     });
 
   const recruiterData = {
@@ -139,38 +145,45 @@ app.post("/newRecruiter", async (req, res) => {
     .doc(user.uid)
     .set(recruiterData)
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(400).send(err);
     });
   res.status(201).send();
 });
 
+// Add admin auth claims to user acct
+// request body = {"email": "example@email.com"}
 app.post("/newAdmin", async (req, res) => {
+  if (!req.body.email) res.status(400).send("Must include email in request body");
+
   const user = await auth()
     .getUserByEmail(req.body.email)
     .catch((err) => {
       res.status(404).send(err);
-    });
+  });
 
   await auth()
     .setCustomUserClaims(user.uid, {
-      student: false,
+      student: true,
       recruiter: true,
       admin: true,
     })
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(400).send(err);
     });
 });
 
 // adds requested school to request list
 app.post("/requestSchool", async (req, res) => {
+  if (!req.body.school) res.status(400).send("Must include school in request body");
+
   const schoolValue = req.body.school;
   await firestore
     .collection("Schools")
     .doc("RequestedSchools")
     .update({
       schoolsList: admin.firestore.FieldValue.arrayUnion(schoolValue),
-    });
+    })
+    .catch(err => res.status(500).send(err));
   res.status(201).send();
 });
 
@@ -202,7 +215,7 @@ app.post("/query", async (req, res) => {
   filters.forEach((filter) => {
     addFilter(query, filter.name, filter.value);
   });
-  const data = await query.get();
+  const data = await query.get().catch(err => res.status(500).send(err));
   const docs = data.docs.map((doc) => doc.data());
   res.send(docs);
 });
@@ -211,21 +224,17 @@ app.put("/updateCheckbox", async (req, res) => {
   const array = req.body.arrayList;
 
   array.forEach(async (eachUpdate) => {
-    try {
-      const valuePlaceHolder = req.body.valueToSend;
-      const currentState = eachUpdate;
-      const currentObjString = `${valuePlaceHolder}.${currentState}`;
-      const type = req.body.typeToSend;
+    const valuePlaceHolder = req.body.valueToSend;
+    const currentState = eachUpdate;
+    const currentObjString = `${valuePlaceHolder}.${currentState}`;
+    const type = req.body.typeToSend;
 
-      await firestore
-        .collection("students")
-        .doc(req.body.uid)
-        .update({
-          [currentObjString]: type,
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    await firestore
+      .collection("students")
+      .doc(req.body.uid)
+      .update({
+        [currentObjString]: type,
+      }).catch(err => res.status(500).send(err));
   });
   res.status(201).send();
 });
@@ -252,7 +261,7 @@ app.put("/checkboxV2", async (req, res) => {
       .doc(req.body.uid)
       .update({
         [valuePlaceHolder]: updatedOBJ,
-      });
+      }).catch(err => res.status(500).send(err));
     res.status(201).send();
   });
 });
@@ -265,7 +274,7 @@ app.put("/newList", async (req, res) => {
     .doc(req.body.recruiterUID)
     .update({
       [`Lists.${req.body.nameOfList}`]: [],
-    });
+    }).catch(err => res.status(500).send(err));
   res.status(201).send();
 });
 
@@ -276,7 +285,7 @@ app.put("/removeList", async (req, res) => {
     .doc(req.body.recruiterUID)
     .update({
       [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.delete(),
-    });
+    }).catch(err => res.status(500).send(err));
   res.status(201).send();
 });
 
@@ -290,7 +299,7 @@ app.put("/addStudent", async (req, res) => {
       [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayUnion(
         req.body.student
       ),
-    });
+    }).catch(err => res.status(500).send(err));
   res.status(201).send();
 });
 
@@ -304,7 +313,7 @@ app.put("/deleteStudent", async (req, res) => {
       [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayRemove(
         req.body.student
       ),
-    });
+    }).catch(err => res.status(500).send(err));
   res.status(201).send();
 });
 

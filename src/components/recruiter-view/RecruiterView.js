@@ -118,7 +118,7 @@ function RecruiterView({ Firebase, ...props }) {
 
   useEffect(() => {
     async function fetchUsers() {
-      const data = await Firebase.getAllUsers();
+      const data = await Firebase.getAllStudents();
       const recruiter = await Firebase.getRecruiterInfo(
         Firebase.auth.currentUser.uid
       );

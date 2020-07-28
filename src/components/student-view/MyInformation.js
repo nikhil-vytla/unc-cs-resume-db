@@ -99,7 +99,7 @@ class MyInformation extends Component {
         </li>
       );
     } else {
-      schoolDataList = <> null </>;
+      schoolDataList = <></>;
     }
 
     let gradYearDataList;

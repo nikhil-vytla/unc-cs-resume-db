@@ -1,55 +1,65 @@
 .authContainer {
-    padding-top: 18px;
-    background-image: url("../../Static/oldwell.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    min-height: calc(100vh - 6vh);
-    max-height: calc(100vh - 9vh);
-    min-width: 100vw;
-    max-width: 100vw;
+  padding-top: 18px;
+  display: flex;
+  justify-content: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: calc(100vh - 6vh);
+  max-height: calc(100vh - 9vh);
+  min-width: 100vw;
+  max-width: 100vw;
 }
 
 .authComponent {
-    color: #ffffff;
-    background-color: #13294b;
-    position: relative;
-    text-align: center;
-    max-width: 50vw;
-    padding: 0;
-    margin: 0;
-    border-radius: 8px;
+  color: #ffffff;
+  background-color: #13294b;
+  position: relative;
+  text-align: center;
+  max-width: 50vw;
+  padding: 0;
+  margin: 0;
+  border-radius: 8px;
 }
-  
+
 .authBtn {
-    background-color: #4B9CD3;
-    font-size: 20px;
-    padding: 10px;
-    margin-top: 15px;
-    color: white;
-    border: none;
-    border-radius: 10px;
+  background-color: #4b9cd3;
+  font-size: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  padding: 10px;
+  padding-bottom: 10px;
+  margin-top: 40px;
+  color: white;
+  border: none;
+  border-radius: 10px;
 }
 
 .authBtn:hover {
-    background-color: #2E83BD;
+  background-color: #2e83bd;
 }
 
-.form-control {
-    padding: 10px;
-    margin: auto;
-    margin-top: 15px;
-    min-width: 10vw;
-    max-width: 15vw;
+/* .form-control-auth {
+  padding: 20px !important;
+  margin: auto !important;
+  margin-top: 40px !important;
+  min-width: 15vw !important;
+  max-width: 20vw !important;
+} */
+.studentSignUp {
+  color: #4b9cd3 !important;
 }
-
 .authForm {
-    position: relative;
-    height: auto;
-    padding-top: 45px;
+  position: relative;
+  height: auto;
+  padding-top: 45px;
 }
 
 .authLink {
-    padding: 15px;
+  padding: 15px;
+}
+.loginHeader {
+  font-size: 50px !important;
 }

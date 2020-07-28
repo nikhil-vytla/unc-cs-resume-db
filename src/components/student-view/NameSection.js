@@ -49,7 +49,7 @@ class NameSection extends Component {
           {/* <Col className="formColumn"> */}
           <InputGroup className="mb-3 inputGroup">
             <FormControl
-              className="textForm"
+              className="textForm form-control-student"
               type="text"
               placeholder="First Name"
               onChange={(event) => {
@@ -57,7 +57,7 @@ class NameSection extends Component {
               }}
             />
             <FormControl
-              className="textForm"
+              className="textForm form-control-student"
               type="text"
               placeholder="Last Name"
               onChange={(event) => {

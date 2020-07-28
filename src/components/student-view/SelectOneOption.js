@@ -100,7 +100,7 @@ class SelectOneOption extends Component {
     if (this.props.needInput) {
       typingForm = (
         <FormControl
-          className="textForm"
+          className="textForm form-control-student"
           placeholder="School missing?"
           value={this.state.reqSchool}
           onChange={(e) => {

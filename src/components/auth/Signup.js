@@ -48,22 +48,53 @@ const Signup = ({ Firebase }) => {
         <Form className="authForm" onSubmit={handleSignup}>
           <h1 className="loginHeader">Sign Up</h1>
 
-          <Form.Control name="email" type="email" placeholder="Email Address" />
+          <Form.Control
+            name="email"
+            type="email"
+            placeholder="Email Address"
+            className="form-control-auth"
+            style={{
+              padding: "20px",
+              margin: "auto",
+              marginTop: "40px",
+              minWidth: "15vw",
+              maxWidth: "20vw",
+            }}
+          />
           <Form.Control
             name="password"
             type="password"
             placeholder="Password"
+            className="form-control-auth"
+            style={{
+              padding: "20px",
+              margin: "auto",
+              marginTop: "40px",
+              minWidth: "15vw",
+              maxWidth: "20vw",
+            }}
           />
           <Form.Control
             name="confirmPassword"
             type="password"
             placeholder="Confirm Password"
+            className="form-control-auth"
+            style={{
+              padding: "20px",
+              margin: "auto",
+              marginTop: "40px",
+              minWidth: "15vw",
+              maxWidth: "20vw",
+            }}
           />
           <button className="authBtn" type="submit">
             Sign Up
           </button>
           <p className="authLink">
-            Already have an account? <Link  className="studentSignUp" to="/">Login</Link>
+            Already have an account?{" "}
+            <Link className="studentSignUp" to="/">
+              Login
+            </Link>
           </p>
         </Form>
       </Container>

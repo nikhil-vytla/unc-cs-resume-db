@@ -56,6 +56,7 @@ class EventsEnterBox extends Component {
             <InputGroup className="mb-3">
               <FormControl
                 type="text"
+                className="form-control-student"
                 placeholder="Enter Event Code"
                 onChange={(event) => {
                   this.setState({ eventCode: event.target.value });

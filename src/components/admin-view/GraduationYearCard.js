@@ -7,12 +7,12 @@ import {
   Button,
   Accordion,
 } from "react-bootstrap";
-import Firebase from "../../Firebase";
-import * as firebase from "firebase";
+import { withFirebase } from "../Firebase";
 
-export class GraduationYearCard extends Component {
+class GraduationYearCard extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       eventInput: "",
       reqSchoolName: "",
@@ -22,18 +22,18 @@ export class GraduationYearCard extends Component {
       gradyr: [],
     };
   }
+
   componentDidMount() {
     this.handleQueryAllData();
   }
+
   handleQueryAllData = async (e) => {
-    try {
-      let data = await Firebase.getAllGraduationYear();
-      this.setState({ gradyr: data[0].gradYearList });
-      //   console.log(this.state.gradyr);
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.Firebase.getAllGraduationYear();
+    this.setState({ gradyr: data[0].gradYearList }).catch((err) =>
+      console.log(err)
+    );
   };
+
   render() {
     return (
       <div>
@@ -103,6 +103,7 @@ export class GraduationYearCard extends Component {
       </div>
     );
   }
+
   updateStates = (input, coll, docName, field) => {
     this.setState({ eventInput: input });
     this.setState({ collection: coll });
@@ -112,41 +113,36 @@ export class GraduationYearCard extends Component {
 
   handleAdd = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection(this.state.collection)
-        .doc(this.state.doc)
-        .update({
-          [this.state.field]: firebase.firestore.FieldValue.arrayUnion(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection(this.state.collection)
+      .doc(this.state.doc)
+      .update({
+        [this.state.field]: this.Firebase.firestore.FieldValue.arrayUnion(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
 
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection(this.state.collection)
-        .doc(this.state.doc)
-        .update({
-          [this.state.field]: firebase.firestore.FieldValue.arrayRemove(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection(this.state.collection)
+      .doc(this.state.doc)
+      .update({
+        [this.state.field]: this.Firebase.firestore.FieldValue.arrayRemove(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
+
   handleUpdate = async () => {
-    await this.handleQueryAllData();
+    await this.handleQueryAllData().catch((err) => console.log(err));
   };
 }
 
-export default GraduationYearCard;
+export default withFirebase(GraduationYearCard);

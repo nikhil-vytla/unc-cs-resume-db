@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Link, Switch, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Row,
   Col,
@@ -8,7 +8,7 @@ import {
   ButtonGroup,
   ToggleButton,
 } from "react-bootstrap";
-import Firebase from "../../Firebase";
+import { withFirebase } from "../Firebase";
 import RecruiterListComponent from "./RecruiterListComponent";
 import StudentListComponent from "./StudentListComponent";
 import "./AdminView.css";
@@ -16,20 +16,18 @@ import EventModification from "./EventModification";
 import BasicInformationModification from "./BasicInformationModification";
 import SkillsAndExperienceModification from "./SkillsAndExperienceModification";
 
-export default class AdminView extends Component {
+class AdminView extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       recruiters: [],
       students: [],
       events: [],
       value: "Recruiters",
     };
-    this.handleQueryAll = this.handleQueryAll(this);
-    this.handleQueryAllRecruiters = this.handleQueryAllRecruiters.bind(this);
-    this.handleQueryAllStudents = this.handleQueryAllStudents.bind(this);
-    this.handleQueryAllEvents = this.handleQueryAllEvents.bind(this);
   }
+
   componentDidMount() {
     // this.handleQueryAll();
     this.handleQueryAllRecruiters();
@@ -38,49 +36,50 @@ export default class AdminView extends Component {
   }
 
   handleQueryAll = async (e) => {
-    try {
-      let data = await Firebase.getAllRecruiters();
-      this.setState({ recruiters: data });
-      data = await Firebase.getAllStudents();
-      this.setState({ students: data });
-      data = await Firebase.getAllEvents();
-      this.setState({ events: data });
-    } catch (err) {
-      console.error(err);
-    }
+    const recruiterData = await this.Firebase.getAllRecruiters().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ recruiters: recruiterData });
+
+    const studentData = await this.Firebase.getAllStudents().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ students: studentData });
+
+    const eventData = await this.Firebase.getAllEvents().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ events: eventData });
   };
+
   handleQueryAllRecruiters = async (e) => {
-    try {
-      let data = await Firebase.getAllRecruiters();
-      this.setState({ recruiters: data });
-      // console.log(this.state.recruiters);
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.Firebase.getAllRecruiters().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ recruiters: data });
+    // console.log(this.state.recruiters);
   };
+
   handleQueryAllStudents = async (e) => {
-    try {
-      let data = await Firebase.getAllStudents();
-      this.setState({ students: data });
-      // console.log(this.state.students);
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.Firebase.getAllStudents().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ students: data });
+    // console.log(this.state.students);
   };
+
   handleQueryAllEvents = async (e) => {
-    try {
-      let data = await Firebase.getAllEvents();
-      this.setState({ events: data });
-      // console.log(this.state.students);
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.Firebase.getAllEvents().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ events: data });
+    // console.log(this.state.students);
   };
 
   render() {
     const parentState = (e) => {
       this.setState({ value: e });
-      console.log(this.state.value);
+      // console.log(this.state.value);
     };
 
     function ToggleButtonGroup() {
@@ -176,17 +175,22 @@ export default class AdminView extends Component {
       case "Skills & Experience Modification":
         return <SkillsAndExperienceModification title={this.state.value} />;
       // return console.log("Skills & Experience Modification");
+      default:
+        return;
     }
   };
 
   updateQueryAll = async () => {
-    await this.handleQueryAll();
+    await this.handleQueryAll().catch((err) => console.log(err));
   };
 
   updateRecruiters = async () => {
-    await this.handleQueryAllRecruiters();
+    await this.handleQueryAllRecruiters().catch((err) => console.log(err));
   };
+
   updateEvents = async () => {
-    await this.handleQueryAllEvents();
+    await this.handleQueryAllEvents().catch((err) => console.log(err));
   };
 }
+
+export default withFirebase(AdminView);

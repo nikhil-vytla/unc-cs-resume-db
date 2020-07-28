@@ -9,12 +9,12 @@ import {
   Accordion,
   DropdownButton,
 } from "react-bootstrap";
-import Firebase from "../../Firebase";
-import * as firebase from "firebase";
+import { withFirebase } from "../Firebase";
 
-export class SchoolsCard extends Component {
+class SchoolsCard extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       eventInput: "",
       reqSchoolName: "",
@@ -25,18 +25,19 @@ export class SchoolsCard extends Component {
       schoolsRequest: [],
     };
   }
+
   componentDidMount() {
     this.handleQueryAllData();
   }
+
   handleQueryAllData = async (e) => {
-    try {
-      let data = await Firebase.getAllSchools();
-      this.setState({ schools: data[1].schoolsList });
-      this.setState({ schoolsRequest: data[0].schoolsList });
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.Firebase.getAllSchools().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ schools: data[1].schoolsList });
+    this.setState({ schoolsRequest: data[0].schoolsList });
   };
+
   render() {
     return (
       <div>
@@ -165,83 +166,75 @@ export class SchoolsCard extends Component {
   handleAddRequest = async (event) => {
     event.preventDefault();
     console.log(this.state.reqSchoolName);
-    try {
-      const res = await Firebase.db
-        .collection("Schools")
-        .doc("SchoolsList")
-        .update({
-          ["schoolsList"]: firebase.firestore.FieldValue.arrayUnion(
-            this.state.reqSchoolName
-          ),
-        });
-      const res2 = await Firebase.db
-        .collection("Schools")
-        .doc("RequestedSchools")
-        .update({
-          ["schoolsList"]: firebase.firestore.FieldValue.arrayRemove(
-            this.state.reqSchoolName
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection("Schools")
+      .doc("SchoolsList")
+      .update({
+        ["schoolsList"]: this.Firebase.firestore.FieldValue.arrayUnion(
+          this.state.reqSchoolName
+        ),
+      })
+      .catch((err) => console.log(err));
+
+    await this.Firebase.db
+      .collection("Schools")
+      .doc("RequestedSchools")
+      .update({
+        ["schoolsList"]: this.Firebase.firestore.FieldValue.arrayRemove(
+          this.state.reqSchoolName
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
+
   handleRemoveRequest = async (event) => {
     event.preventDefault();
     console.log(this.state.reqSchoolName);
-    try {
-      const res = await Firebase.db
-        .collection("Schools")
-        .doc("RequestedSchools")
-        .update({
-          ["schoolsList"]: firebase.firestore.FieldValue.arrayRemove(
-            this.state.reqSchoolName
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection("Schools")
+      .doc("RequestedSchools")
+      .update({
+        ["schoolsList"]: this.Firebase.firestore.FieldValue.arrayRemove(
+          this.state.reqSchoolName
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
 
   handleAdd = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection(this.state.collection)
-        .doc(this.state.doc)
-        .update({
-          [this.state.field]: firebase.firestore.FieldValue.arrayUnion(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection(this.state.collection)
+      .doc(this.state.doc)
+      .update({
+        [this.state.field]: this.Firebase.firestore.FieldValue.arrayUnion(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
 
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection(this.state.collection)
-        .doc(this.state.doc)
-        .update({
-          [this.state.field]: firebase.firestore.FieldValue.arrayRemove(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection(this.state.collection)
+      .doc(this.state.doc)
+      .update({
+        [this.state.field]: this.Firebase.firestore.FieldValue.arrayRemove(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
+
   handleUpdate = async () => {
-    await this.handleQueryAllData();
+    await this.handleQueryAllData().catch((err) => console.log(err));
   };
 }
 
-export default SchoolsCard;
+export default withFirebase(SchoolsCard);

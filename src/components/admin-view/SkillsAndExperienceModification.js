@@ -11,7 +11,9 @@ export class SkillsAndExperienceModification extends Component {
   componentDidMount() {
     this.handleQueryAllData();
   }
+
   handleQueryAllData = async (e) => {};
+
   render() {
     return (
       <div>

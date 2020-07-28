@@ -8,12 +8,12 @@ import {
   Dropdown,
   Accordion,
 } from "react-bootstrap";
-import Firebase from "../../Firebase";
-import * as firebase from "firebase";
+import { withFirebase } from "../Firebase";
 
-export class EventModification extends Component {
+class EventModification extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = { eventInput: "", doc: "" };
   }
 
@@ -134,41 +134,36 @@ export class EventModification extends Component {
 
   handleAdd = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection("Events")
-        .doc(this.state.doc)
-        .update({
-          [this.state.doc]: firebase.firestore.FieldValue.arrayUnion(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection("Events")
+      .doc(this.state.doc)
+      .update({
+        [this.state.doc]: this.Firebase.firestore.FieldValue.arrayUnion(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
 
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection("Events")
-        .doc(this.state.doc)
-        .update({
-          [this.state.doc]: firebase.firestore.FieldValue.arrayRemove(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection("Events")
+      .doc(this.state.doc)
+      .update({
+        [this.state.doc]: this.Firebase.firestore.FieldValue.arrayRemove(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
+
   handleUpdate = () => {
     this.props.updateEventsx();
   };
 }
 
-export default EventModification;
+export default withFirebase(EventModification);

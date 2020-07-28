@@ -9,13 +9,12 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import Firebase from "../../Firebase";
+import { withFirebase } from "../Firebase";
 import "./AdminView.css";
-import * as firebase from "firebase";
-
-export class RecruiterListComponent extends Component {
+class RecruiterListComponent extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = { eventInput: "", uid: "" };
   }
 
@@ -91,41 +90,35 @@ export class RecruiterListComponent extends Component {
 
   handleAdd = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection("recruiters")
-        .doc(this.state.uid)
-        .update({
-          ["Resume Access"]: firebase.firestore.FieldValue.arrayUnion(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection("recruiters")
+      .doc(this.state.uid)
+      .update({
+        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayUnion(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
 
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection("recruiters")
-        .doc(this.state.uid)
-        .update({
-          ["Resume Access"]: firebase.firestore.FieldValue.arrayRemove(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection("recruiters")
+      .doc(this.state.uid)
+      .update({
+        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayRemove(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handsleUpdate();
   };
 
   handleUpdate = () => {
     this.props.updateRecruitersx();
   };
 }
-export default RecruiterListComponent;
+export default withFirebase(RecruiterListComponent);

@@ -9,13 +9,13 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import Firebase from "../../Firebase";
+import { withFirebase } from "../../Firebase";
 import "./AdminView.css";
-import * as firebase from "firebase";
 
-export class StudentListComponent extends Component {
+class StudentListComponent extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = { eventInput: "", uid: "", information: {} };
   }
 
@@ -127,35 +127,30 @@ export class StudentListComponent extends Component {
 
   handleAdd = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection("students")
-        .doc(this.state.uid)
-        .update({
-          ["Resume Access"]: firebase.firestore.FieldValue.arrayUnion(
-            this.state.eventInput
-          ),
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection("students")
+      .doc(this.state.uid)
+      .update({
+        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayUnion(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
   };
 
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection("students")
-        .doc(this.state.uid)
-        .update({
-          ["Resume Access"]: firebase.firestore.FieldValue.arrayRemove(
-            this.state.eventInput
-          ),
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection("students")
+      .doc(this.state.uid)
+      .update({
+        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayRemove(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
   };
 }
-export default StudentListComponent;
+
+export default withFirebase(StudentListComponent);

@@ -9,12 +9,12 @@ import {
   Accordion,
   DropdownButton,
 } from "react-bootstrap";
-import Firebase from "../../Firebase";
-import * as firebase from "firebase";
+import { withFirebase } from "../../Firebase";
 
-export class MajorsCard extends Component {
+class MajorsCard extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       eventInput: "",
       reqSchoolName: "",
@@ -24,18 +24,19 @@ export class MajorsCard extends Component {
       majors: [],
     };
   }
+
   componentDidMount() {
     this.handleQueryAllData();
   }
+
   handleQueryAllData = async (e) => {
-    try {
-      let data = await Firebase.getAllMajors();
-      this.setState({ majors: data[0].majorsList });
-      // console.log(this.state.majors);
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.Firebase.getAllMajors().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ majors: data[0].majorsList });
+    // console.log(this.state.majors);
   };
+
   render() {
     return (
       <div>
@@ -106,6 +107,7 @@ export class MajorsCard extends Component {
       </div>
     );
   }
+
   updateStates = (input, coll, docName, field) => {
     this.setState({ eventInput: input });
     this.setState({ collection: coll });
@@ -115,41 +117,36 @@ export class MajorsCard extends Component {
 
   handleAdd = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection(this.state.collection)
-        .doc(this.state.doc)
-        .update({
-          [this.state.field]: firebase.firestore.FieldValue.arrayUnion(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection(this.state.collection)
+      .doc(this.state.doc)
+      .update({
+        [this.state.field]: this.Firebase.firestore.FieldValue.arrayUnion(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
 
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    try {
-      const res = await Firebase.db
-        .collection(this.state.collection)
-        .doc(this.state.doc)
-        .update({
-          [this.state.field]: firebase.firestore.FieldValue.arrayRemove(
-            this.state.eventInput
-          ),
-        });
-      this.handleUpdate();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.Firebase.db
+      .collection(this.state.collection)
+      .doc(this.state.doc)
+      .update({
+        [this.state.field]: this.Firebase.firestore.FieldValue.arrayRemove(
+          this.state.eventInput
+        ),
+      })
+      .catch((err) => console.log(err));
+    this.handleUpdate();
   };
+
   handleUpdate = async () => {
-    await this.handleQueryAllData();
+    await this.handleQueryAllData().catch((err) => console.log(err));
   };
 }
 
-export default MajorsCard;
+export default withFirebase(MajorsCard);

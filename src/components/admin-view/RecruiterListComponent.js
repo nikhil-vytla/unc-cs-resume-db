@@ -31,7 +31,7 @@ export class RecruiterListComponent extends Component {
                 eventKey={data.Name}
                 style={{ backgroundColor: "#E5E5E5", color: "Black" }}
               >
-                <h3 className="recruiter-name">{data.Name}</h3>
+                <h3 className="card-name">{data.Name}</h3>
                 {data["Resume Access"].map((item, inx) => (
                   <li className="resume-access-list" key={inx}>
                     {item}
@@ -45,7 +45,7 @@ export class RecruiterListComponent extends Component {
                     <br />
                     <Form.Label>UID : {data.UID}</Form.Label>
                   </Card.Title>
-                  <Card.Body>
+                  <Card.Body className="input-box">
                     <Form>
                       <InputGroup>
                         <FormControl

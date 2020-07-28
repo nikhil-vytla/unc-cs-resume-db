@@ -14,6 +14,7 @@ import StudentListComponent from "./StudentListComponent";
 import "./AdminView.css";
 import EventModification from "./EventModification";
 import BasicInformationModification from "./BasicInformationModification";
+import SkillsAndExperienceModification from "./SkillsAndExperienceModification";
 
 export default class AdminView extends Component {
   constructor(props) {
@@ -173,7 +174,8 @@ export default class AdminView extends Component {
         // return console.log("Basic Info Component");
         return <BasicInformationModification title={this.state.value} />;
       case "Skills & Experience Modification":
-        return console.log("Skills & Experience Modification");
+        return <SkillsAndExperienceModification title={this.state.value} />;
+      // return console.log("Skills & Experience Modification");
     }
   };
 

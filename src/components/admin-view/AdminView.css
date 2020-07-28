@@ -2,7 +2,7 @@
   position: relative;
 }
 
-.recruiter-name {
+.card-name {
   display: inline-flex;
 }
 
@@ -16,4 +16,8 @@
   float: right;
   margin-top: 1%;
   display: inline-flex;
+}
+
+.input-box {
+  min-width: 30vw;
 }

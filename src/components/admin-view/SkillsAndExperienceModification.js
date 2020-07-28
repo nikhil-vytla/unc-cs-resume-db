@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { Accordion } from "react-bootstrap";
-import MajorsCard from "./MajorsCard";
-import SchoolsCard from "./SchoolsCard";
-import GraduationYearCard from "./GraduationYearCard";
+import ProgrammingLanguageCard from "./ProgrammingLanguageCard";
 
-export class BasicInformationModification extends Component {
+export class SkillsAndExperienceModification extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -19,13 +17,11 @@ export class BasicInformationModification extends Component {
       <div>
         <h2>{this.props.title}</h2>
         <Accordion defaultActiveKey="0">
-          <SchoolsCard />
-          <MajorsCard />
-          <GraduationYearCard />
+          <ProgrammingLanguageCard />
         </Accordion>
       </div>
     );
   }
 }
 
-export default BasicInformationModification;
+export default SkillsAndExperienceModification;

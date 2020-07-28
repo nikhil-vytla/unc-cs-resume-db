@@ -56,7 +56,7 @@ export class StudentListComponent extends Component {
                 // eventKey={this.state.information["Last Name"]}
                 style={{ backgroundColor: "#E5E5E5", color: "Black" }}
               >
-                <h3 className="student-name">
+                <h3 className="card-name">
                   {data["First Name"]} {data["Last Name"]}
                 </h3>
                 {resumeChecker(data)}

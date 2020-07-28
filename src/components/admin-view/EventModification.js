@@ -80,7 +80,7 @@ export class EventModification extends Component {
               eventKey="eventsList"
               style={{ backgroundColor: "#E5E5E5", color: "Black" }}
             >
-              <h3 className="recruiter-name">Events List</h3>
+              <h3 className="card-name">Events List</h3>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="eventsList">
               <div style={{ color: "Black" }}>

@@ -10,16 +10,11 @@ import {
 import Firebase from "../../Firebase";
 import * as firebase from "firebase";
 
-export class GraduationYearCard extends Component {
+export class ProgrammingLanguageCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       eventInput: "",
-      reqSchoolName: "",
-      collection: "",
-      doc: "",
-      field: "",
-      gradyr: [],
     };
   }
   componentDidMount() {
@@ -37,64 +32,50 @@ export class GraduationYearCard extends Component {
   render() {
     return (
       <div>
-        <Card key="gradyr">
+        <Card>
           <Accordion.Toggle
             as={Card.Header}
-            eventKey="gradyr"
+            eventKey="programLanguage"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="card-name">Graduation Year</h3>
+            <h3 className="card-name">Programming Languages</h3>
           </Accordion.Toggle>
-          <Accordion.Collapse eventKey="gradyr">
+          <Accordion.Collapse eventKey="programLanguage">
             <div style={{ color: "Black" }}>
+              <Card.Title style={{ color: "Black", padding: "3%" }}>
+                {this.props.datas[1].eventsList.map((event, ind) => (
+                  <li key={ind}>{event}</li>
+                ))}
+              </Card.Title>
               <Card.Body>
                 <Form>
-                  <Form.Group controlId="school modification">
-                    <Form.Control
-                      as="select"
-                      onChange={(e) =>
-                        this.updateStates(
-                          e.currentTarget.value,
-                          "Graduation Year",
-                          "gradYears",
-                          "gradYearList"
-                        )
-                      }
-                    >
-                      <option>Select Graduation Year</option>
-                      {this.state.gradyr.map((eachOption) => (
-                        <option key={eachOption}>{eachOption}</option>
-                      ))}
-                    </Form.Control>
+                  <InputGroup>
                     <FormControl
-                      placeholder="Graduation year to Add/Remove"
-                      value={this.state.eventInput}
-                      aria-label="Graduation year to Add/Remove"
+                      placeholder="Programming Language to Add/Remove"
+                      aria-label="Programming Language to Add/Remove"
                       aria-describedby="basic-addon2"
                       // key={data.UID}
-                      key="gradyr"
+                      key="progLang"
                       onChange={(e) =>
-                        this.updateStates(
-                          e.currentTarget.value,
-                          "Graduation Year",
-                          "gradYears",
-                          "gradYearList"
-                        )
+                        this.updateStates(e.currentTarget.value, "eventsList")
                       }
                     />
-                  </Form.Group>
-                  <InputGroup.Append>
-                    <Button variant="outline-success" onClick={this.handleAdd}>
-                      Add
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      // onClick={console.log(this.state.eventInput)}
-                      onClick={this.handleRemove}
-                    >
-                      Remove
-                    </Button>
-                  </InputGroup.Append>
+                    <InputGroup.Append>
+                      <Button
+                        variant="outline-success"
+                        onClick={this.handleAdd}
+                      >
+                        Add
+                      </Button>
+                      <Button
+                        variant="outline-danger"
+                        // onClick={console.log(this.state.eventInput)}
+                        onClick={this.handleRemove}
+                      >
+                        Remove
+                      </Button>
+                    </InputGroup.Append>
+                  </InputGroup>
                 </Form>
               </Card.Body>
             </div>
@@ -149,4 +130,4 @@ export class GraduationYearCard extends Component {
   };
 }
 
-export default GraduationYearCard;
+export default ProgrammingLanguageCard;

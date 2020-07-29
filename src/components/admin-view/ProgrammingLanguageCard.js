@@ -15,6 +15,11 @@ class ProgrammingLanguageCard extends Component {
     this.Firebase = props.Firebase;
     this.state = {
       eventInput: "",
+      reqSchoolName: "",
+      collection: "",
+      doc: "",
+      field: "",
+      progLanguage: [],
     };
   }
 
@@ -23,11 +28,11 @@ class ProgrammingLanguageCard extends Component {
   }
 
   handleQueryAllData = async (e) => {
-    const data = await this.Firebase.getAllGraduationYear().catch((err) =>
+    const data = await this.Firebase.getAllProgrammingLanguages().catch((err) =>
       console.log(err)
     );
-    this.setState({ gradyr: data[0].gradYearList });
-    //   console.log(this.state.gradyr);
+    this.setState({ progLanguage: data[0].progLanguages });
+    // console.log(data);
   };
 
   render() {
@@ -44,8 +49,9 @@ class ProgrammingLanguageCard extends Component {
           <Accordion.Collapse eventKey="programLanguage">
             <div style={{ color: "Black" }}>
               <Card.Title style={{ color: "Black", padding: "3%" }}>
-                {this.props.datas[1].eventsList.map((event, ind) => (
-                  <li key={ind}>{event}</li>
+                {/* {console.log(this.props.datas)} */}
+                {this.state.progLanguage.map((dat, ind) => (
+                  <li key={ind}>{dat}</li>
                 ))}
               </Card.Title>
               <Card.Body>

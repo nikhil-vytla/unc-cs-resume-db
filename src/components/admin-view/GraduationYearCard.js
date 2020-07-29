@@ -28,10 +28,10 @@ class GraduationYearCard extends Component {
   }
 
   handleQueryAllData = async (e) => {
-    const data = await this.Firebase.getAllGraduationYear();
-    this.setState({ gradyr: data[0].gradYearList }).catch((err) =>
+    const data = await this.Firebase.getAllGraduationYear().catch((err) =>
       console.log(err)
     );
+    this.setState({ gradyr: data[0].gradYearList });
   };
 
   render() {

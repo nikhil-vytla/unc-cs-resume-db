@@ -58,56 +58,94 @@ function RecruiterView({ Firebase, ...props }) {
       "Frameworks and Tools": frameworksHolder.frameworksAndTools,
       School: schoolsHolder.schoolsList,
       Events: eventHolder.eventsList,
-      "Active Filters": [],
+      "Active Filters": {
+        "Programming Languages": [],
+        "Frameworks and Tools": [],
+        School: [],
+        Events: [],
+        "Primary Major": [],
+        "Secondary Major": [],
+        Minors: [],
+        "Operating Systems": [],
+        "Database Systems": [],
+        "Graduation Year": [],
+      },
     });
   }
 
   async function addFilter(filterName) {
     let filterArr = filters["Active Filters"];
+    let specificFilter = "";
 
-    filterArr.push(filterName);
+    if (filterName.name.includes(".")) {
+      const index = filterName.name.indexOf(".");
+      specificFilter = filterName.name.slice(0, index);
+    } else {
+      specificFilter = filterName.name;
+    }
+
+    // const specificFilter = filterName.name.includes(".")
+    //   ? filterName.name
+    //   : filterName.name;
+
+    filterArr[specificFilter].push(filterName);
     setFilters((prev) => ({
       ...prev,
       "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/query",
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
       { filtersForQuery: filterArr }
     );
+    console.log(preData);
     const data = preData.data;
     setCards(data);
   }
   async function removeFilter(filterName) {
     let filterArr = filters["Active Filters"];
 
-    filterArr.splice(filterArr.indexOf(filterName), 1);
+    let specificFilter = "";
+
+    if (filterName.name.includes(".")) {
+      const index = filterName.name.indexOf(".");
+      specificFilter = filterName.name.slice(0, index);
+    } else {
+      specificFilter = filterName.name;
+    }
+
+    filterArr[specificFilter].splice(
+      filterArr[specificFilter].indexOf(filterName),
+      1
+    );
     setFilters((prev) => ({
       ...prev,
       "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/query",
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
       { filtersForQuery: filterArr }
     );
+    console.log(preData);
+
     const data = preData.data;
     setCards(data);
   }
 
   function isCurrentFilter(objToAdd) {
-    if (
-      filters["Active Filters"] !== undefined &&
-      filters["Active Filters"].length !== 0
-    ) {
-      let newArr = filters["Active Filters"].filter((item) => {
-        console.log(item.name === objToAdd.name);
-        console.log(item.value === objToAdd.value);
-        return item.name === objToAdd.name && item.value === objToAdd.value;
-      });
-      console.log(newArr);
-      return newArr.length !== 0;
-    } else {
-      return false;
-    }
+    // if (
+    //   filters["Active Filters"] !== undefined &&
+    //   filters["Active Filters"].length !== 0
+    // ) {
+    //   let newArr = filters["Active Filters"].filter((item) => {
+    //     console.log(item.name === objToAdd.name);
+    //     console.log(item.value === objToAdd.value);
+    //     return item.name === objToAdd.name && item.value === objToAdd.value;
+    //   });
+    //   console.log(newArr);
+    //   return newArr.length !== 0;
+    // } else {
+    //   return false;
+    // }
   }
 
   const [cards, setCards] = useState(null);

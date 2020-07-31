@@ -9,16 +9,16 @@ import {
 } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 
-class ProgrammingLanguageCard extends Component {
+class DatabaseSystems extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
     this.state = {
-      progLangInput: "",
+      dbSysInput: "",
       collection: "",
       doc: "",
       field: "",
-      progLang: [],
+      dbArr: [],
     };
   }
 
@@ -31,27 +31,27 @@ class ProgrammingLanguageCard extends Component {
     return data.data();
   };
   handleQueryAllData = async (e) => {
-    const progLangHolder = await this.getListArrays(
-      "Programming Languages",
-      "progLanguages"
+    const databaseSystemsHolder = await this.getListArrays(
+      "Database Systems",
+      "databaseSystems"
     );
     this.setState({
-      progLang: progLangHolder.progLanguages,
+      dbArr: databaseSystemsHolder.databaseSystems,
     });
   };
 
   render() {
     return (
       <div>
-        <Card key="progLang">
+        <Card key="dbSystems">
           <Accordion.Toggle
             as={Card.Header}
-            eventKey="progLang"
+            eventKey="dbSystems"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="card-name">Programming Languages</h3>
+            <h3 className="card-name">Database Systems</h3>
           </Accordion.Toggle>
-          <Accordion.Collapse eventKey="progLang">
+          <Accordion.Collapse eventKey="dbSystems">
             <div style={{ color: "Black" }}>
               <Card.Body>
                 <Form>
@@ -60,25 +60,25 @@ class ProgrammingLanguageCard extends Component {
                       as="select"
                       onChange={(e) =>
                         this.setState({
-                          progLangInput: e.currentTarget.value,
+                          dbSysInput: e.currentTarget.value,
                         })
                       }
                     >
-                      <option>Select Programming Languages</option>
-                      {this.state.progLang.map((eachOption) => (
+                      <option>Select Database Systems</option>
+                      {this.state.dbArr.map((eachOption) => (
                         <option key={eachOption}>{eachOption}</option>
                       ))}
                     </Form.Control>
                     <FormControl
-                      placeholder="Programming Languages to Add/Remove"
-                      value={this.state.progLangInput}
-                      aria-label="Programming Languages to Add/Remove"
+                      placeholder="Database Systems to Add/Remove"
+                      value={this.state.dbSysInput}
+                      aria-label="Database Systems to Add/Remove"
                       aria-describedby="basic-addon2"
                       // key={data.UID}
-                      key="progLang"
+                      key="dbSystems"
                       onChange={(e) =>
                         this.setState({
-                          progLangInput: e.currentTarget.value,
+                          dbSysInput: e.currentTarget.value,
                         })
                       }
                     />
@@ -89,7 +89,7 @@ class ProgrammingLanguageCard extends Component {
                     </Button>
                     <Button
                       variant="outline-danger"
-                      // onClick={console.log(this.state.progLangInput)}
+                      // onClick={console.log(this.state.dbSysInput)}
                       onClick={this.handleRemove}
                     >
                       Remove
@@ -107,18 +107,18 @@ class ProgrammingLanguageCard extends Component {
   handleAdd = async (event) => {
     event.preventDefault();
     //check if same item exist in the array before adding
-    const index = this.state.progLang.indexOf(this.state.progLangInput);
+    const index = this.state.dbArr.indexOf(this.state.dbSysInput);
     if (index > -1) {
       alert("exists at " + index);
       return;
     }
-    this.state.progLang.push(this.state.progLangInput);
-    console.log(this.state.progLang);
+    this.state.dbArr.push(this.state.dbSysInput);
+    console.log(this.state.dbArr);
     await this.Firebase.db
-      .collection("Programming Languages")
-      .doc("progLanguages")
+      .collection("Database Systems")
+      .doc("databaseSystems")
       .update({
-        ["progLanguages"]: this.state.progLang,
+        ["databaseSystems"]: this.state.dbArr,
       })
       .catch((err) => console.log(err));
     this.handleUpdate();
@@ -127,16 +127,16 @@ class ProgrammingLanguageCard extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    const index = this.state.progLang.indexOf(this.state.progLangInput);
+    const index = this.state.dbArr.indexOf(this.state.dbSysInput);
     if (index > -1) {
-      this.state.progLang.splice(index, 1);
+      this.state.dbArr.splice(index, 1);
     }
 
     await this.Firebase.db
-      .collection("Programming Languages")
-      .doc("progLanguages")
+      .collection("Database Systems")
+      .doc("databaseSystems")
       .update({
-        ["progLanguages"]: this.state.progLang,
+        ["databaseSystems"]: this.state.dbArr,
       })
       .catch((err) => console.log(err));
 
@@ -148,4 +148,4 @@ class ProgrammingLanguageCard extends Component {
   };
 }
 
-export default withFirebase(ProgrammingLanguageCard);
+export default withFirebase(DatabaseSystems);

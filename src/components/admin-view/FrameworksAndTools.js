@@ -9,16 +9,16 @@ import {
 } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 
-class ProgrammingLanguageCard extends Component {
+class FrameworksAndTools extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
     this.state = {
-      progLangInput: "",
+      frameworkAndToolsInput: "",
       collection: "",
       doc: "",
       field: "",
-      progLang: [],
+      fAndtArr: [],
     };
   }
 
@@ -31,27 +31,27 @@ class ProgrammingLanguageCard extends Component {
     return data.data();
   };
   handleQueryAllData = async (e) => {
-    const progLangHolder = await this.getListArrays(
-      "Programming Languages",
-      "progLanguages"
+    const frameworksAndToolsHolder = await this.getListArrays(
+      "Frameworks and Tools",
+      "frameworksAndTools"
     );
     this.setState({
-      progLang: progLangHolder.progLanguages,
+      fAndtArr: frameworksAndToolsHolder.frameworksAndTools,
     });
   };
 
   render() {
     return (
       <div>
-        <Card key="progLang">
+        <Card key="frameworkAndToolsArr">
           <Accordion.Toggle
             as={Card.Header}
-            eventKey="progLang"
+            eventKey="frameworkAndToolsArr"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="card-name">Programming Languages</h3>
+            <h3 className="card-name">Frameworks And Tools</h3>
           </Accordion.Toggle>
-          <Accordion.Collapse eventKey="progLang">
+          <Accordion.Collapse eventKey="frameworkAndToolsArr">
             <div style={{ color: "Black" }}>
               <Card.Body>
                 <Form>
@@ -60,25 +60,25 @@ class ProgrammingLanguageCard extends Component {
                       as="select"
                       onChange={(e) =>
                         this.setState({
-                          progLangInput: e.currentTarget.value,
+                          frameworkAndToolsInput: e.currentTarget.value,
                         })
                       }
                     >
-                      <option>Select Programming Languages</option>
-                      {this.state.progLang.map((eachOption) => (
+                      <option>Select Frameworks And Tools</option>
+                      {this.state.fAndtArr.map((eachOption) => (
                         <option key={eachOption}>{eachOption}</option>
                       ))}
                     </Form.Control>
                     <FormControl
-                      placeholder="Programming Languages to Add/Remove"
-                      value={this.state.progLangInput}
-                      aria-label="Programming Languages to Add/Remove"
+                      placeholder="Frameworks And Tools to Add/Remove"
+                      value={this.state.frameworkAndToolsInput}
+                      aria-label="Frameworks And Tools to Add/Remove"
                       aria-describedby="basic-addon2"
                       // key={data.UID}
-                      key="progLang"
+                      key="frameworkAndToolsArr"
                       onChange={(e) =>
                         this.setState({
-                          progLangInput: e.currentTarget.value,
+                          frameworkAndToolsInput: e.currentTarget.value,
                         })
                       }
                     />
@@ -89,7 +89,7 @@ class ProgrammingLanguageCard extends Component {
                     </Button>
                     <Button
                       variant="outline-danger"
-                      // onClick={console.log(this.state.progLangInput)}
+                      // onClick={console.log(this.state.frameworkAndToolsInput)}
                       onClick={this.handleRemove}
                     >
                       Remove
@@ -107,18 +107,20 @@ class ProgrammingLanguageCard extends Component {
   handleAdd = async (event) => {
     event.preventDefault();
     //check if same item exist in the array before adding
-    const index = this.state.progLang.indexOf(this.state.progLangInput);
+    const index = this.state.fAndtArr.indexOf(
+      this.state.frameworkAndToolsInput
+    );
     if (index > -1) {
       alert("exists at " + index);
       return;
     }
-    this.state.progLang.push(this.state.progLangInput);
-    console.log(this.state.progLang);
+    this.state.fAndtArr.push(this.state.frameworkAndToolsInput);
+    console.log(this.state.fAndtArr);
     await this.Firebase.db
-      .collection("Programming Languages")
-      .doc("progLanguages")
+      .collection("Frameworks and Tools")
+      .doc("frameworksAndTools")
       .update({
-        ["progLanguages"]: this.state.progLang,
+        ["frameworksAndTools"]: this.state.fAndtArr,
       })
       .catch((err) => console.log(err));
     this.handleUpdate();
@@ -127,16 +129,18 @@ class ProgrammingLanguageCard extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    const index = this.state.progLang.indexOf(this.state.progLangInput);
+    const index = this.state.fAndtArr.indexOf(
+      this.state.frameworkAndToolsInput
+    );
     if (index > -1) {
-      this.state.progLang.splice(index, 1);
+      this.state.fAndtArr.splice(index, 1);
     }
 
     await this.Firebase.db
-      .collection("Programming Languages")
-      .doc("progLanguages")
+      .collection("Frameworks and Tools")
+      .doc("frameworksAndTools")
       .update({
-        ["progLanguages"]: this.state.progLang,
+        ["frameworksAndTools"]: this.state.fAndtArr,
       })
       .catch((err) => console.log(err));
 
@@ -148,4 +152,4 @@ class ProgrammingLanguageCard extends Component {
   };
 }
 
-export default withFirebase(ProgrammingLanguageCard);
+export default withFirebase(FrameworksAndTools);

@@ -16,8 +16,7 @@ class MajorsCard extends Component {
     super(props);
     this.Firebase = props.Firebase;
     this.state = {
-      eventInput: "",
-      reqSchoolName: "",
+      majorInput: "",
       collection: "",
       doc: "",
       field: "",
@@ -29,12 +28,15 @@ class MajorsCard extends Component {
     this.handleQueryAllData();
   }
 
+  getListArrays = async (collection, doc) => {
+    const data = await this.Firebase.db.collection(collection).doc(doc).get();
+    return data.data();
+  };
   handleQueryAllData = async (e) => {
-    const data = await this.Firebase.getAllMajors().catch((err) =>
-      console.log(err)
-    );
-    this.setState({ majors: data[0].majorsList });
-    // console.log(this.state.majors);
+    const majorsHolder = await this.getListArrays("Majors", "majorsList");
+    this.setState({
+      majors: majorsHolder.majorsList,
+    });
   };
 
   render() {
@@ -57,12 +59,7 @@ class MajorsCard extends Component {
                     <Form.Control
                       as="select"
                       onChange={(e) =>
-                        this.updateStates(
-                          e.currentTarget.value,
-                          "Majors",
-                          "majorsList",
-                          "majorsList"
-                        )
+                        this.setState({ majorInput: e.currentTarget.value })
                       }
                     >
                       <option>Select Major</option>
@@ -72,18 +69,13 @@ class MajorsCard extends Component {
                     </Form.Control>
                     <FormControl
                       placeholder="Majors to Add/Remove"
-                      value={this.state.eventInput}
+                      value={this.state.majorInput}
                       aria-label="Majors to Add/Remove"
                       aria-describedby="basic-addon2"
                       // key={data.UID}
                       key="majors"
                       onChange={(e) =>
-                        this.updateStates(
-                          e.currentTarget.value,
-                          "Majors",
-                          "majorsList",
-                          "majorsList"
-                        )
+                        this.setState({ majorInput: e.currentTarget.value })
                       }
                     />
                   </Form.Group>
@@ -93,7 +85,7 @@ class MajorsCard extends Component {
                     </Button>
                     <Button
                       variant="outline-danger"
-                      // onClick={console.log(this.state.eventInput)}
+                      // onClick={console.log(this.state.majorInput)}
                       onClick={this.handleRemove}
                     >
                       Remove
@@ -108,22 +100,21 @@ class MajorsCard extends Component {
     );
   }
 
-  updateStates = (input, coll, docName, field) => {
-    this.setState({ eventInput: input });
-    this.setState({ collection: coll });
-    this.setState({ doc: docName });
-    this.setState({ field: field });
-  };
-
   handleAdd = async (event) => {
     event.preventDefault();
+    //check if same item exist in the array before adding
+    const index = this.state.majors.indexOf(this.state.majorInput);
+    if (index > -1) {
+      alert("exists at " + index);
+      return;
+    }
+    this.state.majors.push(this.state.majorInput);
+    console.log(this.state.majors);
     await this.Firebase.db
-      .collection(this.state.collection)
-      .doc(this.state.doc)
+      .collection("Majors")
+      .doc("majorsList")
       .update({
-        [this.state.field]: this.Firebase.firestore.FieldValue.arrayUnion(
-          this.state.eventInput
-        ),
+        ["majorsList"]: this.state.majors,
       })
       .catch((err) => console.log(err));
     this.handleUpdate();
@@ -132,13 +123,16 @@ class MajorsCard extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
+    const index = this.state.majors.indexOf(this.state.majorInput);
+    if (index > -1) {
+      this.state.majors.splice(index, 1);
+    }
+
     await this.Firebase.db
-      .collection(this.state.collection)
-      .doc(this.state.doc)
+      .collection("Majors")
+      .doc("majorsList")
       .update({
-        [this.state.field]: this.Firebase.firestore.FieldValue.arrayRemove(
-          this.state.eventInput
-        ),
+        ["majorsList"]: this.state.majors,
       })
       .catch((err) => console.log(err));
     this.handleUpdate();

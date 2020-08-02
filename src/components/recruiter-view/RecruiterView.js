@@ -90,7 +90,7 @@ function RecruiterView({ Firebase, ...props }) {
       "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
       { filtersForQuery: filterArr, empty: false }
     );
     const data = preData.data;
@@ -134,7 +134,7 @@ function RecruiterView({ Firebase, ...props }) {
     });
 
     const preData = await axios.post(
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
       { filtersForQuery: filterArr, empty: isEmpty }
     );
 

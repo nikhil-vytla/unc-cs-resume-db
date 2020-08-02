@@ -246,6 +246,22 @@ app.put("/updateCheckbox", async (req, res) => {
 
 app.post("/queryV3", async (req, res) => {
   const filters = req.body.filtersForQuery;
+  // should be true if needs all cards
+  const isEmpty = req.body.empty;
+
+  if (isEmpty) {
+    console.log("yoooo");
+    const data = await firestore
+      .collection("students")
+      .get()
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+    const docs = data.docs.map((doc) => doc.data());
+    res.send(docs);
+    return;
+  }
+
   const startingQuery = firestore.collection("students");
 
   let orHolder = [];
@@ -292,7 +308,17 @@ app.post("/queryV3", async (req, res) => {
 
   // ORing function
   const orFilter = (arrA, arrB) => {
-    return [...new Set([...arrA, ...arrB])];
+    const orPart = arrA.filter((objA) =>
+      arrB.filter((objB) => objA.UID !== objB.UID)
+    );
+
+    const andPart = arrA.filter((objA) =>
+      arrB.some((objB) => objA.UID === objB.UID)
+    );
+
+    const tempArray = [...new Set([...orPart, ...andPart])];
+
+    return tempArray;
   };
 
   // Querying function

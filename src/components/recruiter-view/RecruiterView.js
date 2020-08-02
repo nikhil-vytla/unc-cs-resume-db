@@ -84,10 +84,6 @@ function RecruiterView({ Firebase, ...props }) {
       specificFilter = filterName.name;
     }
 
-    // const specificFilter = filterName.name.includes(".")
-    //   ? filterName.name
-    //   : filterName.name;
-
     filterArr[specificFilter].push(filterName);
     setFilters((prev) => ({
       ...prev,
@@ -95,9 +91,8 @@ function RecruiterView({ Firebase, ...props }) {
     }));
     const preData = await axios.post(
       "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
-      { filtersForQuery: filterArr }
+      { filtersForQuery: filterArr, empty: false }
     );
-    console.log(preData);
     const data = preData.data;
     setCards(data);
   }
@@ -113,36 +108,69 @@ function RecruiterView({ Firebase, ...props }) {
       specificFilter = filterName.name;
     }
 
-    filterArr[specificFilter].splice(
-      filterArr[specificFilter].indexOf(filterName),
-      1
-    );
+    let indexForSplice = 0;
+    for (let i = 0; i < filterArr[specificFilter].length; i++) {
+      if (
+        filterArr[specificFilter][i].name === filterName.name &&
+        filterArr[specificFilter][i].value === filterName.value
+      ) {
+        indexForSplice = i;
+        break;
+      }
+    }
+
+    filterArr[specificFilter].splice(indexForSplice, 1);
     setFilters((prev) => ({
       ...prev,
       "Active Filters": filterArr,
     }));
+
+    let isEmpty = true;
+
+    Object.keys(filterArr).forEach((eachFilter) => {
+      if (filterArr[eachFilter].length !== 0) {
+        isEmpty = false;
+      }
+    });
+
     const preData = await axios.post(
       "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
-      { filtersForQuery: filterArr }
+      { filtersForQuery: filterArr, empty: isEmpty }
     );
-    console.log(preData);
 
     const data = preData.data;
     setCards(data);
   }
 
   function isCurrentFilter(objToAdd) {
-    // if (
-    //   filters["Active Filters"] !== undefined &&
-    //   filters["Active Filters"].length !== 0
-    // ) {
-    //   let newArr = filters["Active Filters"].filter((item) => {
-    //     console.log(item.name === objToAdd.name);
-    //     console.log(item.value === objToAdd.value);
-    //     return item.name === objToAdd.name && item.value === objToAdd.value;
+    let exitCondition = false;
+    const filterArr = filters["Active Filters"];
+    Object.keys(filterArr).forEach((keyName) => {
+      filterArr[keyName].forEach((item) => {
+        if (item.name === objToAdd.name && item.value === objToAdd.value) {
+          exitCondition = true;
+          return;
+        }
+      });
+    });
+    return exitCondition;
+
+    // if (filters["Active Filters"] !== undefined) {
+    //   Object.keys(filterArr).forEach((keyName) => {
+    //     filterArr[keyName].forEach((item) => {
+    //       if (item.name === objToAdd.name && item.value === objToAdd.value) {
+    //         return true;
+    //       }
+    //     });
     //   });
-    //   console.log(newArr);
-    //   return newArr.length !== 0;
+
+    //   // let newArr = filters["Active Filters"].filter((item) => {
+    //   //   // console.log(item.name === objToAdd.name);
+    //   //   // console.log(item.value === objToAdd.value);
+    //   //   return item.name === objToAdd.name && item.value === objToAdd.value;
+    //   // });
+    //   //console.log(newArr);
+    //   return false;
     // } else {
     //   return false;
     // }

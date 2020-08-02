@@ -157,11 +157,11 @@ class StudentView extends Component {
                     Hide your resume from the database
                   </label>
                 </div>
-                <h6>{`Your resume is currently ${
+                <h5>{`Your resume is currently ${
                   this.state.studentObject["Hide Resume"]
                     ? "hidden from recruiters."
-                    : "is visible to recruiters!"
-                }`}</h6>
+                    : "visible to recruiters!"
+                }`}</h5>
 
                 {/* <Button variant="primary" onClick={this.updateStudentPage}>
                   Display Updates

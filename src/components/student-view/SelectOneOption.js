@@ -29,7 +29,10 @@ class SelectOneOption extends Component {
     event.preventDefault();
     // Adds school to request list
     if (this.props.needInput) {
-      if (this.state.update === "Other" && this.state.reqSchool !== "") {
+      if (
+        this.state.update === "School missing?" &&
+        this.state.reqSchool !== ""
+      ) {
         await this.Firebase.db
           .collection("students")
           .doc(this.Firebase.auth.currentUser.uid)
@@ -60,6 +63,18 @@ class SelectOneOption extends Component {
     if (this.state.update === "Choose ...") {
       return;
     }
+
+    if (this.state.update === "None") {
+      await this.Firebase.db
+        .collection("students")
+        .doc(this.Firebase.auth.currentUser.uid)
+        .update({
+          [this.props.valueType]: "",
+        });
+      this.props.monitorChanges();
+      return;
+    }
+
     await this.Firebase.db
       .collection("students")
       .doc(this.Firebase.auth.currentUser.uid)
@@ -78,6 +93,7 @@ class SelectOneOption extends Component {
     if (this.state.update === "Choose ...") {
       return;
     }
+
     const valuePlaceHolder = this.props.valueType;
     const currentState = this.state.update;
     const currentObjString = `${valuePlaceHolder}.${currentState}`;
@@ -97,7 +113,7 @@ class SelectOneOption extends Component {
     ));
 
     let typingForm;
-    if (this.props.needInput) {
+    if (this.props.needInput && this.state.update === "School missing?") {
       typingForm = (
         <FormControl
           className="textForm form-control-student"
@@ -109,7 +125,7 @@ class SelectOneOption extends Component {
         ></FormControl>
       );
     } else {
-      typingForm = <div></div>;
+      typingForm = null;
     }
 
     return (
@@ -121,8 +137,9 @@ class SelectOneOption extends Component {
             onChange={this.handleUpdate}
           >
             <option>Choose ...</option>
+            <option>None</option>
             {optionOptions}
-            {this.props.needInput ? <option>Other</option> : <></>}
+            {this.props.needInput ? <option>School missing?</option> : <></>}
           </Form.Control>
         </Form.Group>
         {typingForm}

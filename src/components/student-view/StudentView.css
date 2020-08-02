@@ -28,8 +28,8 @@
 }
 
 .headersForEachType {
-  padding: 10px;
-  margin: 0px;
+  line-height: 72.5px !important;
+  font-size: 30px !important;
 }
 
 .right-panel {
@@ -56,7 +56,7 @@
 } */
 
 .basic-information-form {
-  margin: 3%;
+  padding: 3%;
 }
 
 .data-row-btn {
@@ -104,6 +104,7 @@
 .formRow {
   display: block !important;
 }
+
 .formColumn {
   width: 100%;
 }
@@ -130,10 +131,11 @@
   padding: 0px !important;
 }
 .accordionHeader {
-  font-size: 30px !important;
   height: 72.5px !important;
   color: white;
   border-radius: 0px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 h3 {
   font-size: inherit !important;
@@ -156,6 +158,7 @@ h3 {
   width: fit-content !important;
   min-width: 50px;
   margin-left: 10px !important;
+  margin-bottom: 10px;
 }
 
 .form-control {

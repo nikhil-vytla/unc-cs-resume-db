@@ -39,7 +39,7 @@ function SideResumeBox(props) {
       <Card
         className="SideResumeBoxCard"
         border="dark"
-        style={{ height: "auto", width: "22vw" }}
+        style={{ height: "60vh", width: "22vw" }}
       >
         {/* <img
           src={props.currentPhoto}
@@ -50,8 +50,7 @@ function SideResumeBox(props) {
         ></img> */}
         <iframe
           src={props.currentPhoto}
-          height="460"
-          width="auto"
+          style={{ height: "100%" }}
           onClick={handleShow}
         ></iframe>
       </Card>

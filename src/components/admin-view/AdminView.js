@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Link, Switch, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Row,
   Col,
@@ -8,10 +8,13 @@ import {
   ButtonGroup,
   ToggleButton,
 } from "react-bootstrap";
-import {withFirebase} from "../Firebase";
+import { withFirebase } from "../Firebase";
 import RecruiterListComponent from "./RecruiterListComponent";
 import StudentListComponent from "./StudentListComponent";
 import "./AdminView.css";
+import EventModification from "./EventModification";
+import BasicInformationModification from "./BasicInformationModification";
+import SkillsAndExperienceModification from "./SkillsAndExperienceModification";
 
 class AdminView extends Component {
   constructor(props) {
@@ -20,46 +23,63 @@ class AdminView extends Component {
     this.state = {
       recruiters: [],
       students: [],
+      events: [],
       value: "Recruiters",
     };
   }
+
   componentDidMount() {
+    // this.handleQueryAll();
     this.handleQueryAllRecruiters();
     this.handleQueryAllStudents();
+    this.handleQueryAllEvents();
   }
 
+  handleQueryAll = async (e) => {
+    const recruiterData = await this.Firebase.getAllRecruiters().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ recruiters: recruiterData });
+
+    const studentData = await this.Firebase.getAllStudents().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ students: studentData });
+
+    const eventData = await this.Firebase.getAllEvents().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ events: eventData });
+  };
+
   handleQueryAllRecruiters = async (e) => {
-    try {
-      let data = await this.Firebase.getAllRecruiters();
-      this.setState({ recruiters: data });
-      // console.log(this.state.recruiters);
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.Firebase.getAllRecruiters().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ recruiters: data });
+    // console.log(this.state.recruiters);
   };
 
   handleQueryAllStudents = async (e) => {
-    try {
-      let data = await this.Firebase.getAllStudents();
-      this.setState({ students: data });
-      // console.log(this.state.students);
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await this.Firebase.getAllStudents().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ students: data });
+    // console.log(this.state.students);
+  };
+
+  handleQueryAllEvents = async (e) => {
+    const data = await this.Firebase.getAllEvents().catch((err) =>
+      console.log(err)
+    );
+    this.setState({ events: data });
+    // console.log(this.state.students);
   };
 
   render() {
     const parentState = (e) => {
-      e === "Recruiters"
-        ? this.setState({ value: "Recruiters" })
-        : this.setState({ value: "Students" });
-      return this.state;
-    };
-    const parentStateRecruiters = () => {
-      return this.state.recruiters;
-    };
-    const parentStateStudents = () => {
-      return this.state.students;
+      this.setState({ value: e });
+      // console.log(this.state.value);
     };
 
     function ToggleButtonGroup() {
@@ -67,6 +87,15 @@ class AdminView extends Component {
       const radios = [
         { name: "Recruiters", value: "Recruiters" },
         { name: "Students", value: "Students" },
+        { name: "Event Modification", value: "Event Modification" },
+        {
+          name: "Basic Information Modification",
+          value: "Basic Information Modification",
+        },
+        {
+          name: "Skills & Experience Modification",
+          value: "Skills & Experience Modification",
+        },
       ];
 
       return (
@@ -81,7 +110,6 @@ class AdminView extends Component {
               checked={radioValue === radio.value}
               onChange={(e) => {
                 setRadioValue(e.currentTarget.value);
-                // onToggleQuery(e.currentTarget.value);
                 parentState(e.currentTarget.value);
               }}
             >
@@ -91,36 +119,20 @@ class AdminView extends Component {
         </ButtonGroup>
       );
     }
-    function onToggleQuery(e) {
-      e === "Recruiters"
-        ? console.log(parentStateRecruiters())
-        : console.log(parentStateStudents());
-    }
 
     return (
       <div className="master-container">
         <ToggleButtonGroup />
         <Link to="/recruiter"></Link>
-        <Button onClick={this.handleQuery} variant="info">
+        {/* <Button onClick={this.handleQuery} variant="info">
           Recruiter View
-        </Button>
+        </Button> */}
         {/* {console.log("state " + this.state.value)} */}
         <div className="full-panel">
           <Container fluid="true">
             <Row>
               <Col className="right-panel">
-                {this.state.value === "Recruiters" ? (
-                  <RecruiterListComponent
-                    title={this.state.value}
-                    datas={parentStateRecruiters()}
-                  />
-                ) : (
-                  <StudentListComponent
-                    title={this.state.value}
-                    datas={parentStateStudents()}
-                  />
-                )}
-                {/* <h2>{this.state.value}</h2> */}
+                {this.RenderCorrectComponents()}
               </Col>
             </Row>
           </Container>
@@ -129,16 +141,55 @@ class AdminView extends Component {
     );
   }
 
-  //  query handler
-  handleQuery = async (e) => {
-    try {
-      // const result = await Firebase.runQuery();
-      const result = await this.Firebase.getAllRecruiters();
-      console.log(result);
-      // alert("Check console for result");
-    } catch (err) {
-      console.log(err);
+  RenderCorrectComponents = () => {
+    switch (this.state.value) {
+      case "Recruiters":
+        // console.log("in recruiters switch");
+        return (
+          <RecruiterListComponent
+            title={this.state.value}
+            datas={this.state.recruiters}
+            // datas={parentStateRecruiters()}
+            updateRecruitersx={this.updateRecruiters}
+            // updateRecruitersx={this.updateQueryAll}
+          />
+        );
+      case "Students":
+        return (
+          <StudentListComponent
+            title={this.state.value}
+            datas={this.state.students}
+          />
+        );
+      case "Event Modification":
+        return (
+          <EventModification
+            title={this.state.value}
+            datas={this.state.events}
+            updateEventsx={this.updateEvents}
+          />
+        );
+      case "Basic Information Modification":
+        // return console.log("Basic Info Component");
+        return <BasicInformationModification title={this.state.value} />;
+      case "Skills & Experience Modification":
+        return <SkillsAndExperienceModification title={this.state.value} />;
+      // return console.log("Skills & Experience Modification");
+      default:
+        return;
     }
+  };
+
+  updateQueryAll = async () => {
+    await this.handleQueryAll().catch((err) => console.log(err));
+  };
+
+  updateRecruiters = async () => {
+    await this.handleQueryAllRecruiters().catch((err) => console.log(err));
+  };
+
+  updateEvents = async () => {
+    await this.handleQueryAllEvents().catch((err) => console.log(err));
   };
 }
 

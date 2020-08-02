@@ -561,7 +561,7 @@ class MyInformation extends Component {
               <div className="basic-information-form">
                 <Form.Group>
                   <div className="data-row">
-                    <Form.Row className="formRow">
+                    <Form.Row className="formRow eventsRow">
                       <Form.Label className="data-row-label " column lg={2}>
                         Events
                       </Form.Label>
@@ -578,8 +578,8 @@ class MyInformation extends Component {
                           {/* {eventlistToView} */}
                         </InputGroup>
                       </Col>
-                      {eventListToView}
                     </Form.Row>
+                    {eventListToView}
                   </div>
                 </Form.Group>
               </div>

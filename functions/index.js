@@ -307,15 +307,37 @@ app.post("/queryV3", async (req, res) => {
 
   // ORing function
   const orFilter = (arrA, arrB) => {
-    const orPart = arrA.filter((objA) =>
-      arrB.filter((objB) => objA.UID !== objB.UID)
-    );
+    // const orPart = arrA.filter((objA) =>
+    //   arrB.filter((objB) => objA.UID !== objB.UID)
+    // );
 
-    const andPart = arrA.filter((objA) =>
-      arrB.some((objB) => objA.UID === objB.UID)
-    );
+    let tempArray = [];
 
-    const tempArray = [...new Set([...orPart, ...andPart])];
+    let setForLookups = new Set();
+
+    // Student UID list for lookups
+    for (const eachOBJ of arrA) {
+      setForLookups.add(eachOBJ.UID);
+      tempArray.push(eachOBJ);
+    }
+
+    for (const eachOBJ of arrB) {
+      if (!setForLookups.has(eachOBJ.UID)) {
+        tempArray.push(eachOBJ);
+      }
+    }
+
+    // for (const eachOBJ of arrB) {
+    //   for (const studentUID of eachOBJ) {
+
+    //   }
+    // }
+
+    // const andPart = arrA.filter((objA) =>
+    //   arrB.some((objB) => objA.UID === objB.UID)
+    // );
+
+    // const tempArray = [...new Set([...orPart, ...andPart])];
 
     return tempArray;
   };

@@ -9,16 +9,16 @@ import {
 } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 
-class GraduationYearCard extends Component {
+class DatabaseSystems extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
     this.state = {
-      gradYearInput: "",
+      dbSysInput: "",
       collection: "",
       doc: "",
       field: "",
-      gradyr: [],
+      dbArr: [],
     };
   }
 
@@ -31,27 +31,27 @@ class GraduationYearCard extends Component {
     return data.data();
   };
   handleQueryAllData = async (e) => {
-    const gradYearHolder = await this.getListArrays(
-      "Graduation Year",
-      "gradYears"
+    const databaseSystemsHolder = await this.getListArrays(
+      "Database Systems",
+      "databaseSystems"
     );
     this.setState({
-      gradyr: gradYearHolder.gradYearList,
+      dbArr: databaseSystemsHolder.databaseSystems,
     });
   };
 
   render() {
     return (
       <div>
-        <Card key="gradyr">
+        <Card key="dbSystems">
           <Accordion.Toggle
             as={Card.Header}
-            eventKey="gradyr"
+            eventKey="dbSystems"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="card-name">Graduation Year</h3>
+            <h3 className="card-name">Database Systems</h3>
           </Accordion.Toggle>
-          <Accordion.Collapse eventKey="gradyr">
+          <Accordion.Collapse eventKey="dbSystems">
             <div style={{ color: "Black" }}>
               <Card.Body>
                 <Form>
@@ -60,25 +60,25 @@ class GraduationYearCard extends Component {
                       as="select"
                       onChange={(e) =>
                         this.setState({
-                          gradYearInput: e.currentTarget.value,
+                          dbSysInput: e.currentTarget.value,
                         })
                       }
                     >
-                      <option>Select Graduation Year</option>
-                      {this.state.gradyr.map((eachOption) => (
+                      <option>Select Database Systems</option>
+                      {this.state.dbArr.map((eachOption) => (
                         <option key={eachOption}>{eachOption}</option>
                       ))}
                     </Form.Control>
                     <FormControl
-                      placeholder="Graduation year to Add/Remove"
-                      value={this.state.gradYearInput}
-                      aria-label="Graduation year to Add/Remove"
+                      placeholder="Database Systems to Add/Remove"
+                      value={this.state.dbSysInput}
+                      aria-label="Database Systems to Add/Remove"
                       aria-describedby="basic-addon2"
                       // key={data.UID}
-                      key="gradyr"
+                      key="dbSystems"
                       onChange={(e) =>
                         this.setState({
-                          gradYearInput: e.currentTarget.value,
+                          dbSysInput: e.currentTarget.value,
                         })
                       }
                     />
@@ -89,7 +89,7 @@ class GraduationYearCard extends Component {
                     </Button>
                     <Button
                       variant="outline-danger"
-                      // onClick={console.log(this.state.gradYearInput)}
+                      // onClick={console.log(this.state.dbSysInput)}
                       onClick={this.handleRemove}
                     >
                       Remove
@@ -107,18 +107,18 @@ class GraduationYearCard extends Component {
   handleAdd = async (event) => {
     event.preventDefault();
     //check if same item exist in the array before adding
-    const index = this.state.gradyr.indexOf(this.state.gradYearInput);
+    const index = this.state.dbArr.indexOf(this.state.dbSysInput);
     if (index > -1) {
       alert("exists at " + index);
       return;
     }
-    this.state.gradyr.push(this.state.gradYearInput);
-    console.log(this.state.gradyr);
+    this.state.dbArr.push(this.state.dbSysInput);
+    console.log(this.state.dbArr);
     await this.Firebase.db
-      .collection("Graduation Year")
-      .doc("gradYears")
+      .collection("Database Systems")
+      .doc("databaseSystems")
       .update({
-        ["gradYearList"]: this.state.gradyr,
+        ["databaseSystems"]: this.state.dbArr,
       })
       .catch((err) => console.log(err));
     this.handleUpdate();
@@ -127,16 +127,16 @@ class GraduationYearCard extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    const index = this.state.gradyr.indexOf(this.state.gradYearInput);
+    const index = this.state.dbArr.indexOf(this.state.dbSysInput);
     if (index > -1) {
-      this.state.gradyr.splice(index, 1);
+      this.state.dbArr.splice(index, 1);
     }
 
     await this.Firebase.db
-      .collection("Graduation Year")
-      .doc("gradYears")
+      .collection("Database Systems")
+      .doc("databaseSystems")
       .update({
-        ["gradYearList"]: this.state.gradyr,
+        ["databaseSystems"]: this.state.dbArr,
       })
       .catch((err) => console.log(err));
 
@@ -148,4 +148,4 @@ class GraduationYearCard extends Component {
   };
 }
 
-export default withFirebase(GraduationYearCard);
+export default withFirebase(DatabaseSystems);

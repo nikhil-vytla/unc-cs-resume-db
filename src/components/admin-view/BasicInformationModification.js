@@ -10,12 +10,6 @@ export class BasicInformationModification extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    this.handleQueryAllData();
-  }
-
-  handleQueryAllData = async (e) => {};
-
   render() {
     return (
       <div>

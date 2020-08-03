@@ -14,8 +14,20 @@ class EventModification extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
-    this.state = { eventInput: "", doc: "" };
+    this.state = { eventInput: "", doc: "", eventListArrState: [] };
   }
+
+  async componentDidMount() {
+    const eventsHolder = await this.getListArrays("Events", "eventsList");
+    this.setState({
+      eventListArrState: eventsHolder.eventsList,
+    });
+  }
+
+  getListArrays = async (collection, doc) => {
+    const data = await this.Firebase.db.collection(collection).doc(doc).get();
+    return data.data();
+  };
 
   render() {
     return (
@@ -85,9 +97,12 @@ class EventModification extends Component {
             <Accordion.Collapse eventKey="eventsList">
               <div style={{ color: "Black" }}>
                 <Card.Title style={{ color: "Black", padding: "3%" }}>
-                  {this.props.datas[1].eventsList.map((event, ind) => (
+                  {this.state.eventListArrState.map((event, ind) => (
                     <li key={ind}>{event}</li>
                   ))}
+                  {/* {this.props.datas[1].eventsList.map((event, ind) => (
+                    <li key={ind}>{event}</li>
+                  ))} */}
                 </Card.Title>
                 <Card.Body>
                   <Form>
@@ -134,13 +149,13 @@ class EventModification extends Component {
 
   handleAdd = async (event) => {
     event.preventDefault();
+    this.state.eventListArrState.push(this.state.eventInput);
+    console.log(this.state.eventListArrState);
     await this.Firebase.db
       .collection("Events")
       .doc(this.state.doc)
       .update({
-        [this.state.doc]: this.Firebase.firestore.FieldValue.arrayUnion(
-          this.state.eventInput
-        ),
+        [this.state.doc]: this.state.eventListArrState,
       })
       .catch((err) => console.log(err));
     this.handleUpdate();
@@ -149,13 +164,16 @@ class EventModification extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
+    const index = this.state.eventListArrState.indexOf(this.state.eventInput);
+    if (index > -1) {
+      this.state.eventListArrState.splice(index, 1);
+    }
+
     await this.Firebase.db
       .collection("Events")
       .doc(this.state.doc)
       .update({
-        [this.state.doc]: this.Firebase.firestore.FieldValue.arrayRemove(
-          this.state.eventInput
-        ),
+        [this.state.doc]: this.state.eventListArrState,
       })
       .catch((err) => console.log(err));
     this.handleUpdate();

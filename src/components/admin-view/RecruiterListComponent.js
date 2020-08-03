@@ -1,7 +1,5 @@
 import React, { Component, useState } from "react";
 import {
-  ToggleButton,
-  ButtonGroup,
   Accordion,
   Card,
   Form,
@@ -15,10 +13,49 @@ class RecruiterListComponent extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
-    this.state = { eventInput: "", uid: "" };
+    this.state = { eventInput: "", uid: "", resumeAccessListState: [] };
   }
 
+  async componentDidMount() {
+    const resumeAccessaHolder = await this.getListArrays(
+      "Events",
+      "eventsList"
+    );
+    this.setState({
+      resumeAccessListState: resumeAccessaHolder.eventsList,
+    });
+  }
+
+  getListArrays = async (collection, doc) => {
+    const data = await this.Firebase.db.collection(collection).doc(doc).get();
+    return data.data();
+  };
+
   render(props) {
+    let resumeAccessList;
+    function resumeAccessRender(recruiter) {
+      let resumeAccessArr = [];
+      if (
+        recruiter["Resume Access Map"] !== null &&
+        recruiter["Resume Access Map"] != null
+      ) {
+        Object.keys(recruiter["Resume Access Map"]).forEach((key, index) => {
+          if (recruiter["Resume Access Map"][key]) resumeAccessArr.push(key);
+        });
+      }
+      if (
+        recruiter["Resume Access Map"] !== null &&
+        recruiter["Resume Access Map"] != null
+      ) {
+        resumeAccessList = resumeAccessArr.map((dat) => (
+          <li key={dat} className="resume-access-list">
+            {" "}
+            {dat}
+          </li>
+        ));
+      }
+      console.log(recruiter["Resume Access Map"]);
+    }
     return (
       <div>
         <h2>{this.props.title}</h2>
@@ -31,11 +68,13 @@ class RecruiterListComponent extends Component {
                 style={{ backgroundColor: "#E5E5E5", color: "Black" }}
               >
                 <h3 className="card-name">{data.Name}</h3>
-                {data["Resume Access"].map((item, inx) => (
+                {resumeAccessRender(data)}
+                {resumeAccessList}
+                {/* {data["Resume Access"].map((item, inx) => (
                   <li className="resume-access-list" key={inx}>
                     {item}
                   </li>
-                ))}
+                ))} */}
               </Accordion.Toggle>
               <Accordion.Collapse eventKey={data.Name}>
                 <div style={{ color: "Black" }}>
@@ -90,14 +129,13 @@ class RecruiterListComponent extends Component {
 
   handleAdd = async (event) => {
     event.preventDefault();
+    let mapfield = {};
+    mapfield[`Resume Access Map.${this.state.eventInput}`] = true;
+
     await this.Firebase.db
       .collection("recruiters")
       .doc(this.state.uid)
-      .update({
-        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayUnion(
-          this.state.eventInput
-        ),
-      })
+      .update(mapfield)
       .catch((err) => console.log(err));
     this.handleUpdate();
   };
@@ -105,16 +143,16 @@ class RecruiterListComponent extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
+    let mapfield = {};
+    mapfield[`Resume Access Map.${this.state.eventInput}`] = false;
+
     await this.Firebase.db
       .collection("recruiters")
       .doc(this.state.uid)
-      .update({
-        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayRemove(
-          this.state.eventInput
-        ),
-      })
+      .update(mapfield)
       .catch((err) => console.log(err));
-    this.handsleUpdate();
+
+    this.handleUpdate();
   };
 
   handleUpdate = () => {

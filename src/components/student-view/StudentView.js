@@ -4,9 +4,6 @@ import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
 import { withFirebase } from "../Firebase";
-import Button from "react-bootstrap/Button";
-import firebase from "firebase";
-import Form from "react-bootstrap/Form";
 
 class StudentView extends Component {
   constructor(props) {

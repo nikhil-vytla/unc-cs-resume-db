@@ -116,24 +116,7 @@ class StudentView extends Component {
               <div className="updateButtonDiv">
                 {/*Implement Radio for Showing Resume */}
 
-                {/* <Form>
-                  <div key={`inline-radio`} className="mb-3">
-                    <Form.Check
-                      inline
-                      label="Display your resume in the database"
-                      type="radio"
-                      id={`inline-radio-1`}
-                    />
-                    <Form.Check
-                      inline
-                      label="Hide your resume from the database"
-                      type="radio"
-                      id={`inline-radio-2`}
-                    />
-                  </div>
-                </Form> */}
-
-                <div class="custom-control custom-radio custom-control-inline">
+                <div className="custom-control custom-radio custom-control-inline">
                   <input
                     type="radio"
                     id="customRadioInline1"
@@ -141,11 +124,14 @@ class StudentView extends Component {
                     className="custom-control-input"
                     onClick={this.handleShowResume}
                   />
-                  <label class="custom-control-label" for="customRadioInline1">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="customRadioInline1"
+                  >
                     Display your resume in the database
                   </label>
                 </div>
-                <div class="custom-control custom-radio custom-control-inline">
+                <div className="custom-control custom-radio custom-control-inline">
                   <input
                     type="radio"
                     id="customRadioInline2"
@@ -153,7 +139,10 @@ class StudentView extends Component {
                     className="custom-control-input"
                     onClick={this.handleHideResume}
                   />
-                  <label class="custom-control-label" for="customRadioInline2">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="customRadioInline2"
+                  >
                     Hide your resume from the database
                   </label>
                 </div>

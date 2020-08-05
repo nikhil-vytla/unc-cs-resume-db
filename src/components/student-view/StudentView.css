@@ -27,6 +27,11 @@
   height: auto;
 }
 
+.minorsCheckboxes {
+  height: 40vh;
+  overflow-y: auto;
+}
+
 .headersForEachType {
   line-height: 72.5px !important;
   font-size: 30px !important;

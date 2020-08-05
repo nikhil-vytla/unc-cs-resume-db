@@ -37,7 +37,8 @@ class SelectOneOption extends Component {
           .collection("students")
           .doc(this.Firebase.auth.currentUser.uid)
           .update({
-            School: this.state.update,
+            School: "Other",
+            //this.state.update,
           });
         axios.post(
           "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/requestSchool",
@@ -117,7 +118,7 @@ class SelectOneOption extends Component {
       typingForm = (
         <FormControl
           className="textForm form-control-student"
-          placeholder="School missing?"
+          placeholder="Enter School Here"
           value={this.state.reqSchool}
           onChange={(e) => {
             this.setState({ reqSchool: e.target.value });

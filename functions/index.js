@@ -250,7 +250,6 @@ app.post("/queryV3", async (req, res) => {
   const isEmpty = req.body.empty;
 
   if (isEmpty) {
-    console.log("yoooo");
     const data = await firestore
       .collection("students")
       .get()
@@ -308,15 +307,37 @@ app.post("/queryV3", async (req, res) => {
 
   // ORing function
   const orFilter = (arrA, arrB) => {
-    const orPart = arrA.filter((objA) =>
-      arrB.filter((objB) => objA.UID !== objB.UID)
-    );
+    // const orPart = arrA.filter((objA) =>
+    //   arrB.filter((objB) => objA.UID !== objB.UID)
+    // );
 
-    const andPart = arrA.filter((objA) =>
-      arrB.some((objB) => objA.UID === objB.UID)
-    );
+    let tempArray = [];
 
-    const tempArray = [...new Set([...orPart, ...andPart])];
+    let setForLookups = new Set();
+
+    // Student UID list for lookups
+    for (const eachOBJ of arrA) {
+      setForLookups.add(eachOBJ.UID);
+      tempArray.push(eachOBJ);
+    }
+
+    for (const eachOBJ of arrB) {
+      if (!setForLookups.has(eachOBJ.UID)) {
+        tempArray.push(eachOBJ);
+      }
+    }
+
+    // for (const eachOBJ of arrB) {
+    //   for (const studentUID of eachOBJ) {
+
+    //   }
+    // }
+
+    // const andPart = arrA.filter((objA) =>
+    //   arrB.some((objB) => objA.UID === objB.UID)
+    // );
+
+    // const tempArray = [...new Set([...orPart, ...andPart])];
 
     return tempArray;
   };
@@ -325,18 +346,38 @@ app.post("/queryV3", async (req, res) => {
   const singleQueryFunction = async (arrayName) => {
     let storingArray = [];
 
-    for (const eachQueryOBJ of arrayName) {
+    // for (const eachQueryOBJ of arrayName) {
+    //   const currentQuery = startingQuery.where(
+    //     eachQueryOBJ.name,
+    //     "==",
+    //     eachQueryOBJ.value
+    //   );
+    //   const data = await currentQuery.get();
+    //   const docs = data.docs.map((doc) => doc.data());
+    //   storingArray.push(docs);
+    // }
+
+    let promiseArray = [];
+    arrayName.forEach((eachQueryOBJ) => {
       const currentQuery = startingQuery.where(
         eachQueryOBJ.name,
         "==",
         eachQueryOBJ.value
       );
-      const data = await currentQuery.get();
-      const docs = data.docs.map((doc) => doc.data());
-      storingArray.push(docs);
-    }
+      const data = currentQuery.get();
+      //const docs = data.docs.map((doc) => doc.data());
+      promiseArray.push(data);
+    });
 
-    return storingArray;
+    storingArray = await Promise.all(promiseArray);
+
+    let finalQueryArray = [];
+    storingArray.forEach((data) => {
+      const docs = data.docs.map((doc) => doc.data());
+      finalQueryArray.push(docs);
+    });
+
+    return finalQueryArray;
   };
 
   if (filters["Programming Languages"].length !== 0) {

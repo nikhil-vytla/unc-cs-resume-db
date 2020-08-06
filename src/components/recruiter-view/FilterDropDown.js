@@ -5,6 +5,9 @@ import FilterSearchBar from "./FilterSearchBar";
 import FilterItem from "./FilterItem";
 
 function FilterDropDown(props) {
+  //This component holds the logic responsible for deciding whether or not a filter will be expanded 
+  // Also responsible for displaying items which are currently being searched for in the filter component
+
   const [collapsed, setColapsed] = useState(true);
 
   var inside;
@@ -45,8 +48,7 @@ function FilterDropDown(props) {
           {inside}
           {props.inside
             .filter((item) => {
-              // console.log(item.includes(props.filterSearch))
-              // console.log(props.filterSearch)
+              
               return item.includes(props.filterSearch);
             })
             .map((item) => {

@@ -8,7 +8,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 
 function MyLists(props) {
-
+    //outer most component for the MyLists Section
+    
 
     let listWrapper = null;
     if (props.myListsRecruiter !== null && props.myListsRecruiter !== undefined) {

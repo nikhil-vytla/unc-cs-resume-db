@@ -10,7 +10,12 @@ import axios from "axios"
 
 
 function MyListsDropDown( {Firebase, ...props} ){
+
+    //Current state of the dropdown
     const [collapsed, setColapsed] = useState(true)
+
+
+    // Required for bootsrap so we can display the drop down as the more Vert Icon
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <MoreVertIcon
 
@@ -27,6 +32,7 @@ function MyListsDropDown( {Firebase, ...props} ){
       ));
 
 
+    // Deletes a list from a recruiters my list section
     const handleDelete = async () => {
         // Checks if listName is empty then sends to endpoint
         const objToSend = {
@@ -90,6 +96,7 @@ function MyListsDropDown( {Firebase, ...props} ){
 
              
             </div>
+                {/* Displays the students in a particular list */}
                 {props.students.map( currentStudent =>(
                     <MyListsDropDownItem  updateRecruiter={() => props.updateRecruiter()} listTitle={props.listTitle} student={currentStudent} toggleResumeView={(candidate) => props.toggleResumeView(candidate)} />
                 ))}

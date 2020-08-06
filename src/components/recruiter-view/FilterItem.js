@@ -4,6 +4,9 @@ import { useTransition, animated } from "react-spring";
 import StopIcon from "@material-ui/icons/Stop";
 
 function FilterItem(props) {
+
+    //This list contains the attribute types which are stored differntly in the database and thus
+    //must be handled differently in handle filter name
     const multNames = [
         "Database Systems",
         "Frameworks and Tools",
@@ -12,11 +15,9 @@ function FilterItem(props) {
         "Events",
     ];
     const text = props.itemName;
-    const [checked, setChecked] = useState(props.isCurrentFilter(computeFilterName()));
-    // useEffect(() => {
-    //     setChecked(props.isCurrentFilter(computeFilterName()));
 
-    // })
+    //Displays a checked box if the filter being displayed is in the list of filters
+    const [checked, setChecked] = useState(props.isCurrentFilter(computeFilterName()));
 
     //Creates the filter name to be used in the filter object
     function computeFilterName() {
@@ -48,7 +49,7 @@ function FilterItem(props) {
 
     }
 
-
+    // Animation used to swap between checked and unchecked boxes
     const transitions = useTransition(checked, null, {
         from: { position: "relative", opacity: 1 },
         enter: {position: "relative", opacity: 1 },

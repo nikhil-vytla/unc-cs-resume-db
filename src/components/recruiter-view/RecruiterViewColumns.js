@@ -8,6 +8,8 @@ import FilterDummyColumn from "./FilterDummyColumn"
 import MyListsDummyColumn from "./MyListsDummyColumn"
 
 
+// This component allows recruiters to expand the canidate section using the arrows located in the Mylists and Filter sections
+
 function RecruiterViewColumns(props ){
     const [myListsToggle, setMyListsToggle] = useState(true);
     const [filterToggle, setFilterToggle] = useState(true);
@@ -16,7 +18,10 @@ function RecruiterViewColumns(props ){
     let filters = props.filters
 
 
+
+    // determines the width of columns by the currently toggled views
     let cardWidth = "recruiterViewColumn50vw";
+
 
     if(!filterToggle && !myListsToggle){
         cardWidth = "recruiterViewColumn95vw";

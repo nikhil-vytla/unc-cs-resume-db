@@ -3,6 +3,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 function FilterSearchBar (props){
 
+    // Component for filter search feature Displayed at the top of the filer component
     return (
         <div className=" filterSearchBar " style={{height: props.height}}>
             <div className="filterVertical d-flex justify-content-center">
@@ -22,11 +23,6 @@ function FilterSearchBar (props){
 
                     </label>
                 </form>
-                    {/* <div>
-                        
-                       
-
-                    </div> */}
             </div>
             
         </div>

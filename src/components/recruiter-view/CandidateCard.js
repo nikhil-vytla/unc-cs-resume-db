@@ -41,12 +41,15 @@ function CandidateCard(props) {
 
 
     let star
+
+    //Displays a blue star if star toggle is active
     if (!starToggle) {
         star = <StarBorderOutlinedIcon className="recruiterViewIcon" onClick={() => setStarToggle(true)} />
     } else {
         star = <StarIcon onClick={() => setStarToggle(false)} className="recruiterViewIcon" style={{ color: '#4B9CD3' }} />
     }
 
+    //does not display student cards that are hidden
     if (props.info["Hide Resume"] === true) {
         return null;
     } else {
@@ -71,6 +74,10 @@ function CandidateCard(props) {
                 </Card.Header>
                 <Card.Body className="p-0" >
                     <div className="bg-white BreeSerif d-flex justify-content-start w-100 flex-wrap cardTagContainer" onClick={() => props.toggleResumeView(props.info)}>
+                        
+                        {/*Maps a list of item to a tag component
+                           does not render anything if a property is undefined
+                        */}
                         <CandidateCardTag items={props.info["Frame Works and Tools"]}></CandidateCardTag>
                         <CandidateCardTag items={props.info["Database Systems"]}></CandidateCardTag>
                         <CandidateCardTag items={props.info["Programming Languages"]}></CandidateCardTag>
@@ -80,19 +87,6 @@ function CandidateCard(props) {
                         {primaryMajor}
                         {secondaryMajor}
                         <CandidateCardTag items={props.info["Minors"]}></CandidateCardTag>
-                        {/* {props.info.Skills.map(skill =>
-                                    
-                                    <p className="recruiterViewTag BreeSerif" key={skill}> {skill}</p>
-                                )}
-                            {props.info["Resume Access"] && props.info["Resume Acess"].map(event =>
-                                <p className="recruiterViewTag BreeSerif" key={event}> {event}</p>
-                            )}
-                            
-                            <p className="recruiterViewTag BreeSerif" > {props.info.PrimaryMajor}</p>,
-                            <p className="recruiterViewTag BreeSerif"> {props.info.SecondaryMajor}</p>,
-                            {props.info["Minors"] && props.info["Minors"].map(minor =>
-                                <p className="recruiterViewTag BreeSerif" key={minor}> {minor}</p>
-                            ) } */}
                     </div>
                     <div className=" d-flex justify-content-around cardIconDiv">
                         {star}
@@ -100,7 +94,7 @@ function CandidateCard(props) {
                             <MailOutlineIcon className="recruiterViewIcon" />
 
                         </a>
-
+                        
                         <CandidateCardAdd updateRecruiter={() => props.updateRecruiter()} recruiter={props.recruiter} student={props.info} />
                     </div>
                 </Card.Body>

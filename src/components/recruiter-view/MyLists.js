@@ -18,7 +18,7 @@ function MyLists(props) {
     }
 
     return (
-        <div className="myListsBigOlDiv">
+        <div className="myListsContainerDiv">
             <div className="myListsArrowDiv" onClick={() => props.setMyListsToggle()}>
                 <ArrowForwardIcon className="myListsArrowIcon" />
 

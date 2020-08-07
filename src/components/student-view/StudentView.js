@@ -111,8 +111,6 @@ class StudentView extends Component {
                 />
               </div>
               <div className="updateButtonDiv">
-                {/*Implement Radio for Showing Resume */}
-
                 <div className="custom-control custom-radio custom-control-inline">
                   <input
                     type="radio"
@@ -148,10 +146,6 @@ class StudentView extends Component {
                     ? "hidden from recruiters."
                     : "visible to recruiters!"
                 }`}</h5>
-
-                {/* <Button variant="primary" onClick={this.updateStudentPage}>
-                  Display Updates
-                </Button> */}
               </div>
             </Col>
           </Row>

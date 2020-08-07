@@ -191,66 +191,71 @@ app.post("/requestSchool", async (req, res) => {
   res.status(201).send();
 });
 
-app.post("/query", async (req, res) => {
-  let query = firestore.collection("students");
+// app.post("/query", async (req, res) => {
+//   let query = firestore.collection("students");
 
-  const filters = req.body.filtersForQuery;
+//   const filters = req.body.filtersForQuery;
 
-  // This is how the request should be filters = [
-  // {
-  //   filters: [
-  //     {
-  //       "name": "Graduation Year",
-  //       "value": "2020",
-  //     },
-  //     {
-  //       "name": "Programming Languages.Python",
-  //       "value": true,
-  //     },
-  //     {
-  //       "name": "Database Systems.Oracle",
-  //       "value": true,
-  //     },
-  //   ],
-  // };
-  let addFilter = (newQuery, filterName, filterValue) => {
-    query = newQuery.where(filterName, "==", filterValue);
-  };
-  filters.forEach((filter) => {
-    addFilter(query, filter.name, filter.value);
-  });
-  const data = await query.get().catch((err) => res.status(500).send(err));
-  const docs = data.docs.map((doc) => doc.data());
-  res.send(docs);
-});
+//   // This is how the request should be filters = [
+//   // {
+//   //   filters: [
+//   //     {
+//   //       "name": "Graduation Year",
+//   //       "value": "2020",
+//   //     },
+//   //     {
+//   //       "name": "Programming Languages.Python",
+//   //       "value": true,
+//   //     },
+//   //     {
+//   //       "name": "Database Systems.Oracle",
+//   //       "value": true,
+//   //     },
+//   //   ],
+//   // };
+//   let addFilter = (newQuery, filterName, filterValue) => {
+//     query = newQuery.where(filterName, "==", filterValue);
+//   };
+//   filters.forEach((filter) => {
+//     addFilter(query, filter.name, filter.value);
+//   });
+//   const data = await query.get().catch((err) => res.status(500).send(err));
+//   const docs = data.docs.map((doc) => doc.data());
+//   res.send(docs);
+// });
 
-app.put("/updateCheckbox", async (req, res) => {
-  const array = req.body.arrayList;
+// app.put("/updateCheckbox", async (req, res) => {
+//   const array = req.body.arrayList;
 
-  array.forEach(async (eachUpdate) => {
-    const valuePlaceHolder = req.body.valueToSend;
-    const currentState = eachUpdate;
-    const currentObjString = `${valuePlaceHolder}.${currentState}`;
-    const type = req.body.typeToSend;
+//   array.forEach(async (eachUpdate) => {
+//     const valuePlaceHolder = req.body.valueToSend;
+//     const currentState = eachUpdate;
+//     const currentObjString = `${valuePlaceHolder}.${currentState}`;
+//     const type = req.body.typeToSend;
 
-    await firestore
-      .collection("students")
-      .doc(req.body.uid)
-      .update({
-        [currentObjString]: type,
-      })
-      .catch((err) => res.status(500).send(err));
-  });
-  res.status(201).send();
-});
+//     await firestore
+//       .collection("students")
+//       .doc(req.body.uid)
+//       .update({
+//         [currentObjString]: type,
+//       })
+//       .catch((err) => res.status(500).send(err));
+//   });
+//   res.status(201).send();
+// });
 
 app.post("/queryV3", async (req, res) => {
   const filters = req.body.filtersForQuery;
   // should be true if needs all cards
   const isEmpty = req.body.empty;
 
+  // should be an array of events
+  // Always includes UNC students
+  // Form:  {name: "Event", value: "HackNC"}
+  const resumeAccessArray = req.body.resumeAccess;
+
+  // checks to see iif filter list is empty
   if (isEmpty) {
-    console.log("yoooo");
     const data = await firestore
       .collection("students")
       .get()
@@ -260,6 +265,26 @@ app.post("/queryV3", async (req, res) => {
     const docs = data.docs.map((doc) => doc.data());
     res.send(docs);
     return;
+  }
+
+  // Figure out how to restrict starting query
+  const newStartingQuery = firestore.collection("students");
+
+  const newStart = async () => {};
+
+  let resumeOR = [];
+  let resumeFinalOR = [];
+
+  // Need to OR UNC Students and all other event students
+  if (resumeAccessArray.length !== 0) {
+    const initialResume = resumeAccessArray;
+    // Now OR the arrays inside proLangOR
+    resumeOR = await singleQueryFunction(initialResume);
+    resumeFinalOR = resumeOR[0];
+    resumeOR.forEach((eachArray) => {
+      resumeFinalOR = orFilter(eachArray, resumeFinalOR);
+    });
+    //orHolder.push(resumeFinalOR);
   }
 
   const startingQuery = firestore.collection("students");
@@ -308,35 +333,47 @@ app.post("/queryV3", async (req, res) => {
 
   // ORing function
   const orFilter = (arrA, arrB) => {
-    const orPart = arrA.filter((objA) =>
-      arrB.filter((objB) => objA.UID !== objB.UID)
-    );
+    let tempArray = [];
 
-    const andPart = arrA.filter((objA) =>
-      arrB.some((objB) => objA.UID === objB.UID)
-    );
+    let setForLookups = new Set();
 
-    const tempArray = [...new Set([...orPart, ...andPart])];
+    // Student UID list for lookups
+    for (const eachOBJ of arrA) {
+      setForLookups.add(eachOBJ.UID);
+      tempArray.push(eachOBJ);
+    }
+
+    for (const eachOBJ of arrB) {
+      if (!setForLookups.has(eachOBJ.UID)) {
+        tempArray.push(eachOBJ);
+      }
+    }
 
     return tempArray;
   };
-
   // Querying function
   const singleQueryFunction = async (arrayName) => {
     let storingArray = [];
-
-    for (const eachQueryOBJ of arrayName) {
+    let promiseArray = [];
+    arrayName.forEach((eachQueryOBJ) => {
       const currentQuery = startingQuery.where(
         eachQueryOBJ.name,
         "==",
         eachQueryOBJ.value
       );
-      const data = await currentQuery.get();
-      const docs = data.docs.map((doc) => doc.data());
-      storingArray.push(docs);
-    }
+      const data = currentQuery.get();
+      promiseArray.push(data);
+    });
 
-    return storingArray;
+    storingArray = await Promise.all(promiseArray);
+
+    let finalQueryArray = [];
+    storingArray.forEach((data) => {
+      const docs = data.docs.map((doc) => doc.data());
+      finalQueryArray.push(docs);
+    });
+
+    return finalQueryArray;
   };
 
   if (filters["Programming Languages"].length !== 0) {
@@ -449,14 +486,6 @@ app.post("/queryV3", async (req, res) => {
     orHolder.push(minorsFinalOR);
   }
 
-  // const intersect = (arrA, arrB) => {
-  //   return arrA.filter((x) => x.uid === arrB);
-  // };
-
-  // list1.filter(a => list2.some(b => a.userId === b.userId));
-
-  //console.log(orHolder);
-
   const intersect = (arrA, arrB) => {
     return arrA.filter((objA) => arrB.some((objB) => objA.UID === objB.UID));
   };
@@ -465,7 +494,6 @@ app.post("/queryV3", async (req, res) => {
   andFinal = orHolder[0];
   orHolder.forEach((eachArray) => {
     andFinal = intersect(eachArray, andFinal);
-    //console.log(andFinal);
   });
   res.send(andFinal);
 });

@@ -333,6 +333,10 @@ app.post("/queryV3", async (req, res) => {
 
   // ORing function
   const orFilter = (arrA, arrB) => {
+    // const orPart = arrA.filter((objA) =>
+    //   arrB.filter((objB) => objA.UID !== objB.UID)
+    // );
+
     let tempArray = [];
 
     let setForLookups = new Set();
@@ -349,11 +353,35 @@ app.post("/queryV3", async (req, res) => {
       }
     }
 
+    // for (const eachOBJ of arrB) {
+    //   for (const studentUID of eachOBJ) {
+
+    //   }
+    // }
+
+    // const andPart = arrA.filter((objA) =>
+    //   arrB.some((objB) => objA.UID === objB.UID)
+    // );
+
+    // const tempArray = [...new Set([...orPart, ...andPart])];
+
     return tempArray;
   };
   // Querying function
   const singleQueryFunction = async (arrayName) => {
     let storingArray = [];
+
+    // for (const eachQueryOBJ of arrayName) {
+    //   const currentQuery = startingQuery.where(
+    //     eachQueryOBJ.name,
+    //     "==",
+    //     eachQueryOBJ.value
+    //   );
+    //   const data = await currentQuery.get();
+    //   const docs = data.docs.map((doc) => doc.data());
+    //   storingArray.push(docs);
+    // }
+
     let promiseArray = [];
     arrayName.forEach((eachQueryOBJ) => {
       const currentQuery = startingQuery.where(
@@ -362,6 +390,7 @@ app.post("/queryV3", async (req, res) => {
         eachQueryOBJ.value
       );
       const data = currentQuery.get();
+      //const docs = data.docs.map((doc) => doc.data());
       promiseArray.push(data);
     });
 

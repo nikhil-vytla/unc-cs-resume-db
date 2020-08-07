@@ -141,7 +141,7 @@ function RecruiterView({ Firebase, ...props }) {
     const data = preData.data;
     setCards(data);
   }
-
+  // Checks the list of current filters for a filter passed from the Filter Item component
   function isCurrentFilter(objToAdd) {
     let exitCondition = false;
     const filterArr = filters["Active Filters"];
@@ -155,33 +155,17 @@ function RecruiterView({ Firebase, ...props }) {
     });
     return exitCondition;
 
-    // if (filters["Active Filters"] !== undefined) {
-    //   Object.keys(filterArr).forEach((keyName) => {
-    //     filterArr[keyName].forEach((item) => {
-    //       if (item.name === objToAdd.name && item.value === objToAdd.value) {
-    //         return true;
-    //       }
-    //     });
-    //   });
-
-    //   // let newArr = filters["Active Filters"].filter((item) => {
-    //   //   // console.log(item.name === objToAdd.name);
-    //   //   // console.log(item.value === objToAdd.value);
-    //   //   return item.name === objToAdd.name && item.value === objToAdd.value;
-    //   // });
-    //   //console.log(newArr);
-    //   return false;
-    // } else {
-    //   return false;
-    // }
   }
-
+  // The current state of cards displayed in the Candidates section
   const [cards, setCards] = useState(null);
+
+  // gets the newest recruiter object stored in firebase
+  // This function is called to display changes made in MyLists
   async function updateRecruiter() {
     const data = await Firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
     setRecruiter(data);
   }
-
+  // Makes API calls to get all the current cards and the recruiter object from the DB
   useEffect(() => {
     async function fetchUsers() {
       const data = await Firebase.getAllStudents();
@@ -195,13 +179,14 @@ function RecruiterView({ Firebase, ...props }) {
     collectData();
   }, []);
 
+  // Animation for displaying the expanded resume view
   const transitions = useTransition(resumeView, null, {
     from: { position: "absolute", opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
   });
 
-  if (filters !== null && recruiter !== null) {
+  if (filters !== null && recruiter !== null && cards !== null) {
     return transitions.map(({ item, key, props }) =>
       item ? (
         <animated.div style={props}>
@@ -236,6 +221,8 @@ function RecruiterView({ Firebase, ...props }) {
       )
     );
   } else {
+
+    // loads a spinner if all the api calls are not complete
     return (
       <div className="d-flex justify-content-center recruiterSpinnerDiv">
         <Spinner animation="border" role="status" className="recruiterSpinner">

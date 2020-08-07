@@ -2,13 +2,13 @@
 
 ## Description
 
-The UNC CS Department through the Unc Summer of Code program has created a dynamic resume database. This resume data allows recruiters to filter through students based on criteria such as graduation year and specific programming languages. Additionally, recruiters can organize students into lists to save qualified candidates for later review. Currently, resumes are available via PDF and also via Handshake. This site is built with React and Firebase and will greatly help recruiting in a post-COVID-19 world. 
+The UNC CS Department, through the UNC Summer of Code 2020 program has created a dynamic resume database website. Currently, resumes are available to recruiters via PDF and Handshake, however recruiters must manually search through these lists. This website allows recruiters to filter through students based on criteria such as graduation year and specific programming languages. Additionally, recruiters can organize students into lists to save qualified candidates and export these lists. This site is built with React and Firebase and will greatly help recruiting in a post-COVID-19 world.
 
 ## Getting started
 
 To use cloud functions, manually add the file 'functions/**adminConfig.json**', found at firebase console -> project settings -> service accounts -> generate private key
 
-### Commands
+### npm scripts
 
 - Install dependencies and login to firebase
   - **npm run init**

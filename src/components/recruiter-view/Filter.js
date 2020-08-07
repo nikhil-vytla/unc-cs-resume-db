@@ -6,9 +6,9 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { propTypes } from "react-bootstrap/esm/Image";
 
 function Filter(props) {
-  //console.log(props.filters);
+
+  //Sets the initial filter search state to empty string
   const [filterSearch, setFilterSearch] = useState("")
-  console.log(filterSearch)
   return (
     <div className="filter d-block">
       <h1

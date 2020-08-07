@@ -2,11 +2,15 @@ import React, { useState } from "react"
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
-
+// This component is a part of the resume view and displays a list of a particular students attributes
 function RecruiterViewDropDown(props) {
+
+    
     const [collapsed, setCollapsed] = useState(false);
     let itemArray = []
 
+
+    // adds an item to the list to be displayed if a student says he/she has that attribute
     if (props.items !== null && props.items !== undefined) {
         Object.keys(props.items).forEach((key, index) => {
             if (props.items[key] === true) {
@@ -32,31 +36,12 @@ function RecruiterViewDropDown(props) {
                 ))}
             </div>
 
-
         );
         icon = (
         <RemoveIcon className="resumeViewDropDownIcon"/>        
             )
     }
-
-
-    // let collapsedView = (
-    //     <div className="resumeViewDropDownDiv" onClick={() => setCollapsed(true)} >
-    //         <h1 className="BreeSerif resumeViewDropDownText" > {props.text} </h1>
-    //         {props.collapsedIcon}
-    //     </div>
-    // );
-
-
-    // let expandedView = (
-    //     <div>
-    //         <div className="resumeViewDropDownDiv" onClick={() => setCollapsed(false)}>
-    //             <h1 className="BreeSerif resumeViewDropDownText" > {props.text} </h1>
-    //         </div>
-    //     </div>
-    // );
-
-    console.log(itemArray)
+    // Does not display the dropdown if there are no items to be displayed 
     if (props.items === null || itemArray.length === 0) {
         return null
     } else {
@@ -68,8 +53,6 @@ function RecruiterViewDropDown(props) {
                 </div>
                 {expandedView}
             </div>
-
-
         )
 
     }

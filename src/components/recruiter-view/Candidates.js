@@ -1,6 +1,8 @@
 import React from "react";
 import CandidateCard from "./CandidateCard";
 
+
+// This component maps the list of students in the database, obtained in RecruiterView, to Candidate Cards
 function Candidates(props) {
   return (
     <div style={{ width: "100%" }}>

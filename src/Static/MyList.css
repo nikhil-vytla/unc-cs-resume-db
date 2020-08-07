@@ -175,12 +175,12 @@
     position: absolute;
 }
 
-.myListsBigOlDiv{
+.myListsContainerDiv{
     height: calc(100vh - 105px - 15px);
-    background-color: white;
 }
 .myListsScroll{
-    max-height: calc(100vh - 145px - 15px) !important;
+    height: calc(100vh - 145px - 15px) !important;
+    background-color: white;
     overflow-y: auto !important;
     -ms-overflow-style: none;  
     scrollbar-width: none;  

@@ -23,29 +23,6 @@ app.get("/", (req, res) => {
   res.send("You've reached the base API endpoint");
 });
 
-// // Send GET request to /api/users to get array of all users
-// app.get("/users", async (req, res) => {
-//   const data = await firestore.collection("students").get()
-//   .catch(err => {
-//     res.status(400).send(err);
-//   });
-//   const docs = data.docs.map((doc) => doc.data());
-//   res.send(docs);
-// });
-
-// // Need to add parameters for this path: userID and user
-// app.get("/getProfileInfo", async (req, res) => {
-//   if (req.body.currentUser !== null) {
-//     const data = await firestore.collection
-//       .doc("students")
-//       .where("UID", "==", auth().currentUser.uid)
-//       .get()
-//       .catch(err => res.status(500).send(err));
-//     const docs = data.docs.map((doc) => doc.data());
-//     res.send(docs);
-//   }
-// });
-
 // Gets auth claims for user acct
 // request body = {"email": "example@email.com"}
 app.get("/getUserClaims", async (req, res) => {
@@ -191,59 +168,6 @@ app.post("/requestSchool", async (req, res) => {
   res.status(201).send();
 });
 
-// app.post("/query", async (req, res) => {
-//   let query = firestore.collection("students");
-
-//   const filters = req.body.filtersForQuery;
-
-//   // This is how the request should be filters = [
-//   // {
-//   //   filters: [
-//   //     {
-//   //       "name": "Graduation Year",
-//   //       "value": "2020",
-//   //     },
-//   //     {
-//   //       "name": "Programming Languages.Python",
-//   //       "value": true,
-//   //     },
-//   //     {
-//   //       "name": "Database Systems.Oracle",
-//   //       "value": true,
-//   //     },
-//   //   ],
-//   // };
-//   let addFilter = (newQuery, filterName, filterValue) => {
-//     query = newQuery.where(filterName, "==", filterValue);
-//   };
-//   filters.forEach((filter) => {
-//     addFilter(query, filter.name, filter.value);
-//   });
-//   const data = await query.get().catch((err) => res.status(500).send(err));
-//   const docs = data.docs.map((doc) => doc.data());
-//   res.send(docs);
-// });
-
-// app.put("/updateCheckbox", async (req, res) => {
-//   const array = req.body.arrayList;
-
-//   array.forEach(async (eachUpdate) => {
-//     const valuePlaceHolder = req.body.valueToSend;
-//     const currentState = eachUpdate;
-//     const currentObjString = `${valuePlaceHolder}.${currentState}`;
-//     const type = req.body.typeToSend;
-
-//     await firestore
-//       .collection("students")
-//       .doc(req.body.uid)
-//       .update({
-//         [currentObjString]: type,
-//       })
-//       .catch((err) => res.status(500).send(err));
-//   });
-//   res.status(201).send();
-// });
-
 app.post("/queryV3", async (req, res) => {
   const filters = req.body.filtersForQuery;
   // should be true if needs all cards
@@ -333,10 +257,6 @@ app.post("/queryV3", async (req, res) => {
 
   // ORing function
   const orFilter = (arrA, arrB) => {
-    // const orPart = arrA.filter((objA) =>
-    //   arrB.filter((objB) => objA.UID !== objB.UID)
-    // );
-
     let tempArray = [];
 
     let setForLookups = new Set();
@@ -353,34 +273,11 @@ app.post("/queryV3", async (req, res) => {
       }
     }
 
-    // for (const eachOBJ of arrB) {
-    //   for (const studentUID of eachOBJ) {
-
-    //   }
-    // }
-
-    // const andPart = arrA.filter((objA) =>
-    //   arrB.some((objB) => objA.UID === objB.UID)
-    // );
-
-    // const tempArray = [...new Set([...orPart, ...andPart])];
-
     return tempArray;
   };
   // Querying function
   const singleQueryFunction = async (arrayName) => {
     let storingArray = [];
-
-    // for (const eachQueryOBJ of arrayName) {
-    //   const currentQuery = startingQuery.where(
-    //     eachQueryOBJ.name,
-    //     "==",
-    //     eachQueryOBJ.value
-    //   );
-    //   const data = await currentQuery.get();
-    //   const docs = data.docs.map((doc) => doc.data());
-    //   storingArray.push(docs);
-    // }
 
     let promiseArray = [];
     arrayName.forEach((eachQueryOBJ) => {
@@ -390,7 +287,6 @@ app.post("/queryV3", async (req, res) => {
         eachQueryOBJ.value
       );
       const data = currentQuery.get();
-      //const docs = data.docs.map((doc) => doc.data());
       promiseArray.push(data);
     });
 
@@ -531,16 +427,6 @@ app.put("/checkboxV2", async (req, res) => {
   return cors()(req, res, async () => {
     const valuePlaceHolder = req.body.valueToSend;
     const updatedOBJ = req.body.update;
-
-    // await firestore
-    //   .collection("students")
-    //   .doc(req.body.uid)
-    //   .set(
-    //     {
-    //       [valuePlaceHolder]: updatedOBJ,
-    //     },
-    //     { merge: true }
-    //   );
 
     // Replaces whole field with the updated info
     // rather than update specific fields

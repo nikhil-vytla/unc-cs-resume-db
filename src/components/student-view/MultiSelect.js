@@ -88,7 +88,7 @@ class MultiSelect extends Component {
           </div>
           <Button
             variant="primary"
-            className="multiBtn "
+            className="multiBtn"
             onClick={this.handleUpload}
           >
             Update

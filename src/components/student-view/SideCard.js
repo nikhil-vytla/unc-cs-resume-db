@@ -143,7 +143,6 @@ class SideCard extends Component {
     }
   }
 
-  // now allows pdfs
   render() {
     return (
       <div>

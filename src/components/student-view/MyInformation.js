@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  Accordion,
-  Card,
-  Form,
-  Col,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import { Accordion, Card, Form, Col, InputGroup } from "react-bootstrap";
 import "./StudentView.css";
 import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
@@ -423,24 +415,12 @@ class MyInformation extends Component {
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        {/* <MultiSelect
-                          className="minorsCheckboxes"
-                          optionArray={this.state.majorsState}
-                          valueType={"Minors"}
-                          monitorChanges={this.handlePropsUpdate}
-                        /> */}
                         <MinorsCheckboxes
                           className="minorsCheckboxes"
                           optionArray={this.state.majorsState}
                           valueType={"Minors"}
                           monitorChanges={this.handlePropsUpdate}
                         />
-                        {/* <SelectOneOption
-                          optionArray={this.state.majorsState}
-                          valueType="Minors"
-                          isSingle={false}
-                          monitorChanges={this.handlePropsUpdate}
-                        /> */}
                         {minorsList}
                       </InputGroup>
                     </Col>

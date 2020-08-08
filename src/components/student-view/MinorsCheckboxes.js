@@ -77,7 +77,6 @@ class MinorsCheckboxes extends Component {
     ));
 
     return (
-      // <div>
       <InputGroup
         className="mb-3"
         style={{ display: "flex", flexDirection: "column" }}
@@ -98,8 +97,6 @@ class MinorsCheckboxes extends Component {
           Update
         </Button>
       </InputGroup>
-
-      // {/* </div> */}
     );
   }
 }

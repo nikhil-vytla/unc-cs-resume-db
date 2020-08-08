@@ -76,9 +76,6 @@ class SelectOneOption extends Component {
     this.props.monitorChanges();
   };
 
-  // THERE IS A BUG IF THE NAME HAS A . IN IT
-  // EXAMPLE: Vue.js SPLITS INTO Vue with a sub map of js
-  // SOLUTION: FOR NOW DON'T USE NAMES WITH . IN THEM :)
   handleMapUpload = async (event) => {
     event.preventDefault();
     if (this.state.update === "Choose ...") {
@@ -135,7 +132,6 @@ class SelectOneOption extends Component {
         </Form.Group>
         {typingForm}
 
-        {/* <InputGroup.Append> */}
         <Button
           className="updateBtn"
           variant="primary"
@@ -145,9 +141,6 @@ class SelectOneOption extends Component {
         >
           Update
         </Button>
-
-        {/* <Button variant="outline-secondary">-</Button> */}
-        {/* </InputGroup.Append> */}
       </InputGroup>
     );
   }

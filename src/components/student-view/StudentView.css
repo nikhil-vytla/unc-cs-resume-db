@@ -29,7 +29,7 @@
 
 .minorsCheckboxes {
   height: 40vh;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .headersForEachType {
@@ -98,7 +98,8 @@
 }
 .multiBtn {
   height: 40px !important;
-  line-height: 30px;
+  max-width: 77.18px !important;
+  line-height: 30px !important;
   padding-bottom: 5px !important;
   padding-top: 5px !important;
   margin-top: 15px !important;

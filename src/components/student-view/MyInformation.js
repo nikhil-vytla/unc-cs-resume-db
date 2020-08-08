@@ -14,6 +14,7 @@ import SelectOneOption from "./SelectOneOption";
 import MultiSelect from "./MultiSelect";
 import { withFirebase } from "../Firebase";
 import EventsEnterBox from "./EventsEnterBox";
+import MinorsCheckboxes from "./MinorsCheckboxes";
 
 class MyInformation extends Component {
   constructor(props) {
@@ -422,7 +423,13 @@ class MyInformation extends Component {
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        <MultiSelect
+                        {/* <MultiSelect
+                          className="minorsCheckboxes"
+                          optionArray={this.state.majorsState}
+                          valueType={"Minors"}
+                          monitorChanges={this.handlePropsUpdate}
+                        /> */}
+                        <MinorsCheckboxes
                           className="minorsCheckboxes"
                           optionArray={this.state.majorsState}
                           valueType={"Minors"}

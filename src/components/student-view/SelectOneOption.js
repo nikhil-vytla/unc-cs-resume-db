@@ -38,20 +38,11 @@ class SelectOneOption extends Component {
           .doc(this.Firebase.auth.currentUser.uid)
           .update({
             School: "Other",
-            //this.state.update,
           });
         axios.post(
           "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/requestSchool",
           { school: this.state.reqSchool }
         );
-        // await Firebase.db
-        //   .collection("Schools")
-        //   .doc("schoolsList")
-        //   .update({
-        //     schoolsList: Firebase.db.FieldValue.arrayUnion(
-        //       this.state.reqSchool
-        //     ),
-        //   });
         this.props.monitorChanges();
         alert(
           "Your school has been requested to be added, and the admins will review the request. Please check back soon to see if your school has been listed."
@@ -83,7 +74,6 @@ class SelectOneOption extends Component {
         [this.props.valueType]: this.state.update,
       });
     this.props.monitorChanges();
-    // console.log("This is in Select One Option");
   };
 
   // THERE IS A BUG IF THE NAME HAS A . IN IT

@@ -45,49 +45,49 @@ function FilterItem(props) {
   function handleUncheck() {
     props.removeFilter(computeFilterName());
     setChecked(false);
-
-    //Creates the filter name to be used in the filter object
-    function computeFilterName() {
-      if (multNames.includes(props.title)) {
-        const nameTitle = `${props.title}.${text}`;
-        const objToAdd = { name: nameTitle, value: true };
-        return objToAdd;
-      } else {
-        const objToAdd = {
-          name: props.title,
-          value: text,
-        };
-        return objToAdd;
-      }
-    }
-
-    // Animation used to swap between checked and unchecked boxes
-    const transitions = useTransition(checked, null, {
-      from: { position: "relative", opacity: 1 },
-      enter: { position: "relative", opacity: 1 },
-      leave: { position: "relative", opacity: 1 },
-    });
-    return transitions.map(({ item, key, props }) =>
-      item ? (
-        <animated.div
-          className="d-flex justify-content-between filterItem"
-          style={props}
-          onClick={() => handleUncheck()}
-        >
-          <h1 className="filterItemText">{text}</h1>
-          <CheckBoxIcon className="filterCheck" />
-        </animated.div>
-      ) : (
-        <animated.div
-          className="d-flex justify-content-between filterItem"
-          style={props}
-          onClick={() => handleCheck()}
-        >
-          <h1 className="filterItemText ">{text}</h1>
-          <StopIcon className="filterGrey" />
-        </animated.div>
-      )
-    );
   }
+  //Creates the filter name to be used in the filter object
+  function computeFilterName() {
+    if (multNames.includes(props.title)) {
+      const nameTitle = `${props.title}.${text}`;
+      const objToAdd = { name: nameTitle, value: true };
+      return objToAdd;
+    } else {
+      const objToAdd = {
+        name: props.title,
+        value: text,
+      };
+      return objToAdd;
+    }
+  }
+
+  // Animation used to swap between checked and unchecked boxes
+  const transitions = useTransition(checked, null, {
+    from: { position: "relative", opacity: 1 },
+    enter: { position: "relative", opacity: 1 },
+    leave: { position: "relative", opacity: 1 },
+  });
+  return transitions.map(({ item, key, props }) =>
+    item ? (
+      <animated.div
+        className="d-flex justify-content-between filterItem"
+        style={props}
+        onClick={() => handleUncheck()}
+      >
+        <h1 className="filterItemText">{text}</h1>
+        <CheckBoxIcon className="filterCheck" />
+      </animated.div>
+    ) : (
+      <animated.div
+        className="d-flex justify-content-between filterItem"
+        style={props}
+        onClick={() => handleCheck()}
+      >
+        <h1 className="filterItemText ">{text}</h1>
+        <StopIcon className="filterGrey" />
+      </animated.div>
+    )
+  );
 }
+
 export default FilterItem;

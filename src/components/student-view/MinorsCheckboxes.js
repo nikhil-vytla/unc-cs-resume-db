@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
 
-class MultiSelect extends Component {
+class MinorsCheckboxes extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
@@ -20,56 +20,29 @@ class MultiSelect extends Component {
     array.forEach((element) => {
       updatedOBJ[element] = type;
     });
-    //console.log(updatedOBJ);
 
     const objToSend = {
-      //arrayList: array,
       uid: this.Firebase.auth.currentUser.uid,
       valueToSend: this.props.valueType,
-      //typeToSend: type,
       update: updatedOBJ,
     };
-
-    // console.log(objToSend);
 
     await axios.put(
       "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/checkboxV2",
       objToSend
     );
-    // const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-    // array.forEach(async (eachUpdate) => {
-    //   try {
-    //     const valuePlaceHolder = this.props.valueType;
-    //     const currentState = eachUpdate;
-    //     const currentObjString = `${valuePlaceHolder}.${currentState}`;
-
-    //     await Firebase.db
-    //       .collection("students")
-    //       .doc(Firebase.auth.currentUser.uid)
-    //       .update({
-    //         [currentObjString]: type,
-    //       });
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    //   await delay(100);
-    // });
   };
 
   handleUpload = async () => {
     // Goes through all of your toggled events
     // updates them in Firebase
-    //const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, true);
-    // await delay(250);
     this.props.monitorChanges();
   };
 
   // removes items
   handleDelete = async () => {
-    //const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await this.firebaseUpdates(this.state.eventsToggled, false);
-    //await delay(250);
     this.props.monitorChanges();
   };
 
@@ -104,31 +77,31 @@ class MultiSelect extends Component {
     ));
 
     return (
-      <InputGroup className="mb-3">
-        <Form.Group controlId="ControlSelect1 checkBoxes">
+      // <div>
+      <InputGroup
+        className="mb-3"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <Form.Group
+          controlId="ControlSelect1 checkBoxes"
+          style={{ maxHeight: "40vh", overflowY: "scroll" }}
+        >
           <div key={`default-checkbox`} className="mb-3 checkBoxes">
             {optionOptions}
           </div>
-          <Button
-            variant="primary"
-            className="multiBtn "
-            onClick={this.handleUpload}
-          >
-            Update
-          </Button>
         </Form.Group>
-
-        <InputGroup.Append>
-          {/* <Button variant="primary" className="formBtn" onClick={this.handleUpload}>
-            Update
-          </Button> */}
-          {/* <Button variant="outline-secondary" onClick={this.handleDelete}>
-            -
-          </Button> */}
-        </InputGroup.Append>
+        <Button
+          variant="primary"
+          className="multiBtn"
+          onClick={this.handleUpload}
+        >
+          Update
+        </Button>
       </InputGroup>
+
+      // {/* </div> */}
     );
   }
 }
 
-export default withFirebase(MultiSelect);
+export default withFirebase(MinorsCheckboxes);

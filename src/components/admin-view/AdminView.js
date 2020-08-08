@@ -131,7 +131,7 @@ class AdminView extends Component {
         <div className="full-panel">
           <Container fluid="true">
             <Row>
-              <Col className="right-panel">
+              <Col className="admin-panel">
                 {this.RenderCorrectComponents()}
               </Col>
             </Row>

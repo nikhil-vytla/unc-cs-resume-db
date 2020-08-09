@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Col, Row, Button } from "react-bootstrap";
+import { Container, Col, Row, Button, Modal, Form } from "react-bootstrap";
 import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
@@ -12,7 +12,7 @@ class StudentView extends Component {
     this.Firebase = props.Firebase;
     this.state = {
       studentObject: {},
-      isReady: false,
+      updateScreen: true,
     };
   }
 
@@ -52,6 +52,22 @@ class StudentView extends Component {
     });
   };
 
+  handleIntro = async (event) => {
+    if (this.Firebase.currentUser !== null) {
+      await this.Firebase.db
+        .collection("students")
+        .doc(this.Firebase.auth.currentUser.uid)
+        .update({ Intro: !event.target.checked });
+    }
+  };
+
+  handleClose = async () => {
+    this.setState({
+      updateScreen: false,
+    });
+    this.updateStudentPage();
+  };
+
   async componentDidMount() {
     const data = await this.handlingUserInfo();
     this.setState({
@@ -62,6 +78,53 @@ class StudentView extends Component {
   render() {
     return (
       <div className="full-panel">
+        <Modal
+          show={this.state.studentObject["Intro"] && this.state.updateScreen}
+          style={{ marginTop: "0" }}
+          onHide={this.handleClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Welcome to the UNC CS Resume Database</Modal.Title>
+          </Modal.Header>
+          <h6> Basic Information</h6>
+          <p>
+            For each element, select your information and then click the update
+            button next to each section when you are finished. If you
+            accidentally add an attribute that you don't want, simply choose the
+            "None" option and then click the update button. In the Minors
+            section, if you happen to accidentally check an unwanted option,
+            uncheck the option and press the update button.
+          </p>
+          <h6> Skills and Experience </h6>
+          <p>
+            For each element, check your relevant skills and then click the
+            update button next to each section when you are finished. If you
+            happen to accidentally check an unwanted option, uncheck the option
+            and press the update button.
+          </p>
+          <h6>Events</h6>
+          <p>
+            Once you're registered for an event, you will be emailed an event
+            code and then enter in the box and press update.
+          </p>
+          <h6>Resume/Profile Picture Upload</h6>
+          <p>
+            Click on the browse button and select your resume pdf and click on
+            the Resume button. Similarily, click on the browse button and select
+            your profile image and click on the Profile Picture button.
+          </p>
+          <h6>Account Settings</h6>
+          <p>
+            Click on the cog in the top left corner next to your profile picture
+            if you need to change your email or password.
+          </p>
+          <Form.Check
+            type="checkbox"
+            id={`default-checkbox`}
+            label="Don't show again"
+            onClick={this.handleIntro}
+          />
+        </Modal>
         <Container fluid="true">
           <Row>
             <Col xs={3} className="left-panel">

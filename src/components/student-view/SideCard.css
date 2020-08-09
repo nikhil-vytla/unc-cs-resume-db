@@ -13,20 +13,20 @@
 
 #SideCardCard {
   width: 25vw;
+  height: calc(100vh-105px);
   height: auto;
   background-color: white;
   border: none;
-
 }
 
-.SideCardProfileHeader{
+.SideCardProfileHeader {
   display: flex;
   justify-content: center !important;
   padding: 0 !important;
-  background-color: #4B9CD3 !important;
+  background-color: #4b9cd3 !important;
   width: 25vw;
   border-radius: 0px !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .flex-container {
   display: flex;
@@ -38,7 +38,7 @@
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
-#ProfileDiv{
+#ProfileDiv {
   height: "190px";
   width: "25vw";
   padding-top: 10px;
@@ -57,11 +57,11 @@
   padding-top: 10px;
   line-height: 25px;
 }
-.nameDiv{
-  padding-top:10px;
+.nameDiv {
+  padding-top: 10px;
   margin-left: 10px;
-  height:100px;
-  text-align:center;
+  height: 100px;
+  text-align: center;
   display: block;
   line-height: 50px;
   color: white;
@@ -70,11 +70,11 @@
   flex-wrap: "wrap";
   justify-content: "center";
 }
-.imgDiv{
-  height:100px;
-  margin-right:10px;
+.imgDiv {
+  height: 100px;
+  margin-right: 10px;
 }
-.nameText{
+.nameText {
   font-style: "normal";
   font-weight: "normal";
   font-size: "40px";
@@ -87,13 +87,12 @@
   width: "auto";
   text-align: "center";
   margin-bottom: 0px;
-  
 }
 
-.SideResumePdfImage{
+.SideResumePdfImage {
   border-radius: 150px;
   height: 100px;
   width: 100px;
-  
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }

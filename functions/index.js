@@ -77,6 +77,7 @@ app.post("/newStudent", async (req, res) => {
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png",
     ["Resume PDF"]: "",
     ["Hide Resume"]: true,
+    ["Intro"]: true,
   };
 
   await firestore

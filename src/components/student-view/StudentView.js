@@ -5,6 +5,7 @@ import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
 import { withFirebase } from "../Firebase";
 import { Link } from "react-router-dom";
+import "./modal.css"
 
 class StudentView extends Component {
   constructor(props) {
@@ -79,51 +80,72 @@ class StudentView extends Component {
     return (
       <div className="full-panel">
         <Modal
+          dialogClassName="studentViewModal"
           show={this.state.studentObject["Intro"] && this.state.updateScreen}
           style={{ marginTop: "0" }}
           onHide={this.handleClose}
         >
-          <Modal.Header closeButton>
+          <Modal.Header closeButton
+            className="studentModalHeader">
             <Modal.Title>Welcome to the UNC CS Resume Database</Modal.Title>
           </Modal.Header>
-          <h6> Basic Information</h6>
-          <p>
-            For each element, select your information and then click the update
-            button next to each section when you are finished. If you
-            accidentally add an attribute that you don't want, simply choose the
-            "None" option and then click the update button. In the Minors
-            section, if you happen to accidentally check an unwanted option,
-            uncheck the option and press the update button.
-          </p>
-          <h6> Skills and Experience </h6>
-          <p>
-            For each element, check your relevant skills and then click the
-            update button next to each section when you are finished. If you
-            happen to accidentally check an unwanted option, uncheck the option
-            and press the update button.
-          </p>
-          <h6>Events</h6>
-          <p>
-            Once you're registered for an event, you will be emailed an event
-            code and then enter in the box and press update.
-          </p>
-          <h6>Resume/Profile Picture Upload</h6>
-          <p>
-            Click on the browse button and select your resume pdf and click on
-            the Resume button. Similarily, click on the browse button and select
-            your profile image and click on the Profile Picture button.
-          </p>
-          <h6>Account Settings</h6>
-          <p>
-            Click on the cog in the top left corner next to your profile picture
-            if you need to change your email or password.
-          </p>
-          <Form.Check
-            type="checkbox"
-            id={`default-checkbox`}
-            label="Don't show again"
-            onClick={this.handleIntro}
-          />
+          <Modal.Body>
+            <h6
+              className="studentModalSectionTitle"
+
+            > Basic Information</h6>
+            <p>
+              For each element, select your information and then click the update
+              button next to each section when you are finished. If you
+              accidentally add an attribute that you don't want, simply choose the
+              "None" option and then click the update button. In the Minors
+              section, if you happen to accidentally check an unwanted option,
+              uncheck the option and press the update button.
+            </p>
+            <h6
+              className="studentModalSectionTitle"
+            > Skills and Experience </h6>
+            <p>
+              For each element, check your relevant skills and then click the
+              update button next to each section when you are finished. If you
+              happen to accidentally check an unwanted option, uncheck the option
+              and press the update button.
+            </p>
+            <h6
+              className="studentModalSectionTitle"
+
+            >Events</h6>
+            <p>
+              Once you're registered for an event, you will be emailed an event
+              code and then enter in the box and press update.
+            </p>
+            <h6 className="studentModalSectionTitle"
+            >Resume/Profile Picture Upload</h6>
+            <p>
+              Click on the browse button and select your resume pdf and click on
+              the Resume button. Similarily, click on the browse button and select
+              your profile image and click on the Profile Picture button.
+            </p>
+            <h6
+              className="studentModalSectionTitle"
+
+            >Account Settings</h6>
+            <p>
+              Click on the cog in the top left corner next to your profile picture
+              if you need to change your email or password.
+            </p>
+
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Form.Check
+              type="checkbox"
+              id={`default-checkbox`}
+              label="Don't show again"
+              onClick={this.handleIntro}
+            />
+          </Modal.Footer>
+
         </Modal>
         <Container fluid="true">
           <Row>
@@ -209,7 +231,7 @@ class StudentView extends Component {
                   this.state.studentObject["Hide Resume"]
                     ? "hidden from recruiters."
                     : "visible to recruiters!"
-                }`}</h5>
+                  }`}</h5>
               </div>
 
               <Link to="/accountSettings">

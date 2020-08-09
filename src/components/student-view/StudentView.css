@@ -1,59 +1,59 @@
 .full-panel {
-  margin-top: 0;
-  padding-top: 0;
-  background-color: #13294b;
-  min-height: calc(100vh - 8vh);
-  max-height: calc(200vh - 8vh);
-  min-width: 100vw;
-  max-width: 100vw;
+	margin-top: 0;
+	padding-top: 0;
+	background-color: #13294b;
+	min-height: calc(100vh - 8vh);
+	max-height: calc(200vh - 8vh);
+	min-width: 100vw;
+	max-width: 100vw;
 }
 .left-panel {
-  color: white;
-  /* padding: 2%; */
-  margin: 2%;
-  margin-top: 0px;
-  margin-left: 4%;
-  /*min-height: 84vh; */
-  height: calc(100vh - 105px) !important;
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  overflow-x: hidden;
+	color: white;
+	/* padding: 2%; */
+	margin: 2%;
+	margin-top: 0px;
+	margin-left: 4%;
+	/*min-height: 84vh; */
+	height: calc(100vh - 105px) !important;
+	overflow-y: auto;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	overflow-x: hidden;
 }
 .left-panel::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 #ControlSelect1 {
-  height: auto;
+	height: auto;
 }
 
 .minorsCheckboxes {
-  height: 40vh;
-  overflow-y: scroll;
+	height: 40vh;
+	overflow-y: scroll;
 }
 
 .headersForEachType {
-  line-height: 72.5px !important;
-  font-size: 30px !important;
+	line-height: 72.5px !important;
+	font-size: 30px !important;
 }
 
 .right-panel {
-  color: white;
-  background-color: #4b9cd3;
-  height: calc(100vh - 105px);
-  overflow-y: auto;
-  max-height: fit-content !important;
-  padding-right: 0px !important;
-  padding-left: 0px !important;
-  margin-top: 0px;
-  margin-right: 4%;
+	color: white;
+	background-color: #4b9cd3;
+	height: calc(100vh - 105px);
+	overflow-y: auto;
+	max-height: fit-content !important;
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	margin-top: 0px;
+	margin-right: 4%;
 }
 
 .my-information-container {
-  background-color: white;
-  color: black;
-  min-height: 100%;
-  width: 100%;
+	background-color: white;
+	color: black;
+	min-height: 100%;
+	width: 100%;
 }
 /* 
 .card-setting {
@@ -61,117 +61,117 @@
 } */
 
 .basic-information-form {
-  padding: 3%;
+	padding: 3%;
 }
 
 .data-row-btn {
-  width: 50px;
-  display: inline-block;
-  margin-left: 15px;
+	width: 50px;
+	display: inline-block;
+	margin-left: 15px;
 }
 .data-row-label {
-  font-size: 30px !important;
-  width: 100% !important;
-  max-width: 100% !important;
+	font-size: 30px !important;
+	width: 100% !important;
+	max-width: 100% !important;
 }
 .inputGroup {
-  width: auto !important;
-  margin-right: 20px !important;
+	width: auto !important;
+	margin-right: 20px !important;
 }
 .radioInput {
-  margin-left: 10px !important;
-  margin-top: 15px !important;
+	margin-left: 15px !important;
+	margin-top: 15px !important;
 }
 .currentlySeeking {
-  margin-bottom: 0px !important;
-  line-height: 1.5 !important;
+	margin-bottom: 0px !important;
+	line-height: 1.5 !important;
 }
 .formBtn {
-  height: 40px !important;
-  line-height: 30px;
-  padding-bottom: 5px !important;
-  padding-top: 5px !important;
-  margin-top: 15px !important;
-  margin-left: 20px !important;
-  background-color: #4b9cd3 !important;
-  border: none !important;
+	height: 40px !important;
+	line-height: 30px;
+	padding-bottom: 5px !important;
+	padding-top: 5px !important;
+	margin-top: 15px !important;
+	margin-left: 20px !important;
+	background-color: #4b9cd3 !important;
+	border: none !important;
 }
 .multiBtn {
-  height: 40px !important;
-  max-width: 77.18px !important;
-  line-height: 30px !important;
-  padding-bottom: 5px !important;
-  padding-top: 5px !important;
-  margin-top: 15px !important;
-  margin-left: 10px !important;
-  background-color: #4b9cd3 !important;
-  border: none !important;
+	height: 40px !important;
+	max-width: 77.18px !important;
+	line-height: 30px !important;
+	padding-bottom: 5px !important;
+	padding-top: 5px !important;
+	margin-top: 15px !important;
+	margin-left: 10px !important;
+	background-color: #4b9cd3 !important;
+	border: none !important;
 }
 .formRow {
-  display: block !important;
+	display: block !important;
 }
 
 .formColumn {
-  width: 100%;
+	width: 100%;
 }
 .textForm {
-  margin-left: 10px !important;
-  margin-right: 10px !important;
-  height: 40px !important;
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+	height: 40px !important;
 }
 .data-row-control {
-  width: 60vw;
-  max-width: 90%;
-  display: inline-block;
+	width: 60vw;
+	max-width: 90%;
+	display: inline-block;
 }
 
 .accordion-toggle-selector {
-  background-color: "#E5E5E5";
+	background-color: '#E5E5E5';
 }
 
 .updateButtonDiv {
-  text-align: center;
-  margin: 4%;
+	text-align: center;
+	margin: 4%;
 }
 .my-information-accordion {
-  padding: 0px !important;
+	padding: 0px !important;
 }
 .accordionHeader {
-  height: 72.5px !important;
-  color: white;
-  border-radius: 0px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+	height: 72.5px !important;
+	color: white;
+	border-radius: 0px !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
 }
 h3 {
-  font-size: inherit !important;
+	font-size: inherit !important;
 }
 .uploadButton {
-  margin-left: 10px !important;
-  margin-right: 10px !important;
-  background-color: #4b9cd3 !important;
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+	background-color: #4b9cd3 !important;
 }
 .checkBoxes {
-  margin-left: 10px !important;
+	margin-left: 10px !important;
 }
 .list-group-item {
-  background-color: #4b9cd3 !important;
-  height: 40px !important;
-  line-height: 30px !important;
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
-  color: white !important;
-  width: fit-content !important;
-  min-width: 50px;
-  margin-left: 10px !important;
-  margin-bottom: 10px;
+	background-color: #4b9cd3 !important;
+	height: 40px !important;
+	line-height: 30px !important;
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+	color: white !important;
+	width: fit-content !important;
+	min-width: 50px;
+	margin-left: 10px !important;
+	margin-bottom: 10px;
 }
 
 .form-control {
-  padding: 10px;
-  margin: auto;
-  margin-top: 15px;
-  min-width: 10vw;
-  max-width: 15vw;
-  width: 220px;
+	padding: 10px;
+	margin: auto;
+	margin-top: 15px;
+	min-width: 10vw;
+	max-width: 15vw;
+	width: 220px;
 }

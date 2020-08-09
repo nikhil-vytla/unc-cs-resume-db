@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Button } from "react-bootstrap";
 import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
 import { withFirebase } from "../Firebase";
+import { Link } from "react-router-dom";
 
 class StudentView extends Component {
   constructor(props) {
@@ -147,6 +148,12 @@ class StudentView extends Component {
                     : "visible to recruiters!"
                 }`}</h5>
               </div>
+
+              <Link to="/accountSettings">
+                <Button variant="primary" onClick={this.handleChangeSettings}>
+                  Change Account Settings
+                </Button>
+              </Link>
             </Col>
           </Row>
         </Container>

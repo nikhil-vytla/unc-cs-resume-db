@@ -8,28 +8,95 @@ class UpdateAccount extends Component {
     this.Firebase = props.Firebase;
   }
 
+  handleNewEmail = async (event) => {
+    event.preventDefault();
+
+    const { currentEmail, newEmail, password } = event.target.elements;
+
+    const user = this.Firebase.auth.currentUser;
+    const credential = await this.Firebase.auth.EmailAuthProvider.credential(
+      this.Firebase.auth.currentUser.email,
+      password.value
+    );
+
+    // Prompt the user to re-provide their sign-in credentials
+
+    await user
+      .reauthenticateWithCredential(credential)
+      .then(() => {
+        // User re-authenticated.
+        if (this.Firebase.auth.currentUser.email !== currentEmail) {
+          alert("Your current email address is not correct");
+          return;
+        }
+        user.updateEmail(newEmail.value);
+      })
+      .catch((error) => {
+        // An error happened.
+        alert(error);
+      });
+    alert("You have successfully changed your email address!");
+  };
+
   handleNewPassword = async (event) => {
-    // event.preventDefault();
-    // const { email, password, confirmPassword } = event.target.elements;
-    // if (password.value !== confirmPassword.value) {
-    //   alert("Password and confirm password are not equal");
-    //   return;
-    // }
-    // await Firebase.auth
-    //   .createUserWithEmailAndPassword(email.value, password.value)
-    //   .catch((err) => console.log(err));
-    return;
+    event.preventDefault();
+
+    const {
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    } = event.target.elements;
+
+    const user = this.Firebase.auth.currentUser;
+    const credential = await this.Firebase.auth.EmailAuthProvider.credential(
+      this.Firebase.auth.currentUser.email,
+      currentPassword.value
+    );
+
+    // Prompt the user to re-provide their sign-in credentials
+
+    await user
+      .reauthenticateWithCredential(credential)
+      .then(() => {
+        // User re-authenticated.
+        if (newPassword.value !== confirmPassword.value) {
+          alert("Password and confirm password are not equal!");
+          return;
+        }
+        user.updatePassword(newPassword);
+      })
+      .catch((error) => {
+        // An error happened.
+        alert(error);
+      });
+    alert("You have successfully changed your password!");
   };
 
   render() {
     return (
       <Container className="accountChangeContainer" style={{ display: "flex" }}>
         <Container className="emailChangeContainer">
-          <Form>
+          <Form className="emailChangeForm" onSubmit={this.handleNewEmail}>
+            <h1 className="loginHeader" style={{ color: "white" }}>
+              Change Email
+            </h1>
             <Form.Control
               name="currentEmail"
               type="email"
               placeholder="Current Email Address"
+              className="form-control-auth"
+              style={{
+                padding: "20px",
+                margin: "auto",
+                marginTop: "40px",
+                minWidth: "15vw",
+                maxWidth: "20vw",
+              }}
+            />
+            <Form.Control
+              name="password"
+              type="password"
+              placeholder="Password"
               className="form-control-auth"
               style={{
                 padding: "20px",
@@ -69,9 +136,22 @@ class UpdateAccount extends Component {
               Change Password
             </h1>
             <Form.Control
-              name="password"
+              name="currentPassword"
               type="password"
-              placeholder="Password"
+              placeholder="Current Password"
+              className="form-control-auth"
+              style={{
+                padding: "20px",
+                margin: "auto",
+                marginTop: "40px",
+                minWidth: "15vw",
+                maxWidth: "20vw",
+              }}
+            />
+            <Form.Control
+              name="newPassword"
+              type="password"
+              placeholder="New Password"
               className="form-control-auth"
               style={{
                 padding: "20px",

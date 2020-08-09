@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Login from "./auth/Login";
 import Nav from "./nav/Nav";
@@ -13,6 +13,14 @@ import { withFirebase } from "./Firebase";
 import UpdateAccount from "./student-view/UpdateAccount";
 
 const App = ({ Firebase }) => {
+  async function handleWindowClose() {
+    await Firebase.auth.signOut();
+  }
+  useEffect(() => {
+    window.addEventListener("onbeforeunload", handleWindowClose());
+    return window.removeEventListener("onbeforeunload", handleWindowClose());
+  });
+
   return (
     <div className="App">
       <Router>

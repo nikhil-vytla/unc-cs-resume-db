@@ -73,8 +73,7 @@ app.post("/newStudent", async (req, res) => {
     ["Secondary Major"]: "",
     ["Seeking"]: "",
     ["UID"]: user.uid,
-    ["Profile Image"]:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png",
+    ["Profile Image"]: "",
     ["Resume PDF"]: "",
     ["Hide Resume"]: true,
     ["Intro"]: true,

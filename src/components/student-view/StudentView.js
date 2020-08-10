@@ -222,12 +222,6 @@ class StudentView extends Component {
                     : "visible to recruiters!"
                 }`}</h5>
               </div>
-
-              <Link to="/accountSettings">
-                <Button variant="primary" onClick={this.handleChangeSettings}>
-                  Change Account Settings
-                </Button>
-              </Link>
             </Col>
           </Row>
         </Container>

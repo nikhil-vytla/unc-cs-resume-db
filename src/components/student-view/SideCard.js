@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Link from "react-router-dom/Link";
 import "./SideCard.css";
 import { withFirebase } from "../Firebase";
 import SideResumeBox from "./SideResumeBox";
 import PublishIcon from "@material-ui/icons/Publish";
+import SettingsIcon from "@material-ui/icons/Settings";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 // 320 by 780
 class SideCard extends Component {
@@ -85,9 +88,9 @@ class SideCard extends Component {
 
     // checks if you have a file url in the database already
     if (
-      this.props.profileImgURL !== "" &&
-      this.props.profileImgURL !==
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
+      this.props.profileImgURL !== ""
+      // && this.props.profileImgURL !==
+      //   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
     ) {
       // Delete current file in storage
       // Send request to delete current file
@@ -144,18 +147,34 @@ class SideCard extends Component {
   }
 
   render() {
+    const profileIcon =
+      this.state.profileURL === "" ? (
+        <AccountCircleIcon className="SideResumePdfImage" />
+      ) : (
+        <img
+          className="SideResumePdfImage"
+          src={this.state.profileURL}
+          alt=""
+        />
+      );
+
     return (
       <div>
         <Card id="SideCardCard">
           <Card.Header className="SideCardProfileHeader">
             <div className="d-block justify-content-center" id="ProfileDiv">
               <div className="d-flex justify-content-center">
+                <Link to="/accountSettings">
+                  <SettingsIcon style={{ color: "white" }} />
+                </Link>
                 <div className="imgDiv">
-                  <img
+                  {profileIcon}
+                  {/* <img
                     className="SideResumePdfImage"
-                    src={this.state.profileURL}
+                    src={profileIcon}
+                    // src={this.state.profileURL}
                     alt=""
-                  />
+                  /> */}
                 </div>
 
                 <div className="nameDiv">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { Container, Form } from "react-bootstrap";
+import firebase from "firebase/app";
 
 class UpdateAccount extends Component {
   constructor(props) {
@@ -13,29 +14,53 @@ class UpdateAccount extends Component {
 
     const { currentEmail, newEmail, password } = event.target.elements;
 
+    let exitBoolean = false;
+
+    await this.Firebase.auth
+      .signInWithEmailAndPassword(currentEmail.value, password.value)
+      .catch(() => {
+        alert("Current email or password is incorrect!");
+        exitBoolean = true;
+      });
+
+    if (exitBoolean === true) {
+      return;
+    }
+
     const user = this.Firebase.auth.currentUser;
-    const credential = await this.Firebase.auth.EmailAuthProvider.credential(
+    const credential = await firebase.auth.EmailAuthProvider.credential(
       this.Firebase.auth.currentUser.email,
       password.value
     );
 
     // Prompt the user to re-provide their sign-in credentials
 
+    exitBoolean = false;
+
     await user
       .reauthenticateWithCredential(credential)
-      .then(() => {
+      .then(async () => {
         // User re-authenticated.
-        if (this.Firebase.auth.currentUser.email !== currentEmail) {
+        if (this.Firebase.auth.currentUser.email !== currentEmail.value) {
           alert("Your current email address is not correct");
           return;
         }
-        user.updateEmail(newEmail.value);
+        await user.updateEmail(newEmail.value);
+        await this.Firebase.db
+          .collection("students")
+          .doc(this.Firebase.auth.currentUser.uid)
+          .update({
+            Email: newEmail.value,
+          });
       })
-      .catch((error) => {
+      .catch(() => {
         // An error happened.
-        alert(error);
+        exitBoolean = true;
+        alert("Something went wrong. Please try again.");
       });
-    alert("You have successfully changed your email address!");
+    if (exitBoolean === false) {
+      alert("You have successfully changed your email address!");
+    }
   };
 
   handleNewPassword = async (event) => {
@@ -47,29 +72,47 @@ class UpdateAccount extends Component {
       confirmPassword,
     } = event.target.elements;
 
+    let exitBoolean = false;
+    await this.Firebase.auth
+      .signInWithEmailAndPassword(
+        this.Firebase.auth.currentUser.email,
+        currentPassword.value
+      )
+      .catch(() => {
+        alert("Current password is incorrect!");
+        exitBoolean = true;
+      });
+
+    if (exitBoolean === true) return;
+
     const user = this.Firebase.auth.currentUser;
-    const credential = await this.Firebase.auth.EmailAuthProvider.credential(
+    const credential = await firebase.auth.EmailAuthProvider.credential(
       this.Firebase.auth.currentUser.email,
       currentPassword.value
     );
 
     // Prompt the user to re-provide their sign-in credentials
 
+    exitBoolean = false;
+
     await user
       .reauthenticateWithCredential(credential)
-      .then(() => {
+      .then(async () => {
         // User re-authenticated.
         if (newPassword.value !== confirmPassword.value) {
           alert("Password and confirm password are not equal!");
           return;
         }
-        user.updatePassword(newPassword);
+        await user.updatePassword(newPassword.value);
       })
-      .catch((error) => {
+      .catch(() => {
         // An error happened.
-        alert(error);
+        exitBoolean = true;
+        alert("Something went wrong. Please try again.");
       });
-    alert("You have successfully changed your password!");
+    if (exitBoolean === false) {
+      alert("You have successfully changed your password!");
+    }
   };
 
   render() {

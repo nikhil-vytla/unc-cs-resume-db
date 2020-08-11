@@ -49,7 +49,7 @@ class SideCard extends Component {
 
     uploadFile.on(
       "state_changed",
-      (snapshot) => {},
+      (snapshot) => { },
       (error) => {
         console.log(error);
       },
@@ -110,7 +110,7 @@ class SideCard extends Component {
 
     uploadFile.on(
       "state_changed",
-      (snapshot) => {},
+      (snapshot) => { },
       (error) => {
         console.log(error);
       },
@@ -151,12 +151,12 @@ class SideCard extends Component {
       this.state.profileURL === "" ? (
         <AccountCircleIcon className="SideResumePdfImage" />
       ) : (
-        <img
-          className="SideResumePdfImage"
-          src={this.state.profileURL}
-          alt=""
-        />
-      );
+          <img
+            className="SideResumePdfImage"
+            src={this.state.profileURL}
+            alt=""
+          />
+        );
 
     return (
       <div>
@@ -165,7 +165,7 @@ class SideCard extends Component {
             <div className="d-block justify-content-center" id="ProfileDiv">
               <div className="d-flex justify-content-center">
                 <Link to="/accountSettings">
-                  <SettingsIcon style={{ color: "white" }} />
+                  <SettingsIcon style={{ color: "white" }} className="settingsIcon" fontSize="large" />
                 </Link>
                 <div className="imgDiv">
                   {profileIcon}

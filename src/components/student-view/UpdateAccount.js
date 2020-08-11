@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { Container, Form } from "react-bootstrap";
 import firebase from "firebase/app";
+import "./updateAccount.css"
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Link from "react-router-dom/Link";
+
 
 class UpdateAccount extends Component {
   constructor(props) {
@@ -117,111 +121,121 @@ class UpdateAccount extends Component {
 
   render() {
     return (
-      <Container className="accountChangeContainer" style={{ display: "flex" }}>
-        <Container className="emailChangeContainer">
-          <Form className="emailChangeForm" onSubmit={this.handleNewEmail}>
-            <h1 className="loginHeader" style={{ color: "white" }}>
-              Change Email
+      <Container className="accountChangeContainer" >
+        <h1 className="accountSettingsTitle">Account Settings</h1>
+        <Link to="/student">
+          <ArrowBackIcon style={{ color: "black", marginLeft: "15px" }} fontSize="large" className="arrowIcon" />
+
+        </Link>
+        <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap" }}>
+          <Container className="emailChangeContainer">
+            <Form className="emailChangeForm" onSubmit={this.handleNewEmail}>
+              <h1 className="changeInfoHeader" >
+                Change Email
             </h1>
-            <Form.Control
-              name="currentEmail"
-              type="email"
-              placeholder="Current Email Address"
-              className="form-control-auth"
-              style={{
-                padding: "20px",
-                margin: "auto",
-                marginTop: "40px",
-                minWidth: "15vw",
-                maxWidth: "20vw",
-              }}
-            />
-            <Form.Control
-              name="password"
-              type="password"
-              placeholder="Password"
-              className="form-control-auth"
-              style={{
-                padding: "20px",
-                margin: "auto",
-                marginTop: "40px",
-                minWidth: "15vw",
-                maxWidth: "20vw",
-              }}
-            />
-            <Form.Control
-              name="newEmail"
-              type="email"
-              placeholder="New Email Address"
-              className="form-control-auth"
-              style={{
-                padding: "20px",
-                margin: "auto",
-                marginTop: "40px",
-                minWidth: "15vw",
-                maxWidth: "20vw",
-              }}
-            />
-            <button className="authBtn" type="submit">
-              Submit
-            </button>
-          </Form>
-        </Container>
-        <Container
-          className="passwordChangeContainer"
-          style={{ display: "flex" }}
-        >
-          <Form
-            className="passwordChangeForm"
-            onSubmit={this.handleNewPassword}
+              <Form.Control
+                name="currentEmail"
+                type="email"
+                placeholder="Current Email Address"
+                className="form-control-auth"
+                style={{
+                  padding: "20px",
+                  margin: "auto",
+                  marginTop: "15px",
+                  minWidth: "150px",
+                  maxWidth: "20vw",
+                }}
+              />
+              <Form.Control
+                name="password"
+                type="password"
+                placeholder="Password"
+                className="form-control-auth"
+                style={{
+                  padding: "20px",
+                  margin: "auto",
+                  marginTop: "15px",
+                  minWidth: "150px",
+                  maxWidth: "20vw",
+                }}
+              />
+              <Form.Control
+                name="newEmail"
+                type="email"
+                placeholder="New Email Address"
+                className="form-control-auth"
+                style={{
+                  padding: "20px",
+                  margin: "auto",
+                  marginTop: "15px",
+                  minWidth: "150px",
+                  maxWidth: "20vw",
+                }}
+              />
+              <button className="accountChangeBtn" type="submit">
+                Submit
+              </button>
+
+            </Form>
+          </Container>
+          <Container
+            className="passwordChangeContainer"
+            style={{ display: "flex" }}
           >
-            <h1 className="loginHeader" style={{ color: "white" }}>
-              Change Password
+            <Form
+              className="passwordChangeForm"
+              onSubmit={this.handleNewPassword}
+            >
+              <h1 className="changeInfoHeader" >
+                Change Password
             </h1>
-            <Form.Control
-              name="currentPassword"
-              type="password"
-              placeholder="Current Password"
-              className="form-control-auth"
-              style={{
-                padding: "20px",
-                margin: "auto",
-                marginTop: "40px",
-                minWidth: "15vw",
-                maxWidth: "20vw",
-              }}
-            />
-            <Form.Control
-              name="newPassword"
-              type="password"
-              placeholder="New Password"
-              className="form-control-auth"
-              style={{
-                padding: "20px",
-                margin: "auto",
-                marginTop: "40px",
-                minWidth: "15vw",
-                maxWidth: "20vw",
-              }}
-            />
-            <Form.Control
-              name="confirmPassword"
-              type="password"
-              placeholder="Confirm Password"
-              className="form-control-auth"
-              style={{
-                padding: "20px",
-                margin: "auto",
-                marginTop: "40px",
-                minWidth: "15vw",
-                maxWidth: "20vw",
-              }}
-            />
-            <button className="authBtn" type="submit">
-              Submit
+              <Form.Control
+                name="currentPassword"
+                type="password"
+                placeholder="Current Password"
+                className="form-control-auth"
+                style={{
+                  padding: "20px",
+                  margin: "auto",
+                  marginTop: "15px",
+                  minWidth: "150px",
+                  maxWidth: "20vw",
+                }}
+              />
+              <Form.Control
+                name="newPassword"
+                type="password"
+                placeholder="New Password"
+                className="form-control-auth"
+                style={{
+                  padding: "20px",
+                  margin: "auto",
+                  marginTop: "15px",
+                  minWidth: "150px",
+                  maxWidth: "20vw",
+                }}
+              />
+              <Form.Control
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm Password"
+                className="form-control-auth"
+                style={{
+                  padding: "20px",
+                  margin: "auto",
+                  marginTop: "15px",
+                  minWidth: "150px",
+                  maxWidth: "20vw",
+                }}
+              />
+              <button className="accountChangeBtn" type="submit">
+                Submit
             </button>
-          </Form>
-        </Container>
+            </Form>
+          </Container>
+
+        </div>
+
       </Container>
     );
   }

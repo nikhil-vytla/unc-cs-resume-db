@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
-import { analytics } from "firebase";
 import { InputGroup, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { withFirebase } from "../Firebase";
@@ -37,20 +36,12 @@ class SelectOneOption extends Component {
           .collection("students")
           .doc(this.Firebase.auth.currentUser.uid)
           .update({
-            School: this.state.update,
+            School: "Other",
           });
         axios.post(
           "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/requestSchool",
           { school: this.state.reqSchool }
         );
-        // await Firebase.db
-        //   .collection("Schools")
-        //   .doc("schoolsList")
-        //   .update({
-        //     schoolsList: Firebase.db.FieldValue.arrayUnion(
-        //       this.state.reqSchool
-        //     ),
-        //   });
         this.props.monitorChanges();
         alert(
           "Your school has been requested to be added, and the admins will review the request. Please check back soon to see if your school has been listed."
@@ -82,12 +73,8 @@ class SelectOneOption extends Component {
         [this.props.valueType]: this.state.update,
       });
     this.props.monitorChanges();
-    // console.log("This is in Select One Option");
   };
 
-  // THERE IS A BUG IF THE NAME HAS A . IN IT
-  // EXAMPLE: Vue.js SPLITS INTO Vue with a sub map of js
-  // SOLUTION: FOR NOW DON'T USE NAMES WITH . IN THEM :)
   handleMapUpload = async (event) => {
     event.preventDefault();
     if (this.state.update === "Choose ...") {
@@ -117,7 +104,7 @@ class SelectOneOption extends Component {
       typingForm = (
         <FormControl
           className="textForm form-control-student"
-          placeholder="School missing?"
+          placeholder="Enter School Here"
           value={this.state.reqSchool}
           onChange={(e) => {
             this.setState({ reqSchool: e.target.value });
@@ -144,7 +131,6 @@ class SelectOneOption extends Component {
         </Form.Group>
         {typingForm}
 
-        {/* <InputGroup.Append> */}
         <Button
           className="updateBtn"
           variant="primary"
@@ -154,9 +140,6 @@ class SelectOneOption extends Component {
         >
           Update
         </Button>
-
-        {/* <Button variant="outline-secondary">-</Button> */}
-        {/* </InputGroup.Append> */}
       </InputGroup>
     );
   }

@@ -58,7 +58,13 @@
 }
 
 .authLink {
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.forgotLink {
   padding: 15px;
+  padding-top: 0;
 }
 .loginHeader {
   font-size: 50px !important;

@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { Container, Form } from "react-bootstrap";
 import firebase from "firebase/app";
-import "./updateAccount.css"
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import "./updateAccount.css";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Link from "react-router-dom/Link";
-
 
 class UpdateAccount extends Component {
   constructor(props) {
@@ -105,6 +104,7 @@ class UpdateAccount extends Component {
         // User re-authenticated.
         if (newPassword.value !== confirmPassword.value) {
           alert("Password and confirm password are not equal!");
+          exitBoolean = true;
           return;
         }
         await user.updatePassword(newPassword.value);
@@ -121,18 +121,25 @@ class UpdateAccount extends Component {
 
   render() {
     return (
-      <Container className="accountChangeContainer" >
+      <Container className="accountChangeContainer">
         <h1 className="accountSettingsTitle">Account Settings</h1>
         <Link to="/student">
-          <ArrowBackIcon style={{ color: "black", marginLeft: "15px" }} fontSize="large" className="arrowIcon" />
-
+          <ArrowBackIcon
+            style={{ color: "black", marginLeft: "15px" }}
+            fontSize="large"
+            className="arrowIcon"
+          />
         </Link>
-        <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            flexWrap: "wrap",
+          }}
+        >
           <Container className="emailChangeContainer">
             <Form className="emailChangeForm" onSubmit={this.handleNewEmail}>
-              <h1 className="changeInfoHeader" >
-                Change Email
-            </h1>
+              <h1 className="changeInfoHeader">Change Email</h1>
               <Form.Control
                 name="currentEmail"
                 type="email"
@@ -175,7 +182,6 @@ class UpdateAccount extends Component {
               <button className="accountChangeBtn" type="submit">
                 Submit
               </button>
-
             </Form>
           </Container>
           <Container
@@ -186,9 +192,7 @@ class UpdateAccount extends Component {
               className="passwordChangeForm"
               onSubmit={this.handleNewPassword}
             >
-              <h1 className="changeInfoHeader" >
-                Change Password
-            </h1>
+              <h1 className="changeInfoHeader">Change Password</h1>
               <Form.Control
                 name="currentPassword"
                 type="password"
@@ -230,12 +234,10 @@ class UpdateAccount extends Component {
               />
               <button className="accountChangeBtn" type="submit">
                 Submit
-            </button>
+              </button>
             </Form>
           </Container>
-
         </div>
-
       </Container>
     );
   }

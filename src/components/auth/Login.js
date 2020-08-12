@@ -73,6 +73,11 @@ const Login = ({ Firebase }) => {
             Student Sign-up
           </Link>
         </p>
+        <p className="forgotLink">
+          <Link to="/ForgotPassword" className="studentSignUp">
+            Forgot password?
+          </Link>
+        </p>
         {redirect}
       </Container>
     </Container>

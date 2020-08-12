@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Button, Modal, Form } from "react-bootstrap";
 import "./StudentView.css";
 import SideCard from "./SideCard.js";
 import MyInformation from "./MyInformation";
 import { withFirebase } from "../Firebase";
-import Button from "react-bootstrap/Button";
-import firebase from "firebase";
-import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
+import "./modal.css";
 
 class StudentView extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class StudentView extends Component {
     this.Firebase = props.Firebase;
     this.state = {
       studentObject: {},
-      isReady: false,
+      updateScreen: true,
     };
   }
 
@@ -54,6 +53,22 @@ class StudentView extends Component {
     });
   };
 
+  handleIntro = async (event) => {
+    if (this.Firebase.currentUser !== null) {
+      await this.Firebase.db
+        .collection("students")
+        .doc(this.Firebase.auth.currentUser.uid)
+        .update({ Intro: !event.target.checked });
+    }
+  };
+
+  handleClose = async () => {
+    this.setState({
+      updateScreen: false,
+    });
+    this.updateStudentPage();
+  };
+
   async componentDidMount() {
     const data = await this.handlingUserInfo();
     this.setState({
@@ -64,6 +79,63 @@ class StudentView extends Component {
   render() {
     return (
       <div className="full-panel">
+        <Modal
+          dialogClassName="studentViewModal"
+          show={this.state.studentObject["Intro"] && this.state.updateScreen}
+          style={{ marginTop: "0" }}
+          onHide={this.handleClose}
+        >
+          <Modal.Header closeButton className="studentModalHeader">
+            <Modal.Title>Welcome to the UNC CS Resume Database</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h6 className="studentModalSectionTitle"> Basic Information</h6>
+            <p>
+              For each element, select your information and then click the
+              update button next to each section when you are finished. If you
+              accidentally add an attribute that you don't want, simply choose
+              the "None" option and then click the update button. In the Minors
+              section, if you happen to accidentally check an unwanted option,
+              uncheck the option and press the update button.
+            </p>
+            <h6 className="studentModalSectionTitle">
+              {" "}
+              Skills and Experience{" "}
+            </h6>
+            <p>
+              For each element, check your relevant skills and then click the
+              update button next to each section when you are finished. If you
+              happen to accidentally check an unwanted option, uncheck the
+              option and press the update button.
+            </p>
+            <h6 className="studentModalSectionTitle">Events</h6>
+            <p>
+              Once you're registered for an event, you will be emailed an event
+              code and then enter in the box and press update.
+            </p>
+            <h6 className="studentModalSectionTitle">
+              Resume/Profile Picture Upload
+            </h6>
+            <p>
+              Click on the browse button and select your resume pdf and click on
+              the Resume button. Similarily, click on the browse button and
+              select your profile image and click on the Profile Picture button.
+            </p>
+            <h6 className="studentModalSectionTitle">Account Settings</h6>
+            <p>
+              Click on the cog in the top left corner next to your profile
+              picture if you need to change your email or password.
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Form.Check
+              type="checkbox"
+              id={`default-checkbox`}
+              label="Don't show again"
+              onClick={this.handleIntro}
+            />
+          </Modal.Footer>
+        </Modal>
         <Container fluid="true">
           <Row>
             <Col xs={3} className="left-panel">
@@ -114,26 +186,7 @@ class StudentView extends Component {
                 />
               </div>
               <div className="updateButtonDiv">
-                {/*Implement Radio for Showing Resume */}
-
-                {/* <Form>
-                  <div key={`inline-radio`} className="mb-3">
-                    <Form.Check
-                      inline
-                      label="Display your resume in the database"
-                      type="radio"
-                      id={`inline-radio-1`}
-                    />
-                    <Form.Check
-                      inline
-                      label="Hide your resume from the database"
-                      type="radio"
-                      id={`inline-radio-2`}
-                    />
-                  </div>
-                </Form> */}
-
-                <div class="custom-control custom-radio custom-control-inline">
+                <div className="custom-control custom-radio custom-control-inline">
                   <input
                     type="radio"
                     id="customRadioInline1"
@@ -141,11 +194,14 @@ class StudentView extends Component {
                     className="custom-control-input"
                     onClick={this.handleShowResume}
                   />
-                  <label class="custom-control-label" for="customRadioInline1">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="customRadioInline1"
+                  >
                     Display your resume in the database
                   </label>
                 </div>
-                <div class="custom-control custom-radio custom-control-inline">
+                <div className="custom-control custom-radio custom-control-inline">
                   <input
                     type="radio"
                     id="customRadioInline2"
@@ -153,7 +209,10 @@ class StudentView extends Component {
                     className="custom-control-input"
                     onClick={this.handleHideResume}
                   />
-                  <label class="custom-control-label" for="customRadioInline2">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="customRadioInline2"
+                  >
                     Hide your resume from the database
                   </label>
                 </div>
@@ -162,10 +221,6 @@ class StudentView extends Component {
                     ? "hidden from recruiters."
                     : "visible to recruiters!"
                 }`}</h5>
-
-                {/* <Button variant="primary" onClick={this.updateStudentPage}>
-                  Display Updates
-                </Button> */}
               </div>
             </Col>
           </Row>

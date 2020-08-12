@@ -7,6 +7,8 @@ import AddIcon from '@material-ui/icons/Add';
 
 function ResumeViewNotes( props) {
 
+
+    // Identical to the ResumeViewDropDowns Component except it displays a note section instead of a students skills
     const [collapsed, setCollapsed] = useState(false)
 
     const transitions = useTransition(collapsed, null, {

@@ -9,16 +9,16 @@ import {
 } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 
-class GraduationYearCard extends Component {
+class FrameworksAndTools extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
     this.state = {
-      gradYearInput: "",
+      frameworkAndToolsInput: "",
       collection: "",
       doc: "",
       field: "",
-      gradyr: [],
+      fAndtArr: [],
     };
   }
 
@@ -31,27 +31,27 @@ class GraduationYearCard extends Component {
     return data.data();
   };
   handleQueryAllData = async (e) => {
-    const gradYearHolder = await this.getListArrays(
-      "Graduation Year",
-      "gradYears"
+    const frameworksAndToolsHolder = await this.getListArrays(
+      "Frameworks and Tools",
+      "frameworksAndTools"
     );
     this.setState({
-      gradyr: gradYearHolder.gradYearList,
+      fAndtArr: frameworksAndToolsHolder.frameworksAndTools,
     });
   };
 
   render() {
     return (
       <div>
-        <Card key="gradyr">
+        <Card key="frameworkAndToolsArr">
           <Accordion.Toggle
             as={Card.Header}
-            eventKey="gradyr"
+            eventKey="frameworkAndToolsArr"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="card-name">Graduation Year</h3>
+            <h3 className="card-name">Frameworks And Tools</h3>
           </Accordion.Toggle>
-          <Accordion.Collapse eventKey="gradyr">
+          <Accordion.Collapse eventKey="frameworkAndToolsArr">
             <div style={{ color: "Black" }}>
               <Card.Body>
                 <Form>
@@ -60,25 +60,25 @@ class GraduationYearCard extends Component {
                       as="select"
                       onChange={(e) =>
                         this.setState({
-                          gradYearInput: e.currentTarget.value,
+                          frameworkAndToolsInput: e.currentTarget.value,
                         })
                       }
                     >
-                      <option>Select Graduation Year</option>
-                      {this.state.gradyr.map((eachOption) => (
+                      <option>Select Frameworks And Tools</option>
+                      {this.state.fAndtArr.map((eachOption) => (
                         <option key={eachOption}>{eachOption}</option>
                       ))}
                     </Form.Control>
                     <FormControl
-                      placeholder="Graduation year to Add/Remove"
-                      value={this.state.gradYearInput}
-                      aria-label="Graduation year to Add/Remove"
+                      placeholder="Frameworks And Tools to Add/Remove"
+                      value={this.state.frameworkAndToolsInput}
+                      aria-label="Frameworks And Tools to Add/Remove"
                       aria-describedby="basic-addon2"
                       // key={data.UID}
-                      key="gradyr"
+                      key="frameworkAndToolsArr"
                       onChange={(e) =>
                         this.setState({
-                          gradYearInput: e.currentTarget.value,
+                          frameworkAndToolsInput: e.currentTarget.value,
                         })
                       }
                     />
@@ -89,7 +89,7 @@ class GraduationYearCard extends Component {
                     </Button>
                     <Button
                       variant="outline-danger"
-                      // onClick={console.log(this.state.gradYearInput)}
+                      // onClick={console.log(this.state.frameworkAndToolsInput)}
                       onClick={this.handleRemove}
                     >
                       Remove
@@ -107,18 +107,20 @@ class GraduationYearCard extends Component {
   handleAdd = async (event) => {
     event.preventDefault();
     //check if same item exist in the array before adding
-    const index = this.state.gradyr.indexOf(this.state.gradYearInput);
+    const index = this.state.fAndtArr.indexOf(
+      this.state.frameworkAndToolsInput
+    );
     if (index > -1) {
       alert("exists at " + index);
       return;
     }
-    this.state.gradyr.push(this.state.gradYearInput);
-    console.log(this.state.gradyr);
+    this.state.fAndtArr.push(this.state.frameworkAndToolsInput);
+    console.log(this.state.fAndtArr);
     await this.Firebase.db
-      .collection("Graduation Year")
-      .doc("gradYears")
+      .collection("Frameworks and Tools")
+      .doc("frameworksAndTools")
       .update({
-        ["gradYearList"]: this.state.gradyr,
+        ["frameworksAndTools"]: this.state.fAndtArr,
       })
       .catch((err) => console.log(err));
     this.handleUpdate();
@@ -127,16 +129,18 @@ class GraduationYearCard extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    const index = this.state.gradyr.indexOf(this.state.gradYearInput);
+    const index = this.state.fAndtArr.indexOf(
+      this.state.frameworkAndToolsInput
+    );
     if (index > -1) {
-      this.state.gradyr.splice(index, 1);
+      this.state.fAndtArr.splice(index, 1);
     }
 
     await this.Firebase.db
-      .collection("Graduation Year")
-      .doc("gradYears")
+      .collection("Frameworks and Tools")
+      .doc("frameworksAndTools")
       .update({
-        ["gradYearList"]: this.state.gradyr,
+        ["frameworksAndTools"]: this.state.fAndtArr,
       })
       .catch((err) => console.log(err));
 
@@ -148,4 +152,4 @@ class GraduationYearCard extends Component {
   };
 }
 
-export default withFirebase(GraduationYearCard);
+export default withFirebase(FrameworksAndTools);

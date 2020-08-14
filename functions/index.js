@@ -49,19 +49,21 @@ app.get("/", (req, res) => {
 // Gets auth claims for user acct
 // request body = {"email": "example@email.com"}
 app.get("/getUserClaims", async (req, res) => {
-  if (!req.body.email) res.status(400).send("Must include email in request body");
+  if (!req.body.email)
+    res.status(400).send("Must include email in request body");
 
   const { email } = req.body;
-  const claims = await auth().getUserByEmail(email)
-  .catch(err => res.status(404).send(err))
-  .customClaims;
+  const claims = await auth()
+    .getUserByEmail(email)
+    .catch((err) => res.status(404).send(err)).customClaims;
   res.status(200).send(claims);
 });
 
 // Adds new student with auth claims to the database
 // request body = {"email": "example@email.com"}
 app.post("/newStudent", async (req, res) => {
-  if (!req.body.email) res.status(400).send("Must include email in request body");
+  if (!req.body.email)
+    res.status(400).send("Must include email in request body");
   // const unc_email_re = /^\S+@(\S*\.|)unc.edu$/;
 
   const user = await auth()
@@ -104,14 +106,14 @@ app.post("/newStudent", async (req, res) => {
     .collection("students")
     .doc(user.uid)
     .set(studentData)
-    .catch(err => res.status(400).send(err));
+    .catch((err) => res.status(400).send(err));
   res.status(201).send();
 });
 
 // Adds new recruiter with auth claims to the database
 // request body = {"email": "example@email.com", "name": "myName"}
 app.post("/newRecruiter", async (req, res) => {
-  if(!req.body.email || !req.body.name) {
+  if (!req.body.email || !req.body.name) {
     res.status(400).send("Must include an email and name in request");
   }
   const user = await auth()
@@ -153,13 +155,14 @@ app.post("/newRecruiter", async (req, res) => {
 // Add admin auth claims to user acct
 // request body = {"email": "example@email.com"}
 app.post("/newAdmin", async (req, res) => {
-  if (!req.body.email) res.status(400).send("Must include email in request body");
+  if (!req.body.email)
+    res.status(400).send("Must include email in request body");
 
   const user = await auth()
     .getUserByEmail(req.body.email)
     .catch((err) => {
       res.status(404).send(err);
-  });
+    });
 
   await auth()
     .setCustomUserClaims(user.uid, {
@@ -174,7 +177,8 @@ app.post("/newAdmin", async (req, res) => {
 
 // adds requested school to request list
 app.post("/requestSchool", async (req, res) => {
-  if (!req.body.school) res.status(400).send("Must include school in request body");
+  if (!req.body.school)
+    res.status(400).send("Must include school in request body");
 
   const schoolValue = req.body.school;
   await firestore
@@ -183,7 +187,7 @@ app.post("/requestSchool", async (req, res) => {
     .update({
       schoolsList: admin.firestore.FieldValue.arrayUnion(schoolValue),
     })
-    .catch(err => res.status(500).send(err));
+    .catch((err) => res.status(500).send(err));
   res.status(201).send();
 });
 
@@ -215,7 +219,7 @@ app.post("/query", async (req, res) => {
   filters.forEach((filter) => {
     addFilter(query, filter.name, filter.value);
   });
-  const data = await query.get().catch(err => res.status(500).send(err));
+  const data = await query.get().catch((err) => res.status(500).send(err));
   const docs = data.docs.map((doc) => doc.data());
   res.send(docs);
 });
@@ -234,7 +238,8 @@ app.put("/updateCheckbox", async (req, res) => {
       .doc(req.body.uid)
       .update({
         [currentObjString]: type,
-      }).catch(err => res.status(500).send(err));
+      })
+      .catch((err) => res.status(500).send(err));
   });
   res.status(201).send();
 });
@@ -261,7 +266,8 @@ app.put("/checkboxV2", async (req, res) => {
       .doc(req.body.uid)
       .update({
         [valuePlaceHolder]: updatedOBJ,
-      }).catch(err => res.status(500).send(err));
+      })
+      .catch((err) => res.status(500).send(err));
     res.status(201).send();
   });
 });
@@ -274,7 +280,8 @@ app.put("/newList", async (req, res) => {
     .doc(req.body.recruiterUID)
     .update({
       [`Lists.${req.body.nameOfList}`]: [],
-    }).catch(err => res.status(500).send(err));
+    })
+    .catch((err) => res.status(500).send(err));
   res.status(201).send();
 });
 
@@ -285,7 +292,8 @@ app.put("/removeList", async (req, res) => {
     .doc(req.body.recruiterUID)
     .update({
       [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.delete(),
-    }).catch(err => res.status(500).send(err));
+    })
+    .catch((err) => res.status(500).send(err));
   res.status(201).send();
 });
 
@@ -299,7 +307,8 @@ app.put("/addStudent", async (req, res) => {
       [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayUnion(
         req.body.student
       ),
-    }).catch(err => res.status(500).send(err));
+    })
+    .catch((err) => res.status(500).send(err));
   res.status(201).send();
 });
 
@@ -313,7 +322,20 @@ app.put("/deleteStudent", async (req, res) => {
       [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayRemove(
         req.body.student
       ),
-    }).catch(err => res.status(500).send(err));
+    })
+    .catch((err) => res.status(500).send(err));
+  res.status(201).send();
+});
+
+//delete event code map field
+app.put("/removeEventCodeField", async (req, res) => {
+  await firestore
+    .collection("Events")
+    .doc("eventCodes")
+    .update({
+      [`codes.${req.body.eCode}`]: admin.firestore.FieldValue.delete(),
+    })
+    .catch((err) => res.status(500).send(err));
   res.status(201).send();
 });
 

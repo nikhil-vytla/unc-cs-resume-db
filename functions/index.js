@@ -297,7 +297,6 @@ app.post("/queryV3", async (req, res) => {
       const docs = data.docs.map((doc) => doc.data());
       finalQueryArray.push(docs);
     });
-
     return finalQueryArray;
   };
 
@@ -491,6 +490,18 @@ app.put("/deleteStudent", async (req, res) => {
       [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayRemove(
         req.body.student
       ),
+    })
+    .catch((err) => res.status(500).send(err));
+  res.status(201).send();
+});
+
+//delete event code map field
+app.put("/removeEventCodeField", async (req, res) => {
+  await firestore
+    .collection("Events")
+    .doc("eventCodes")
+    .update({
+      [`codes.${req.body.eCode}`]: admin.firestore.FieldValue.delete(),
     })
     .catch((err) => res.status(500).send(err));
   res.status(201).send();

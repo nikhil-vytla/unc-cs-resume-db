@@ -49,7 +49,7 @@ class FrameworksAndTools extends Component {
             eventKey="frameworkAndToolsArr"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="card-name">Frameworks And Tools</h3>
+            <h3 className="admin-card-name">Frameworks And Tools</h3>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="frameworkAndToolsArr">
             <div style={{ color: "Black" }}>
@@ -57,6 +57,7 @@ class FrameworksAndTools extends Component {
                 <Form>
                   <Form.Group controlId="school modification">
                     <Form.Control
+                      className="admin-input-box"
                       as="select"
                       onChange={(e) =>
                         this.setState({
@@ -69,32 +70,39 @@ class FrameworksAndTools extends Component {
                         <option key={eachOption}>{eachOption}</option>
                       ))}
                     </Form.Control>
-                    <FormControl
-                      placeholder="Frameworks And Tools to Add/Remove"
-                      value={this.state.frameworkAndToolsInput}
-                      aria-label="Frameworks And Tools to Add/Remove"
-                      aria-describedby="basic-addon2"
-                      // key={data.UID}
-                      key="frameworkAndToolsArr"
-                      onChange={(e) =>
-                        this.setState({
-                          frameworkAndToolsInput: e.currentTarget.value,
-                        })
-                      }
-                    />
+                    <InputGroup>
+                      <FormControl
+                        className="admin-input-box"
+                        placeholder="Frameworks And Tools to Add/Remove"
+                        value={this.state.frameworkAndToolsInput}
+                        aria-label="Frameworks And Tools to Add/Remove"
+                        aria-describedby="basic-addon2"
+                        // key={data.UID}
+                        key="frameworkAndToolsArr"
+                        onChange={(e) =>
+                          this.setState({
+                            frameworkAndToolsInput: e.currentTarget.value,
+                          })
+                        }
+                      />
+
+                      <InputGroup.Append>
+                        <Button
+                          variant="outline-success"
+                          onClick={this.handleAdd}
+                        >
+                          Add
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          // onClick={console.log(this.state.frameworkAndToolsInput)}
+                          onClick={this.handleRemove}
+                        >
+                          Remove
+                        </Button>
+                      </InputGroup.Append>
+                    </InputGroup>
                   </Form.Group>
-                  <InputGroup.Append>
-                    <Button variant="outline-success" onClick={this.handleAdd}>
-                      Add
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      // onClick={console.log(this.state.frameworkAndToolsInput)}
-                      onClick={this.handleRemove}
-                    >
-                      Remove
-                    </Button>
-                  </InputGroup.Append>
                 </Form>
               </Card.Body>
             </div>

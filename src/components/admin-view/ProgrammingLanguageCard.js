@@ -49,7 +49,7 @@ class ProgrammingLanguageCard extends Component {
             eventKey="progLang"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="card-name">Programming Languages</h3>
+            <h3 className="admin-card-name">Programming Languages</h3>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="progLang">
             <div style={{ color: "Black" }}>
@@ -57,6 +57,7 @@ class ProgrammingLanguageCard extends Component {
                 <Form>
                   <Form.Group controlId="school modification">
                     <Form.Control
+                      className="admin-input-box"
                       as="select"
                       onChange={(e) =>
                         this.setState({
@@ -69,32 +70,38 @@ class ProgrammingLanguageCard extends Component {
                         <option key={eachOption}>{eachOption}</option>
                       ))}
                     </Form.Control>
-                    <FormControl
-                      placeholder="Programming Languages to Add/Remove"
-                      value={this.state.progLangInput}
-                      aria-label="Programming Languages to Add/Remove"
-                      aria-describedby="basic-addon2"
-                      // key={data.UID}
-                      key="progLang"
-                      onChange={(e) =>
-                        this.setState({
-                          progLangInput: e.currentTarget.value,
-                        })
-                      }
-                    />
+                    <InputGroup>
+                      <FormControl
+                        className="admin-input-box"
+                        placeholder="Programming Languages to Add/Remove"
+                        value={this.state.progLangInput}
+                        aria-label="Programming Languages to Add/Remove"
+                        aria-describedby="basic-addon2"
+                        // key={data.UID}
+                        key="progLang"
+                        onChange={(e) =>
+                          this.setState({
+                            progLangInput: e.currentTarget.value,
+                          })
+                        }
+                      />
+                      <InputGroup.Append>
+                        <Button
+                          variant="outline-success"
+                          onClick={this.handleAdd}
+                        >
+                          Add
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          // onClick={console.log(this.state.progLangInput)}
+                          onClick={this.handleRemove}
+                        >
+                          Remove
+                        </Button>
+                      </InputGroup.Append>
+                    </InputGroup>
                   </Form.Group>
-                  <InputGroup.Append>
-                    <Button variant="outline-success" onClick={this.handleAdd}>
-                      Add
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      // onClick={console.log(this.state.progLangInput)}
-                      onClick={this.handleRemove}
-                    >
-                      Remove
-                    </Button>
-                  </InputGroup.Append>
                 </Form>
               </Card.Body>
             </div>

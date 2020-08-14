@@ -14,13 +14,15 @@ export class SkillsAndExperienceModification extends Component {
   render() {
     return (
       <div>
-        <h2>{this.props.title}</h2>
-        <Accordion defaultActiveKey="0">
-          <ProgrammingLanguageCard />
-          <FrameworksAndTools />
-          <OperatingSystems />
-          <DatabaseSystems />
-        </Accordion>
+        <h2 className="admin-heading">{this.props.title}</h2>
+        <div className="admin-card-accordion-toggle">
+          <Accordion defaultActiveKey="0">
+            <ProgrammingLanguageCard />
+            <FrameworksAndTools />
+            <OperatingSystems />
+            <DatabaseSystems />
+          </Accordion>
+        </div>
       </div>
     );
   }

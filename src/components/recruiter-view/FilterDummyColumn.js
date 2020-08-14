@@ -1,7 +1,7 @@
 import React from "react"
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
-
+// Simple component that displays when the filter view is pushed off screen using the arrow buttons
 function FilterDummyColum(props){
     return (
     <div className="filterDummyColumn">

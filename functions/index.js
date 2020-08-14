@@ -23,29 +23,6 @@ app.get("/", (req, res) => {
   res.send("You've reached the base API endpoint");
 });
 
-// // Send GET request to /api/users to get array of all users
-// app.get("/users", async (req, res) => {
-//   const data = await firestore.collection("students").get()
-//   .catch(err => {
-//     res.status(400).send(err);
-//   });
-//   const docs = data.docs.map((doc) => doc.data());
-//   res.send(docs);
-// });
-
-// // Need to add parameters for this path: userID and user
-// app.get("/getProfileInfo", async (req, res) => {
-//   if (req.body.currentUser !== null) {
-//     const data = await firestore.collection
-//       .doc("students")
-//       .where("UID", "==", auth().currentUser.uid)
-//       .get()
-//       .catch(err => res.status(500).send(err));
-//     const docs = data.docs.map((doc) => doc.data());
-//     res.send(docs);
-//   }
-// });
-
 // Gets auth claims for user acct
 // request body = {"email": "example@email.com"}
 app.get("/getUserClaims", async (req, res) => {
@@ -96,10 +73,10 @@ app.post("/newStudent", async (req, res) => {
     ["Secondary Major"]: "",
     ["Seeking"]: "",
     ["UID"]: user.uid,
-    ["Profile Image"]:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png",
+    ["Profile Image"]: "",
     ["Resume PDF"]: "",
     ["Hide Resume"]: true,
+    ["Intro"]: true,
   };
 
   await firestore
@@ -191,73 +168,264 @@ app.post("/requestSchool", async (req, res) => {
   res.status(201).send();
 });
 
-app.post("/query", async (req, res) => {
-  let query = firestore.collection("students");
-
+app.post("/queryV3", async (req, res) => {
   const filters = req.body.filtersForQuery;
+  // should be true if needs all cards
+  const isEmpty = req.body.empty;
 
-  // This is how the request should be filters = [
-  // {
-  //   filters: [
-  //     {
-  //       "name": "Graduation Year",
-  //       "value": "2020",
-  //     },
-  //     {
-  //       "name": "Programming Languages.Python",
-  //       "value": true,
-  //     },
-  //     {
-  //       "name": "Database Systems.Oracle",
-  //       "value": true,
-  //     },
-  //   ],
-  // };
-  let addFilter = (newQuery, filterName, filterValue) => {
-    query = newQuery.where(filterName, "==", filterValue);
-  };
-  filters.forEach((filter) => {
-    addFilter(query, filter.name, filter.value);
-  });
-  const data = await query.get().catch((err) => res.status(500).send(err));
-  const docs = data.docs.map((doc) => doc.data());
-  res.send(docs);
-});
+  // should be an array of events
+  // Always includes UNC students
+  // Form:  {name: "Event", value: "HackNC"}
+  const resumeAccessArray = req.body.resumeAccess;
 
-app.put("/updateCheckbox", async (req, res) => {
-  const array = req.body.arrayList;
-
-  array.forEach(async (eachUpdate) => {
-    const valuePlaceHolder = req.body.valueToSend;
-    const currentState = eachUpdate;
-    const currentObjString = `${valuePlaceHolder}.${currentState}`;
-    const type = req.body.typeToSend;
-
-    await firestore
+  // checks to see iif filter list is empty
+  if (isEmpty) {
+    const data = await firestore
       .collection("students")
-      .doc(req.body.uid)
-      .update({
-        [currentObjString]: type,
-      })
-      .catch((err) => res.status(500).send(err));
+      .get()
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+    const docs = data.docs.map((doc) => doc.data());
+    res.send(docs);
+    return;
+  }
+
+  // Figure out how to restrict starting query
+  const newStartingQuery = firestore.collection("students");
+
+  const newStart = async () => {};
+
+  let resumeOR = [];
+  let resumeFinalOR = [];
+
+  // Need to OR UNC Students and all other event students
+  if (resumeAccessArray.length !== 0) {
+    const initialResume = resumeAccessArray;
+    // Now OR the arrays inside proLangOR
+    resumeOR = await singleQueryFunction(initialResume);
+    resumeFinalOR = resumeOR[0];
+    resumeOR.forEach((eachArray) => {
+      resumeFinalOR = orFilter(eachArray, resumeFinalOR);
+    });
+    //orHolder.push(resumeFinalOR);
+  }
+
+  const startingQuery = firestore.collection("students");
+
+  let orHolder = [];
+
+  let progLangOR = [];
+  let proLangFinalOR = [];
+
+  let frameOR = [];
+  let frameFinalOR = [];
+
+  let dbOR = [];
+  let dbFinalOR = [];
+
+  let schoolOR = [];
+  let schoolFinalOR = [];
+
+  let opOR = [];
+  let opFinalOR = [];
+
+  let eventsOR = [];
+  let eventsFinalOR = [];
+
+  let gradOR = [];
+  let gradFinalOR = [];
+
+  let primMajorOR = [];
+  let primMajorFinalOR = [];
+
+  let secMajorOR = [];
+  let secMajorFinalOR = [];
+
+  let minorsOR = [];
+  let minorsFinalOR = [];
+
+  let andFinal = [];
+  // FiltersOBJ: {
+  // Programming Languages: [Programming Languages.Java, Programming Languages.Python],
+  // Frameworks And Tools: [],
+  // Events: [],
+  // etc...
+  // }
+  // or each item in each section
+  // then and the results
+
+  // ORing function
+  const orFilter = (arrA, arrB) => {
+    let tempArray = [];
+
+    let setForLookups = new Set();
+
+    // Student UID list for lookups
+    for (const eachOBJ of arrA) {
+      setForLookups.add(eachOBJ.UID);
+      tempArray.push(eachOBJ);
+    }
+
+    for (const eachOBJ of arrB) {
+      if (!setForLookups.has(eachOBJ.UID)) {
+        tempArray.push(eachOBJ);
+      }
+    }
+
+    return tempArray;
+  };
+  // Querying function
+  const singleQueryFunction = async (arrayName) => {
+    let storingArray = [];
+
+    let promiseArray = [];
+    arrayName.forEach((eachQueryOBJ) => {
+      const currentQuery = startingQuery.where(
+        eachQueryOBJ.name,
+        "==",
+        eachQueryOBJ.value
+      );
+      const data = currentQuery.get();
+      promiseArray.push(data);
+    });
+
+    storingArray = await Promise.all(promiseArray);
+
+    let finalQueryArray = [];
+    storingArray.forEach((data) => {
+      const docs = data.docs.map((doc) => doc.data());
+      finalQueryArray.push(docs);
+    });
+    return finalQueryArray;
+  };
+
+  if (filters["Programming Languages"].length !== 0) {
+    const initialProgramming = filters["Programming Languages"];
+    // Now OR the arrays inside proLangOR
+    progLangOR = await singleQueryFunction(initialProgramming);
+    proLangFinalOR = progLangOR[0];
+    progLangOR.forEach((eachArray) => {
+      proLangFinalOR = orFilter(eachArray, proLangFinalOR);
+    });
+    orHolder.push(proLangFinalOR);
+  }
+
+  if (filters["Frameworks and Tools"].length !== 0) {
+    const initialFrames = filters["Frameworks and Tools"];
+    // Now OR the arrays inside proLangOR
+    frameOR = await singleQueryFunction(initialFrames);
+    frameFinalOR = frameOR[0];
+    frameOR.forEach((eachArray) => {
+      frameFinalOR = orFilter(eachArray, frameFinalOR);
+    });
+    orHolder.push(frameFinalOR);
+  }
+
+  if (filters["Database Systems"].length !== 0) {
+    const initialDB = filters["Database Systems"];
+    // Now OR the arrays inside proLangOR
+    dbOR = await singleQueryFunction(initialDB);
+    dbFinalOR = dbOR[0];
+    dbOR.forEach((eachArray) => {
+      dbFinalOR = orFilter(eachArray, dbFinalOR);
+    });
+    orHolder.push(dbFinalOR);
+  }
+
+  if (filters["School"].length !== 0) {
+    const initialSchool = filters["School"];
+    // Now OR the arrays inside proLangOR
+    schoolOR = await singleQueryFunction(initialSchool);
+    schoolFinalOR = schoolOR[0];
+    schoolOR.forEach((eachArray) => {
+      schoolFinalOR = orFilter(eachArray, schoolFinalOR);
+    });
+    orHolder.push(schoolFinalOR);
+  }
+
+  if (filters["Operating Systems"].length !== 0) {
+    const initialOP = filters["Operating Systems"];
+    // Now OR the arrays inside proLangOR
+    opOR = await singleQueryFunction(initialOP);
+    opFinalOR = opOR[0];
+    opOR.forEach((eachArray) => {
+      opFinalOR = orFilter(eachArray, opFinalOR);
+    });
+    orHolder.push(opFinalOR);
+  }
+
+  if (filters["Events"].length !== 0) {
+    const initialEvents = filters["Events"];
+    // Now OR the arrays inside proLangOR
+    eventsOR = await singleQueryFunction(initialEvents);
+    eventsFinalOR = eventsOR[0];
+    eventsOR.forEach((eachArray) => {
+      eventsFinalOR = orFilter(eachArray, eventsFinalOR);
+    });
+    orHolder.push(eventsFinalOR);
+  }
+
+  if (filters["Graduation Year"].length !== 0) {
+    const initialGrad = filters["Graduation Year"];
+    // Now OR the arrays inside proLangOR
+    gradOR = await singleQueryFunction(initialGrad);
+    gradFinalOR = gradOR[0];
+    gradOR.forEach((eachArray) => {
+      gradFinalOR = orFilter(eachArray, gradFinalOR);
+    });
+    orHolder.push(gradFinalOR);
+  }
+
+  if (filters["Primary Major"].length !== 0) {
+    const initialPrimary = filters["Primary Major"];
+    // Now OR the arrays inside proLangOR
+    primMajorOR = await singleQueryFunction(initialPrimary);
+    primMajorFinalOR = primMajorOR[0];
+    primMajorOR.forEach((eachArray) => {
+      primMajorFinalOR = orFilter(eachArray, primMajorFinalOR);
+    });
+    orHolder.push(primMajorFinalOR);
+  }
+
+  if (filters["Secondary Major"].length !== 0) {
+    const initialSecondary = filters["Secondary Major"];
+    // Now OR the arrays inside proLangOR
+    secMajorOR = await singleQueryFunction(initialSecondary);
+    secMajorFinalOR = secMajorOR[0];
+    secMajorOR.forEach((eachArray) => {
+      secMajorFinalOR = orFilter(eachArray, secMajorFinalOR);
+    });
+    orHolder.push(secMajorFinalOR);
+  }
+
+  if (filters["Minors"].length !== 0) {
+    const initialMinors = filters["Minors"];
+    // Now OR the arrays inside proLangOR
+    minorsOR = await singleQueryFunction(initialMinors);
+    minorsFinalOR = minorsOR[0];
+    minorsOR.forEach((eachArray) => {
+      minorsFinalOR = orFilter(eachArray, minorsFinalOR);
+    });
+    orHolder.push(minorsFinalOR);
+  }
+
+  const intersect = (arrA, arrB) => {
+    return arrA.filter((objA) => arrB.some((objB) => objA.UID === objB.UID));
+  };
+
+  // ANDs sub groups
+  andFinal = orHolder[0];
+  orHolder.forEach((eachArray) => {
+    andFinal = intersect(eachArray, andFinal);
   });
-  res.status(201).send();
+  res.send(andFinal);
 });
 
 app.put("/checkboxV2", async (req, res) => {
   return cors()(req, res, async () => {
     const valuePlaceHolder = req.body.valueToSend;
     const updatedOBJ = req.body.update;
-
-    // await firestore
-    //   .collection("students")
-    //   .doc(req.body.uid)
-    //   .set(
-    //     {
-    //       [valuePlaceHolder]: updatedOBJ,
-    //     },
-    //     { merge: true }
-    //   );
 
     // Replaces whole field with the updated info
     // rather than update specific fields

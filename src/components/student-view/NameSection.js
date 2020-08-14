@@ -46,7 +46,6 @@ class NameSection extends Component {
           <Form.Label className="data-row-label" column lg={3}>
             Name
           </Form.Label>
-          {/* <Col className="formColumn"> */}
           <InputGroup className="mb-3 inputGroup">
             <FormControl
               className="textForm form-control-student"
@@ -68,12 +67,6 @@ class NameSection extends Component {
               Update
             </Button>
           </InputGroup>
-          {/* <InputGroup.Append>
-              <Button variant="primary" type="submit">
-                Update
-              </Button>
-            </InputGroup.Append> */}
-          {/* </Col> */}
         </Form.Row>
       </Form>
     );

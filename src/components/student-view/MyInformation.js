@@ -1,22 +1,14 @@
 import React, { Component } from "react";
-import {
-  Accordion,
-  Card,
-  Form,
-  Col,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import { Accordion, Card, Form, Col, InputGroup } from "react-bootstrap";
 import "./StudentView.css";
 import NameSection from "./NameSection.js";
 import SelectOneOption from "./SelectOneOption";
 import MultiSelect from "./MultiSelect";
 import { withFirebase } from "../Firebase";
 import EventsEnterBox from "./EventsEnterBox";
+import MinorsCheckboxes from "./MinorsCheckboxes";
 
 class MyInformation extends Component {
-  // function MyInformation(props) {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
@@ -50,6 +42,14 @@ class MyInformation extends Component {
       .collection("students")
       .doc(this.Firebase.auth.currentUser.uid)
       .update({ Seeking: "Internship" });
+    this.props.onStudentDataChange();
+  };
+
+  handlePartTime = async () => {
+    await this.Firebase.db
+      .collection("students")
+      .doc(this.Firebase.auth.currentUser.uid)
+      .update({ Seeking: "Part Time" });
     this.props.onStudentDataChange();
   };
 
@@ -265,28 +265,8 @@ class MyInformation extends Component {
       minorsList = <li>Please update your information!</li>;
     }
 
-    // New Header above the right panel
-    // If the user is new say "New User, Welcome to the UNC Resume Database! Please update your information below"
-    // Otherwise it says "{Your Name}, Welcome to the UNC Resume Database"
-
-    // let nameHeader;
-    // if (this.props.fNameData !== "" && this.props.lNameData !== "") {
-    //   nameHeader = (
-    //     <h3
-    //       style={{ textAlign: "center" }}
-    //     >{`${this.props.fNameData} ${this.props.lNameData}`}</h3>
-    //   );
-    // } else {
-    //   nameHeader = (
-    //     <h3
-    //       style={{ textAlign: "center" }}
-    //     >{`Please update your information below!`}</h3>
-    //   );
-    // }
-
     return (
       <div>
-        {/* {nameHeader} */}
         <div className="my-information-container">
           <Accordion defaultActiveKey="0" className="my-information-accordion">
             <Accordion.Toggle
@@ -318,12 +298,27 @@ class MyInformation extends Component {
                         />
                         <label
                           className="custom-control-label"
-                          for="customRadioInline3"
+                          htmlFor="customRadioInline3"
                         >
                           Internship
                         </label>
                       </div>
-                      <div class="custom-control custom-radio custom-control-inline">
+                      <div className="custom-control custom-radio custom-control-inline">
+                        <input
+                          type="radio"
+                          id="customRadioInline5"
+                          name="customRadioInline1"
+                          className="custom-control-input"
+                          onClick={this.handlePartTime}
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="customRadioInline5"
+                        >
+                          Part Time
+                        </label>
+                      </div>
+                      <div className="custom-control custom-radio custom-control-inline">
                         <input
                           type="radio"
                           id="customRadioInline4"
@@ -333,13 +328,13 @@ class MyInformation extends Component {
                         />
                         <label
                           className="custom-control-label"
-                          for="customRadioInline4"
+                          htmlFor="customRadioInline4"
                         >
                           Full Time
                         </label>
                       </div>
                       <h6 className="currentlySeeking">{`You are currently seeking ${
-                        this.props.seekingData == "Internship" ? "an" : "a"
+                        this.props.seekingData === "Internship" ? "an" : "a"
                       } ${this.props.seekingData} position!`}</h6>
                     </InputGroup>
                     {/* </Col> */}
@@ -376,9 +371,6 @@ class MyInformation extends Component {
                           monitorChanges={this.handlePropsUpdate}
                         />
                         {gradYearDataList}
-                        {/* <li className="list-group-item list-group-item-primary">
-                          {this.props.gradData}
-                        </li> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -396,9 +388,6 @@ class MyInformation extends Component {
                           monitorChanges={this.handlePropsUpdate}
                         />
                         {primMajorDataList}
-                        {/* <li className="list-group-item list-group-item-primary">
-                          {this.props.primMajorData}
-                        </li> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -416,9 +405,6 @@ class MyInformation extends Component {
                           monitorChanges={this.handlePropsUpdate}
                         />
                         {secMajorDataList}
-                        {/* <li className="list-group-item list-group-item-primary">
-                          {this.props.secMajorData}
-                        </li> */}
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -429,15 +415,10 @@ class MyInformation extends Component {
                     </Form.Label>
                     <Col>
                       <InputGroup className="mb-3">
-                        {/* <MultiSelect
-                          optionArray={majorsList}
-                          valueType={"Minors"}
-                          monitorChanges={this.handlePropsUpdate}
-                        /> */}
-                        <SelectOneOption
+                        <MinorsCheckboxes
+                          className="minorsCheckboxes"
                           optionArray={this.state.majorsState}
-                          valueType="Minors"
-                          isSingle={false}
+                          valueType={"Minors"}
                           monitorChanges={this.handlePropsUpdate}
                         />
                         {minorsList}
@@ -470,12 +451,6 @@ class MyInformation extends Component {
                             valueType={"Programming Languages"}
                             monitorChanges={this.handlePropsUpdate}
                           />
-                          {/* <SelectOneOption
-                            optionArray={progLangauges}
-                            valueType="Programming Languages"
-                            isSingle={false}
-                            monitorChanges={this.handlePropsUpdate}
-                          /> */}
                           {progLangList}
                         </InputGroup>
                       </Col>
@@ -493,12 +468,6 @@ class MyInformation extends Component {
                           valueType={"Frameworks and Tools"}
                           monitorChanges={this.handlePropsUpdate}
                         />
-                        {/* <SelectOneOption
-                          optionArray={frameworksAndTools}
-                          valueType="Frameworks and Tools"
-                          isSingle={false}
-                          monitorChanges={this.handlePropsUpdate}
-                        /> */}
                         {frameAndToolsList}
                       </InputGroup>
                     </Col>
@@ -515,12 +484,6 @@ class MyInformation extends Component {
                           valueType={"Operating Systems"}
                           monitorChanges={this.handlePropsUpdate}
                         />
-                        {/* <SelectOneOption
-                          optionArray={operatingSystems}
-                          valueType="Operating Systems"
-                          isSingle={false}
-                          monitorChanges={this.handlePropsUpdate}
-                        /> */}
                         {opSystemsList}
                       </InputGroup>
                     </Col>
@@ -536,12 +499,6 @@ class MyInformation extends Component {
                           valueType={"Database Systems"}
                           monitorChanges={this.handlePropsUpdate}
                         />
-                        {/* <SelectOneOption
-                          optionArray={databaseSystems}
-                          valueType="Database Systems"
-                          isSingle={false}
-                          monitorChanges={this.handlePropsUpdate}
-                        /> */}
                         {dbSystemsList}
                       </InputGroup>
                     </Col>
@@ -561,25 +518,19 @@ class MyInformation extends Component {
               <div className="basic-information-form">
                 <Form.Group>
                   <div className="data-row">
-                    <Form.Row className="formRow">
+                    <Form.Row className="formRow eventsRow">
                       <Form.Label className="data-row-label " column lg={2}>
                         Events
                       </Form.Label>
                       <Col>
                         <InputGroup className="mb-3">
-                          {/* <MultiSelect
-                            optionArray={eventsList}
-                            valueType="Events"
-                            monitorChanges={this.handlePropsUpdate}
-                          /> */}
                           <EventsEnterBox
                             monitorChanges={this.handlePropsUpdate}
                           />
-                          {/* {eventlistToView} */}
                         </InputGroup>
                       </Col>
-                      {eventListToView}
                     </Form.Row>
+                    {eventListToView}
                   </div>
                 </Form.Group>
               </div>

@@ -37,7 +37,6 @@ class EventsEnterBox extends Component {
       allCodes[this.state.eventCode] !== null ||
       allCodes[this.state.eventCode] != ""
     ) {
-      // console.log(allCodes[this.state.eventCode]);
       const currentEvent = allCodes[this.state.eventCode];
       const fullEventRef = `Events.${currentEvent}`;
       await this.Firebase.db
@@ -66,11 +65,7 @@ class EventsEnterBox extends Component {
                 Update
               </Button>
             </InputGroup>
-            <InputGroup.Append>
-              {/* <Button variant="primary" type="submit">
-                Update
-              </Button> */}
-            </InputGroup.Append>
+            <InputGroup.Append></InputGroup.Append>
           </Col>
         </Form.Row>
       </Form>

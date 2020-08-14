@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
 
-class MultiSelect extends Component {
+class MinorsCheckboxes extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
@@ -24,7 +24,6 @@ class MultiSelect extends Component {
     const objToSend = {
       uid: this.Firebase.auth.currentUser.uid,
       valueToSend: this.props.valueType,
-
       update: updatedOBJ,
     };
 
@@ -37,16 +36,13 @@ class MultiSelect extends Component {
   handleUpload = async () => {
     // Goes through all of your toggled events
     // updates them in Firebase
-
     await this.firebaseUpdates(this.state.eventsToggled, true);
-
     this.props.monitorChanges();
   };
 
   // removes items
   handleDelete = async () => {
     await this.firebaseUpdates(this.state.eventsToggled, false);
-
     this.props.monitorChanges();
   };
 
@@ -81,23 +77,28 @@ class MultiSelect extends Component {
     ));
 
     return (
-      <InputGroup className="mb-3">
-        <Form.Group controlId="ControlSelect1 checkBoxes">
+      <InputGroup
+        className="mb-3"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <Form.Group
+          controlId="ControlSelect1 checkBoxes"
+          style={{ maxHeight: "40vh", overflowY: "scroll" }}
+        >
           <div key={`default-checkbox`} className="mb-3 checkBoxes">
             {optionOptions}
           </div>
-          <Button
-            variant="primary"
-            className="multiBtn"
-            onClick={this.handleUpload}
-          >
-            Update
-          </Button>
         </Form.Group>
-        <InputGroup.Append></InputGroup.Append>
+        <Button
+          variant="primary"
+          className="multiBtn"
+          onClick={this.handleUpload}
+        >
+          Update
+        </Button>
       </InputGroup>
     );
   }
 }
 
-export default withFirebase(MultiSelect);
+export default withFirebase(MinorsCheckboxes);

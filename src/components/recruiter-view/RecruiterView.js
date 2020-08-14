@@ -58,21 +58,40 @@ function RecruiterView({ Firebase, ...props }) {
       "Frameworks and Tools": frameworksHolder.frameworksAndTools,
       School: schoolsHolder.schoolsList,
       Events: eventHolder.eventsList,
-      "Active Filters": [],
+      "Active Filters": {
+        "Programming Languages": [],
+        "Frameworks and Tools": [],
+        School: [],
+        Events: [],
+        "Primary Major": [],
+        "Secondary Major": [],
+        Minors: [],
+        "Operating Systems": [],
+        "Database Systems": [],
+        "Graduation Year": [],
+      },
     });
   }
 
   async function addFilter(filterName) {
     let filterArr = filters["Active Filters"];
+    let specificFilter = "";
 
-    filterArr.push(filterName);
+    if (filterName.name.includes(".")) {
+      const index = filterName.name.indexOf(".");
+      specificFilter = filterName.name.slice(0, index);
+    } else {
+      specificFilter = filterName.name;
+    }
+
+    filterArr[specificFilter].push(filterName);
     setFilters((prev) => ({
       ...prev,
       "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/query",
-      { filtersForQuery: filterArr }
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
+      { filtersForQuery: filterArr, empty: false }
     );
     const data = preData.data;
     setCards(data);
@@ -80,42 +99,73 @@ function RecruiterView({ Firebase, ...props }) {
   async function removeFilter(filterName) {
     let filterArr = filters["Active Filters"];
 
-    filterArr.splice(filterArr.indexOf(filterName), 1);
+    let specificFilter = "";
+
+    if (filterName.name.includes(".")) {
+      const index = filterName.name.indexOf(".");
+      specificFilter = filterName.name.slice(0, index);
+    } else {
+      specificFilter = filterName.name;
+    }
+
+    let indexForSplice = 0;
+    for (let i = 0; i < filterArr[specificFilter].length; i++) {
+      if (
+        filterArr[specificFilter][i].name === filterName.name &&
+        filterArr[specificFilter][i].value === filterName.value
+      ) {
+        indexForSplice = i;
+        break;
+      }
+    }
+
+    filterArr[specificFilter].splice(indexForSplice, 1);
     setFilters((prev) => ({
       ...prev,
       "Active Filters": filterArr,
     }));
+
+    let isEmpty = true;
+
+    Object.keys(filterArr).forEach((eachFilter) => {
+      if (filterArr[eachFilter].length !== 0) {
+        isEmpty = false;
+      }
+    });
+
     const preData = await axios.post(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/query",
-      { filtersForQuery: filterArr }
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
+      { filtersForQuery: filterArr, empty: isEmpty }
     );
+
     const data = preData.data;
     setCards(data);
   }
-
+  // Checks the list of current filters for a filter passed from the Filter Item component
   function isCurrentFilter(objToAdd) {
-    if (
-      filters["Active Filters"] !== undefined &&
-      filters["Active Filters"].length !== 0
-    ) {
-      let newArr = filters["Active Filters"].filter((item) => {
-        console.log(item.name === objToAdd.name);
-        console.log(item.value === objToAdd.value);
-        return item.name === objToAdd.name && item.value === objToAdd.value;
+    let exitCondition = false;
+    const filterArr = filters["Active Filters"];
+    Object.keys(filterArr).forEach((keyName) => {
+      filterArr[keyName].forEach((item) => {
+        if (item.name === objToAdd.name && item.value === objToAdd.value) {
+          exitCondition = true;
+          return;
+        }
       });
-      console.log(newArr);
-      return newArr.length !== 0;
-    } else {
-      return false;
-    }
-  }
+    });
+    return exitCondition;
 
+  }
+  // The current state of cards displayed in the Candidates section
   const [cards, setCards] = useState(null);
+
+  // gets the newest recruiter object stored in firebase
+  // This function is called to display changes made in MyLists
   async function updateRecruiter() {
     const data = await Firebase.getRecruiterInfo(Firebase.auth.currentUser.uid);
     setRecruiter(data);
   }
-
+  // Makes API calls to get all the current cards and the recruiter object from the DB
   useEffect(() => {
     async function fetchUsers() {
       const data = await Firebase.getAllStudents();
@@ -129,13 +179,14 @@ function RecruiterView({ Firebase, ...props }) {
     collectData();
   }, []);
 
+  // Animation for displaying the expanded resume view
   const transitions = useTransition(resumeView, null, {
     from: { position: "absolute", opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
   });
 
-  if (filters !== null && recruiter !== null) {
+  if (filters !== null && recruiter !== null && cards !== null) {
     return transitions.map(({ item, key, props }) =>
       item ? (
         <animated.div style={props}>
@@ -170,6 +221,8 @@ function RecruiterView({ Firebase, ...props }) {
       )
     );
   } else {
+
+    // loads a spinner if all the api calls are not complete
     return (
       <div className="d-flex justify-content-center recruiterSpinnerDiv">
         <Spinner animation="border" role="status" className="recruiterSpinner">

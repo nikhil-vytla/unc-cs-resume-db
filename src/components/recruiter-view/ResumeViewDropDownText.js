@@ -3,10 +3,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
 
-
-
-
-
+// Identical to the resumeViewDropDown component except it handles single items instead of a list of items
 function ResumeViewDropDownText(props) {
     const [collapsed, setCollapsed] = useState(false);
     let expandedView = null;
@@ -27,23 +24,6 @@ function ResumeViewDropDownText(props) {
             )
     }
 
-
-    // let collapsedView = (
-    //     <div className="resumeViewDropDownDiv" onClick={() => setCollapsed(true)} >
-    //         <h1 className="BreeSerif resumeViewDropDownText" > {props.text} </h1>
-    //         {props.collapsedIcon}
-    //     </div>
-    // );
-
-
-    // let expandedView = (
-    //     <div>
-    //         <div className="resumeViewDropDownDiv" onClick={() => setCollapsed(false)}>
-    //             <h1 className="BreeSerif resumeViewDropDownText" > {props.text} </h1>
-    //         </div>
-    //     </div>
-    // );
-
   
     if (props.items === null || props.items === "") {
         return null
@@ -59,9 +39,6 @@ function ResumeViewDropDownText(props) {
 
 
         )
-
     }
-
 }
-
 export default ResumeViewDropDownText

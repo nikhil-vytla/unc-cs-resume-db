@@ -30,7 +30,8 @@ function CandidateCardAdd({ Firebase, ...props}) {
         props.updateRecruiter();
       };
 
-
+      // required for Bootsraps dropdown to work
+      // Esentially makes the dropdown appear as a button
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <AddIcon
 
@@ -54,6 +55,8 @@ function CandidateCardAdd({ Firebase, ...props}) {
 
                 <Dropdown.Menu>
                     {Object.keys(props.recruiter[0]["Lists"]).map(list =>
+                        // maps each List to a Drop down item
+                        //This then sends the list to add to to the handle change function which adds a student to that specific list
                         <Dropdown.Item onClick={() => handleChange(list)} >{list}</Dropdown.Item>
                         
                         )}

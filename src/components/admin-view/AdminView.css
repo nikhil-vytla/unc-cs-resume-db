@@ -46,5 +46,11 @@
 }
 
 .admin-card-accordion-toggle {
-  padding: 1%;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.unordered-list-students {
+  padding-left: 1%;
+  padding-right: 1%;
 }

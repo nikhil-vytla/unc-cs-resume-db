@@ -47,23 +47,21 @@ class RecruiterListComponent extends Component {
         recruiter["Resume Access Map"] !== null &&
         recruiter["Resume Access Map"] != null
       ) {
-        resumeAccessList = resumeAccessArr.map((dat) => (
-          <li key={dat} className="admin-resume-access-list">
+        resumeAccessList = resumeAccessArr.map((dat, ind) => (
+          <li key={ind + dat} className="admin-resume-access-list">
             {" "}
             {dat}
           </li>
         ));
       }
-      console.log(recruiter["Resume Access Map"]);
-      console.log("console logging");
     }
     return (
       <div>
         <h2 className="admin-heading">{this.props.title}</h2>
         <Accordion defaultActiveKey="0">
           {this.props.datas.map((data, index) => (
-            <div className="admin-card-accordion-toggle">
-              <Card key={index}>
+            <div className="admin-card-accordion-toggle" key={data.UID}>
+              <Card>
                 <Accordion.Toggle
                   as={Card.Header}
                   eventKey={data.Name}
@@ -88,7 +86,7 @@ class RecruiterListComponent extends Component {
                             placeholder="Event to Add/Remove"
                             aria-label="Event to Add/Remove"
                             aria-describedby="basic-addon2"
-                            key={data.UID}
+                            key={data.Name + data.UID}
                             onChange={(e) =>
                               this.updateStates(e.currentTarget.value, data.UID)
                             }
@@ -103,7 +101,6 @@ class RecruiterListComponent extends Component {
                               </Button>
                               <Button
                                 variant="outline-danger"
-                                // onClick={console.log(this.state.eventInput)}
                                 onClick={this.handleRemove}
                               >
                                 Remove

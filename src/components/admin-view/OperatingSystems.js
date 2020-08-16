@@ -49,7 +49,7 @@ class OperatingSystems extends Component {
             eventKey="opSys"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="card-name">Operating Systems</h3>
+            <h3 className="admin-card-name">Operating Systems</h3>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="opSys">
             <div style={{ color: "Black" }}>
@@ -57,6 +57,7 @@ class OperatingSystems extends Component {
                 <Form>
                   <Form.Group controlId="school modification">
                     <Form.Control
+                      className="admin-input-box"
                       as="select"
                       onChange={(e) =>
                         this.setState({
@@ -69,32 +70,39 @@ class OperatingSystems extends Component {
                         <option key={eachOption}>{eachOption}</option>
                       ))}
                     </Form.Control>
-                    <FormControl
-                      placeholder="Operating Systems to Add/Remove"
-                      value={this.state.opSystemInput}
-                      aria-label="Operating Systems to Add/Remove"
-                      aria-describedby="basic-addon2"
-                      // key={data.UID}
-                      key="opSys"
-                      onChange={(e) =>
-                        this.setState({
-                          opSystemInput: e.currentTarget.value,
-                        })
-                      }
-                    />
+                    <InputGroup>
+                      <FormControl
+                        className="admin-input-box"
+                        placeholder="Operating Systems to Add/Remove"
+                        value={this.state.opSystemInput}
+                        aria-label="Operating Systems to Add/Remove"
+                        aria-describedby="basic-addon2"
+                        // key={data.UID}
+                        key="opSys"
+                        onChange={(e) =>
+                          this.setState({
+                            opSystemInput: e.currentTarget.value,
+                          })
+                        }
+                      />
+
+                      <InputGroup.Append>
+                        <Button
+                          variant="outline-success"
+                          onClick={this.handleAdd}
+                        >
+                          Add
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          // onClick={console.log(this.state.opSystemInput)}
+                          onClick={this.handleRemove}
+                        >
+                          Remove
+                        </Button>
+                      </InputGroup.Append>
+                    </InputGroup>
                   </Form.Group>
-                  <InputGroup.Append>
-                    <Button variant="outline-success" onClick={this.handleAdd}>
-                      Add
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      // onClick={console.log(this.state.opSystemInput)}
-                      onClick={this.handleRemove}
-                    >
-                      Remove
-                    </Button>
-                  </InputGroup.Append>
                 </Form>
               </Card.Body>
             </div>

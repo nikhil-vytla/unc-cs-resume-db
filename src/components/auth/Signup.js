@@ -56,7 +56,7 @@ const Signup = ({ Firebase }) => {
             style={{
               padding: "20px",
               margin: "auto",
-              marginTop: "40px",
+              marginTop: "20px",
               minWidth: "15vw",
               maxWidth: "20vw",
             }}
@@ -69,7 +69,7 @@ const Signup = ({ Firebase }) => {
             style={{
               padding: "20px",
               margin: "auto",
-              marginTop: "40px",
+              marginTop: "20px",
               minWidth: "15vw",
               maxWidth: "20vw",
             }}
@@ -82,7 +82,7 @@ const Signup = ({ Firebase }) => {
             style={{
               padding: "20px",
               margin: "auto",
-              marginTop: "40px",
+              marginTop: "20px",
               minWidth: "15vw",
               maxWidth: "20vw",
             }}

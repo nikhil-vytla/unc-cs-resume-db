@@ -73,7 +73,7 @@ class MultiSelect extends Component {
     const optionOptions = this.props.optionArray.map((eachOption) => (
       <Form.Check
         type="checkbox"
-        id={`default-checkbox`}
+        id={`default-checkbox ${eachOption}`}
         value={eachOption}
         label={eachOption}
         onClick={this.handleCheck}

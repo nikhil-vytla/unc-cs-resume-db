@@ -24,7 +24,7 @@
 }
 
 .authBtn {
-  background-color: #4b9cd3;
+  /* background-color: #4b9cd3;
   font-size: 30px;
   padding-left: 15px;
   padding-right: 15px;
@@ -34,7 +34,15 @@
   margin-top: 40px;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 10px; */
+  background-color: #4b9cd3;
+  height: calc(1.5em + 0.75rem + 2px);
+  color: white;
+  min-width: 150px;
+  max-width: 20vw !important;
+  margin-top: 30px;
+  border: none;
+  width: 100%;
 }
 
 .authBtn:hover {

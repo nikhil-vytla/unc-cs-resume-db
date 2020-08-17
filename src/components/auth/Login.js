@@ -45,7 +45,7 @@ const Login = ({ Firebase }) => {
             style={{
               padding: "20px",
               margin: "auto",
-              marginTop: "40px",
+              marginTop: "20px",
               minWidth: "15vw",
               maxWidth: "20vw",
             }}
@@ -58,7 +58,7 @@ const Login = ({ Firebase }) => {
             style={{
               padding: "20px",
               margin: "auto",
-              marginTop: "40px",
+              marginTop: "20px",
               minWidth: "15vw",
               maxWidth: "20vw",
             }}
@@ -71,6 +71,11 @@ const Login = ({ Firebase }) => {
           Don't have an account?{" "}
           <Link to="/signup" className="studentSignUp">
             Student Sign-up
+          </Link>
+        </p>
+        <p className="forgotLink">
+          <Link to="/ForgotPassword" className="studentSignUp">
+            Forgot password?
           </Link>
         </p>
         {redirect}

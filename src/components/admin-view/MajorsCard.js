@@ -48,7 +48,7 @@ class MajorsCard extends Component {
             eventKey="majors"
             style={{ backgroundColor: "#E5E5E5", color: "Black" }}
           >
-            <h3 className="recruiter-name">Majors</h3>
+            <h3 className="admin-card-name">Majors</h3>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="majors">
             <div style={{ color: "Black" }}>
@@ -57,6 +57,7 @@ class MajorsCard extends Component {
                   <Form.Group controlId="school modification">
                     {/* <Form.Label>Majors</Form.Label> */}
                     <Form.Control
+                      className="admin-input-box"
                       as="select"
                       onChange={(e) =>
                         this.setState({ majorInput: e.currentTarget.value })
@@ -67,30 +68,37 @@ class MajorsCard extends Component {
                         <option key={eachOption}>{eachOption}</option>
                       ))}
                     </Form.Control>
-                    <FormControl
-                      placeholder="Majors to Add/Remove"
-                      value={this.state.majorInput}
-                      aria-label="Majors to Add/Remove"
-                      aria-describedby="basic-addon2"
-                      // key={data.UID}
-                      key="majors"
-                      onChange={(e) =>
-                        this.setState({ majorInput: e.currentTarget.value })
-                      }
-                    />
+                    <InputGroup>
+                      <FormControl
+                        className="admin-input-box"
+                        placeholder="Majors to Add/Remove"
+                        value={this.state.majorInput}
+                        aria-label="Majors to Add/Remove"
+                        aria-describedby="basic-addon2"
+                        // key={data.UID}
+                        key="majors"
+                        onChange={(e) =>
+                          this.setState({ majorInput: e.currentTarget.value })
+                        }
+                      />
+
+                      <InputGroup.Append>
+                        <Button
+                          variant="outline-success"
+                          onClick={this.handleAdd}
+                        >
+                          Add
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          // onClick={console.log(this.state.majorInput)}
+                          onClick={this.handleRemove}
+                        >
+                          Remove
+                        </Button>
+                      </InputGroup.Append>
+                    </InputGroup>
                   </Form.Group>
-                  <InputGroup.Append>
-                    <Button variant="outline-success" onClick={this.handleAdd}>
-                      Add
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      // onClick={console.log(this.state.majorInput)}
-                      onClick={this.handleRemove}
-                    >
-                      Remove
-                    </Button>
-                  </InputGroup.Append>
                 </Form>
               </Card.Body>
             </div>

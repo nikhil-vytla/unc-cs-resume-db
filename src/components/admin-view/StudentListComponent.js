@@ -45,29 +45,30 @@ class StudentListComponent extends Component {
 
     return (
       <div>
-        <h2>{this.props.title}</h2>
+        <h2 className="admin-heading">{this.props.title}</h2>
 
-        <Accordion defaultActiveKey="0">
-          {this.props.datas.map((data, index) => (
-            <Card key={index}>
-              {/* {console.log(data)} */}
-              <Accordion.Toggle
-                as={Card.Header}
-                // eventKey={this.state.information["Last Name"]}
-                style={{ backgroundColor: "#E5E5E5", color: "Black" }}
-              >
-                <h3 className="card-name">
-                  {data["First Name"]} {data["Last Name"]}
-                </h3>
-                {resumeChecker(data)}
-                {/* {resumeAccess.map((item, inx) => (
+        <div className="admin-card-accordion-toggle">
+          <Accordion defaultActiveKey="0">
+            {this.props.datas.map((data, index) => (
+              <Card key={index}>
+                {/* {console.log(data)} */}
+                <Accordion.Toggle
+                  as={Card.Header}
+                  // eventKey={this.state.information["Last Name"]}
+                  style={{ backgroundColor: "#E5E5E5", color: "Black" }}
+                >
+                  <h3 className="admin-card-name">
+                    {data["First Name"]} {data["Last Name"]}
+                  </h3>
+                  {resumeChecker(data)}
+                  {/* {resumeAccess.map((item, inx) => (
                   // {data.(["Resume Access"]).map((item, inx) => (
                   <li className="resume-access-list" key={inx}>
                     {item}
                   </li>
                 ))} */}
-              </Accordion.Toggle>
-              {/* 
+                </Accordion.Toggle>
+                {/* 
 
               <Accordion.Collapse eventKey={data.Name}>
                 <div style={{ color: "Black" }}>
@@ -113,9 +114,10 @@ class StudentListComponent extends Component {
                   </Card.Body>
                 </div>
               </Accordion.Collapse> */}
-            </Card>
-          ))}
-        </Accordion>
+              </Card>
+            ))}
+          </Accordion>
+        </div>
       </div>
     );
   }

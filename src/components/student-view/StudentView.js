@@ -92,11 +92,12 @@ class StudentView extends Component {
             <h6 className="studentModalSectionTitle"> Basic Information</h6>
             <p>
               For each element, select your information and then click the
-              update button next to each section when you are finished. If you
-              accidentally add an attribute that you don't want, simply choose
-              the "None" option and then click the update button. In the Minors
-              section, if you happen to accidentally check an unwanted option,
-              uncheck the option and press the update button.
+              update button to save your changes to the section. If you
+              accidentally add an attribute that you don’t want, simply choose
+              the “None” option and then click the update button to clear the
+              section. If you accidentally check an unwanted option in the
+              Minors section, uncheck the option and press the update button to
+              save the change.
             </p>
             <h6 className="studentModalSectionTitle">
               {" "}
@@ -105,8 +106,8 @@ class StudentView extends Component {
             <p>
               For each element, check your relevant skills and then click the
               update button next to each section when you are finished. If you
-              happen to accidentally check an unwanted option, uncheck the
-              option and press the update button.
+              accidentally check an unwanted option, simply uncheck the option
+              and press the update button.
             </p>
             <h6 className="studentModalSectionTitle">Events</h6>
             <p>
@@ -117,14 +118,14 @@ class StudentView extends Component {
               Resume/Profile Picture Upload
             </h6>
             <p>
-              Click on the browse button and select your resume pdf and click on
-              the Resume button. Similarily, click on the browse button and
-              select your profile image and click on the Profile Picture button.
+              Click on the browse button, select your resume PDF or profile
+              image file, then click on the Resume or Profile Picture button.
             </p>
             <h6 className="studentModalSectionTitle">Account Settings</h6>
             <p>
-              Click on the cog in the top left corner next to your profile
-              picture if you need to change your email or password.
+              Click on the cog in the top left corner (next to your profile
+              picture) to access Account Settings and change your email or
+              password.
             </p>
           </Modal.Body>
           <Modal.Footer>

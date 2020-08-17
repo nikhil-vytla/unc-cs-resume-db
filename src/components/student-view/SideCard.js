@@ -182,7 +182,7 @@ class SideCard extends Component {
                   <h2 className="nameText"> {this.props.lastName} </h2>
                 </div>
               </div>
-              <div className="emailDiv">{this.props.emailAddress}</div>
+              {/* <div className="emailDiv">{this.props.emailAddress}</div> */}
             </div>
           </Card.Header>
           <Card.Body className="SideCardBody">
@@ -201,7 +201,7 @@ class SideCard extends Component {
             >
               <div>
                 <form>
-                  <div className="form-group">
+                  <div className="form-group m-0">
                     <label>
                       <input
                         type="file"
@@ -209,7 +209,7 @@ class SideCard extends Component {
                         className="form-control-file"
                         id="exampleFormControlFile1"
                         onChange={this.handlePdfChange}
-                        style={{ color: "#000000" }}
+                        style={{ color: "#000000", width: "22vw" }}
                       />
                     </label>
                   </div>

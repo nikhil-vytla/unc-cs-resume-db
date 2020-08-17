@@ -56,7 +56,7 @@ class SchoolsCard extends Component {
               eventKey="schools"
               style={{ backgroundColor: "#E5E5E5", color: "Black" }}
             >
-              <h3 className="recruiter-name">Schools</h3>
+              <h3 className="admin-card-name">Schools</h3>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="schools">
               <div style={{ color: "Black" }}>
@@ -65,6 +65,7 @@ class SchoolsCard extends Component {
                     <Form.Group controlId="school modification">
                       <Form.Label>Current Schools</Form.Label>
                       <Form.Control
+                        className="admin-input-box"
                         as="select"
                         onChange={(e) =>
                           this.setState({ schoolInput: e.currentTarget.value })
@@ -75,7 +76,10 @@ class SchoolsCard extends Component {
                           <option key={eachOption}>{eachOption}</option>
                         ))}
                       </Form.Control>
+                    </Form.Group>
+                    <InputGroup>
                       <FormControl
+                        className="admin-input-box"
                         placeholder="Schools to Add/Remove"
                         value={this.state.schoolInput}
                         aria-label="Schools to Add/Remove"
@@ -86,57 +90,60 @@ class SchoolsCard extends Component {
                           this.setState({ schoolInput: e.currentTarget.value })
                         }
                       />
-                    </Form.Group>
-                    <InputGroup.Append>
-                      <Button
-                        variant="outline-success"
-                        onClick={this.handleAdd}
-                      >
-                        Add
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        // onClick={console.log(this.state.eventInput)}
-                        onClick={this.handleRemove}
-                      >
-                        Remove
-                      </Button>
-                    </InputGroup.Append>
 
-                    <Form.Group controlId="school request modification">
-                      <Form.Label>Requested Schools</Form.Label>
-                      <Form.Control
-                        as="select"
-                        onChange={(e) =>
-                          this.setState({
-                            reqSchoolName: e.currentTarget.value,
-                          })
-                        }
-                      >
-                        <option>Select School</option>
-                        {this.state.schoolsRequest.map((eachOption) => (
-                          <option key={eachOption}>{eachOption}</option>
-                        ))}
-                      </Form.Control>
-                    </Form.Group>
-                    <InputGroup>
                       <InputGroup.Append>
                         <Button
                           variant="outline-success"
-                          //   onClick={this.handleAdd}
-                          onClick={this.handleRequestAdd}
+                          onClick={this.handleAdd}
                         >
                           Add
                         </Button>
                         <Button
                           variant="outline-danger"
                           // onClick={console.log(this.state.eventInput)}
-                          onClick={this.handleRequestRemove}
+                          onClick={this.handleRemove}
                         >
                           Remove
                         </Button>
                       </InputGroup.Append>
                     </InputGroup>
+
+                    <Form.Group controlId="school request modification">
+                      <Form.Label>Requested Schools</Form.Label>
+                      <InputGroup>
+                        <Form.Control
+                          className="admin-input-box"
+                          as="select"
+                          onChange={(e) =>
+                            this.setState({
+                              reqSchoolName: e.currentTarget.value,
+                            })
+                          }
+                        >
+                          <option>Select School</option>
+                          {this.state.schoolsRequest.map((eachOption) => (
+                            <option key={eachOption}>{eachOption}</option>
+                          ))}
+                        </Form.Control>
+
+                        <InputGroup.Append>
+                          <Button
+                            variant="outline-success"
+                            //   onClick={this.handleAdd}
+                            onClick={this.handleRequestAdd}
+                          >
+                            Add
+                          </Button>
+                          <Button
+                            variant="outline-danger"
+                            // onClick={console.log(this.state.eventInput)}
+                            onClick={this.handleRequestRemove}
+                          >
+                            Remove
+                          </Button>
+                        </InputGroup.Append>
+                      </InputGroup>
+                    </Form.Group>
                   </Form>
                 </Card.Body>
               </div>

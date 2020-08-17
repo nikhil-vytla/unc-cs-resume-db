@@ -22,7 +22,7 @@ function SideResumeBox(props) {
       >
         <iframe
           src={props.currentPhoto}
-          style={{ height: "100%" }}
+          style={{ height: "100%", border: "none" }}
           onClick={handleShow}
         ></iframe>
       </Card>

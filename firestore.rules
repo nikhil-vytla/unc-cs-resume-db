@@ -1,8 +1,70 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin(request) {
+      return request.auth != null 
+      && request.auth.token.admin == true;
+    }
+
+    function isRecruiter(request) {
+      return request.auth != null 
+      && request.auth.token.recruiter == true;
+    }
+
+    function isStudent(request) {
+      return request.auth != null 
+      && request.auth.token.student == true;
+    }
+
     match /{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if isAdmin(request);
+    }
+
+    match /recruiters/{uid} {
+      allow read, write: if isRecruiter(request)
+      && request.auth.uid == resource.data.UID;
+    }
+
+    match /students/{uid} {
+      allow read, write: if isStudent(request) 
+       && request.auth.uid == resource.data.UID;
+      allow read: if isRecruiter(request);
+    }
+    
+    match /students/{uid=**} {
+      allow read: if isRecruiter(request);
+    }
+
+    match /Database%20Systems/databaseSystems {
+      allow read: if isRecruiter(request) || isStudent(request);
+    }
+
+    match /Events/eventsList {
+      allow read: if isRecruiter(request) || isStudent(request);
+    }
+
+    match /Frameworks%20and%20Tools/frameworksAndTools {
+      allow read: if isRecruiter(request) || isStudent(request);
+    }
+
+    match /Graduation%20Year/gradYears {
+      allow read: if isRecruiter(request) || isStudent(request);
+    }
+
+    match /Majors/majorsList {
+      allow read: if isRecruiter(request) || isStudent(request);
+    }
+
+    match /Operating%20Systems/operatingSystems {
+      allow read: if isRecruiter(request) || isStudent(request);
+    }
+
+    match /Programming%20Languages/progLanguages {
+      allow read: if isRecruiter(request) || isStudent(request);
+    }
+
+    match /Schools/SchoolsList {
+      allow read: if isRecruiter(request) || isStudent(request);
     }
   }
 }

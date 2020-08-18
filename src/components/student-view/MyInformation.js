@@ -153,7 +153,12 @@ class MyInformation extends Component {
     let eventListToView;
     if (this.props.eventData !== null && this.props.eventData != null) {
       eventListToView = eventListStuff.map((eachEvent) => (
-        <li className="list-group-item list-group-item-primary">{eachEvent}</li>
+        <li
+          className="list-group-item list-group-item-primary"
+          key={`${eachEvent}`}
+        >
+          {eachEvent}
+        </li>
       ));
     } else {
       eventListToView = <li>Please update your information!</li>;
@@ -173,7 +178,12 @@ class MyInformation extends Component {
     let progLangList;
     if (this.props.progLangData !== null && this.props.progLangData != null) {
       progLangList = proLangArray.map((eachLang) => (
-        <li className="list-group-item list-group-item-primary">{eachLang}</li>
+        <li
+          className="list-group-item list-group-item-primary"
+          key={`${eachLang}`}
+        >
+          {eachLang}
+        </li>
       ));
     } else {
       progLangList = <li>Please update your information!</li>;
@@ -193,7 +203,12 @@ class MyInformation extends Component {
     let opSystemsList;
     if (this.props.opSystemsData !== null && this.props.opSystemsData != null) {
       opSystemsList = opSystemsArray.map((eachLang) => (
-        <li className="list-group-item list-group-item-primary">{eachLang}</li>
+        <li
+          className="list-group-item list-group-item-primary"
+          key={`${eachLang}`}
+        >
+          {eachLang}
+        </li>
       ));
     } else {
       opSystemsList = <li>Please update your information!</li>;
@@ -213,7 +228,12 @@ class MyInformation extends Component {
     let dbSystemsList;
     if (this.props.dbSystemsData !== null && this.props.dbSystemsData != null) {
       dbSystemsList = dbSystemsArray.map((eachLang) => (
-        <li className="list-group-item list-group-item-primary">{eachLang}</li>
+        <li
+          className="list-group-item list-group-item-primary"
+          key={`${eachLang}`}
+        >
+          {eachLang}
+        </li>
       ));
     } else {
       dbSystemsList = <li>Please update your information!</li>;
@@ -239,7 +259,12 @@ class MyInformation extends Component {
       this.props.frameAndToolsData != null
     ) {
       frameAndToolsList = frameAndToolsArray.map((eachLang) => (
-        <li className="list-group-item list-group-item-primary">{eachLang}</li>
+        <li
+          className="list-group-item list-group-item-primary"
+          key={`${eachLang}`}
+        >
+          {eachLang}
+        </li>
       ));
     } else {
       frameAndToolsList = <li>Please update your information!</li>;
@@ -259,7 +284,12 @@ class MyInformation extends Component {
 
     if (this.props.minorsData !== null && this.props.minorsData != null) {
       minorsList = minorsArray.map((eachLang) => (
-        <li className="list-group-item list-group-item-primary">{eachLang}</li>
+        <li
+          className="list-group-item list-group-item-primary"
+          key={`${eachLang}`}
+        >
+          {eachLang}
+        </li>
       ));
     } else {
       minorsList = <li>Please update your information!</li>;

@@ -69,7 +69,8 @@ class MinorsCheckboxes extends Component {
     const optionOptions = this.props.optionArray.map((eachOption) => (
       <Form.Check
         type="checkbox"
-        id={`default-checkbox`}
+        key={`${eachOption}`}
+        id={`default-checkbox Minors-${eachOption}`}
         value={eachOption}
         label={eachOption}
         onClick={this.handleCheck}

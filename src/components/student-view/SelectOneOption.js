@@ -96,7 +96,7 @@ class SelectOneOption extends Component {
 
   render() {
     const optionOptions = this.props.optionArray.map((eachOption) => (
-      <option>{eachOption}</option>
+      <option key={`${eachOption}`}>{eachOption}</option>
     ));
 
     let typingForm;

@@ -8,6 +8,7 @@
 	justify-content: center;
 	padding-left: 1vw !important;
 	padding-right: 1vw !important;
+	padding-top: 1vh !important;
 	border-radius: 0px;
 }
 
@@ -41,7 +42,6 @@
 #ProfileDiv {
 	height: '190px';
 	width: '25vw';
-	padding-top: 10px;
 	flex-wrap: 'wrap';
 	padding-top: '20px';
 }
@@ -49,21 +49,21 @@
 	width: inherit;
 	display: flex;
 	justify-content: center;
-	font-family: Droid Sans;
+	/* font-family: Droid Sans; */
 	font-style: normal;
 	font-weight: normal;
 	color: white;
 	font-size: 20px;
-	padding-top: 10px;
-	line-height: 25px;
+	padding-top: 5px;
 }
 .nameDiv {
 	padding-top: 10px;
 	margin-left: 10px;
 	height: 100px;
 	text-align: center;
-	display: block;
-	line-height: 50px;
+	display: flex;
+	flex-flow: column;
+	line-height: 30px;
 	color: white;
 	width: '12vw';
 	display: 'flex';
@@ -73,6 +73,8 @@
 .imgDiv {
 	height: 100px;
 	margin-right: 10px;
+	display: flex;
+	align-items: center;
 }
 .nameText {
 	font-style: 'normal';
@@ -91,16 +93,16 @@
 
 .SideResumePdfImage {
 	border-radius: 150px;
-	height: 100px !important;
-	width: 100px !important;
+	height: 6vw !important;
+	width: 6vw !important;
 
 	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .settingsIcon {
 	position: absolute;
-	left: 15px;
-	top: 15px;
+	left: 5px;
+	top: 5px;
 	transition: all 0.2s ease-in-out;
 }
 .settingsIcon:hover {

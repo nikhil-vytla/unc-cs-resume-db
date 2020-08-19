@@ -8,10 +8,13 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "./AdminView.css";
+import axios from "axios";
+import { withFirebase } from "../Firebase";
 
 export class StudentListRenderComponent extends Component {
   constructor(props) {
     super(props);
+    this.Firebase = props.Firebase;
     this.state = {
       filtered: [],
       selectedStudent: {},
@@ -21,6 +24,7 @@ export class StudentListRenderComponent extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.list);
     this.setState({
       filtered: this.props.list,
       selectedStudent: {},
@@ -99,11 +103,44 @@ export class StudentListRenderComponent extends Component {
       );
       if (didConfirm) {
         console.log("execute Deleting the student");
+        this.handleRemoveStudent(data);
       } else {
         console.log("canceled");
       }
     }
   }
+  handleRemoveStudent = async (studentData) => {
+    console.log("StudentData:");
+    console.log(studentData.UID);
+    //deletes resume pdf
+    if (studentData["Resume PDF"] !== "") {
+      // Delete current file in storage
+      // Send request to delete current file
+      await this.Firebase.storage.ref(`resumePDFs/${studentData.UID}`).delete();
+    }
+    if (studentData["Profile Image"] !== "") {
+      // Delete current file in storage
+      // Send request to delete current file
+      await this.Firebase.storage
+        .ref(`profilePictures/${studentData.UID}`)
+        .delete();
+    }
+
+    let newList = [];
+    newList = this.props.list;
+    newList.map((data, index) => {
+      if (data.UID === studentData.UID) newList.splice(index, 1);
+    });
+
+    await axios.put(
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeStudentFromDB",
+      { studentUID: studentData.UID }
+    );
+
+    this.setState({
+      filtered: newList,
+    });
+  };
   handleChange(e) {
     let currentList = [];
     let newList = [];
@@ -125,4 +162,4 @@ export class StudentListRenderComponent extends Component {
   }
 }
 
-export default StudentListRenderComponent;
+export default withFirebase(StudentListRenderComponent);

@@ -507,5 +507,15 @@ app.put("/removeEventCodeField", async (req, res) => {
   res.status(201).send();
 });
 
+//endpoint for admin to remove students from the db
+app.put("/removeStudentFromDB", async (req, res) => {
+  await firestore
+    .collection("students")
+    .doc(req.body.studentUID)
+    .delete()
+    .catch((err) => res.status(500).send(err));
+  res.status(201).send();
+});
+
 // Base API endpoint
 exports.api = functions.https.onRequest(app);

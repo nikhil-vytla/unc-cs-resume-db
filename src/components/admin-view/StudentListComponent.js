@@ -1,15 +1,4 @@
 import React, { Component, useState } from "react";
-import {
-  ToggleButton,
-  ButtonGroup,
-  Accordion,
-  Card,
-  Form,
-  Button,
-  InputGroup,
-  FormControl,
-  Alert,
-} from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import "./AdminView.css";
 import StudentListRenderComponent from "./StudentListRenderComponent";
@@ -18,55 +7,42 @@ class StudentListComponent extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
-    this.state = { eventInput: "", uid: "", information: {} };
+    this.state = { studentsList: [null], dataLoaded: null };
   }
 
-  render(props) {
-    function resumeChecker(data) {
-      console.log(data);
-    }
+  componentDidMount() {}
 
+  handleQueryAllData = async (e) => {
+    const studentsListHolder = await this.Firebase.db
+      .collection("students")
+      .get()
+      .catch((err) => console.log(err));
+    this.setState({
+      studentsList: studentsListHolder.docs.map((doc) => doc.data()),
+      dataLoaded: true,
+    });
+    console.log(this.state.studentsList);
+    console.log("this.state.studentsList");
+  };
+
+  renderComponentAfterDataIsRetrieved() {
+    if (this.state.dataLoaded === null) {
+      this.handleQueryAllData();
+      console.log("it is null");
+    } else {
+      return <StudentListRenderComponent list={this.state.studentsList} />;
+    }
+  }
+  renderStudentListRenderComponent() {}
+  render(props) {
     return (
       <div>
         <h2 className="admin-heading">{this.props.title}</h2>
 
-        {console.log(this.props.datas)}
-        <StudentListRenderComponent list={this.props.datas} />
+        {this.renderComponentAfterDataIsRetrieved()}
       </div>
     );
   }
-
-  updateStates = (input, id) => {
-    this.setState({ eventInput: input });
-    this.setState({ uid: id });
-  };
-
-  handleAdd = async (event) => {
-    event.preventDefault();
-    await this.Firebase.db
-      .collection("students")
-      .doc(this.state.uid)
-      .update({
-        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayUnion(
-          this.state.eventInput
-        ),
-      })
-      .catch((err) => console.log(err));
-  };
-
-  //Remove resume access
-  handleRemove = async (event) => {
-    event.preventDefault();
-    await this.Firebase.db
-      .collection("students")
-      .doc(this.state.uid)
-      .update({
-        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayRemove(
-          this.state.eventInput
-        ),
-      })
-      .catch((err) => console.log(err));
-  };
 }
 
 export default withFirebase(StudentListComponent);

@@ -25,32 +25,33 @@ class AdminView extends Component {
       students: [],
       events: [],
       value: "Recruiters",
+      prevValue: "Recruiters",
     };
   }
 
   componentDidMount() {
     // this.handleQueryAll();
     this.handleQueryAllRecruiters();
-    this.handleQueryAllStudents();
-    this.handleQueryAllEvents();
+    // this.handleQueryAllStudents();
+    // this.handleQueryAllEvents();
   }
 
-  handleQueryAll = async (e) => {
-    const recruiterData = await this.Firebase.getAllRecruiters().catch((err) =>
-      console.log(err)
-    );
-    this.setState({ recruiters: recruiterData });
+  // handleQueryAll = async (e) => {
+  //   const recruiterData = await this.Firebase.getAllRecruiters().catch((err) =>
+  //     console.log(err)
+  //   );
+  //   this.setState({ recruiters: recruiterData });
 
-    const studentData = await this.Firebase.getAllStudents().catch((err) =>
-      console.log(err)
-    );
-    this.setState({ students: studentData });
+  //   const studentData = await this.Firebase.getAllStudents().catch((err) =>
+  //     console.log(err)
+  //   );
+  //   this.setState({ students: studentData });
 
-    const eventData = await this.Firebase.getAllEvents().catch((err) =>
-      console.log(err)
-    );
-    this.setState({ events: eventData });
-  };
+  //   const eventData = await this.Firebase.getAllEvents().catch((err) =>
+  //     console.log(err)
+  //   );
+  //   this.setState({ events: eventData });
+  // };
 
   handleQueryAllRecruiters = async (e) => {
     const data = await this.Firebase.getAllRecruiters().catch((err) =>
@@ -60,21 +61,21 @@ class AdminView extends Component {
     // console.log(this.state.recruiters);
   };
 
-  handleQueryAllStudents = async (e) => {
-    const data = await this.Firebase.getAllStudents().catch((err) =>
-      console.log(err)
-    );
-    this.setState({ students: data });
-    // console.log(this.state.students);
-  };
+  // handleQueryAllStudents = async (e) => {
+  //   const data = await this.Firebase.getAllStudents().catch((err) =>
+  //     console.log(err)
+  //   );
+  //   this.setState({ students: data });
+  //   // console.log(this.state.students);
+  // };
 
-  handleQueryAllEvents = async (e) => {
-    const data = await this.Firebase.getAllEvents().catch((err) =>
-      console.log(err)
-    );
-    this.setState({ events: data });
-    // console.log(this.state.students);
-  };
+  // handleQueryAllEvents = async (e) => {
+  //   const data = await this.Firebase.getAllEvents().catch((err) =>
+  //     console.log(err)
+  //   );
+  //   this.setState({ events: data });
+  //   // console.log(this.state.students);
+  // };
 
   render() {
     const parentState = (e) => {
@@ -83,6 +84,7 @@ class AdminView extends Component {
     };
 
     function ToggleButtonGroup() {
+      // const [radioValue, setRadioValue] = useState("Recruiters");
       const [radioValue, setRadioValue] = useState("");
       const radios = [
         { name: "Recruiters", value: "Recruiters" },
@@ -121,14 +123,14 @@ class AdminView extends Component {
     }
 
     return (
-      <div className="master-container">
+      <div className="admin-master-container">
         <ToggleButtonGroup />
         <Link to="/recruiter"></Link>
         {/* <Button onClick={this.handleQuery} variant="info">
           Recruiter View
         </Button> */}
         {/* {console.log("state " + this.state.value)} */}
-        <div className="full-panel">
+        <div className="admin-full-panel">
           <Container fluid="true">
             <Row>
               <Col className="admin-panel">

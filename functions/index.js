@@ -192,6 +192,8 @@ app.post("/queryV3", async (req, res) => {
 
   // Figure out how to restrict starting query
 
+  const startingQuery = firestore.collection("students");
+
   // Take in a resume access array
   // OR all UNC students and all resume access people
   let requiredResumeAccessArrayOR = [];
@@ -201,6 +203,56 @@ app.post("/queryV3", async (req, res) => {
     .where("School", "==", "UNC Chapel Hill")
     .get();
   const uncStudentsArray = data.docs.map((doc) => doc.data());
+
+  // Querying function
+  const singleQueryFunction = async (arrayName) => {
+    let storingArray = [];
+
+    let promiseArray = [];
+    arrayName.forEach((eachQueryOBJ) => {
+      const currentQuery = startingQuery.where(
+        eachQueryOBJ.name,
+        "==",
+        eachQueryOBJ.value
+      );
+      const data = currentQuery.get();
+      promiseArray.push(data);
+    });
+
+    storingArray = await Promise.all(promiseArray);
+
+    let finalQueryArray = [];
+    storingArray.forEach((data) => {
+      const docs = data.docs.map((doc) => doc.data());
+      finalQueryArray.push(docs);
+    });
+    return finalQueryArray;
+  };
+
+  // ORing function
+  const orFilter = (arrA, arrB) => {
+    let tempArray = [];
+
+    let setForLookups = new Set();
+
+    // Student UID list for lookups
+    for (const eachOBJ of arrA) {
+      setForLookups.add(eachOBJ.UID);
+      tempArray.push(eachOBJ);
+    }
+
+    for (const eachOBJ of arrB) {
+      if (!setForLookups.has(eachOBJ.UID)) {
+        tempArray.push(eachOBJ);
+      }
+    }
+
+    return tempArray;
+  };
+
+  const intersect = (arrA, arrB) => {
+    return arrA.filter((objA) => arrB.some((objB) => objA.UID === objB.UID));
+  };
 
   // Creates the resume access array of students
   requiredResumeAccessArrayOR = await singleQueryFunction(
@@ -217,30 +269,9 @@ app.post("/queryV3", async (req, res) => {
   });
 
   if (isEmpty) {
-    // const data = await firestore
-    //   .collection("students")
-    //   .get()
-    //   .catch((err) => {
-    //     res.status(400).send(err);
-    //   });
-    // const docs = data.docs.map((doc) => doc.data());
     res.send(requiredResumeAccessArrayFinalOR);
     return;
   }
-
-  // Need to OR UNC Students and all other event students
-  // if (resumeAccessArray.length !== 0) {
-  //   const initialResume = resumeAccessArray;
-  //   // Now OR the arrays inside proLangOR
-  //   resumeOR = await singleQueryFunction(initialResume);
-  //   resumeFinalOR = resumeOR[0];
-  //   resumeOR.forEach((eachArray) => {
-  //     resumeFinalOR = orFilter(eachArray, resumeFinalOR);
-  //   });
-  //   //orHolder.push(resumeFinalOR);
-  // }
-
-  const startingQuery = firestore.collection("students");
 
   let orHolder = [];
 
@@ -283,51 +314,6 @@ app.post("/queryV3", async (req, res) => {
   // }
   // or each item in each section
   // then and the results
-
-  // ORing function
-  const orFilter = (arrA, arrB) => {
-    let tempArray = [];
-
-    let setForLookups = new Set();
-
-    // Student UID list for lookups
-    for (const eachOBJ of arrA) {
-      setForLookups.add(eachOBJ.UID);
-      tempArray.push(eachOBJ);
-    }
-
-    for (const eachOBJ of arrB) {
-      if (!setForLookups.has(eachOBJ.UID)) {
-        tempArray.push(eachOBJ);
-      }
-    }
-
-    return tempArray;
-  };
-  // Querying function
-  const singleQueryFunction = async (arrayName) => {
-    let storingArray = [];
-
-    let promiseArray = [];
-    arrayName.forEach((eachQueryOBJ) => {
-      const currentQuery = startingQuery.where(
-        eachQueryOBJ.name,
-        "==",
-        eachQueryOBJ.value
-      );
-      const data = currentQuery.get();
-      promiseArray.push(data);
-    });
-
-    storingArray = await Promise.all(promiseArray);
-
-    let finalQueryArray = [];
-    storingArray.forEach((data) => {
-      const docs = data.docs.map((doc) => doc.data());
-      finalQueryArray.push(docs);
-    });
-    return finalQueryArray;
-  };
 
   if (filters["Programming Languages"].length !== 0) {
     const initialProgramming = filters["Programming Languages"];
@@ -439,15 +425,85 @@ app.post("/queryV3", async (req, res) => {
     orHolder.push(minorsFinalOR);
   }
 
-  const intersect = (arrA, arrB) => {
-    return arrA.filter((objA) => arrB.some((objB) => objA.UID === objB.UID));
-  };
   // ANDs sub groups
   andFinal = requiredResumeAccessArrayFinalOR;
   orHolder.forEach((eachArray) => {
     andFinal = intersect(eachArray, andFinal);
   });
   res.send(andFinal);
+});
+
+app.post("/resumeAccessStudents", async (req, res) => {
+  return cors()(req, res, async () => {
+    let requiredResumeAccessArrayOR = [];
+    let requiredResumeAccessArrayFinalOR = [];
+    const data = await firestore
+      .collection("students")
+      .where("School", "==", "UNC Chapel Hill")
+      .where("Hide Resume", "==", false)
+      .get();
+    const uncStudentsArray = data.docs.map((doc) => doc.data());
+
+    const singleQueryFunction = async (arrayName) => {
+      let storingArray = [];
+      let promiseArray = [];
+
+      const startingQuery = firestore.collection("students");
+      arrayName.forEach((eachQueryOBJ) => {
+        const currentQuery = startingQuery
+          .where(eachQueryOBJ.name, "==", eachQueryOBJ.value)
+          .where("Hide Resume", "==", false);
+        const data = currentQuery.get();
+        promiseArray.push(data);
+      });
+
+      storingArray = await Promise.all(promiseArray);
+
+      let finalQueryArray = [];
+      storingArray.forEach((data) => {
+        const docs = data.docs.map((doc) => doc.data());
+        finalQueryArray.push(docs);
+      });
+      return finalQueryArray;
+    };
+
+    const orFilter = (arrA, arrB) => {
+      let tempArray = [];
+
+      let setForLookups = new Set();
+
+      // Student UID list for lookups
+      for (const eachOBJ of arrA) {
+        setForLookups.add(eachOBJ.UID);
+        tempArray.push(eachOBJ);
+      }
+
+      for (const eachOBJ of arrB) {
+        if (!setForLookups.has(eachOBJ.UID)) {
+          tempArray.push(eachOBJ);
+        }
+      }
+
+      return tempArray;
+    };
+
+    // Creates the resume access array of students
+    requiredResumeAccessArrayOR = await singleQueryFunction(
+      req.body.resumeAccess
+    );
+    // ORs UNC students and recruiter's resume access
+    // NEED TO PUT THIS INTO DATABASE SO YOU DONT HAVE TO RECALCULATE EVERY TIME
+    requiredResumeAccessArrayFinalOR = uncStudentsArray;
+    requiredResumeAccessArrayOR.forEach((eachArray) => {
+      requiredResumeAccessArrayFinalOR = orFilter(
+        eachArray,
+        requiredResumeAccessArrayFinalOR
+      );
+    });
+
+    // .catch((err) => res.status(500).send(err));
+    res.status(201).send(requiredResumeAccessArrayFinalOR);
+  });
 });
 
 app.put("/checkboxV2", async (req, res) => {

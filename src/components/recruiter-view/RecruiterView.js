@@ -47,6 +47,13 @@ function RecruiterView({ Firebase, ...props }) {
 
     const eventHolder = await getListArrays("Events", "eventsList");
 
+    const recruiterResumeAccessData = await Firebase.db
+      .collection("recruiters")
+      .doc(Firebase.auth.currentUser.uid)
+      .get();
+
+    const recruiterResumeAccess = recruiterResumeAccessData.data();
+
     setFilters({
       "Graduation Year": gradHolder.gradYearList,
       "Programming Languages": languageHolder.progLanguages,
@@ -57,7 +64,8 @@ function RecruiterView({ Firebase, ...props }) {
       Minors: majorsHolder.majorsList,
       "Frameworks and Tools": frameworksHolder.frameworksAndTools,
       School: schoolsHolder.schoolsList,
-      Events: eventHolder.eventsList,
+      // Events: eventHolder.eventsList,
+      Events: recruiterResumeAccess["Resume Access"],
       "Active Filters": {
         "Programming Languages": [],
         "Frameworks and Tools": [],
@@ -84,14 +92,35 @@ function RecruiterView({ Firebase, ...props }) {
       specificFilter = filterName.name;
     }
 
+    const recruiterResumeAccessData = await Firebase.db
+      .collection("recruiters")
+      .doc(Firebase.auth.currentUser.uid)
+      .get();
+
+    const recruiterResumeAccess = recruiterResumeAccessData.data();
+
+    let recruiterResumeAccessObjArray = [];
+
+    recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
+      recruiterResumeAccessObjArray.push({
+        name: `Events.${eachEvent}`,
+        value: true,
+      });
+    });
+
     filterArr[specificFilter].push(filterName);
     setFilters((prev) => ({
       ...prev,
       "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
-      { filtersForQuery: filterArr, empty: false }
+      //"https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
+      {
+        filtersForQuery: filterArr,
+        empty: false,
+        resumeAccess: recruiterResumeAccessObjArray,
+      }
     );
     const data = preData.data;
     setCards(data);
@@ -133,9 +162,31 @@ function RecruiterView({ Firebase, ...props }) {
       }
     });
 
+    // NEED TO SET EVENT DATA TO THIS AS WELL
+    const recruiterResumeAccessData = await Firebase.db
+      .collection("recruiters")
+      .doc(Firebase.auth.currentUser.uid)
+      .get();
+
+    const recruiterResumeAccess = recruiterResumeAccessData.data();
+
+    let recruiterResumeAccessObjArray = [];
+
+    recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
+      recruiterResumeAccessObjArray.push({
+        name: `Events.${eachEvent}`,
+        value: true,
+      });
+    });
+
     const preData = await axios.post(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
-      { filtersForQuery: filterArr, empty: isEmpty }
+      // "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
+      {
+        filtersForQuery: filterArr,
+        empty: isEmpty,
+        resumeAccess: recruiterResumeAccessObjArray,
+      }
     );
 
     const data = preData.data;
@@ -154,7 +205,6 @@ function RecruiterView({ Firebase, ...props }) {
       });
     });
     return exitCondition;
-
   }
   // The current state of cards displayed in the Candidates section
   const [cards, setCards] = useState(null);
@@ -168,12 +218,35 @@ function RecruiterView({ Firebase, ...props }) {
   // Makes API calls to get all the current cards and the recruiter object from the DB
   useEffect(() => {
     async function fetchUsers() {
-      const data = await Firebase.getAllStudents();
+      //const data = await Firebase.getAllStudents();
+      const recruiterResumeAccessData = await Firebase.db
+        .collection("recruiters")
+        .doc(Firebase.auth.currentUser.uid)
+        .get();
+
+      const recruiterResumeAccess = recruiterResumeAccessData.data();
+
+      console.log(recruiterResumeAccessData);
+      console.log(recruiterResumeAccess["Resume Access"]);
+
+      let recruiterResumeAccessObjArray = [];
+
+      recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
+        recruiterResumeAccessObjArray.push({
+          name: `Events.${eachEvent}`,
+          value: true,
+        });
+      });
+
+      const data = await axios.post(
+        "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/resumeAccessStudents",
+        { resumeAccess: recruiterResumeAccessObjArray }
+      );
       const recruiter = await Firebase.getRecruiterInfo(
         Firebase.auth.currentUser.uid
       );
       setRecruiter(recruiter);
-      setCards(data);
+      setCards(data.data);
     }
     fetchUsers();
     collectData();
@@ -221,7 +294,6 @@ function RecruiterView({ Firebase, ...props }) {
       )
     );
   } else {
-
     // loads a spinner if all the api calls are not complete
     return (
       <div className="d-flex justify-content-center recruiterSpinnerDiv">

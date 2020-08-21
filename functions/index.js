@@ -176,28 +176,57 @@ app.post("/queryV3", async (req, res) => {
   // should be an array of events
   // Always includes UNC students
   // Form:  {name: "Event", value: "HackNC"}
-  //const resumeAccessArray = req.body.resumeAccess;
 
   // checks to see iif filter list is empty
-  if (isEmpty) {
-    const data = await firestore
-      .collection("students")
-      .get()
-      .catch((err) => {
-        res.status(400).send(err);
-      });
-    const docs = data.docs.map((doc) => doc.data());
-    res.send(docs);
-    return;
-  }
+  // if (isEmpty) {
+  //   const data = await firestore
+  //     .collection("students")
+  //     .get()
+  //     .catch((err) => {
+  //       res.status(400).send(err);
+  //     });
+  //   const docs = data.docs.map((doc) => doc.data());
+  //   res.send(docs);
+  //   return;
+  // }
 
   // Figure out how to restrict starting query
-  const newStartingQuery = firestore.collection("students");
 
-  const newStart = async () => {};
+  // Take in a resume access array
+  // OR all UNC students and all resume access people
+  let requiredResumeAccessArrayOR = [];
+  let requiredResumeAccessArrayFinalOR = [];
+  const data = await firestore
+    .collection("students")
+    .where("School", "==", "UNC Chapel Hill")
+    .get();
+  const uncStudentsArray = data.docs.map((doc) => doc.data());
 
-  let resumeOR = [];
-  let resumeFinalOR = [];
+  // Creates the resume access array of students
+  requiredResumeAccessArrayOR = await singleQueryFunction(
+    req.body.resumeAccess
+  );
+  // ORs UNC students and recruiter's resume access
+  // NEED TO PUT THIS INTO DATABASE SO YOU DONT HAVE TO RECALCULATE EVERY TIME
+  requiredResumeAccessArrayFinalOR = uncStudentsArray;
+  requiredResumeAccessArrayOR.forEach((eachArray) => {
+    requiredResumeAccessArrayFinalOR = orFilter(
+      eachArray,
+      requiredResumeAccessArrayFinalOR
+    );
+  });
+
+  if (isEmpty) {
+    // const data = await firestore
+    //   .collection("students")
+    //   .get()
+    //   .catch((err) => {
+    //     res.status(400).send(err);
+    //   });
+    // const docs = data.docs.map((doc) => doc.data());
+    res.send(requiredResumeAccessArrayFinalOR);
+    return;
+  }
 
   // Need to OR UNC Students and all other event students
   // if (resumeAccessArray.length !== 0) {
@@ -413,9 +442,8 @@ app.post("/queryV3", async (req, res) => {
   const intersect = (arrA, arrB) => {
     return arrA.filter((objA) => arrB.some((objB) => objA.UID === objB.UID));
   };
-
   // ANDs sub groups
-  andFinal = orHolder[0];
+  andFinal = requiredResumeAccessArrayFinalOR;
   orHolder.forEach((eachArray) => {
     andFinal = intersect(eachArray, andFinal);
   });

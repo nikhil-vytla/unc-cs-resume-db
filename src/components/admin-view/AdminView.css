@@ -6,12 +6,20 @@
   display: inline-flex;
   font-weight: bold;
   font-size: larger;
+  min-width: 15%;
+}
+
+.admin-recruiter-card-name {
+  font-weight: bold;
+  font-size: larger;
+  min-width: 15%;
 }
 
 .admin-resume-access-list {
   padding: 2%;
   display: inline-flex;
   list-style-type: none;
+  font-weight: normal !important;
 }
 
 .detailed-modal {
@@ -44,6 +52,8 @@
   margin-left: 1%;
   padding-left: 1%;
   padding-top: 1%;
+  display: inline-flex;
+  min-width: 100%;
 }
 
 .admin-card-accordion-toggle {
@@ -66,4 +76,16 @@
 }
 .admin-master-container::-webkit-scrollbar {
   display: none;
+}
+
+.admin-card-text {
+  padding-left: 2% !important;
+  padding-right: 2% !important;
+}
+
+.admin-new-recruiter-button {
+  position: absolute;
+  float: right !important;
+  right: 2% !important;
+  /* margin-right: 5%; */
 }

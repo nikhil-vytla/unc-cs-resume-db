@@ -254,19 +254,21 @@ app.post("/queryV3", async (req, res) => {
     return arrA.filter((objA) => arrB.some((objB) => objA.UID === objB.UID));
   };
 
-  // Creates the resume access array of students
-  requiredResumeAccessArrayOR = await singleQueryFunction(
-    req.body.resumeAccess
-  );
   // ORs UNC students and recruiter's resume access
   // NEED TO PUT THIS INTO DATABASE SO YOU DONT HAVE TO RECALCULATE EVERY TIME
   requiredResumeAccessArrayFinalOR = uncStudentsArray;
-  requiredResumeAccessArrayOR.forEach((eachArray) => {
-    requiredResumeAccessArrayFinalOR = orFilter(
-      eachArray,
-      requiredResumeAccessArrayFinalOR
+  if (req.body.resumeAccess.length !== 0) {
+    // Creates the resume access array of students
+    requiredResumeAccessArrayOR = await singleQueryFunction(
+      req.body.resumeAccess
     );
-  });
+    requiredResumeAccessArrayOR.forEach((eachArray) => {
+      requiredResumeAccessArrayFinalOR = orFilter(
+        eachArray,
+        requiredResumeAccessArrayFinalOR
+      );
+    });
+  }
 
   if (isEmpty) {
     res.send(requiredResumeAccessArrayFinalOR);
@@ -488,18 +490,21 @@ app.post("/resumeAccessStudents", async (req, res) => {
     };
 
     // Creates the resume access array of students
-    requiredResumeAccessArrayOR = await singleQueryFunction(
-      req.body.resumeAccess
-    );
+
     // ORs UNC students and recruiter's resume access
     // NEED TO PUT THIS INTO DATABASE SO YOU DONT HAVE TO RECALCULATE EVERY TIME
     requiredResumeAccessArrayFinalOR = uncStudentsArray;
-    requiredResumeAccessArrayOR.forEach((eachArray) => {
-      requiredResumeAccessArrayFinalOR = orFilter(
-        eachArray,
-        requiredResumeAccessArrayFinalOR
+    if (req.body.resumeAccess.length !== 0) {
+      requiredResumeAccessArrayOR = await singleQueryFunction(
+        req.body.resumeAccess
       );
-    });
+      requiredResumeAccessArrayOR.forEach((eachArray) => {
+        requiredResumeAccessArrayFinalOR = orFilter(
+          eachArray,
+          requiredResumeAccessArrayFinalOR
+        );
+      });
+    }
 
     // .catch((err) => res.status(500).send(err));
     res.status(201).send(requiredResumeAccessArrayFinalOR);

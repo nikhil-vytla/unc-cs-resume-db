@@ -43,9 +43,12 @@ app.post("/newStudent", async (req, res) => {
   if (!req.body.email)
     res.status(400).send("Must include email in request body");
 
-  if ( !(email_reg({exact: true}).test(req.body.email) 
-      && /^\S+@(\S*\.|)unc.edu$/.test(req.body.email))
+  if (
+    !(
+      email_reg({ exact: true }).test(req.body.email) &&
+      /^\S+@(\S*\.|)unc.edu$/.test(req.body.email)
     )
+  )
     res.status(400).send("Must be a valid UNC email");
 
   const user = await auth()
@@ -448,56 +451,89 @@ app.put("/checkboxV2", async (req, res) => {
 // adds a new list
 app.put("/newList", async (req, res) => {
   // takes in uid and list name
-  await firestore
-    .collection("recruiters")
-    .doc(req.body.recruiterUID)
-    .update({
-      [`Lists.${req.body.nameOfList}`]: [],
-    })
-    .catch((err) => res.status(500).send(err));
-  res.status(201).send();
+  const email = req.body.currentRecruiterEmail;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
+  //.catch((err) => res.status(404).send(err)).customClaims;
+
+  if (claims.recruiter || claims.admin) {
+    await firestore
+      .collection("recruiters")
+      .doc(req.body.recruiterUID)
+      .update({
+        [`Lists.${req.body.nameOfList}`]: [],
+      })
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 // removes a list
 app.put("/removeList", async (req, res) => {
-  await firestore
-    .collection("recruiters")
-    .doc(req.body.recruiterUID)
-    .update({
-      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.delete(),
-    })
-    .catch((err) => res.status(500).send(err));
-  res.status(201).send();
+  const email = req.body.currentRecruiterEmail;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
+  //.catch((err) => res.status(404).send(err)).customClaims;
+
+  if (claims.recruiter || claims.admin) {
+    await firestore
+      .collection("recruiters")
+      .doc(req.body.recruiterUID)
+      .update({
+        [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.delete(),
+      })
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 // adds a student to a recruiter's list
 app.put("/addStudent", async (req, res) => {
   // input: nameOfList, recruiterUID, student
-  await firestore
-    .collection("recruiters")
-    .doc(req.body.recruiterUID)
-    .update({
-      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayUnion(
-        req.body.student
-      ),
-    })
-    .catch((err) => res.status(500).send(err));
-  res.status(201).send();
+  const email = req.body.currentRecruiterEmail;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
+  //.catch((err) => res.status(404).send(err)).customClaims;
+
+  if (claims.recruiter || claims.admin) {
+    await firestore
+      .collection("recruiters")
+      .doc(req.body.recruiterUID)
+      .update({
+        [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayUnion(
+          req.body.student
+        ),
+      })
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 // endpoint for recruiters to remove students from lists
 app.put("/deleteStudent", async (req, res) => {
   // input: nameOfList, recruiterUID, student
-  await firestore
-    .collection("recruiters")
-    .doc(req.body.recruiterUID)
-    .update({
-      [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayRemove(
-        req.body.student
-      ),
-    })
-    .catch((err) => res.status(500).send(err));
-  res.status(201).send();
+
+  const email = req.body.currentRecruiterEmail;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
+  //.catch((err) => res.status(404).send(err)).customClaims;
+
+  if (claims.recruiter || claims.admin) {
+    await firestore
+      .collection("recruiters")
+      .doc(req.body.recruiterUID)
+      .update({
+        [`Lists.${req.body.nameOfList}`]: admin.firestore.FieldValue.arrayRemove(
+          req.body.student
+        ),
+      })
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 //delete event code map field

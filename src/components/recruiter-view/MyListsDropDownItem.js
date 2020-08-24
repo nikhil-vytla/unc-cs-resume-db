@@ -19,6 +19,7 @@ function MyListsDropDownItem({ Firebase, ...props }) {
     const objToSend = {
       nameOfList: props.listTitle,
       recruiterUID: Firebase.auth.currentUser.uid,
+      currentRecruiterEmail: Firebase.auth.currentUser.email,
       student: {
         Email: props.student["Email"],
         "First Name": props.student["First Name"],

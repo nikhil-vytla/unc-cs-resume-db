@@ -91,7 +91,11 @@ function RecruiterView({ Firebase, ...props }) {
     }));
     const preData = await axios.post(
       "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
-      { filtersForQuery: filterArr, empty: false }
+      {
+        filtersForQuery: filterArr,
+        empty: false,
+        currentRecruiterEmail: Firebase.auth.currentUser.email,
+      }
     );
     const data = preData.data;
     setCards(data);
@@ -135,7 +139,11 @@ function RecruiterView({ Firebase, ...props }) {
 
     const preData = await axios.post(
       "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
-      { filtersForQuery: filterArr, empty: isEmpty }
+      {
+        filtersForQuery: filterArr,
+        empty: isEmpty,
+        currentRecruiterEmail: Firebase.auth.currentUser.email,
+      }
     );
 
     const data = preData.data;
@@ -154,7 +162,6 @@ function RecruiterView({ Firebase, ...props }) {
       });
     });
     return exitCondition;
-
   }
   // The current state of cards displayed in the Candidates section
   const [cards, setCards] = useState(null);
@@ -221,7 +228,6 @@ function RecruiterView({ Firebase, ...props }) {
       )
     );
   } else {
-
     // loads a spinner if all the api calls are not complete
     return (
       <div className="d-flex justify-content-center recruiterSpinnerDiv">

@@ -101,40 +101,48 @@ app.post("/newRecruiter", async (req, res) => {
   if (!req.body.email || !req.body.name) {
     res.status(400).send("Must include an email and name in request");
   }
-  const user = await auth()
-    .getUserByEmail(req.body.email)
-    .catch((err) => {
-      res.status(404).send(err);
-    });
 
-  await auth()
-    .setCustomUserClaims(user.uid, {
-      student: false,
-      recruiter: true,
-      admin: false,
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
+  const adminEmail = req.body.currentAdminEmail;
+  const adminUser = (await auth().getUserByEmail(adminEmail)).customClaims;
 
-  const recruiterData = {
-    ["Name"]: req.body.name,
-    ["Email"]: req.body.email,
-    ["UID"]: user.uid,
-    ["Lists"]: {
-      ["Favorites"]: [],
-    },
-    ["Resume Access"]: [],
-  };
+  if (adminUser.admin) {
+    const user = await auth()
+      .getUserByEmail(req.body.email)
+      .catch((err) => {
+        res.status(404).send(err);
+      });
 
-  await firestore
-    .collection("recruiters")
-    .doc(user.uid)
-    .set(recruiterData)
-    .catch((err) => {
-      res.status(400).send(err);
-    });
-  res.status(201).send();
+    await auth()
+      .setCustomUserClaims(user.uid, {
+        student: false,
+        recruiter: true,
+        admin: false,
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+
+    const recruiterData = {
+      ["Name"]: req.body.name,
+      ["Email"]: req.body.email,
+      ["UID"]: user.uid,
+      ["Lists"]: {
+        ["Favorites"]: [],
+      },
+      ["Resume Access"]: [],
+    };
+
+    await firestore
+      .collection("recruiters")
+      .doc(user.uid)
+      .set(recruiterData)
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 // Add admin auth claims to user acct

@@ -16,73 +16,77 @@ export default class Firebase {
       appId: "1:129154722676:web:583be355ee4dbcfe261a21",
       measurementId: "G-WDT2LDB336",
     });
+    app.firestore().settings({
+      experimentalForceLongPolling: true
+    });
     this.auth = app.auth();
     this.db = app.firestore();
     this.storage = app.storage();
+
   }
 
   async signout() {
     return await this.auth.signOut()
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
   }
 
   async logout() {
     return await this.auth.signOut()
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
   }
 
   // gets all current profile information for the user
   async getUserInfo(userID) {
     const data = await this.db
-    .collection("students")
-    .where("UID", "==", userID)
-    .get()
-    .catch(err => console.log(err));
+      .collection("students")
+      .where("UID", "==", userID)
+      .get()
+      .catch(err => console.log(err));
     return data.docs.map((doc) => doc.data());
   }
 
   // gets all recruiter
   async getAllRecruiters() {
     const data = await this.db.collection("recruiters").get()
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
     return data.docs.map((doc) => doc.data());
   }
 
   // gets all students
   async getAllStudents() {
     const data = await this.db
-    .collection("students")
-    .where("Hide Resume", "==", false)
-    .get()
-    .catch(err => console.log(err));
+      .collection("students")
+      .where("Hide Resume", "==", false)
+      .get()
+      .catch(err => console.log(err));
     return data.docs.map((doc) => doc.data());
   }
 
   async userInfoV2(userID) {
     const data = await this.db.collection("students").doc(userID).get()
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
     return data.docs.map((doc) => doc.data());
   }
 
   async getEventCodes() {
     const data = await this.db.collection("Events").doc("eventCodes").get()
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
     return data.data();
   }
 
   // gets all current profile information for the recruiter
   async getRecruiterInfo(userID) {
     const data = await this.db
-    .collection("recruiters")
-    .where("UID", "==", userID)
-    .get()
-    .catch(err => console.log(err));
+      .collection("recruiters")
+      .where("UID", "==", userID)
+      .get()
+      .catch(err => console.log(err));
     return data.docs.map((doc) => doc.data());
   }
 
   async getAllUsers() {
     const data = await this.db.collection("students").get()
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
     return data.docs.map((doc) => doc.data());
   }
 
@@ -116,8 +120,8 @@ export default class Firebase {
     }
   }
 
-   // gets all grad yr
-   async getAllGraduationYear() {
+  // gets all grad yr
+  async getAllGraduationYear() {
     try {
       const data = await this.db.collection("Graduation Year").get();
       return data.docs.map((doc) => doc.data());
@@ -152,7 +156,7 @@ export default class Firebase {
       console.error(err);
     }
   }
-  
+
   // gets all events
   async getAllSchools() {
     try {
@@ -163,28 +167,28 @@ export default class Firebase {
     }
   }
 
-//   // Call this function after sign up
-//   async putNewUserIntoDB(currentUser) {
-//     const dataForDB = {
-//       Email: currentUser.email,
-//       "Database Systems": {},
-//       "Programming Languages": {},
-//       "Frameworks and Tools": {},
-//       Events: {},
-//       "First Name": "",
-//       "Last Name": "",
-//       "Graduation Year": "",
-//       "School": "",
-//       "Minors": {},
-//       "Operating Systems": {},
-//       "Primary Major": "",
-//       "Secondary Major": "",
-//       Seeking: "",
-//       UID: currentUser.uid,
-//       "Profile Image": "",
-//       "Resume PDF": "",
-//     };
-//     await this.db.collection("students").doc(currentUser.uid).set(dataForDB)
-//     .catch(err => console.log(err));
-//   }
+  //   // Call this function after sign up
+  //   async putNewUserIntoDB(currentUser) {
+  //     const dataForDB = {
+  //       Email: currentUser.email,
+  //       "Database Systems": {},
+  //       "Programming Languages": {},
+  //       "Frameworks and Tools": {},
+  //       Events: {},
+  //       "First Name": "",
+  //       "Last Name": "",
+  //       "Graduation Year": "",
+  //       "School": "",
+  //       "Minors": {},
+  //       "Operating Systems": {},
+  //       "Primary Major": "",
+  //       "Secondary Major": "",
+  //       Seeking: "",
+  //       UID: currentUser.uid,
+  //       "Profile Image": "",
+  //       "Resume PDF": "",
+  //     };
+  //     await this.db.collection("students").doc(currentUser.uid).set(dataForDB)
+  //     .catch(err => console.log(err));
+  //   }
 }

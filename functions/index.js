@@ -2,6 +2,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const app = require("express")();
 const cors = require("cors");
+const email_reg = require("email-regex");
 
 /* Manually create this file, using json data downloaded at 
 firebase console-> project settings-> service accounts-> generate private key.*/
@@ -41,7 +42,11 @@ app.get("/getUserClaims", async (req, res) => {
 app.post("/newStudent", async (req, res) => {
   if (!req.body.email)
     res.status(400).send("Must include email in request body");
-  // const unc_email_re = /^\S+@(\S*\.|)unc.edu$/;
+
+  if ( !(email_reg({exact: true}).test(req.body.email) 
+      && /^\S+@(\S*\.|)unc.edu$/.test(req.body.email))
+    )
+    res.status(400).send("Must be a valid UNC email");
 
   const user = await auth()
     .getUserByEmail(req.body.email)

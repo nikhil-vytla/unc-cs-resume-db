@@ -517,5 +517,15 @@ app.put("/removeStudentFromDB", async (req, res) => {
   res.status(201).send();
 });
 
+//endpoint for admin to remove recruiter from the db
+app.put("/removeRecruiterFromDB", async (req, res) => {
+  await firestore
+    .collection("recruiters")
+    .doc(req.body.recruiterUID)
+    .delete()
+    .catch((err) => res.status(500).send(err));
+  res.status(201).send();
+});
+
 // Base API endpoint
 exports.api = functions.https.onRequest(app);

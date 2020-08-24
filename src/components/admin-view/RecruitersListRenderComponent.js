@@ -242,10 +242,10 @@ export class RecruitersListRenderComponent extends Component {
       if (data.UID === recruiterData.UID) newList.splice(index, 1);
     });
 
-    // await axios.put(
-    //   "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeStudentFromDB",
-    //   { recruiterUID: recruiterData.UID }
-    // );
+    await axios.put(
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeStudentFromDB",
+      { recruiterUID: recruiterData.UID }
+    );
 
     this.setState({
       filtered: newList,

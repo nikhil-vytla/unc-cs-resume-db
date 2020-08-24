@@ -76,7 +76,7 @@ export class StudentListRenderComponent extends Component {
                     </Card.Title>
                     <Card.Body>
                       <Button
-                        variant="outline-danger"
+                        variant="danger"
                         onClick={(e) => this.doubleCheck(data)}
                       >
                         Delete Student

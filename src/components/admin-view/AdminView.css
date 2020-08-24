@@ -89,3 +89,12 @@
   right: 2% !important;
   /* margin-right: 5%; */
 }
+
+.admin-new-recruiter-modal-form {
+  margin: 2% !important;
+}
+
+.admin-new-recruiter-modal-form-input {
+  margin: 2% !important;
+  min-width: 90%;
+}

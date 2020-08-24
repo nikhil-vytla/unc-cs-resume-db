@@ -23,7 +23,7 @@ class PrivateRoute extends Component {
   async componentDidMount() {
     const { claimKey } = this.props;
     const claim = await this.getClaims().catch((err) => console.log(err));
-    //console.log(claim)
+    //console.log(claim);
     this.setState({ claim: claim[claimKey] });
   }
 

@@ -38,11 +38,12 @@ class StudentView extends Component {
   };
 
   handlingUserInfo = async () => {
+    //console.log("yooooooo");
     if (this.Firebase.currentUser !== null) {
       const obj = await this.Firebase.getUserInfo(
         this.Firebase.auth.currentUser.uid
       );
-      return obj[0];
+      return obj;
     }
   };
 

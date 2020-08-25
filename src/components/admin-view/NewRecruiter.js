@@ -64,14 +64,6 @@ export class NewRecruiter extends Component {
   }
 
   handleCreate = async () => {
-    console.log("handleCreate");
-    console.log(
-      "Name: " +
-        this.state.recruiterName +
-        " Email: " +
-        this.state.recruiterEmail
-    );
-
     await axios
       .post(
         "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newRecruiter",

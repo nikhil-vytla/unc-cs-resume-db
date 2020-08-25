@@ -219,12 +219,10 @@ class RecruiterListComponent extends Component {
 
   doubleCheck(data) {
     {
-      // console.log(data);
       let didConfirm = window.confirm(
         "Are you sure you want to delete " + data["Name"] + "?"
       );
       if (didConfirm) {
-        console.log("execute Deleting the recruiter");
         this.handleRemoveRecruiter(data);
       } else {
         console.log("canceled");
@@ -233,7 +231,6 @@ class RecruiterListComponent extends Component {
   }
 
   handleRemoveRecruiter = async (recruiterData) => {
-    // console.log("deleting recruiterUID: " + recruiterData.UID);
     await axios.put(
       "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeRecruiterFromDB",
       { recruiterUID: recruiterData.UID }

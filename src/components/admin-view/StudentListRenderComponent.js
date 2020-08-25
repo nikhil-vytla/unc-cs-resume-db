@@ -100,10 +100,8 @@ export class StudentListRenderComponent extends Component {
           "?"
       );
       if (didConfirm) {
-        // console.log("execute Deleting the student");
         this.handleRemoveStudent(data);
       } else {
-        // console.log("canceled");
       }
     }
   }

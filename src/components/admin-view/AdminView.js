@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import RecruiterListComponent from "./RecruiterListComponent";
-import RecruitersListComponent from "./RecruitersListComponent"; //possible delete
 import StudentListComponent from "./StudentListComponent";
 import "./AdminView.css";
 import EventModification from "./EventModification";

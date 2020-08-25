@@ -21,6 +21,7 @@ class RecruiterListComponent extends Component {
       eventInput: "",
       uid: "",
       resumeAccessListState: [],
+      targetRecruiter: {},
       filtered: [{}],
       resumeAccessListRender: "",
       newRecruiterShow: false,
@@ -29,7 +30,6 @@ class RecruiterListComponent extends Component {
 
   async componentDidMount() {
     this.setState({ filtered: this.props.datas });
-    console.log(this.state.filtered);
     const resumeAccessaHolder = await this.getListArrays(
       "Events",
       "eventsList"
@@ -44,31 +44,6 @@ class RecruiterListComponent extends Component {
     return data.data();
   };
 
-  resumeAccessRender(recruiter) {
-    let resumeAccessList;
-    let resumeAccessArr = [];
-    if (
-      recruiter["Resume Access Map"] !== null &&
-      recruiter["Resume Access Map"] != null
-    ) {
-      Object.keys(recruiter["Resume Access Map"]).forEach((key, index) => {
-        if (recruiter["Resume Access Map"][key]) resumeAccessArr.push(key);
-      });
-    }
-    if (
-      recruiter["Resume Access Map"] !== null &&
-      recruiter["Resume Access Map"] != null
-    ) {
-      resumeAccessList = resumeAccessArr.map((dat, ind) => (
-        <li key={ind + dat} className="admin-resume-access-list">
-          {" "}
-          {dat}
-        </li>
-      ));
-      this.setState({ resumeAccessListRender: resumeAccessList });
-    }
-  }
-
   render(props) {
     let resumeAccessList;
     let newRecruiterClose = () => this.setState({ newRecruiterShow: false });
@@ -76,20 +51,11 @@ class RecruiterListComponent extends Component {
     function resumeAccessRender(recruiter) {
       let resumeAccessArr = [];
       if (
-        recruiter["Resume Access Map"] !== null &&
-        recruiter["Resume Access Map"] != null
+        recruiter["Resume Access"] !== null &&
+        recruiter["Resume Access"] != null
       ) {
-        Object.keys(recruiter["Resume Access Map"]).forEach((key, index) => {
-          if (recruiter["Resume Access Map"][key]) resumeAccessArr.push(key);
-        });
-      }
-      if (
-        recruiter["Resume Access Map"] !== null &&
-        recruiter["Resume Access Map"] != null
-      ) {
-        resumeAccessList = resumeAccessArr.map((dat, ind) => (
+        resumeAccessList = recruiter["Resume Access"].map((dat, ind) => (
           <li key={ind + dat} className="admin-resume-access-list">
-            {" "}
             {dat}
           </li>
         ));
@@ -100,12 +66,7 @@ class RecruiterListComponent extends Component {
       <div>
         <h2 className="admin-heading">
           {this.props.title}
-          {/* <Button
-            className="admin-new-recruiter-button"
-            onClick={this.newRecruiterRender}
-          >
-            New Recruiter
-          </Button> */}
+
           <div className="admin-new-recruiter-button">
             <Button onClick={() => this.setState({ newRecruiterShow: true })}>
               New Recruiter
@@ -121,12 +82,10 @@ class RecruiterListComponent extends Component {
         <div className="unordered-list-students">
           <Accordion defaultActiveKey="0">
             {this.props.datas.map((data, index) => (
-              // {this.state.filtered.map((data, index) => (
               <div
                 className="admin-student-card-accordion-toggle"
                 key={data.UID}
               >
-                {/* {console.log(data)} */}
                 <Card>
                   <Accordion.Toggle
                     as={Card.Header}
@@ -137,8 +96,12 @@ class RecruiterListComponent extends Component {
                     {resumeAccessRender(data)}
                     {resumeAccessList}
                   </Accordion.Toggle>
-                  <Accordion.Collapse eventKey={data.Name}>
-                    <div style={{ color: "Black" }}>
+                  <Accordion.Collapse
+                    eventKey={data.Name}
+                    style={{ color: "Black" }}
+                  >
+                    {/* <div style={{ color: "Black" }}> */}
+                    <Card>
                       <Card.Title style={{ color: "Black", padding: "3%" }}>
                         <Form.Label>Email : {data.Email}</Form.Label>
                         <br />
@@ -156,25 +119,30 @@ class RecruiterListComponent extends Component {
                               onChange={(e) =>
                                 this.updateStates(
                                   e.currentTarget.value,
-                                  data.UID
+                                  data.UID,
+                                  data
                                 )
                               }
                             />
-                            <InputGroup.Append>
-                              <div style={{ display: "inline-flex" }}>
-                                <Button
-                                  variant="outline-success"
-                                  onClick={this.handleAdd}
-                                >
-                                  Add
-                                </Button>
-                                <Button
-                                  variant="outline-danger"
-                                  onClick={this.handleRemove}
-                                >
-                                  Remove
-                                </Button>
-                              </div>
+                            <InputGroup.Append
+                              style={{ display: "inline-flex" }}
+                            >
+                              {/* <div
+                                style={{ display: "inline-flex" }}
+                              > */}
+                              <Button
+                                variant="outline-success"
+                                onClick={this.handleAdd}
+                              >
+                                Add
+                              </Button>
+                              <Button
+                                variant="outline-danger"
+                                onClick={this.handleRemove}
+                              >
+                                Remove
+                              </Button>
+                              {/* </div> */}
                             </InputGroup.Append>
                           </InputGroup>
                         </Form>
@@ -187,7 +155,8 @@ class RecruiterListComponent extends Component {
                           Delete Recruiter
                         </Button>
                       </Card.Body>
-                    </div>
+                      {/* </div> */}
+                    </Card>
                   </Accordion.Collapse>
                 </Card>
               </div>
@@ -198,20 +167,29 @@ class RecruiterListComponent extends Component {
     );
   }
 
-  updateStates = (input, id) => {
+  updateStates = (input, id, recruiter) => {
     this.setState({ eventInput: input });
     this.setState({ uid: id });
+    this.setState({ targetRecruiter: recruiter });
   };
 
   handleAdd = async (event) => {
     event.preventDefault();
-    let mapfield = {};
-    mapfield[`Resume Access Map.${this.state.eventInput}`] = true;
+    //check if same item exist in the array before adding
+    let tempRA = this.state.targetRecruiter["Resume Access"];
+    const index = tempRA.indexOf(this.state.eventInput);
+    if (index > -1) {
+      alert("exists at " + index);
+      return;
+    }
 
+    tempRA.push(this.state.eventInput);
     await this.Firebase.db
       .collection("recruiters")
       .doc(this.state.uid)
-      .update(mapfield)
+      .update({
+        ["Resume Access"]: tempRA,
+      })
       .catch((err) => console.log(err));
     this.handleUpdate();
   };
@@ -219,16 +197,20 @@ class RecruiterListComponent extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    let mapfield = {};
-    mapfield[`Resume Access Map.${this.state.eventInput}`] = false;
-
-    await this.Firebase.db
-      .collection("recruiters")
-      .doc(this.state.uid)
-      .update(mapfield)
-      .catch((err) => console.log(err));
-
-    this.handleUpdate();
+    //check if same item exist in the array before removing
+    let tempRA = this.state.targetRecruiter["Resume Access"];
+    const index = tempRA.indexOf(this.state.eventInput);
+    if (index > -1) {
+      tempRA.splice(index, 1);
+      await this.Firebase.db
+        .collection("recruiters")
+        .doc(this.state.uid)
+        .update({
+          ["Resume Access"]: tempRA,
+        })
+        .catch((err) => console.log(err));
+      this.handleUpdate();
+    }
   };
 
   handleUpdate = () => {

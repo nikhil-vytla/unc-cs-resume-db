@@ -21,14 +21,11 @@ class StudentListComponent extends Component {
       studentsList: studentsListHolder.docs.map((doc) => doc.data()),
       dataLoaded: true,
     });
-    console.log(this.state.studentsList);
-    console.log("this.state.studentsList");
   };
 
   renderComponentAfterDataIsRetrieved() {
     if (this.state.dataLoaded === null) {
       this.handleQueryAllData();
-      console.log("it is null");
     } else {
       return <StudentListRenderComponent list={this.state.studentsList} />;
     }

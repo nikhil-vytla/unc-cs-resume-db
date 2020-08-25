@@ -94,7 +94,6 @@ class DatabaseSystems extends Component {
                         </Button>
                         <Button
                           variant="outline-danger"
-                          // onClick={console.log(this.state.dbSysInput)}
                           onClick={this.handleRemove}
                         >
                           Remove
@@ -120,7 +119,6 @@ class DatabaseSystems extends Component {
       return;
     }
     this.state.dbArr.push(this.state.dbSysInput);
-    console.log(this.state.dbArr);
     await this.Firebase.db
       .collection("Database Systems")
       .doc("databaseSystems")

@@ -24,7 +24,6 @@ export class StudentListRenderComponent extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.list);
     this.setState({
       filtered: this.props.list,
       selectedStudent: {},
@@ -93,7 +92,6 @@ export class StudentListRenderComponent extends Component {
   }
   doubleCheck(data) {
     {
-      console.log(data);
       let didConfirm = window.confirm(
         "Are you sure you want to delete " +
           data["First Name"] +
@@ -102,16 +100,14 @@ export class StudentListRenderComponent extends Component {
           "?"
       );
       if (didConfirm) {
-        console.log("execute Deleting the student");
+        // console.log("execute Deleting the student");
         this.handleRemoveStudent(data);
       } else {
-        console.log("canceled");
+        // console.log("canceled");
       }
     }
   }
   handleRemoveStudent = async (studentData) => {
-    console.log("StudentData:");
-    console.log(studentData.UID);
     //deletes resume pdf
     if (studentData["Resume PDF"] !== "") {
       // Delete current file in storage

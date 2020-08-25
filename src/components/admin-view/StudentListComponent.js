@@ -1,158 +1,45 @@
 import React, { Component, useState } from "react";
-import {
-  ToggleButton,
-  ButtonGroup,
-  Accordion,
-  Card,
-  Form,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import "./AdminView.css";
+import StudentListRenderComponent from "./StudentListRenderComponent";
 
 class StudentListComponent extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
-    this.state = { eventInput: "", uid: "", information: {} };
+    this.state = { studentsList: [null], dataLoaded: null };
   }
 
-  render(props) {
-    let resumeAccess;
-    const tempAllTheEvents = [
-      "HackNC",
-      "Pearl Hacks",
-      "UNC Students",
-      "Hackathon",
-      "Carolina Data Challenge",
-      "Queer_hack",
-      "Global Game Jam",
-      "HackReality",
-      "AfroPix",
-    ];
+  componentDidMount() {}
 
-    function resumeChecker(data) {
-      console.log(data);
-      // Object.entries(data).map((key, val) => {
-      //   if (key.includes("Resume Access")) {
-      //     resumeAccess = key[1];
-      //     return key[1];
-      //   }
-      // });
+  handleQueryAllData = async (e) => {
+    const studentsListHolder = await this.Firebase.db
+      .collection("students")
+      .get()
+      .catch((err) => console.log(err));
+    this.setState({
+      studentsList: studentsListHolder.docs.map((doc) => doc.data()),
+      dataLoaded: true,
+    });
+  };
+
+  renderComponentAfterDataIsRetrieved() {
+    if (this.state.dataLoaded === null) {
+      this.handleQueryAllData();
+    } else {
+      return <StudentListRenderComponent list={this.state.studentsList} />;
     }
-
+  }
+  renderStudentListRenderComponent() {}
+  render(props) {
     return (
       <div>
         <h2 className="admin-heading">{this.props.title}</h2>
 
-        <div className="admin-card-accordion-toggle">
-          <Accordion defaultActiveKey="0">
-            {this.props.datas.map((data, index) => (
-              <Card key={index}>
-                {/* {console.log(data)} */}
-                <Accordion.Toggle
-                  as={Card.Header}
-                  // eventKey={this.state.information["Last Name"]}
-                  style={{ backgroundColor: "#E5E5E5", color: "Black" }}
-                >
-                  <h3 className="admin-card-name">
-                    {data["First Name"]} {data["Last Name"]}
-                  </h3>
-                  {resumeChecker(data)}
-                  {/* {resumeAccess.map((item, inx) => (
-                  // {data.(["Resume Access"]).map((item, inx) => (
-                  <li className="resume-access-list" key={inx}>
-                    {item}
-                  </li>
-                ))} */}
-                </Accordion.Toggle>
-                {/* 
-
-              <Accordion.Collapse eventKey={data.Name}>
-                <div style={{ color: "Black" }}>
-                  <Card.Title style={{ color: "Black", padding: "3%" }}>
-                    <Form.Label>Email : {data.Email}</Form.Label>
-                    <Form.Label>UID : {data.UID}</Form.Label>
-                  </Card.Title>
-                  <Card.Body>
-                    <Form>
-                      <InputGroup>
-                        <FormControl
-                          placeholder="Event to Add/Remove"
-                          aria-label="Event to Add/Remove"
-                          aria-describedby="basic-addon2"
-                          key={data.UID}
-                          // onChange={(e) => changeTwoStates(data, e)}
-                          // value={this.state.eventInput}
-                          // onChange={(e) => this.setState({ uid: data.UID })}
-                          // onChange={(e) =>
-                          //   this.setState({ eventInput: e.currentTarget.value })
-                          // }
-                          onChange={(e) =>
-                            this.updateStates(e.currentTarget.value, data.UID)
-                          }
-                        />
-                        <InputGroup.Append>
-                          <Button
-                            variant="outline-success"
-                            onClick={this.handleAdd}
-                          >
-                            Add
-                          </Button>
-                          <Button
-                            variant="outline-danger"
-                            // onClick={console.log(this.state.eventInput)}
-                            onClick={this.handleRemove}
-                          >
-                            Remove
-                          </Button>
-                        </InputGroup.Append>
-                      </InputGroup>
-                    </Form>
-                  </Card.Body>
-                </div>
-              </Accordion.Collapse> */}
-              </Card>
-            ))}
-          </Accordion>
-        </div>
+        {this.renderComponentAfterDataIsRetrieved()}
       </div>
     );
   }
-
-  updateStates = (input, id) => {
-    this.setState({ eventInput: input });
-    this.setState({ uid: id });
-  };
-
-  handleAdd = async (event) => {
-    event.preventDefault();
-    await this.Firebase.db
-      .collection("students")
-      .doc(this.state.uid)
-      .update({
-        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayUnion(
-          this.state.eventInput
-        ),
-      })
-      .catch((err) => console.log(err));
-  };
-
-  //Remove resume access
-  handleRemove = async (event) => {
-    event.preventDefault();
-    await this.Firebase.db
-      .collection("students")
-      .doc(this.state.uid)
-      .update({
-        ["Resume Access"]: this.Firebase.firestore.FieldValue.arrayRemove(
-          this.state.eventInput
-        ),
-      })
-      .catch((err) => console.log(err));
-  };
 }
 
 export default withFirebase(StudentListComponent);

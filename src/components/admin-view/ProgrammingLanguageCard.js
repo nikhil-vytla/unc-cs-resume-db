@@ -94,7 +94,6 @@ class ProgrammingLanguageCard extends Component {
                         </Button>
                         <Button
                           variant="outline-danger"
-                          // onClick={console.log(this.state.progLangInput)}
                           onClick={this.handleRemove}
                         >
                           Remove
@@ -120,7 +119,6 @@ class ProgrammingLanguageCard extends Component {
       return;
     }
     this.state.progLang.push(this.state.progLangInput);
-    console.log(this.state.progLang);
     await this.Firebase.db
       .collection("Programming Languages")
       .doc("progLanguages")

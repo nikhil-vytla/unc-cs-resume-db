@@ -120,6 +120,7 @@ function RecruiterView({ Firebase, ...props }) {
         filtersForQuery: filterArr,
         empty: false,
         resumeAccess: recruiterResumeAccessObjArray,
+        currentRecruiterEmail: Firebase.auth.currentUser.email,
       }
     );
     const data = preData.data;
@@ -186,6 +187,7 @@ function RecruiterView({ Firebase, ...props }) {
         filtersForQuery: filterArr,
         empty: isEmpty,
         resumeAccess: recruiterResumeAccessObjArray,
+        currentRecruiterEmail: Firebase.auth.currentUser.email,
       }
     );
 

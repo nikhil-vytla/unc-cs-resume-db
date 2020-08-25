@@ -16,6 +16,9 @@ export default class Firebase {
       appId: "1:129154722676:web:583be355ee4dbcfe261a21",
       measurementId: "G-WDT2LDB336",
     });
+    app.firestore().settings({
+      experimentalForceLongPolling: true,
+    });
     this.auth = app.auth();
     this.db = app.firestore();
     this.storage = app.storage();

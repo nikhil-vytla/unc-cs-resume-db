@@ -151,21 +151,28 @@ app.post("/newAdmin", async (req, res) => {
   if (!req.body.email)
     res.status(400).send("Must include email in request body");
 
-  const user = await auth()
-    .getUserByEmail(req.body.email)
-    .catch((err) => {
-      res.status(404).send(err);
-    });
+  const adminEmail = req.body.currentAdminEmail;
+  const adminUser = (await auth().getUserByEmail(adminEmail)).customClaims;
 
-  await auth()
-    .setCustomUserClaims(user.uid, {
-      student: true,
-      recruiter: true,
-      admin: true,
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
+  if (adminUser.admin) {
+    const user = await auth()
+      .getUserByEmail(req.body.email)
+      .catch((err) => {
+        res.status(404).send(err);
+      });
+
+    await auth()
+      .setCustomUserClaims(user.uid, {
+        student: true,
+        recruiter: true,
+        admin: true,
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  } else {
+    res.status(401).send();
+  }
 });
 
 // adds requested school to request list
@@ -173,15 +180,22 @@ app.post("/requestSchool", async (req, res) => {
   if (!req.body.school)
     res.status(400).send("Must include school in request body");
 
-  const schoolValue = req.body.school;
-  await firestore
-    .collection("Schools")
-    .doc("RequestedSchools")
-    .update({
-      schoolsList: admin.firestore.FieldValue.arrayUnion(schoolValue),
-    })
-    .catch((err) => res.status(500).send(err));
-  res.status(201).send();
+  const email = req.body.currentStudentEmail;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
+
+  if (claims.student || claims.admin) {
+    const schoolValue = req.body.school;
+    await firestore
+      .collection("Schools")
+      .doc("RequestedSchools")
+      .update({
+        schoolsList: admin.firestore.FieldValue.arrayUnion(schoolValue),
+      })
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 app.post("/queryV3", async (req, res) => {
@@ -429,21 +443,28 @@ app.post("/queryV3", async (req, res) => {
 });
 
 app.put("/checkboxV2", async (req, res) => {
-  return cors()(req, res, async () => {
-    const valuePlaceHolder = req.body.valueToSend;
-    const updatedOBJ = req.body.update;
+  const email = req.body.currentStudentEmail;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
 
-    // Replaces whole field with the updated info
-    // rather than update specific fields
-    await firestore
-      .collection("students")
-      .doc(req.body.uid)
-      .update({
-        [valuePlaceHolder]: updatedOBJ,
-      })
-      .catch((err) => res.status(500).send(err));
-    res.status(201).send();
-  });
+  if (claims.student || claims.admin) {
+    return cors()(req, res, async () => {
+      const valuePlaceHolder = req.body.valueToSend;
+      const updatedOBJ = req.body.update;
+
+      // Replaces whole field with the updated info
+      // rather than update specific fields
+      await firestore
+        .collection("students")
+        .doc(req.body.uid)
+        .update({
+          [valuePlaceHolder]: updatedOBJ,
+        })
+        .catch((err) => res.status(500).send(err));
+      res.status(201).send();
+    });
+  } else {
+    res.status(401).send();
+  }
 });
 
 // adds a new list
@@ -536,34 +557,55 @@ app.put("/deleteStudent", async (req, res) => {
 
 //delete event code map field
 app.put("/removeEventCodeField", async (req, res) => {
-  await firestore
-    .collection("Events")
-    .doc("eventCodes")
-    .update({
-      [`codes.${req.body.eCode}`]: admin.firestore.FieldValue.delete(),
-    })
-    .catch((err) => res.status(500).send(err));
-  res.status(201).send();
+  const adminEmail = req.body.currentAdminEmail;
+  const adminUser = (await auth().getUserByEmail(adminEmail)).customClaims;
+
+  if (adminUser.admin) {
+    await firestore
+      .collection("Events")
+      .doc("eventCodes")
+      .update({
+        [`codes.${req.body.eCode}`]: admin.firestore.FieldValue.delete(),
+      })
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 //endpoint for admin to remove students from the db
 app.put("/removeStudentFromDB", async (req, res) => {
-  await firestore
-    .collection("students")
-    .doc(req.body.studentUID)
-    .delete()
-    .catch((err) => res.status(500).send(err));
-  res.status(201).send();
+  const adminEmail = req.body.currentAdminEmail;
+  const adminUser = (await auth().getUserByEmail(adminEmail)).customClaims;
+
+  if (adminUser.admin) {
+    await firestore
+      .collection("students")
+      .doc(req.body.studentUID)
+      .delete()
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 //endpoint for admin to remove recruiter from the db
 app.put("/removeRecruiterFromDB", async (req, res) => {
-  await firestore
-    .collection("recruiters")
-    .doc(req.body.recruiterUID)
-    .delete()
-    .catch((err) => res.status(500).send(err));
-  res.status(201).send();
+  const adminEmail = req.body.currentAdminEmail;
+  const adminUser = (await auth().getUserByEmail(adminEmail)).customClaims;
+
+  if (adminUser.admin) {
+    await firestore
+      .collection("recruiters")
+      .doc(req.body.recruiterUID)
+      .delete()
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
 });
 
 // Base API endpoint

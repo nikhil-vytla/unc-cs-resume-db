@@ -23,7 +23,6 @@ function MyListsForm({ Firebase, ...props }) {
     if (listName !== null && listName !== "") {
       await axios.put(
         "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newList",
-        //"http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/newList",
         objToSend
       );
     }

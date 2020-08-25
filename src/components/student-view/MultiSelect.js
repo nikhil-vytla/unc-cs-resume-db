@@ -24,8 +24,8 @@ class MultiSelect extends Component {
     const objToSend = {
       uid: this.Firebase.auth.currentUser.uid,
       valueToSend: this.props.valueType,
-
       update: updatedOBJ,
+      currentStudentEmail: this.Firebase.auth.currentUser.email,
     };
 
     await axios.put(

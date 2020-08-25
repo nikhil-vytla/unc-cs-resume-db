@@ -43,7 +43,7 @@ class SelectOneOption extends Component {
           {
             school: this.state.reqSchool,
             currentStudentEmail: this.Firebase.auth.currentUser.email,
-            FirebaseAuth: this.Firebase.auth.currentUser,
+            FirebaseAuth: this.Firebase.auth,
           }
         );
         this.props.monitorChanges();

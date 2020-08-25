@@ -180,10 +180,15 @@ app.post("/requestSchool", async (req, res) => {
   if (!req.body.school)
     res.status(400).send("Must include school in request body");
 
+  const { currentUser } = req.body.FirebaseAuth;
+  const { admin, recruiter, student } = (
+    await currentUser.getIdTokenResult(true).catch((err) => console.log(err))
+  ).claims;
+
   const email = req.body.currentStudentEmail;
   const claims = (await auth().getUserByEmail(email)).customClaims;
 
-  if (claims.student || claims.admin) {
+  if ((claims.student || claims.admin) && (!!admin || !!student)) {
     const schoolValue = req.body.school;
     await firestore
       .collection("Schools")

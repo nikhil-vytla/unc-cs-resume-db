@@ -123,7 +123,7 @@ class FrameworksAndTools extends Component {
       return;
     }
     this.state.fAndtArr.push(this.state.frameworkAndToolsInput);
-    console.log(this.state.fAndtArr);
+    // console.log(this.state.fAndtArr);
     await this.Firebase.db
       .collection("Frameworks and Tools")
       .doc("frameworksAndTools")

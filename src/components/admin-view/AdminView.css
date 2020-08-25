@@ -6,12 +6,20 @@
   display: inline-flex;
   font-weight: bold;
   font-size: larger;
+  min-width: 15%;
+}
+
+.admin-recruiter-card-name {
+  font-weight: bold;
+  font-size: larger;
+  min-width: 15%;
 }
 
 .admin-resume-access-list {
   padding: 2%;
   display: inline-flex;
   list-style-type: none;
+  font-weight: normal !important;
 }
 
 .detailed-modal {
@@ -30,8 +38,9 @@
 .admin-panel {
   color: white;
   background-color: #4b9cd3;
-  height: calc(100vh - 105px);
-  overflow-y: auto;
+  min-height: calc(100vh - 155px) !important;
+  /* height: calc(100vh - 105px); */
+  /* overflow-y: auto; */
   max-height: fit-content !important;
   /* padding-right: 0px !important; */
   /* padding-left: 0px !important; */
@@ -43,8 +52,49 @@
   margin-left: 1%;
   padding-left: 1%;
   padding-top: 1%;
+  display: inline-flex;
+  min-width: 100%;
 }
 
 .admin-card-accordion-toggle {
-  padding: 1%;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.unordered-list-students {
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.admin-master-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 105px);
+  /* max-height: fit-content !important; */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.admin-master-container::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-card-text {
+  padding-left: 2% !important;
+  padding-right: 2% !important;
+}
+
+.admin-new-recruiter-button {
+  position: absolute;
+  float: right !important;
+  right: 2% !important;
+  /* margin-right: 5%; */
+}
+
+.admin-new-recruiter-modal-form {
+  margin: 2% !important;
+}
+
+.admin-new-recruiter-modal-form-input {
+  margin: 2% !important;
+  min-width: 90%;
 }

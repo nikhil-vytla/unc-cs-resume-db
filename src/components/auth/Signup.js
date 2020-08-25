@@ -8,6 +8,7 @@ const axios = require("axios");
 
 const Signup = ({ Firebase }) => {
   const [redirect, setRedirect] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -20,7 +21,10 @@ const Signup = ({ Firebase }) => {
 
     await Firebase.auth
       .createUserWithEmailAndPassword(email.value, password.value)
-      .catch((err) => console.log(err));
+      .catch((err) => setErrorMessage(err.message));
+
+
+
 
     // await axios.post("https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newStudent", {
     //   "email": email.value,
@@ -39,8 +43,19 @@ const Signup = ({ Firebase }) => {
       },
     }).catch((err) => console.log(err.message));
 
+
+
     setRedirect(<Redirect to="/student" />);
   };
+
+  //logic to display error messages
+  let errorMessageBlock = null;
+
+  if (errorMessage !== "") {
+    errorMessageBlock = (
+      <h4 class="loginError"> {errorMessage} </h4>
+    )
+  }
 
   //modal logic
   const [show, setShow] = useState(true);
@@ -116,6 +131,7 @@ const Signup = ({ Firebase }) => {
           <button className="authBtn" type="submit">
             Sign Up
           </button>
+          {errorMessageBlock}
           <p className="authLink">
             Already have an account?{" "}
             <Link className="studentSignUp" to="/">

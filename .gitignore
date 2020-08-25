@@ -18,6 +18,8 @@
 .env.test.local
 .env.production.local
 
+/src/components/Firebase/config.json
+
 firebase-debug.log*
 npm-debug.log*
 yarn-debug.log*

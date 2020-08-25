@@ -94,7 +94,6 @@ class GraduationYearCard extends Component {
                         </Button>
                         <Button
                           variant="outline-danger"
-                          // onClick={console.log(this.state.gradYearInput)}
                           onClick={this.handleRemove}
                         >
                           Remove
@@ -120,7 +119,6 @@ class GraduationYearCard extends Component {
       return;
     }
     this.state.gradyr.push(this.state.gradYearInput);
-    console.log(this.state.gradyr);
     await this.Firebase.db
       .collection("Graduation Year")
       .doc("gradYears")

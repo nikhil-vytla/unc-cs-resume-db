@@ -95,7 +95,6 @@ class OperatingSystems extends Component {
                         </Button>
                         <Button
                           variant="outline-danger"
-                          // onClick={console.log(this.state.opSystemInput)}
                           onClick={this.handleRemove}
                         >
                           Remove
@@ -121,7 +120,6 @@ class OperatingSystems extends Component {
       return;
     }
     this.state.opSysArr.push(this.state.opSystemInput);
-    console.log(this.state.opSysArr);
     await this.Firebase.db
       .collection("Operating Systems")
       .doc("operatingSystems")

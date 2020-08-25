@@ -91,7 +91,6 @@ class MajorsCard extends Component {
                         </Button>
                         <Button
                           variant="outline-danger"
-                          // onClick={console.log(this.state.majorInput)}
                           onClick={this.handleRemove}
                         >
                           Remove
@@ -117,7 +116,6 @@ class MajorsCard extends Component {
       return;
     }
     this.state.majors.push(this.state.majorInput);
-    console.log(this.state.majors);
     await this.Firebase.db
       .collection("Majors")
       .doc("majorsList")

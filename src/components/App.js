@@ -1,58 +1,16 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import Login from "./auth/Login";
-import Nav from "./nav/Nav";
-import Signup from "./auth/Signup";
-import StudentView from "./student-view/StudentView";
-import RecruiterView from "./recruiter-view/RecruiterView";
-import AdminView from "./admin-view/AdminView";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import PrivateRoute from "./auth/PrivateRoute";
-import { withFirebase } from "./Firebase";
-import UpdateAccount from "./student-view/UpdateAccount";
-import ForgotPassword from "./auth/ForgotPassword";
 
-const App = ({ Firebase }) => {
-  async function handleWindowClose() {
-    await Firebase.auth.signOut();
-  }
-  useEffect(() => {
-    window.addEventListener("onbeforeunload", handleWindowClose());
-    return window.removeEventListener("onbeforeunload", handleWindowClose());
-  });
+const App = () => {
 
   return (
     <div className="App">
-      <Router>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/accountSettings" component={UpdateAccount} />
-          <Route exact path="/ForgotPassword" component={ForgotPassword} />
-          <PrivateRoute
-            exact
-            path="/admin"
-            claimKey="admin"
-            component={AdminView}
-          />
-          <PrivateRoute
-            exact
-            path="/recruiter"
-            claimKey="recruiter"
-            component={RecruiterView}
-          />
-          <PrivateRoute
-            exact
-            path="/student"
-            claimKey="student"
-            component={StudentView}
-          />
-        </Switch>
-      </Router>
+      <h1 style={{ color: "white" }}> This site is currently undergoing maintence</h1>
+      <h3 style={{ color: "white" }}>this is embarrasing 🤡 </h3>
+      <iframe src="https://giphy.com/embed/jbwsLn6OvdO80" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/hiding-hide-embarassed-jbwsLn6OvdO80">via GIPHY</a></p>
     </div>
   );
 };
 
-export default withFirebase(App);
+export default App;

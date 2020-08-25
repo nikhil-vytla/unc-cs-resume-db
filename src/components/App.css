@@ -1,11 +1,11 @@
 .App {
-  margin: 0px;
-  height: 100vh !important;
-  overflow-y: hidden;
-  background-color: #13294b;
-  overflow-x: hidden;
+	margin: 0px;
+	height: 100vh !important;
+	overflow-y: hidden;
+	background-color: #4b9cd3;
+	overflow-x: hidden;
 }
 body::-webkit-scrollbar {
-  width: 1em;
-  display: none;
+	width: 1em;
+	display: none;
 }

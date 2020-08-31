@@ -100,7 +100,6 @@ class SchoolsCard extends Component {
                         </Button>
                         <Button
                           variant="outline-danger"
-                          // onClick={console.log(this.state.eventInput)}
                           onClick={this.handleRemove}
                         >
                           Remove
@@ -136,7 +135,6 @@ class SchoolsCard extends Component {
                           </Button>
                           <Button
                             variant="outline-danger"
-                            // onClick={console.log(this.state.eventInput)}
                             onClick={this.handleRequestRemove}
                           >
                             Remove
@@ -158,7 +156,6 @@ class SchoolsCard extends Component {
     event.preventDefault();
     //adding requested schhol to current schhol list
     this.state.schools.push(this.state.reqSchoolName);
-    console.log(this.state.schools);
     await this.Firebase.db
       .collection("Schools")
       .doc("SchoolsList")
@@ -173,8 +170,6 @@ class SchoolsCard extends Component {
   };
 
   handleRequestRemove = async () => {
-    // event.preventDefault();
-    // console.log(this.state.reqSchoolName);
     const index = this.state.schoolsRequest.indexOf(this.state.reqSchoolName);
     if (index > -1) {
       this.state.schoolsRequest.splice(index, 1);
@@ -199,7 +194,6 @@ class SchoolsCard extends Component {
       return;
     }
     this.state.schools.push(this.state.schoolInput);
-    console.log(this.state.schools);
     await this.Firebase.db
       .collection("Schools")
       .doc("SchoolsList")

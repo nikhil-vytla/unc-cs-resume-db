@@ -6,6 +6,7 @@ import "./auth.css";
 
 const Login = ({ Firebase }) => {
   const [redirect, setRedirect] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -13,7 +14,7 @@ const Login = ({ Firebase }) => {
 
     await Firebase.auth
       .signInWithEmailAndPassword(email.value, password.value)
-      .catch((err) => console.log(err));
+      .catch((err) => setErrorMessage(err.message));
 
     const { currentUser } = Firebase.auth;
     const { admin, recruiter, student } = (
@@ -30,6 +31,16 @@ const Login = ({ Firebase }) => {
       setRedirect(<Redirect to="/" />);
     }
   };
+
+  //logic to display error messages
+  let errorMessageBlock = null;
+
+  if (errorMessage !== "") {
+    errorMessageBlock = (
+      <h4 class="loginError"> {errorMessage} </h4>
+    )
+  }
+
 
   return (
     <Container className="authContainer">
@@ -66,6 +77,7 @@ const Login = ({ Firebase }) => {
           <button className="authBtn" type="submit">
             Login
           </button>
+          {errorMessageBlock}
         </Form>
         <p className="authLink">
           Don't have an account?{" "}

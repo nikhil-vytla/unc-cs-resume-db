@@ -234,7 +234,6 @@ class EventModification extends Component {
       alert("exists at " + index);
       return;
     }
-    console.log(this.state.eventCodeInput);
     let mapfield = {};
     mapfield[`codes.${this.state.eventCodeInput}`] = this.state.eventNameInput;
 

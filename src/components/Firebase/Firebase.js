@@ -2,20 +2,12 @@ import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import config from "./config.json";
 
 // Use this class to access firebase SDK
 export default class Firebase {
   constructor() {
-    app.initializeApp({
-      apiKey: "AIzaSyC6nY6LMRHW7GX_p1NXTAoZ9vOafS9DzPE",
-      authDomain: "unc-cs-resume-database-af14e.firebaseapp.com",
-      databaseURL: "https://unc-cs-resume-database-af14e.firebaseio.com",
-      projectId: "unc-cs-resume-database-af14e",
-      storageBucket: "unc-cs-resume-database-af14e.appspot.com",
-      messagingSenderId: "129154722676",
-      appId: "1:129154722676:web:583be355ee4dbcfe261a21",
-      measurementId: "G-WDT2LDB336",
-    });
+    app.initializeApp(config);
     app.firestore().settings({
       experimentalForceLongPolling: true,
     });

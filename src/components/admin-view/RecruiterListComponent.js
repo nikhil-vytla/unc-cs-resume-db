@@ -6,17 +6,30 @@ import {
   Button,
   InputGroup,
   FormControl,
+  Modal,
 } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import "./AdminView.css";
+import NewRecruiter from "./NewRecruiter";
+import axios from "axios";
+
 class RecruiterListComponent extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
-    this.state = { eventInput: "", uid: "", resumeAccessListState: [] };
+    this.state = {
+      eventInput: "",
+      uid: "",
+      resumeAccessListState: [],
+      targetRecruiter: {},
+      filtered: [{}],
+      resumeAccessListRender: "",
+      newRecruiterShow: false,
+    };
   }
 
   async componentDidMount() {
+    this.setState({ filtered: this.props.datas });
     const resumeAccessaHolder = await this.getListArrays(
       "Events",
       "eventsList"
@@ -33,68 +46,90 @@ class RecruiterListComponent extends Component {
 
   render(props) {
     let resumeAccessList;
+    let newRecruiterClose = () => this.setState({ newRecruiterShow: false });
+
     function resumeAccessRender(recruiter) {
       let resumeAccessArr = [];
       if (
-        recruiter["Resume Access Map"] !== null &&
-        recruiter["Resume Access Map"] != null
+        recruiter["Resume Access"] !== null &&
+        recruiter["Resume Access"] != null
       ) {
-        Object.keys(recruiter["Resume Access Map"]).forEach((key, index) => {
-          if (recruiter["Resume Access Map"][key]) resumeAccessArr.push(key);
-        });
-      }
-      if (
-        recruiter["Resume Access Map"] !== null &&
-        recruiter["Resume Access Map"] != null
-      ) {
-        resumeAccessList = resumeAccessArr.map((dat) => (
-          <li key={dat} className="admin-resume-access-list">
-            {" "}
+        resumeAccessList = recruiter["Resume Access"].map((dat, ind) => (
+          <li key={ind + dat} className="admin-resume-access-list">
             {dat}
           </li>
         ));
       }
-      console.log(recruiter["Resume Access Map"]);
-      console.log("console logging");
     }
+
     return (
       <div>
-        <h2 className="admin-heading">{this.props.title}</h2>
-        <Accordion defaultActiveKey="0">
-          {this.props.datas.map((data, index) => (
-            <div className="admin-card-accordion-toggle">
-              <Card key={index}>
-                <Accordion.Toggle
-                  as={Card.Header}
-                  eventKey={data.Name}
-                  style={{ backgroundColor: "#E5E5E5", color: "Black" }}
-                >
-                  <h2 className="admin-card-name">{data.Name}</h2>
-                  {resumeAccessRender(data)}
-                  {resumeAccessList}
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey={data.Name}>
-                  <div style={{ color: "Black" }}>
-                    <Card.Title style={{ color: "Black", padding: "3%" }}>
-                      <Form.Label>Email : {data.Email}</Form.Label>
-                      <br />
-                      <Form.Label>UID : {data.UID}</Form.Label>
-                    </Card.Title>
-                    <Card.Body>
-                      <Form>
-                        <InputGroup className="mb-3">
-                          <FormControl
-                            className="admin-input-box"
-                            placeholder="Event to Add/Remove"
-                            aria-label="Event to Add/Remove"
-                            aria-describedby="basic-addon2"
-                            key={data.UID}
-                            onChange={(e) =>
-                              this.updateStates(e.currentTarget.value, data.UID)
-                            }
-                          />
-                          <InputGroup.Append>
-                            <div style={{ display: "inline-flex" }}>
+        <h2 className="admin-heading">
+          {this.props.title}
+
+          <div className="admin-new-recruiter-button">
+            <Button onClick={() => this.setState({ newRecruiterShow: true })}>
+              New Recruiter
+            </Button>
+            <NewRecruiter
+              show={this.state.newRecruiterShow}
+              onHide={newRecruiterClose}
+              update={this.handleUpdate}
+            />
+          </div>
+        </h2>
+
+        <div className="unordered-list-students">
+          <Accordion defaultActiveKey="0">
+            {this.props.datas.map((data, index) => (
+              <div
+                className="admin-student-card-accordion-toggle"
+                key={data.UID}
+              >
+                <Card>
+                  <Accordion.Toggle
+                    as={Card.Header}
+                    eventKey={data.Name}
+                    style={{ backgroundColor: "#E5E5E5", color: "Black" }}
+                  >
+                    <h2 className="admin-card-name">{data.Name}</h2>
+                    {resumeAccessRender(data)}
+                    {resumeAccessList}
+                  </Accordion.Toggle>
+                  <Accordion.Collapse
+                    eventKey={data.Name}
+                    style={{ color: "Black" }}
+                  >
+                    {/* <div style={{ color: "Black" }}> */}
+                    <Card>
+                      <Card.Title style={{ color: "Black", padding: "3%" }}>
+                        <Form.Label>Email : {data.Email}</Form.Label>
+                        <br />
+                        <Form.Label>UID : {data.UID}</Form.Label>
+                      </Card.Title>
+                      <Card.Text>
+                        <Form>
+                          <InputGroup className="mb-3">
+                            <FormControl
+                              className="admin-input-box"
+                              placeholder="Event to Add/Remove"
+                              aria-label="Event to Add/Remove"
+                              aria-describedby="basic-addon2"
+                              key={data.Name + data.UID}
+                              onChange={(e) =>
+                                this.updateStates(
+                                  e.currentTarget.value,
+                                  data.UID,
+                                  data
+                                )
+                              }
+                            />
+                            <InputGroup.Append
+                              style={{ display: "inline-flex" }}
+                            >
+                              {/* <div
+                                style={{ display: "inline-flex" }}
+                              > */}
                               <Button
                                 variant="outline-success"
                                 onClick={this.handleAdd}
@@ -103,40 +138,58 @@ class RecruiterListComponent extends Component {
                               </Button>
                               <Button
                                 variant="outline-danger"
-                                // onClick={console.log(this.state.eventInput)}
                                 onClick={this.handleRemove}
                               >
                                 Remove
                               </Button>
-                            </div>
-                          </InputGroup.Append>
-                        </InputGroup>
-                      </Form>
-                    </Card.Body>
-                  </div>
-                </Accordion.Collapse>
-              </Card>
-            </div>
-          ))}
-        </Accordion>
+                              {/* </div> */}
+                            </InputGroup.Append>
+                          </InputGroup>
+                        </Form>
+                      </Card.Text>
+                      <Card.Body>
+                        <Button
+                          variant="danger"
+                          onClick={(e) => this.doubleCheck(data)}
+                        >
+                          Delete Recruiter
+                        </Button>
+                      </Card.Body>
+                      {/* </div> */}
+                    </Card>
+                  </Accordion.Collapse>
+                </Card>
+              </div>
+            ))}
+          </Accordion>
+        </div>
       </div>
     );
   }
 
-  updateStates = (input, id) => {
+  updateStates = (input, id, recruiter) => {
     this.setState({ eventInput: input });
     this.setState({ uid: id });
+    this.setState({ targetRecruiter: recruiter });
   };
 
   handleAdd = async (event) => {
     event.preventDefault();
-    let mapfield = {};
-    mapfield[`Resume Access Map.${this.state.eventInput}`] = true;
+    //check if same item exist in the array before adding
+    let tempRA = this.state.targetRecruiter["Resume Access"];
+    const index = tempRA.indexOf(this.state.eventInput);
+    if (index > -1) {
+      alert("exists at " + index);
+      return;
+    }
 
+    tempRA.push(this.state.eventInput);
     await this.Firebase.db
       .collection("recruiters")
       .doc(this.state.uid)
-      .update(mapfield)
+      .update({
+        ["Resume Access"]: tempRA,
+      })
       .catch((err) => console.log(err));
     this.handleUpdate();
   };
@@ -144,20 +197,45 @@ class RecruiterListComponent extends Component {
   //Remove resume access
   handleRemove = async (event) => {
     event.preventDefault();
-    let mapfield = {};
-    mapfield[`Resume Access Map.${this.state.eventInput}`] = false;
-
-    await this.Firebase.db
-      .collection("recruiters")
-      .doc(this.state.uid)
-      .update(mapfield)
-      .catch((err) => console.log(err));
-
-    this.handleUpdate();
+    //check if same item exist in the array before removing
+    let tempRA = this.state.targetRecruiter["Resume Access"];
+    const index = tempRA.indexOf(this.state.eventInput);
+    if (index > -1) {
+      tempRA.splice(index, 1);
+      await this.Firebase.db
+        .collection("recruiters")
+        .doc(this.state.uid)
+        .update({
+          ["Resume Access"]: tempRA,
+        })
+        .catch((err) => console.log(err));
+      this.handleUpdate();
+    }
   };
 
   handleUpdate = () => {
     this.props.updateRecruitersx();
+  };
+
+  doubleCheck(data) {
+    {
+      let didConfirm = window.confirm(
+        "Are you sure you want to delete " + data["Name"] + "?"
+      );
+      if (didConfirm) {
+        this.handleRemoveRecruiter(data);
+      } else {
+        console.log("canceled");
+      }
+    }
+  }
+
+  handleRemoveRecruiter = async (recruiterData) => {
+    await axios.put(
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeRecruiterFromDB",
+      { recruiterUID: recruiterData.UID }
+    );
+    this.handleUpdate();
   };
 }
 export default withFirebase(RecruiterListComponent);

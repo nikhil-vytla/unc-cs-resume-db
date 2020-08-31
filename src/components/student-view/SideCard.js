@@ -62,7 +62,6 @@ class SideCard extends Component {
         return;
       },
       () => {
-        console.log("yooooooo");
         this.Firebase.storage
           .ref("resumePDFs")
           .child(`${this.Firebase.auth.currentUser.uid}`)

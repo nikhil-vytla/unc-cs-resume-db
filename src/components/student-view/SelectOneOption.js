@@ -40,7 +40,10 @@ class SelectOneOption extends Component {
           });
         axios.post(
           "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/requestSchool",
-          { school: this.state.reqSchool }
+          {
+            school: this.state.reqSchool,
+            currentStudentEmail: this.Firebase.auth.currentUser.email,
+          }
         );
         this.props.monitorChanges();
         alert(

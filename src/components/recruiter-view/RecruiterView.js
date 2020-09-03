@@ -136,10 +136,6 @@ function RecruiterView({ Firebase, ...props }) {
     // References query part of the data
     const queryData = preData.data.queries;
     setQueries(queryData);
-    // console.log(queries);
-    // console.log(queryData);
-    // console.log();
-    // console.log(data);
   }
   async function removeFilter(filterName) {
     let filterArr = filters["Active Filters"];

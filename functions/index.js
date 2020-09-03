@@ -2,6 +2,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const app = require("express")();
 const cors = require("cors");
+const email_reg = require("email-regex");
 
 /* Manually create this file, using json data downloaded at 
 firebase console-> project settings-> service accounts-> generate private key.*/

@@ -136,13 +136,14 @@ function RecruiterView({ Firebase, ...props }) {
     // References query part of the data
     const queryData = preData.data.queries;
     setQueries(queryData);
-    console.log(queries);
-    console.log(queryData);
+    // console.log(queries);
+    // console.log(queryData);
     // console.log();
     // console.log(data);
   }
   async function removeFilter(filterName) {
     let filterArr = filters["Active Filters"];
+    const queryObj = queries["Active Queries"];
 
     let specificFilter = "";
 
@@ -184,14 +185,16 @@ function RecruiterView({ Firebase, ...props }) {
       {
         filtersForQuery: filterArr,
         empty: isEmpty,
-        //resumeAccess: recruiterResumeAccessObjArray,
         resumeAccess: currentResumeAccess,
         currentRecruiterEmail: Firebase.auth.currentUser.email,
+        currentQueries: queryObj,
       }
     );
-
-    const data = preData.data;
+    const data = preData.data.students;
     setCards(data);
+    // References query part of the data
+    const queryData = preData.data.queries;
+    setQueries(queryData);
   }
   // Checks the list of current filters for a filter passed from the Filter Item component
   function isCurrentFilter(objToAdd) {

@@ -188,7 +188,6 @@ app.post("/queryV3", async (req, res) => {
   const isEmpty = req.body.empty;
 
   let prevQueries = req.body.currentQueries;
-  console.log(prevQueries);
 
   const startingQuery = firestore
     .collection("students")
@@ -260,7 +259,30 @@ app.post("/queryV3", async (req, res) => {
   };
 
   if (isEmpty) {
-    res.send(requiredResumeAccessArrayFinalOR);
+    prevQueries["Programming Languages"]["prevFilters"] = [];
+    prevQueries["Programming Languages"]["prevQuery"] = [];
+    prevQueries["Frameworks and Tools"]["prevFilters"] = [];
+    prevQueries["Frameworks and Tools"]["prevQuery"] = [];
+    prevQueries["Database Systems"]["prevFilters"] = [];
+    prevQueries["Database Systems"]["prevQuery"] = [];
+    prevQueries["School"]["prevFilters"] = [];
+    prevQueries["School"]["prevQuery"] = [];
+    prevQueries["Operating Systems"]["prevFilters"] = [];
+    prevQueries["Operating Systems"]["prevQuery"] = [];
+    prevQueries["Events"]["prevFilters"] = [];
+    prevQueries["Events"]["prevQuery"] = [];
+    prevQueries["Graduation Year"]["prevFilters"] = [];
+    prevQueries["Graduation Year"]["prevQuery"] = [];
+    prevQueries["Primary Major"]["prevFilters"] = [];
+    prevQueries["Primary Major"]["prevQuery"] = [];
+    prevQueries["Secondary Major"]["prevFilters"] = [];
+    prevQueries["Secondary Major"]["prevQuery"] = [];
+    prevQueries["Minors"]["prevFilters"] = [];
+    prevQueries["Minors"]["prevQuery"] = [];
+    res.send({
+      students: requiredResumeAccessArrayFinalOR,
+      queries: { "Active Queries": prevQueries },
+    });
     return;
   }
 
@@ -311,8 +333,9 @@ app.post("/queryV3", async (req, res) => {
       prevQueries["Programming Languages"]["prevFilters"].length ===
       filters["Programming Languages"].length
     ) {
+      console.log("Yoooooooo");
       // The query hasn't changed so return the prev
-      orHolder.push(prevQueries["Programming Languages"]);
+      orHolder.push(prevQueries["Programming Languages"]["prevQuery"]);
     } else if (
       prevQueries["Programming Languages"]["prevFilters"].length <
       filters["Programming Languages"].length
@@ -344,23 +367,59 @@ app.post("/queryV3", async (req, res) => {
       progLangOR.forEach((eachArray) => {
         proLangFinalOR = orFilter(eachArray, proLangFinalOR);
       });
+
+      prevQueries["Programming Languages"]["prevFilters"] =
+        filters["Programming Languages"];
+      prevQueries["Programming Languages"]["prevQuery"] = proLangFinalOR;
+
       orHolder.push(proLangFinalOR);
     }
   } else {
     prevQueries["Programming Languages"]["prevFilters"] = [];
+    prevQueries["Programming Languages"]["prevQuery"] = [];
   }
 
   if (filters["Frameworks and Tools"].length !== 0) {
-    const initialFrames = filters["Frameworks and Tools"];
-    // Now OR the arrays inside proLangOR
-    frameOR = await singleQueryFunction(initialFrames);
-    frameFinalOR = frameOR[0];
-    frameOR.forEach((eachArray) => {
-      frameFinalOR = orFilter(eachArray, frameFinalOR);
-    });
-    orHolder.push(frameFinalOR);
+    if (
+      prevQueries["Frameworks and Tools"]["prevFilters"].length ===
+      filters["Frameworks and Tools"].length
+    ) {
+      // The query hasn't changed so return the prev
+      orHolder.push(prevQueries["Frameworks and Tools"]["prevQuery"]);
+    } else if (
+      prevQueries["Frameworks and Tools"]["prevFilters"].length <
+      filters["Frameworks and Tools"].length
+    ) {
+      // this means that you added a query
+
+      progLangOR = await singleQueryFunction(
+        req.body.newFilter["Frameworks and Tools"]
+      );
+
+      const newQueryObj = orFilter(
+        progLangOR[0],
+        prevQueries["Frameworks and Tools"]["prevQuery"]
+      );
+
+      orHolder.push(newQueryObj);
+
+      prevQueries["Frameworks and Tools"]["prevQuery"] = newQueryObj;
+      prevQueries["Frameworks and Tools"]["prevFilters"].push(
+        req.body.newFilter["Frameworks and Tools"][0]
+      );
+    } else {
+      const initialFrames = filters["Frameworks and Tools"];
+      // Now OR the arrays inside proLangOR
+      frameOR = await singleQueryFunction(initialFrames);
+      frameFinalOR = frameOR[0];
+      frameOR.forEach((eachArray) => {
+        frameFinalOR = orFilter(eachArray, frameFinalOR);
+      });
+      orHolder.push(frameFinalOR);
+    }
   } else {
     prevQueries["Frameworks and Tools"]["prevFilters"] = [];
+    prevQueries["Frameworks and Tools"]["prevQuery"] = [];
   }
 
   if (filters["Database Systems"].length !== 0) {
@@ -469,6 +528,7 @@ app.post("/queryV3", async (req, res) => {
 
   // ANDs sub groups
   andFinal = requiredResumeAccessArrayFinalOR;
+  console.log(orHolder);
   orHolder.forEach((eachArray) => {
     andFinal = intersect(eachArray, andFinal);
   });

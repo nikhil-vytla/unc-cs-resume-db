@@ -15,6 +15,8 @@ function RecruiterView({ Firebase, ...props }) {
   const [recruiter, setRecruiter] = useState(null);
   const [candidate, setCandidate] = useState(CandidatesList.CandidatesList[0]);
   const [filters, setFilters] = useState(null);
+  const [queries, setQueries] = useState(null);
+  const [currentResumeAccess, setResumeAccess] = useState(null);
   function toggleResumeView(info) {
     setResumeView(!resumeView);
     setCandidate(info);
@@ -79,10 +81,27 @@ function RecruiterView({ Firebase, ...props }) {
         "Graduation Year": [],
       },
     });
+
+    // Gets the prev query data to make queries more efficient
+    setQueries({
+      "Active Queries": {
+        "Programming Languages": { prevFilters: [], prevQuery: [] },
+        "Frameworks and Tools": { prevFilters: [], prevQuery: [] },
+        School: { prevFilters: [], prevQuery: [] },
+        Events: { prevFilters: [], prevQuery: [] },
+        "Primary Major": { prevFilters: [], prevQuery: [] },
+        "Secondary Major": { prevFilters: [], prevQuery: [] },
+        Minors: { prevFilters: [], prevQuery: [] },
+        "Operating Systems": { prevFilters: [], prevQuery: [] },
+        "Database Systems": { prevFilters: [], prevQuery: [] },
+        "Graduation Year": { prevFilters: [], prevQuery: [] },
+      },
+    });
   }
 
   async function addFilter(filterName) {
     let filterArr = filters["Active Filters"];
+    let queryObj = queries["Active Queries"];
     let specificFilter = "";
 
     if (filterName.name.includes(".")) {
@@ -92,22 +111,7 @@ function RecruiterView({ Firebase, ...props }) {
       specificFilter = filterName.name;
     }
 
-    const recruiterResumeAccessData = await Firebase.db
-      .collection("recruiters")
-      .doc(Firebase.auth.currentUser.uid)
-      .get();
-
-    const recruiterResumeAccess = recruiterResumeAccessData.data();
-
-    let recruiterResumeAccessObjArray = [];
-
-    recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
-      recruiterResumeAccessObjArray.push({
-        name: `Events.${eachEvent}`,
-        value: true,
-      });
-    });
-
+    // Adds filter to the correct list
     filterArr[specificFilter].push(filterName);
     setFilters((prev) => ({
       ...prev,
@@ -119,12 +123,23 @@ function RecruiterView({ Firebase, ...props }) {
       {
         filtersForQuery: filterArr,
         empty: false,
-        resumeAccess: recruiterResumeAccessObjArray,
+        resumeAccess: currentResumeAccess,
         currentRecruiterEmail: Firebase.auth.currentUser.email,
+        currentQueries: queryObj,
+        newFilter: { [specificFilter]: [filterName] },
       }
     );
-    const data = preData.data;
+
+    // References student part of the data
+    const data = preData.data.students;
     setCards(data);
+    // References query part of the data
+    const queryData = preData.data.queries;
+    setQueries(queryData);
+
+    console.log(queryData);
+    console.log();
+    console.log(data);
   }
   async function removeFilter(filterName) {
     let filterArr = filters["Active Filters"];
@@ -163,30 +178,14 @@ function RecruiterView({ Firebase, ...props }) {
       }
     });
 
-    // NEED TO SET EVENT DATA TO THIS AS WELL
-    const recruiterResumeAccessData = await Firebase.db
-      .collection("recruiters")
-      .doc(Firebase.auth.currentUser.uid)
-      .get();
-
-    const recruiterResumeAccess = recruiterResumeAccessData.data();
-
-    let recruiterResumeAccessObjArray = [];
-
-    recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
-      recruiterResumeAccessObjArray.push({
-        name: `Events.${eachEvent}`,
-        value: true,
-      });
-    });
-
     const preData = await axios.post(
       // "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
       "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
       {
         filtersForQuery: filterArr,
         empty: isEmpty,
-        resumeAccess: recruiterResumeAccessObjArray,
+        //resumeAccess: recruiterResumeAccessObjArray,
+        resumeAccess: currentResumeAccess,
         currentRecruiterEmail: Firebase.auth.currentUser.email,
       }
     );
@@ -249,6 +248,7 @@ function RecruiterView({ Firebase, ...props }) {
       );
       setRecruiter(recruiter);
       setCards(data.data);
+      setResumeAccess(data.data);
     }
     fetchUsers();
     collectData();

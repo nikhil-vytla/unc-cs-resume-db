@@ -187,36 +187,26 @@ app.post("/queryV3", async (req, res) => {
   // should be true if needs all cards
   const isEmpty = req.body.empty;
 
-  // should be an array of events
-  // Always includes UNC students
-  // Form:  {name: "Event", value: "HackNC"}
+  let prevQueries = req.body.currentQueries;
 
-  // checks to see iif filter list is empty
-  // if (isEmpty) {
-  //   const data = await firestore
-  //     .collection("students")
-  //     .get()
-  //     .catch((err) => {
-  //       res.status(400).send(err);
-  //     });
-  //   const docs = data.docs.map((doc) => doc.data());
-  //   res.send(docs);
-  //   return;
-  // }
+  const startingQuery = firestore
+    .collection("students")
+    .where("Hide Resume", "==", false);
 
-  // Figure out how to restrict starting query
+  // Could the starting query just be all of the events
+  // Events OR UNC ==> cant do that :/
 
-  const startingQuery = firestore.collection("students");
+  // Array of filters for each type
+  // Array of students
+  // Possibly store the entire student result on the client side
+  // so we dont have to keep reading the database.
+  // Or maybe store it in the database, then pull from db,
+  // then OR and And in endpoint, checking which filters are
+  // on or off
 
   // Take in a resume access array
   // OR all UNC students and all resume access people
-  let requiredResumeAccessArrayOR = [];
-  let requiredResumeAccessArrayFinalOR = [];
-  const data = await firestore
-    .collection("students")
-    .where("School", "==", "UNC Chapel Hill")
-    .get();
-  const uncStudentsArray = data.docs.map((doc) => doc.data());
+  const requiredResumeAccessArrayFinalOR = req.body.resumeAccess;
 
   // Querying function
   const singleQueryFunction = async (arrayName) => {
@@ -268,22 +258,6 @@ app.post("/queryV3", async (req, res) => {
     return arrA.filter((objA) => arrB.some((objB) => objA.UID === objB.UID));
   };
 
-  // ORs UNC students and recruiter's resume access
-  // NEED TO PUT THIS INTO DATABASE SO YOU DONT HAVE TO RECALCULATE EVERY TIME
-  requiredResumeAccessArrayFinalOR = uncStudentsArray;
-  if (req.body.resumeAccess.length !== 0) {
-    // Creates the resume access array of students
-    requiredResumeAccessArrayOR = await singleQueryFunction(
-      req.body.resumeAccess
-    );
-    requiredResumeAccessArrayOR.forEach((eachArray) => {
-      requiredResumeAccessArrayFinalOR = orFilter(
-        eachArray,
-        requiredResumeAccessArrayFinalOR
-      );
-    });
-  }
-
   if (isEmpty) {
     res.send(requiredResumeAccessArrayFinalOR);
     return;
@@ -332,14 +306,83 @@ app.post("/queryV3", async (req, res) => {
   // then and the results
 
   if (filters["Programming Languages"].length !== 0) {
-    const initialProgramming = filters["Programming Languages"];
-    // Now OR the arrays inside proLangOR
-    progLangOR = await singleQueryFunction(initialProgramming);
-    proLangFinalOR = progLangOR[0];
-    progLangOR.forEach((eachArray) => {
-      proLangFinalOR = orFilter(eachArray, proLangFinalOR);
-    });
-    orHolder.push(proLangFinalOR);
+    if (
+      prevQueries["Programming Languages"]["prevFilters"].length ===
+      filters["Programming Languages"].length
+    ) {
+      // The query hasn't changed so return the prev
+      orHolder.push(prevQueries["Programming Languages"]);
+    } else if (
+      prevQueries["Programming Languages"]["prevFilters"].length <
+      filters["Programming Languages"].length
+    ) {
+      // this means that you added a query
+      // Finds the new filter
+      // let prevFilterNames = [];
+
+      // prevQueries["Programming Languages"]["prevFilters"].forEach((eachFilter) => {
+      //   prevFilterNames.ad
+      // })
+
+      // const newFilter = filters["Programming Languages"].filter(
+      //   (filterName) =>
+      //     !prevQueries["Programming Languages"]["prevFilters"].includes(
+      //       filterName
+      //     )
+      // );
+
+      // let newFilter = null;
+      // const currentSet = new Set();
+
+      // filters["Programming Languages"].forEach((element) => {
+      //   const newString = `${element.name}${element.value}`;
+      //   currentSet.add(newString);
+      // });
+
+      // prevQueries["Programming Languages"]["prevFilters"].forEach((element) => {
+      //   const newString = `${element.name}*${element.value}`;
+      //   if (!currentSet.has(newString)) {
+      //     const filterToAdd =
+      //   }
+      // });
+
+      // const newFilter =
+      //   prevQueries["Programming Languages"]["prevFilters"].length === 0
+      //     ? filters["Programming Languages"]
+      //     : filters["Programming Languages"].filter((filterName) =>
+      //         prevQueries["Programming Languages"]["prevFilters"].some(
+      //           (prevFilter) =>
+      //             filterName.name != prevFilter.name ||
+      //             filterName.value != prevFilter.value
+      //         )
+      //       );
+
+      progLangOR = await singleQueryFunction(
+        req.body.newFilter["Programming Languages"]
+      );
+
+      const newQueryObj = orFilter(
+        progLangOR[0],
+        prevQueries["Programming Languages"]["prevFilters"]
+      );
+
+      orHolder.push(newQueryObj);
+
+      prevQueries["Programming Languages"]["prevQuery"] = newQueryObj;
+    } else {
+      // a filter has been removed
+      // Need to remake the rest of the query
+      const initialProgramming = filters["Programming Languages"];
+      // Now OR the arrays inside proLangOR
+      progLangOR = await singleQueryFunction(initialProgramming);
+      proLangFinalOR = progLangOR[0];
+      progLangOR.forEach((eachArray) => {
+        proLangFinalOR = orFilter(eachArray, proLangFinalOR);
+      });
+      orHolder.push(proLangFinalOR);
+    }
+  } else {
+    prevQueries["Programming Languages"]["prevFilters"] = [];
   }
 
   if (filters["Frameworks and Tools"].length !== 0) {
@@ -351,6 +394,8 @@ app.post("/queryV3", async (req, res) => {
       frameFinalOR = orFilter(eachArray, frameFinalOR);
     });
     orHolder.push(frameFinalOR);
+  } else {
+    prevQueries["Frameworks and Tools"]["prevFilters"] = [];
   }
 
   if (filters["Database Systems"].length !== 0) {
@@ -362,6 +407,8 @@ app.post("/queryV3", async (req, res) => {
       dbFinalOR = orFilter(eachArray, dbFinalOR);
     });
     orHolder.push(dbFinalOR);
+  } else {
+    prevQueries["Database Systems"]["prevFilters"] = [];
   }
 
   if (filters["School"].length !== 0) {
@@ -373,6 +420,8 @@ app.post("/queryV3", async (req, res) => {
       schoolFinalOR = orFilter(eachArray, schoolFinalOR);
     });
     orHolder.push(schoolFinalOR);
+  } else {
+    prevQueries["School"]["prevFilters"] = [];
   }
 
   if (filters["Operating Systems"].length !== 0) {
@@ -384,6 +433,8 @@ app.post("/queryV3", async (req, res) => {
       opFinalOR = orFilter(eachArray, opFinalOR);
     });
     orHolder.push(opFinalOR);
+  } else {
+    prevQueries["Operating Systems"]["prevFilters"] = [];
   }
 
   if (filters["Events"].length !== 0) {
@@ -395,6 +446,8 @@ app.post("/queryV3", async (req, res) => {
       eventsFinalOR = orFilter(eachArray, eventsFinalOR);
     });
     orHolder.push(eventsFinalOR);
+  } else {
+    prevQueries["Events"]["prevFilters"] = [];
   }
 
   if (filters["Graduation Year"].length !== 0) {
@@ -406,6 +459,8 @@ app.post("/queryV3", async (req, res) => {
       gradFinalOR = orFilter(eachArray, gradFinalOR);
     });
     orHolder.push(gradFinalOR);
+  } else {
+    prevQueries["Graduation Year"]["prevFilters"] = [];
   }
 
   if (filters["Primary Major"].length !== 0) {
@@ -417,6 +472,8 @@ app.post("/queryV3", async (req, res) => {
       primMajorFinalOR = orFilter(eachArray, primMajorFinalOR);
     });
     orHolder.push(primMajorFinalOR);
+  } else {
+    prevQueries["Primary Major"]["prevFilters"] = [];
   }
 
   if (filters["Secondary Major"].length !== 0) {
@@ -428,6 +485,8 @@ app.post("/queryV3", async (req, res) => {
       secMajorFinalOR = orFilter(eachArray, secMajorFinalOR);
     });
     orHolder.push(secMajorFinalOR);
+  } else {
+    prevQueries["Secondary Major"]["prevFilters"] = [];
   }
 
   if (filters["Minors"].length !== 0) {
@@ -439,6 +498,8 @@ app.post("/queryV3", async (req, res) => {
       minorsFinalOR = orFilter(eachArray, minorsFinalOR);
     });
     orHolder.push(minorsFinalOR);
+  } else {
+    prevQueries["Minors"]["prevFilters"] = [];
   }
 
   // ANDs sub groups
@@ -446,7 +507,7 @@ app.post("/queryV3", async (req, res) => {
   orHolder.forEach((eachArray) => {
     andFinal = intersect(eachArray, andFinal);
   });
-  res.send(andFinal);
+  res.send({ students: andFinal, queries: prevQueries });
 });
 
 app.post("/resumeAccessStudents", async (req, res) => {
@@ -504,9 +565,7 @@ app.post("/resumeAccessStudents", async (req, res) => {
     };
 
     // Creates the resume access array of students
-
     // ORs UNC students and recruiter's resume access
-    // NEED TO PUT THIS INTO DATABASE SO YOU DONT HAVE TO RECALCULATE EVERY TIME
     requiredResumeAccessArrayFinalOR = uncStudentsArray;
     if (req.body.resumeAccess.length !== 0) {
       requiredResumeAccessArrayOR = await singleQueryFunction(
@@ -523,6 +582,20 @@ app.post("/resumeAccessStudents", async (req, res) => {
     // .catch((err) => res.status(500).send(err));
     res.status(201).send(requiredResumeAccessArrayFinalOR);
   });
+});
+
+app.post("/queryV77", async (req, res) => {
+  const filters = req.body.filters;
+  // filters = [{name: "Programming.Python", value: "true"}]
+
+  // array of student objects that are from the recruiter's resume access
+  const students = req.body.students;
+
+  const filterFunction = (studentObj) => {};
+
+  students.filter(filterFunction);
+
+  res.send("bro");
 });
 
 app.put("/checkboxV2", async (req, res) => {

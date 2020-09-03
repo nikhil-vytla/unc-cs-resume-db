@@ -38,9 +38,18 @@ app.get("/getUserClaims", async (req, res) => {
 
 // Adds new student with auth claims to the database
 // request body = {"email": "example@email.com"}
+
 app.post("/newStudent", async (req, res) => {
   if (!req.body.email)
     res.status(400).send("Must include email in request body");
+
+  if (
+    !(
+      email_reg({ exact: true }).test(req.body.email) &&
+      /^\S+@(\S*\.|)unc.edu$/.test(req.body.email)
+    )
+  )
+    res.status(400).send("Must be a valid UNC email");
   // const unc_email_re = /^\S+@(\S*\.|)unc.edu$/;
 
   const user = await auth()
@@ -48,7 +57,6 @@ app.post("/newStudent", async (req, res) => {
     .catch((err) => {
       res.status(404).send(err);
     });
-
   await auth()
     .setCustomUserClaims(user.uid, {
       student: true,
@@ -56,7 +64,6 @@ app.post("/newStudent", async (req, res) => {
       admin: false,
     })
     .catch((err) => res.status(500).send(err));
-
   const studentData = {
     ["Email"]: user.email,
     ["Database Systems"]: {},
@@ -78,7 +85,6 @@ app.post("/newStudent", async (req, res) => {
     ["Hide Resume"]: true,
     ["Intro"]: true,
   };
-
   await firestore
     .collection("students")
     .doc(user.uid)

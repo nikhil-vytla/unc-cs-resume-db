@@ -837,20 +837,6 @@ app.post("/resumeAccessStudents", async (req, res) => {
   });
 });
 
-app.post("/queryV77", async (req, res) => {
-  const filters = req.body.filters;
-  // filters = [{name: "Programming.Python", value: "true"}]
-
-  // array of student objects that are from the recruiter's resume access
-  const students = req.body.students;
-
-  const filterFunction = (studentObj) => {};
-
-  students.filter(filterFunction);
-
-  res.send("bro");
-});
-
 app.put("/checkboxV2", async (req, res) => {
   const email = req.body.currentStudentEmail;
   const claims = (await auth().getUserByEmail(email)).customClaims;

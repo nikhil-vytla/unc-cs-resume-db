@@ -188,6 +188,7 @@ app.post("/queryV3", async (req, res) => {
   const isEmpty = req.body.empty;
 
   let prevQueries = req.body.currentQueries;
+  console.log(prevQueries);
 
   const startingQuery = firestore
     .collection("students")
@@ -317,45 +318,6 @@ app.post("/queryV3", async (req, res) => {
       filters["Programming Languages"].length
     ) {
       // this means that you added a query
-      // Finds the new filter
-      // let prevFilterNames = [];
-
-      // prevQueries["Programming Languages"]["prevFilters"].forEach((eachFilter) => {
-      //   prevFilterNames.ad
-      // })
-
-      // const newFilter = filters["Programming Languages"].filter(
-      //   (filterName) =>
-      //     !prevQueries["Programming Languages"]["prevFilters"].includes(
-      //       filterName
-      //     )
-      // );
-
-      // let newFilter = null;
-      // const currentSet = new Set();
-
-      // filters["Programming Languages"].forEach((element) => {
-      //   const newString = `${element.name}${element.value}`;
-      //   currentSet.add(newString);
-      // });
-
-      // prevQueries["Programming Languages"]["prevFilters"].forEach((element) => {
-      //   const newString = `${element.name}*${element.value}`;
-      //   if (!currentSet.has(newString)) {
-      //     const filterToAdd =
-      //   }
-      // });
-
-      // const newFilter =
-      //   prevQueries["Programming Languages"]["prevFilters"].length === 0
-      //     ? filters["Programming Languages"]
-      //     : filters["Programming Languages"].filter((filterName) =>
-      //         prevQueries["Programming Languages"]["prevFilters"].some(
-      //           (prevFilter) =>
-      //             filterName.name != prevFilter.name ||
-      //             filterName.value != prevFilter.value
-      //         )
-      //       );
 
       progLangOR = await singleQueryFunction(
         req.body.newFilter["Programming Languages"]
@@ -363,12 +325,15 @@ app.post("/queryV3", async (req, res) => {
 
       const newQueryObj = orFilter(
         progLangOR[0],
-        prevQueries["Programming Languages"]["prevFilters"]
+        prevQueries["Programming Languages"]["prevQuery"]
       );
 
       orHolder.push(newQueryObj);
 
       prevQueries["Programming Languages"]["prevQuery"] = newQueryObj;
+      prevQueries["Programming Languages"]["prevFilters"].push(
+        req.body.newFilter["Programming Languages"][0]
+      );
     } else {
       // a filter has been removed
       // Need to remake the rest of the query
@@ -507,7 +472,8 @@ app.post("/queryV3", async (req, res) => {
   orHolder.forEach((eachArray) => {
     andFinal = intersect(eachArray, andFinal);
   });
-  res.send({ students: andFinal, queries: prevQueries });
+  console.log(prevQueries);
+  res.send({ students: andFinal, queries: { "Active Queries": prevQueries } });
 });
 
 app.post("/resumeAccessStudents", async (req, res) => {

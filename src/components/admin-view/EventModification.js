@@ -271,8 +271,11 @@ class EventModification extends Component {
     }
 
     await axios.put(
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeEventCodeField",
-      { eCode: this.state.eventCodeInput }
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/removeEventCodeField",
+      {
+        eCode: this.state.eventCodeInput,
+        currentAdminEmail: this.Firebase.auth.currentUser.email,
+      }
     );
 
     this.setState({
@@ -325,8 +328,11 @@ class EventModification extends Component {
     }
 
     await axios.put(
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeEventCodeField",
-      { eCode: this.state.eventCodeInput }
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/removeEventCodeField",
+      {
+        eCode: this.state.eventCodeInput,
+        currentAdminEmail: this.Firebase.auth.currentUser.email,
+      }
     );
 
     this.handleUpdate();

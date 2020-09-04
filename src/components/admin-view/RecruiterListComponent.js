@@ -7,10 +7,13 @@ import {
   InputGroup,
   FormControl,
   Modal,
+  ButtonGroup,
 } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import "./AdminView.css";
 import NewRecruiter from "./NewRecruiter";
+import NewAdmin from "./NewAdmin";
+
 import axios from "axios";
 
 class RecruiterListComponent extends Component {
@@ -25,6 +28,7 @@ class RecruiterListComponent extends Component {
       filtered: [{}],
       resumeAccessListRender: "",
       newRecruiterShow: false,
+      newAdminShow: false,
     };
   }
 
@@ -47,6 +51,7 @@ class RecruiterListComponent extends Component {
   render(props) {
     let resumeAccessList;
     let newRecruiterClose = () => this.setState({ newRecruiterShow: false });
+    let newAdminClose = () => this.setState({ newAdminShow: false });
 
     function resumeAccessRender(recruiter) {
       let resumeAccessArr = [];
@@ -64,21 +69,32 @@ class RecruiterListComponent extends Component {
 
     return (
       <div>
-        <h2 className="admin-heading">
-          {this.props.title}
+        <div>
+          <h2 className="admin-heading">{this.props.title}</h2>
+          <ButtonGroup className="admin-new-recruiter-admin-buttons">
+            <div className="admin-new-admin-button">
+              <Button onClick={() => this.setState({ newAdminShow: true })}>
+                New Admin
+              </Button>
+              <NewAdmin
+                show={this.state.newAdminShow}
+                onHide={newAdminClose}
+                update={this.handleUpdate}
+              />
+            </div>
 
-          <div className="admin-new-recruiter-button">
-            <Button onClick={() => this.setState({ newRecruiterShow: true })}>
-              New Recruiter
-            </Button>
-            <NewRecruiter
-              show={this.state.newRecruiterShow}
-              onHide={newRecruiterClose}
-              update={this.handleUpdate}
-            />
-          </div>
-        </h2>
-
+            <div className="admin-new-recruiter-button">
+              <Button onClick={() => this.setState({ newRecruiterShow: true })}>
+                New Recruiter
+              </Button>
+              <NewRecruiter
+                show={this.state.newRecruiterShow}
+                onHide={newRecruiterClose}
+                update={this.handleUpdate}
+              />
+            </div>
+          </ButtonGroup>
+        </div>
         <div className="unordered-list-students">
           <Accordion defaultActiveKey="0">
             {this.props.datas.map((data, index) => (
@@ -232,8 +248,11 @@ class RecruiterListComponent extends Component {
 
   handleRemoveRecruiter = async (recruiterData) => {
     await axios.put(
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/removeRecruiterFromDB",
-      { recruiterUID: recruiterData.UID }
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/removeRecruiterFromDB",
+      {
+        recruiterUID: recruiterData.UID,
+        currentAdminEmail: this.Firebase.auth.currentUser.email,
+      }
     );
     this.handleUpdate();
   };

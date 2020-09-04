@@ -4,13 +4,13 @@ import { withFirebase } from "../Firebase";
 import axios from "axios";
 import { isThisTypeNode } from "typescript";
 
-export class NewRecruiter extends Component {
+export class NewAdmin extends Component {
   constructor(props) {
     super(props);
     this.Firebase = props.Firebase;
     this.state = {
-      recruiterName: "",
-      recruiterEmail: "",
+      adminName: "",
+      adminEmail: "",
     };
   }
   render(props) {
@@ -23,7 +23,7 @@ export class NewRecruiter extends Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            New Recruiter
+            New Admin
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -34,9 +34,9 @@ export class NewRecruiter extends Component {
                 className="admin-new-recruiter-modal-form-input"
                 type="name"
                 onChange={(e) =>
-                  this.setState({ recruiterName: e.currentTarget.value })
+                  this.setState({ adminName: e.currentTarget.value })
                 }
-                placeholder="Recruiter's Name"
+                placeholder="Admin's Name"
               />
             </Form.Group>
             <Form.Group controlId="formGroupEmail">
@@ -45,9 +45,9 @@ export class NewRecruiter extends Component {
                 className="admin-new-recruiter-modal-form-input"
                 type="email"
                 onChange={(e) =>
-                  this.setState({ recruiterEmail: e.currentTarget.value })
+                  this.setState({ adminEmail: e.currentTarget.value })
                 }
-                placeholder="Recruiter's email"
+                placeholder="Admin's email"
               />
             </Form.Group>
           </Form>
@@ -67,10 +67,10 @@ export class NewRecruiter extends Component {
   handleCreate = async () => {
     await axios
       .post(
-        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newRecruiter",
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newAdmin",
         {
-          email: this.state.recruiterEmail,
-          name: this.state.recruiterName,
+          email: this.state.adminEmail,
+          name: this.state.adminName,
           currentAdminEmail: this.Firebase.auth.currentUser.email,
         }
       )
@@ -81,4 +81,4 @@ export class NewRecruiter extends Component {
   };
 }
 
-export default withFirebase(NewRecruiter);
+export default withFirebase(NewAdmin);

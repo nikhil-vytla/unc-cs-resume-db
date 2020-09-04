@@ -82,12 +82,24 @@
   padding-left: 2% !important;
   padding-right: 2% !important;
 }
+.admin-new-recruiter-admin-buttons {
+  margin-left: 1%;
+  padding-left: 1%;
+  padding-bottom: 1%;
+  display: inline-flex;
+  min-width: 100%;
+}
 
 .admin-new-recruiter-button {
-  position: absolute;
-  float: right !important;
-  right: 2% !important;
+  /* position: absolute; */
+  /* float: right !important; */
+  /* right: 2% !important; */
   /* margin-right: 5%; */
+}
+.admin-new-admin-button {
+  /* position: absolute; */
+  /* float: right !important; */
+  /* right: 2% + 15px !important; */
 }
 
 .admin-new-recruiter-modal-form {

@@ -118,8 +118,7 @@ function RecruiterView({ Firebase, ...props }) {
       "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-      //"https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
       {
         filtersForQuery: filterArr,
         empty: false,
@@ -176,8 +175,7 @@ function RecruiterView({ Firebase, ...props }) {
     });
 
     const preData = await axios.post(
-      // "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
       {
         filtersForQuery: filterArr,
         empty: isEmpty,
@@ -226,9 +224,6 @@ function RecruiterView({ Firebase, ...props }) {
 
       const recruiterResumeAccess = recruiterResumeAccessData.data();
 
-      console.log(recruiterResumeAccessData);
-      console.log(recruiterResumeAccess["Resume Access"]);
-
       let recruiterResumeAccessObjArray = [];
 
       recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
@@ -239,7 +234,7 @@ function RecruiterView({ Firebase, ...props }) {
       });
 
       const data = await axios.post(
-        "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/resumeAccessStudents",
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/resumeAccessStudents",
         {
           resumeAccess: recruiterResumeAccessObjArray,
           currentRecruiterEmail: Firebase.auth.currentUser.email,

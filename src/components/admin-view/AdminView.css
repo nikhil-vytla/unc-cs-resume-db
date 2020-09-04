@@ -83,10 +83,11 @@
   padding-right: 2% !important;
 }
 .admin-new-recruiter-admin-buttons {
-  /* padding-left: 100%; */
-  position: absolute;
-  float: right;
-  right: 2%;
+  margin-left: 1%;
+  padding-left: 1%;
+  padding-bottom: 1%;
+  display: inline-flex;
+  min-width: 100%;
 }
 
 .admin-new-recruiter-button {

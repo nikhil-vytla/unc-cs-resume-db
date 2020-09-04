@@ -20,14 +20,20 @@ service firebase.storage {
     }
 
     match /profilePictures/{uid} {
-      allow read, write: if isStudent(request) 
+      allow read: if isStudent(request) 
       && request.auth.uid == uid;
+      allow write: if isStudent(request) 
+      && request.auth.uid == uid && request.resource.contentType.matches('image/.*')
+      && request.resource.size < 5 * 1024 * 1024;
       allow read: if isRecruiter(request);
     }
 
     match /resumePDFs/{uid} {
-      allow read, write: if isStudent(request) 
+      allow read: if isStudent(request) 
       && request.auth.uid == uid;
+      allow write: if isStudent(request) 
+      && request.auth.uid == uid && request.resource.contentType.matches('application/pdf')
+      && request.resource.size < 5 * 1024 * 1024;
       allow read: if isRecruiter(request);
     }
   }

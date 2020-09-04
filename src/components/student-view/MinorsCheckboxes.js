@@ -25,6 +25,7 @@ class MinorsCheckboxes extends Component {
       uid: this.Firebase.auth.currentUser.uid,
       valueToSend: this.props.valueType,
       update: updatedOBJ,
+      currentStudentEmail: this.Firebase.auth.currentUser.email,
     };
 
     await axios.put(

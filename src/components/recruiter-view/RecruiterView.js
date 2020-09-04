@@ -15,6 +15,8 @@ function RecruiterView({ Firebase, ...props }) {
   const [recruiter, setRecruiter] = useState(null);
   const [candidate, setCandidate] = useState(CandidatesList.CandidatesList[0]);
   const [filters, setFilters] = useState(null);
+  const [queries, setQueries] = useState(null);
+  const [currentResumeAccess, setResumeAccess] = useState(null);
   function toggleResumeView(info) {
     setResumeView(!resumeView);
     setCandidate(info);
@@ -47,6 +49,13 @@ function RecruiterView({ Firebase, ...props }) {
 
     const eventHolder = await getListArrays("Events", "eventsList");
 
+    const recruiterResumeAccessData = await Firebase.db
+      .collection("recruiters")
+      .doc(Firebase.auth.currentUser.uid)
+      .get();
+
+    const recruiterResumeAccess = recruiterResumeAccessData.data();
+
     setFilters({
       "Graduation Year": gradHolder.gradYearList,
       "Programming Languages": languageHolder.progLanguages,
@@ -57,7 +66,8 @@ function RecruiterView({ Firebase, ...props }) {
       Minors: majorsHolder.majorsList,
       "Frameworks and Tools": frameworksHolder.frameworksAndTools,
       School: schoolsHolder.schoolsList,
-      Events: eventHolder.eventsList,
+      // Events: eventHolder.eventsList,
+      Events: recruiterResumeAccess["Resume Access"],
       "Active Filters": {
         "Programming Languages": [],
         "Frameworks and Tools": [],
@@ -71,10 +81,27 @@ function RecruiterView({ Firebase, ...props }) {
         "Graduation Year": [],
       },
     });
+
+    // Gets the prev query data to make queries more efficient
+    setQueries({
+      "Active Queries": {
+        "Programming Languages": { prevFilters: [], prevQuery: [] },
+        "Frameworks and Tools": { prevFilters: [], prevQuery: [] },
+        School: { prevFilters: [], prevQuery: [] },
+        Events: { prevFilters: [], prevQuery: [] },
+        "Primary Major": { prevFilters: [], prevQuery: [] },
+        "Secondary Major": { prevFilters: [], prevQuery: [] },
+        Minors: { prevFilters: [], prevQuery: [] },
+        "Operating Systems": { prevFilters: [], prevQuery: [] },
+        "Database Systems": { prevFilters: [], prevQuery: [] },
+        "Graduation Year": { prevFilters: [], prevQuery: [] },
+      },
+    });
   }
 
   async function addFilter(filterName) {
     let filterArr = filters["Active Filters"];
+    const queryObj = queries["Active Queries"];
     let specificFilter = "";
 
     if (filterName.name.includes(".")) {
@@ -84,6 +111,7 @@ function RecruiterView({ Firebase, ...props }) {
       specificFilter = filterName.name;
     }
 
+    // Adds filter to the correct list
     filterArr[specificFilter].push(filterName);
     setFilters((prev) => ({
       ...prev,
@@ -94,14 +122,23 @@ function RecruiterView({ Firebase, ...props }) {
       {
         filtersForQuery: filterArr,
         empty: false,
+        resumeAccess: currentResumeAccess,
         currentRecruiterEmail: Firebase.auth.currentUser.email,
+        currentQueries: queryObj,
+        newFilter: { [specificFilter]: [filterName] },
       }
     );
-    const data = preData.data;
+
+    // References student part of the data
+    const data = preData.data.students;
     setCards(data);
+    // References query part of the data
+    const queryData = preData.data.queries;
+    setQueries(queryData);
   }
   async function removeFilter(filterName) {
     let filterArr = filters["Active Filters"];
+    const queryObj = queries["Active Queries"];
 
     let specificFilter = "";
 
@@ -142,12 +179,16 @@ function RecruiterView({ Firebase, ...props }) {
       {
         filtersForQuery: filterArr,
         empty: isEmpty,
+        resumeAccess: currentResumeAccess,
         currentRecruiterEmail: Firebase.auth.currentUser.email,
+        currentQueries: queryObj,
       }
     );
-
-    const data = preData.data;
+    const data = preData.data.students;
     setCards(data);
+    // References query part of the data
+    const queryData = preData.data.queries;
+    setQueries(queryData);
   }
   // Checks the list of current filters for a filter passed from the Filter Item component
   function isCurrentFilter(objToAdd) {
@@ -175,12 +216,36 @@ function RecruiterView({ Firebase, ...props }) {
   // Makes API calls to get all the current cards and the recruiter object from the DB
   useEffect(() => {
     async function fetchUsers() {
-      const data = await Firebase.getAllStudents();
+      //const data = await Firebase.getAllStudents();
+      const recruiterResumeAccessData = await Firebase.db
+        .collection("recruiters")
+        .doc(Firebase.auth.currentUser.uid)
+        .get();
+
+      const recruiterResumeAccess = recruiterResumeAccessData.data();
+
+      let recruiterResumeAccessObjArray = [];
+
+      recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
+        recruiterResumeAccessObjArray.push({
+          name: `Events.${eachEvent}`,
+          value: true,
+        });
+      });
+
+      const data = await axios.post(
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/resumeAccessStudents",
+        {
+          resumeAccess: recruiterResumeAccessObjArray,
+          currentRecruiterEmail: Firebase.auth.currentUser.email,
+        }
+      );
       const recruiter = await Firebase.getRecruiterInfo(
         Firebase.auth.currentUser.uid
       );
       setRecruiter(recruiter);
-      setCards(data);
+      setCards(data.data);
+      setResumeAccess(data.data);
     }
     fetchUsers();
     collectData();

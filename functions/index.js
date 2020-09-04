@@ -1048,5 +1048,26 @@ app.put("/removeRecruiterFromDB", async (req, res) => {
   }
 });
 
+// Allows recruiters to add notes to a students profile
+app.put("/addNotes", async (req, res) => {
+  const email = req.body.currentRecruiterEmail;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
+
+  console.log("Yoooo I am here");
+
+  if (claims.recruiter || claims.admin) {
+    await firestore
+      .collection("recruiters")
+      .doc(req.body.recruiterUID)
+      .update({
+        [`Notes.${req.body.studentID}`]: req.body.currentNotes,
+      })
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
+});
+
 // Base API endpoint
 exports.api = functions.https.onRequest(app);

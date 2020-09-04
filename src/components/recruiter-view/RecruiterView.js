@@ -226,9 +226,6 @@ function RecruiterView({ Firebase, ...props }) {
 
       const recruiterResumeAccess = recruiterResumeAccessData.data();
 
-      console.log(recruiterResumeAccessData);
-      console.log(recruiterResumeAccess["Resume Access"]);
-
       let recruiterResumeAccessObjArray = [];
 
       recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
@@ -290,6 +287,7 @@ function RecruiterView({ Firebase, ...props }) {
                 <ResumeView
                   candidate={candidate}
                   toggleResumeView={(candidate) => toggleResumeView(candidate)}
+                  recruiterInfo={recruiter}
                 />
               </Col>
             </Row>

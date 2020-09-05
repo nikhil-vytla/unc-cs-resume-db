@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import ResumeView from "./ResumeView";
 import { useTransition, animated } from "react-spring";
-import "../../Static/RecruiterView.css";
+import "./recruiterViewCss/RecruiterView.css";
 import CandidatesList from "../../Static/Candidates.json";
 import Spinner from "react-bootstrap/Spinner";
 import RecruiterViewColumns from "./RecruiterViewColumns";
@@ -274,23 +274,23 @@ function RecruiterView({ Firebase, ...props }) {
           />
         </animated.div>
       ) : (
-        <animated.div style={props}>
-          <Container
-            fluid
-            className="p-0 vw-100 recruiterViewContainer"
-            style={{ backgroundColor: "#13294B" }}
-          >
-            <Row>
-              <Col className="d-flex justify-content-center resumeViewContainer">
-                <ResumeView
-                  candidate={candidate}
-                  toggleResumeView={(candidate) => toggleResumeView(candidate)}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </animated.div>
-      )
+          <animated.div style={props}>
+            <Container
+              fluid
+              className="p-0 vw-100 recruiterViewContainer"
+              style={{ backgroundColor: "#13294B" }}
+            >
+              <Row>
+                <Col className="d-flex justify-content-center resumeViewContainer">
+                  <ResumeView
+                    candidate={candidate}
+                    toggleResumeView={(candidate) => toggleResumeView(candidate)}
+                  />
+                </Col>
+              </Row>
+            </Container>
+          </animated.div>
+        )
     );
   } else {
     // loads a spinner if all the api calls are not complete

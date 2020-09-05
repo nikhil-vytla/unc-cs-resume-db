@@ -9,11 +9,11 @@ function FilterDropDown(props) {
   // Also responsible for displaying items which are currently being searched for in the filter component
 
   const [collapsed, setColapsed] = useState(true);
-
+  const [filterSearch, setFilterSearch] = useState("");
   var inside;
 
-  if (props.hasSearch === "true") {
-    inside = <FilterSearchBar height="40px" title={props.title} />;
+  if (props.hasSearch === true) {
+    inside = <FilterSearchBar height="40px" title={props.title} setFilterSearch={(string) => setFilterSearch(string)} />;
   }
 
   if (collapsed) {
@@ -48,8 +48,7 @@ function FilterDropDown(props) {
           {inside}
           {props.inside
             .filter((item) => {
-              
-              return item.includes(props.filterSearch);
+              return item.toLowerCase().includes(filterSearch.toLowerCase());
             })
             .map((item) => {
               return (

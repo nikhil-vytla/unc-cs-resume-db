@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../../Static/MyList.css"
+import "./recruiterViewCss/MyList.css"
 import MyListsDropDownWrapper from "./MyListsDropDownWrapper"
 import MyListsHeader from "./MyListsHeader"
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -9,7 +9,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 function MyLists(props) {
     //outer most component for the MyLists Section
-    
+
 
     let listWrapper = null;
     if (props.myListsRecruiter !== null && props.myListsRecruiter !== undefined) {

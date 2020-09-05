@@ -5,7 +5,7 @@ import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import StarIcon from "@material-ui/icons/Star";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import CandidateCardTag from "./CandidateCardTag";
-import "../../Static/candidates.css";
+import "./recruiterViewCss/candidates.css";
 import CandidateCardAdd from "./CandidateCardAdd";
 
 function CandidateCard(props) {

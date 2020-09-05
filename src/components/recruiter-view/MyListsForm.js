@@ -19,7 +19,6 @@ function MyListsForm({ Firebase, ...props }) {
       recruiterUID: Firebase.auth.currentUser.uid,
       currentRecruiterEmail: Firebase.auth.currentUser.email,
     };
-    console.log(Firebase.auth.currentUser.email);
     if (listName !== null && listName !== "") {
       await axios.put(
         "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/newList",

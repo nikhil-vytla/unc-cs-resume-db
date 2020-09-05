@@ -10,6 +10,7 @@ import { Col, Row, Container } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
 
+
 function RecruiterView({ Firebase, ...props }) {
   const [resumeView, setResumeView] = useState(true);
   const [recruiter, setRecruiter] = useState(null);
@@ -21,6 +22,10 @@ function RecruiterView({ Firebase, ...props }) {
     setResumeView(!resumeView);
     setCandidate(info);
   }
+
+  //state holding a recruiters search for a student by name
+  const [currentStudentSearch, setCurrentStudentSearch] = useState("");
+
 
   async function getListArrays(collection, doc) {
     const data = await Firebase.db.collection(collection).doc(doc).get();
@@ -271,6 +276,10 @@ function RecruiterView({ Firebase, ...props }) {
             cards={cards}
             recruiterObj={recruiter}
             toggleResumeView={(candidate) => toggleResumeView(candidate)}
+            setCurrentStudentSearch={(name) => setCurrentStudentSearch(name)}
+            currentStudentSearch={currentStudentSearch}
+
+
           />
         </animated.div>
       ) : (

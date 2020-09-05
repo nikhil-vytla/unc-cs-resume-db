@@ -18,17 +18,6 @@ function ResumeView(props) {
   const secondaryMajor = props.candidate["Secondary Major"];
   const minors = [props.candidate.Minors];
   const notesUID = props.candidate["UID"];
-  const [shouldISendNotes, setShouldISend] = useState(false);
-
-  function sendNotesAndExit() {
-    setShouldISend(true);
-  }
-
-  useEffect(() => {
-    if (shouldISendNotes === true) {
-      props.toggleResumeView(props.candidate);
-    }
-  });
 
   return (
     <div className="resumeViewDiv">
@@ -42,7 +31,10 @@ function ResumeView(props) {
           >
             <MailOutlineIcon fontSize="large" />
           </a>
-          <ClearIcon fontSize="large" onClick={() => sendNotesAndExit()} />
+          <ClearIcon
+            fontSize="large"
+            onClick={() => props.toggleResumeView(props.candidate)}
+          />
         </div>
       </div>
       <div className="w-100 d-flex">
@@ -119,7 +111,6 @@ function ResumeView(props) {
             <ResumeViewNotes
               text="Notes"
               studentUID={notesUID}
-              sendNotes={shouldISendNotes}
               recruiterNotes={
                 props.recruiterInfo["Notes"] == null
                   ? ""
@@ -127,6 +118,7 @@ function ResumeView(props) {
                   ? ""
                   : props.recruiterInfo["Notes"][notesUID]
               }
+              updateRecruiter={() => props.updateRecruiter()}
               //   condition1 ? value1
               //  : condition2 ? value2
               //  : condition3 ? value3

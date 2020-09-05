@@ -1053,8 +1053,6 @@ app.put("/addNotes", async (req, res) => {
   const email = req.body.currentRecruiterEmail;
   const claims = (await auth().getUserByEmail(email)).customClaims;
 
-  console.log("Yoooo I am here");
-
   if (claims.recruiter || claims.admin) {
     await firestore
       .collection("recruiters")

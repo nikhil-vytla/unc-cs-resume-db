@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import FilterSearchBar from "./FilterSearchBar";
-import "../../Static/Filter.css";
+import "./recruiterViewCss/Filter.css";
 import FilterDropDown from "./FilterDropDown";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { propTypes } from "react-bootstrap/esm/Image";
 
 function Filter(props) {
+  console.log(props.currentStudentSearch);
 
-  //Sets the initial filter search state to empty string
-  const [filterSearch, setFilterSearch] = useState("")
   return (
     <div className="filter d-block">
       <h1
@@ -18,7 +17,9 @@ function Filter(props) {
         New Search
       </h1>
       <div className="filterScroll">
-        <FilterSearchBar height="80px" filterName="Name" setFilterSearch={(text) => setFilterSearch(text)}  filterSearch={filterSearch}/>
+        <FilterSearchBar height="80px" filterName="Name"
+          setFilterSearch={(text) => props.setCurrentStudentSearch(text)}
+          filterSearch={props.currentStudentSearch} />
         <div className="filterArrowDiv" onClick={() => props.setFilterToggle()}>
           <ArrowBackIcon className="filterArrowIcon" />
         </div>
@@ -29,7 +30,7 @@ function Filter(props) {
           .map(
             (filter) => (
               <FilterDropDown
-                filterSearch={filterSearch}
+                hasSearch={true}
                 isCurrentFilter={(objToAdd) => props.isCurrentFilter(objToAdd)}
                 removeFilter={(filterName) => props.removeFilter(filterName)}
                 key={filter}
@@ -38,7 +39,7 @@ function Filter(props) {
                 title={filter}
               />
             )
-        
+
           )}
 
 
@@ -46,7 +47,7 @@ function Filter(props) {
 
 
       </div>
-      
+
     </div>
   );
 }

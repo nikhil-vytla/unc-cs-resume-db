@@ -7,6 +7,8 @@ import MyListsDropDownItem from "./MyListsDropDownItem";
 import Dropdown from "react-bootstrap/Dropdown";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
+import StarIcon from "@material-ui/icons/Star";
+
 
 function MyListsDropDown({ Firebase, ...props }) {
   //Current state of the dropdown
@@ -27,6 +29,15 @@ function MyListsDropDown({ Firebase, ...props }) {
     </MoreVertIcon>
   ));
 
+
+  let starIcon = null
+  if (props.listTitle === "Favorites") {
+    starIcon = (<StarIcon
+      className="myListIcons"
+      style={{ color: "#4B9CD3" }}
+    />);
+
+  }
   // Exports my list to csv
   const handleExport = async () => {
     const recruiterPreData = await Firebase.db
@@ -55,6 +66,7 @@ function MyListsDropDown({ Firebase, ...props }) {
     link.click(); // This will download the data file
   };
 
+
   // Deletes a list from a recruiters my list section
   const handleDelete = async () => {
     // Checks if listName is empty then sends to endpoint
@@ -75,7 +87,7 @@ function MyListsDropDown({ Firebase, ...props }) {
   if (collapsed) {
     return (
       <div className="d-flex justify-content-between myListTitleHeader">
-        <h1 className="myListTitle"> {props.listTitle} </h1>
+        <div className='d-flex'><h1 className="myListTitle"> {props.listTitle}  </h1>{starIcon}</div>
         <div className="d-flex">
           <Dropdown>
             <Dropdown.Toggle as={CustomToggle}>Dropdown Button</Dropdown.Toggle>
@@ -98,7 +110,7 @@ function MyListsDropDown({ Firebase, ...props }) {
     return (
       <div>
         <div className="d-flex justify-content-between myListTitleHeader">
-          <h1 className="myListTitle"> {props.listTitle} </h1>
+          <div className='d-flex'><h1 className="myListTitle"> {props.listTitle}  </h1>{starIcon}</div>
           <div className="d-flex">
             <Dropdown>
               <Dropdown.Toggle as={CustomToggle}>

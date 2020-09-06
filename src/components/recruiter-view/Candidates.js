@@ -12,7 +12,11 @@ function Candidates(props) {
       </h1>
       <div className="d-flex justify-content-center recruiterViewCardWrapper">
         <div className="d-flex recruiterViewCardDiv">
-          {props.candidateCards.map((Candidate) => (
+          {props.candidateCards.filter((candidate) => {
+            let name = candidate["First Name"] + " " + candidate["Last Name"];
+            return name.toLowerCase().includes(props.currentStudentSearch.toLowerCase()) && candidate != null;
+          }
+          ).map((Candidate) => (
             <CandidateCard
               updateRecruiter={() => props.updateRecruiter()}
               recruiter={props.recruiter}

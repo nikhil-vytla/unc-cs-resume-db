@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import "./Static/RecruiterView.css";
+import "./components/recruiter-view/recruiterViewCss/RecruiterView.css";
 import App from "./components/App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Firebase, { FirebaseContext } from './components/Firebase';

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import ResumeView from "./ResumeView";
 import { useTransition, animated } from "react-spring";
-import "../../Static/RecruiterView.css";
+import "./recruiterViewCss/RecruiterView.css";
 import CandidatesList from "../../Static/Candidates.json";
 import Spinner from "react-bootstrap/Spinner";
 import RecruiterViewColumns from "./RecruiterViewColumns";
 import { Col, Row, Container } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
+
 
 function RecruiterView({ Firebase, ...props }) {
   const [resumeView, setResumeView] = useState(true);
@@ -21,6 +22,10 @@ function RecruiterView({ Firebase, ...props }) {
     setResumeView(!resumeView);
     setCandidate(info);
   }
+
+  //state holding a recruiters search for a student by name
+  const [currentStudentSearch, setCurrentStudentSearch] = useState("");
+
 
   async function getListArrays(collection, doc) {
     const data = await Firebase.db.collection(collection).doc(doc).get();
@@ -271,9 +276,14 @@ function RecruiterView({ Firebase, ...props }) {
             cards={cards}
             recruiterObj={recruiter}
             toggleResumeView={(candidate) => toggleResumeView(candidate)}
+            setCurrentStudentSearch={(name) => setCurrentStudentSearch(name)}
+            currentStudentSearch={currentStudentSearch}
+
+
           />
         </animated.div>
       ) : (
+
         <animated.div style={props}>
           <Container
             fluid

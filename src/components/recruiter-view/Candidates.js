@@ -14,7 +14,7 @@ function Candidates(props) {
         <div className="d-flex recruiterViewCardDiv">
           {props.candidateCards.filter((candidate) => {
             let name = candidate["First Name"] + " " + candidate["Last Name"];
-            return name.toLowerCase().includes(props.currentStudentSearch.toLowerCase());
+            return name.toLowerCase().includes(props.currentStudentSearch.toLowerCase()) && candidate != null;
           }
           ).map((Candidate) => (
             <CandidateCard

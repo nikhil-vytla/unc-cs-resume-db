@@ -10,7 +10,6 @@ import { Col, Row, Container } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
 
-
 function RecruiterView({ Firebase, ...props }) {
   const [resumeView, setResumeView] = useState(true);
   const [recruiter, setRecruiter] = useState(null);
@@ -25,7 +24,6 @@ function RecruiterView({ Firebase, ...props }) {
 
   //state holding a recruiters search for a student by name
   const [currentStudentSearch, setCurrentStudentSearch] = useState("");
-
 
   async function getListArrays(collection, doc) {
     const data = await Firebase.db.collection(collection).doc(doc).get();
@@ -222,35 +220,38 @@ function RecruiterView({ Firebase, ...props }) {
   useEffect(() => {
     async function fetchUsers() {
       //const data = await Firebase.getAllStudents();
-      const recruiterResumeAccessData = await Firebase.db
-        .collection("recruiters")
-        .doc(Firebase.auth.currentUser.uid)
-        .get();
 
-      const recruiterResumeAccess = recruiterResumeAccessData.data();
+      if (currentResumeAccess === null) {
+        const recruiterResumeAccessData = await Firebase.db
+          .collection("recruiters")
+          .doc(Firebase.auth.currentUser.uid)
+          .get();
 
-      let recruiterResumeAccessObjArray = [];
+        const recruiterResumeAccess = recruiterResumeAccessData.data();
 
-      recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
-        recruiterResumeAccessObjArray.push({
-          name: `Events.${eachEvent}`,
-          value: true,
+        let recruiterResumeAccessObjArray = [];
+
+        recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
+          recruiterResumeAccessObjArray.push({
+            name: `Events.${eachEvent}`,
+            value: true,
+          });
         });
-      });
 
-      const data = await axios.post(
-        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/resumeAccessStudents",
-        {
-          resumeAccess: recruiterResumeAccessObjArray,
-          currentRecruiterEmail: Firebase.auth.currentUser.email,
-        }
-      );
+        const data = await axios.post(
+          "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/resumeAccessStudents",
+          {
+            resumeAccess: recruiterResumeAccessObjArray,
+            currentRecruiterEmail: Firebase.auth.currentUser.email,
+          }
+        );
+        setCards(data.data);
+        setResumeAccess(data.data);
+      }
       const recruiter = await Firebase.getRecruiterInfo(
         Firebase.auth.currentUser.uid
       );
       setRecruiter(recruiter);
-      setCards(data.data);
-      setResumeAccess(data.data);
     }
     fetchUsers();
     collectData();
@@ -278,12 +279,9 @@ function RecruiterView({ Firebase, ...props }) {
             toggleResumeView={(candidate) => toggleResumeView(candidate)}
             setCurrentStudentSearch={(name) => setCurrentStudentSearch(name)}
             currentStudentSearch={currentStudentSearch}
-
-
           />
         </animated.div>
       ) : (
-
         <animated.div style={props}>
           <Container
             fluid

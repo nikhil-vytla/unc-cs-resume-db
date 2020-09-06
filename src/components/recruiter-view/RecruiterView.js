@@ -285,6 +285,8 @@ function RecruiterView({ Firebase, ...props }) {
                 <ResumeView
                   candidate={candidate}
                   toggleResumeView={(candidate) => toggleResumeView(candidate)}
+                  recruiterInfo={recruiter[0]}
+                  updateRecruiter={() => updateRecruiter()}
                 />
               </Col>
             </Row>

@@ -36,14 +36,32 @@ function ResumeViewNotes({ Firebase, ...props }) {
   }
 
   if (escape(notes) !== escape(props.recruiterNotes)) {
-    saveBar = <SaveIcon onClick={() => sendNotes()} />;
+    saveBar = (
+      <div
+        className="savingNotesDiv"
+        style={{
+          backgroundColor: "#EF426F",
+          display: "flex",
+          flexDirection: "row-reverse",
+          justifyContent: "center",
+        }}
+      >
+        <SaveIcon onClick={() => sendNotes()} style={{ color: "white" }} />
+        <div className="unsavedSpanDiv" style={{ marginRight: "1vw" }}>
+          <span style={{ color: "white" }}>You have unsaved changes</span>
+        </div>
+      </div>
+    );
   } else {
     saveBar = null;
   }
 
   if (!collapsed) {
     expandedView = (
-      <div className="d-flex justify-content-start ">
+      <div
+        className="d-flex justify-content-start "
+        style={{ flexDirection: "column" }}
+      >
         {saveBar}
         <textarea
           className="resumeViewNotes"

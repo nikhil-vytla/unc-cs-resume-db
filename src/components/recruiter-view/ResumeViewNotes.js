@@ -23,7 +23,7 @@ function ResumeViewNotes({ Firebase, ...props }) {
 
   async function sendNotes() {
     await axios.put(
-      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/addNotes",
+      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/addNotes",
       {
         currentRecruiterEmail: Firebase.auth.currentUser.email,
         studentID: props.studentUID,

@@ -4,6 +4,8 @@ import ClearIcon from "@material-ui/icons/Clear";
 import ZoomInOutlinedIcon from "@material-ui/icons/ZoomInOutlined";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
 
 function MyListsDropDownItem({ Firebase, ...props }) {
   async function handleZoom() {
@@ -37,14 +39,31 @@ function MyListsDropDownItem({ Firebase, ...props }) {
     props.updateRecruiter();
   };
 
+  let profImg = null;
+  if (props.student["Profile Image"] === "") {
+    profImg = (
+      <AccountCircleIcon
+        className="rounded-circle myListsDropDownItemImg"
+        style={{
+          height: "36px",
+          width: "36px",
+        }}
+      />
+    );
+  } else {
+    profImg = (
+      <img
+        className="myListsDropDownItemImg"
+        src={props.student["Profile Image"]}
+        alt=""
+      ></img>
+    );
+  }
+
   return (
     <div className="d-flex justify-content-between myListsItem">
       <div className="d-flex">
-        <img
-          src={props.student["Profile Image"]}
-          alt=" "
-          className="myListsDropDownItemImg"
-        ></img>
+        {profImg}
         <h1 className="myListsDropDownItemName">
           {" "}
           {props.student["First Name"]} {props.student["Last Name"]}{" "}

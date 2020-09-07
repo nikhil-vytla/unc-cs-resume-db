@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import ResumeView from "./ResumeView";
 import { useTransition, animated } from "react-spring";
-import "../../Static/RecruiterView.css";
+import "./recruiterViewCss/RecruiterView.css";
 import CandidatesList from "../../Static/Candidates.json";
 import Spinner from "react-bootstrap/Spinner";
 import RecruiterViewColumns from "./RecruiterViewColumns";
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container, Modal } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
 
@@ -21,6 +21,9 @@ function RecruiterView({ Firebase, ...props }) {
     setResumeView(!resumeView);
     setCandidate(info);
   }
+
+  //state holding a recruiters search for a student by name
+  const [currentStudentSearch, setCurrentStudentSearch] = useState("");
 
   async function getListArrays(collection, doc) {
     const data = await Firebase.db.collection(collection).doc(doc).get();
@@ -217,81 +220,84 @@ function RecruiterView({ Firebase, ...props }) {
   useEffect(() => {
     async function fetchUsers() {
       //const data = await Firebase.getAllStudents();
-      const recruiterResumeAccessData = await Firebase.db
-        .collection("recruiters")
-        .doc(Firebase.auth.currentUser.uid)
-        .get();
 
-      const recruiterResumeAccess = recruiterResumeAccessData.data();
+      if (currentResumeAccess === null) {
+        const recruiterResumeAccessData = await Firebase.db
+          .collection("recruiters")
+          .doc(Firebase.auth.currentUser.uid)
+          .get();
 
-      let recruiterResumeAccessObjArray = [];
+        const recruiterResumeAccess = recruiterResumeAccessData.data();
 
-      recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
-        recruiterResumeAccessObjArray.push({
-          name: `Events.${eachEvent}`,
-          value: true,
+        let recruiterResumeAccessObjArray = [];
+
+        recruiterResumeAccess["Resume Access"].forEach((eachEvent) => {
+          recruiterResumeAccessObjArray.push({
+            name: `Events.${eachEvent}`,
+            value: true,
+          });
         });
-      });
 
-      const data = await axios.post(
-        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/resumeAccessStudents",
-        {
-          resumeAccess: recruiterResumeAccessObjArray,
-          currentRecruiterEmail: Firebase.auth.currentUser.email,
-        }
-      );
+        const data = await axios.post(
+          "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/resumeAccessStudents",
+          {
+            resumeAccess: recruiterResumeAccessObjArray,
+            currentRecruiterEmail: Firebase.auth.currentUser.email,
+          }
+        );
+        setCards(data.data);
+        setResumeAccess(data.data);
+      }
       const recruiter = await Firebase.getRecruiterInfo(
         Firebase.auth.currentUser.uid
       );
       setRecruiter(recruiter);
-      setCards(data.data);
-      setResumeAccess(data.data);
     }
     fetchUsers();
     collectData();
   }, []);
 
-  // Animation for displaying the expanded resume view
-  const transitions = useTransition(resumeView, null, {
-    from: { position: "absolute", opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  });
-
   if (filters !== null && recruiter !== null && cards !== null) {
-    return transitions.map(({ item, key, props }) =>
-      item ? (
-        <animated.div style={props}>
-          <RecruiterViewColumns
-            addFilter={(filterName) => addFilter(filterName)}
-            isCurrentFilter={(objToAdd) => isCurrentFilter(objToAdd)}
-            removeFilter={(filterName) => removeFilter(filterName)}
-            filters={filters}
-            updateRecruiter={() => updateRecruiter()}
-            cards={cards}
-            recruiterObj={recruiter}
+    return (
+      <div>
+        <Modal
+          className="recruiterModalBackGround"
+          show={!resumeView}
+          dialogClassName="recruiterModal"
+        >
+          <ResumeView
+            candidate={candidate}
             toggleResumeView={(candidate) => toggleResumeView(candidate)}
+            recruiterInfo={recruiter[0]}
+            updateRecruiter={() => updateRecruiter()}
           />
-        </animated.div>
-      ) : (
-        <animated.div style={props}>
-          <Container
-            fluid
-            className="p-0 vw-100 recruiterViewContainer"
-            style={{ backgroundColor: "#13294B" }}
-          >
-            <Row>
-              <Col className="d-flex justify-content-center resumeViewContainer">
-                <ResumeView
-                  candidate={candidate}
-                  toggleResumeView={(candidate) => toggleResumeView(candidate)}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </animated.div>
-      )
-    );
+        </Modal >
+        <RecruiterViewColumns
+          addFilter={(filterName) => addFilter(filterName)}
+          isCurrentFilter={(objToAdd) => isCurrentFilter(objToAdd)}
+          removeFilter={(filterName) => removeFilter(filterName)}
+          filters={filters}
+          updateRecruiter={() => updateRecruiter()}
+          cards={cards}
+          recruiterObj={recruiter}
+          toggleResumeView={(candidate) => toggleResumeView(candidate)}
+          setCurrentStudentSearch={(name) => setCurrentStudentSearch(name)}
+          currentStudentSearch={currentStudentSearch}
+        />
+      </div>
+
+      // <Container
+      //   fluid
+      //   className="p-0 vw-100 recruiterViewContainer"
+      //   style={{ backgroundColor: "#13294B" }}
+      // >
+      //   <Row>
+      //     <Col className="d-flex justify-content-center resumeViewContainer">
+
+      //     </Col>
+      //   </Row>
+      // </Container>
+    )
   } else {
     // loads a spinner if all the api calls are not complete
     return (

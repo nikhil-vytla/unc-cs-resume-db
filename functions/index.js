@@ -435,6 +435,11 @@ app.post("/queryV3", async (req, res) => {
         frameOR.forEach((eachArray) => {
           frameFinalOR = orFilter(eachArray, frameFinalOR);
         });
+
+        prevQueries["Frameworks and Tools"]["prevFilters"] =
+          filters["Frameworks and Tools"];
+        prevQueries["Frameworks and Tools"]["prevQuery"] = frameFinalOR;
+
         orHolder.push(frameFinalOR);
       }
     } else {
@@ -478,6 +483,11 @@ app.post("/queryV3", async (req, res) => {
         dbOR.forEach((eachArray) => {
           dbFinalOR = orFilter(eachArray, dbFinalOR);
         });
+
+        prevQueries["Database Systems"]["prevFilters"] =
+          filters["Database Systems"];
+        prevQueries["Database Systems"]["prevQuery"] = dbFinalOR;
+
         orHolder.push(dbFinalOR);
       }
     } else {
@@ -517,6 +527,10 @@ app.post("/queryV3", async (req, res) => {
         schoolOR.forEach((eachArray) => {
           schoolFinalOR = orFilter(eachArray, schoolFinalOR);
         });
+
+        prevQueries["School"]["prevFilters"] = filters["School"];
+        prevQueries["School"]["prevQuery"] = schoolFinalOR;
+
         orHolder.push(schoolFinalOR);
       }
     } else {
@@ -560,6 +574,10 @@ app.post("/queryV3", async (req, res) => {
         opOR.forEach((eachArray) => {
           opFinalOR = orFilter(eachArray, opFinalOR);
         });
+        prevQueries["Operating Systems"]["prevFilters"] =
+          filters["Operating Systems"];
+        prevQueries["Operating Systems"]["prevQuery"] = opFinalOR;
+
         orHolder.push(opFinalOR);
       }
     } else {
@@ -599,6 +617,10 @@ app.post("/queryV3", async (req, res) => {
         eventsOR.forEach((eachArray) => {
           eventsFinalOR = orFilter(eachArray, eventsFinalOR);
         });
+
+        prevQueries["Events"]["prevFilters"] = filters["Events"];
+        prevQueries["Events"]["prevQuery"] = eventsFinalOR;
+
         orHolder.push(eventsFinalOR);
       }
     } else {
@@ -642,6 +664,11 @@ app.post("/queryV3", async (req, res) => {
         gradOR.forEach((eachArray) => {
           gradFinalOR = orFilter(eachArray, gradFinalOR);
         });
+
+        prevQueries["Graduation Year"]["prevFilters"] =
+          filters["Graduation Year"];
+        prevQueries["Graduation Year"]["prevQuery"] = gradFinalOR;
+
         orHolder.push(gradFinalOR);
       }
     } else {
@@ -685,6 +712,10 @@ app.post("/queryV3", async (req, res) => {
         primMajorOR.forEach((eachArray) => {
           primMajorFinalOR = orFilter(eachArray, primMajorFinalOR);
         });
+
+        prevQueries["Primary Major"]["prevFilters"] = filters["Primary Major"];
+        prevQueries["Primary Major"]["prevQuery"] = primMajorFinalOR;
+
         orHolder.push(primMajorFinalOR);
       }
     } else {
@@ -728,6 +759,11 @@ app.post("/queryV3", async (req, res) => {
         secMajorOR.forEach((eachArray) => {
           secMajorFinalOR = orFilter(eachArray, secMajorFinalOR);
         });
+
+        prevQueries["Secondary Major"]["prevFilters"] =
+          filters["Secondary Major"];
+        prevQueries["Secondary Major"]["prevQuery"] = secMajorFinalOR;
+
         orHolder.push(secMajorFinalOR);
       }
     } else {
@@ -767,6 +803,10 @@ app.post("/queryV3", async (req, res) => {
         minorsOR.forEach((eachArray) => {
           minorsFinalOR = orFilter(eachArray, minorsFinalOR);
         });
+
+        prevQueries["Minors"]["prevFilters"] = filters["Minors"];
+        prevQueries["Minors"]["prevQuery"] = minorsFinalOR;
+
         orHolder.push(minorsFinalOR);
       }
     } else {
@@ -1041,6 +1081,25 @@ app.put("/removeRecruiterFromDB", async (req, res) => {
       .collection("recruiters")
       .doc(req.body.recruiterUID)
       .delete()
+      .catch((err) => res.status(500).send(err));
+    res.status(201).send();
+  } else {
+    res.status(401).send();
+  }
+});
+
+// Allows recruiters to add notes to a students profile
+app.put("/addNotes", async (req, res) => {
+  const email = req.body.currentRecruiterEmail;
+  const claims = (await auth().getUserByEmail(email)).customClaims;
+
+  if (claims.recruiter || claims.admin) {
+    await firestore
+      .collection("recruiters")
+      .doc(req.body.recruiterUID)
+      .update({
+        [`Notes.${req.body.studentID}`]: req.body.currentNotes,
+      })
       .catch((err) => res.status(500).send(err));
     res.status(201).send();
   } else {

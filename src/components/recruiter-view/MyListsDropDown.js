@@ -7,6 +7,8 @@ import MyListsDropDownItem from "./MyListsDropDownItem";
 import Dropdown from "react-bootstrap/Dropdown";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
+import StarIcon from "@material-ui/icons/Star";
+
 
 function MyListsDropDown({ Firebase, ...props }) {
   //Current state of the dropdown
@@ -26,6 +28,44 @@ function MyListsDropDown({ Firebase, ...props }) {
       &#x25bc;
     </MoreVertIcon>
   ));
+
+
+  let starIcon = null
+  if (props.listTitle === "Favorites") {
+    starIcon = (<StarIcon
+      className="myListIcons"
+      style={{ color: "#4B9CD3" }}
+    />);
+
+  }
+  // Exports my list to csv
+  const handleExport = async () => {
+    const recruiterPreData = await Firebase.db
+      .collection("recruiters")
+      .doc(Firebase.auth.currentUser.uid)
+      .get();
+    const recruiterData = recruiterPreData.data();
+
+    const listArr = recruiterData[`Lists`][props.listTitle].reduce(
+      (acc, val) => {
+        acc.push([val["First Name"], val["Last Name"], val["Email"]]);
+        return acc;
+      },
+      []
+    );
+
+    const rows = [["First Name", "Last Name", "Email"], ...listArr];
+
+    let csvContent =
+      "data:text/csv;charset=utf-8," + rows.map((e) => e.join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    let link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${props.listTitle}.csv`);
+    document.body.appendChild(link); // Required for FF
+    link.click(); // This will download the data file
+  };
+
 
   // Deletes a list from a recruiters my list section
   const handleDelete = async () => {
@@ -47,7 +87,7 @@ function MyListsDropDown({ Firebase, ...props }) {
   if (collapsed) {
     return (
       <div className="d-flex justify-content-between myListTitleHeader">
-        <h1 className="myListTitle"> {props.listTitle} </h1>
+        <div className='d-flex'><h1 className="myListTitle"> {props.listTitle}  </h1>{starIcon}</div>
         <div className="d-flex">
           <Dropdown>
             <Dropdown.Toggle as={CustomToggle}>Dropdown Button</Dropdown.Toggle>
@@ -56,8 +96,9 @@ function MyListsDropDown({ Firebase, ...props }) {
               <Dropdown.Item onClick={() => handleDelete()}>
                 Delete List
               </Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleExport()}>
+                Export List to CSV
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 
@@ -69,7 +110,7 @@ function MyListsDropDown({ Firebase, ...props }) {
     return (
       <div>
         <div className="d-flex justify-content-between myListTitleHeader">
-          <h1 className="myListTitle"> {props.listTitle} </h1>
+          <div className='d-flex'><h1 className="myListTitle"> {props.listTitle}  </h1>{starIcon}</div>
           <div className="d-flex">
             <Dropdown>
               <Dropdown.Toggle as={CustomToggle}>
@@ -80,8 +121,9 @@ function MyListsDropDown({ Firebase, ...props }) {
                 <Dropdown.Item onClick={() => handleDelete()}>
                   Delete List
                 </Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleExport()}>
+                  Export List to CSV
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
 

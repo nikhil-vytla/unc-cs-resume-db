@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import StarIcon from "@material-ui/icons/Star";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import CandidateCardTag from "./CandidateCardTag";
-import "../../Static/candidates.css";
+import "./recruiterViewCss/candidates.css";
 import CandidateCardAdd from "./CandidateCardAdd";
+import { withFirebase } from "../Firebase";
+import axios from "axios";
 
-function CandidateCard(props) {
-  const [starToggle, setStarToggle] = useState(false);
+
+function CandidateCard({ Firebase, ...props }) {
+
   let primaryMajor;
   if (props.info["Primary Major"] !== "") {
     primaryMajor = (
@@ -50,18 +53,77 @@ function CandidateCard(props) {
 
   let star;
 
+
+
+  //adds a student to favorites list
+  async function addFavorite() {
+
+    // Checks if listName is empty then sends to endpoint
+    const objToSend = {
+      nameOfList: "Favorites",
+      recruiterUID: Firebase.auth.currentUser.uid,
+      currentRecruiterEmail: Firebase.auth.currentUser.email,
+      student: {
+        Email: props.info["Email"],
+        "First Name": props.info["First Name"],
+        "Last Name": props.info["Last Name"],
+        UID: props.info["UID"],
+        "Profile Image": props.info["Profile Image"],
+      },
+    };
+
+    // Adds a student to the list if the list does not already have a student
+    if (props.recruiter[0].Lists.Favorites.filter((item) => item["Email"] === props.info["Email"]).length === 0) {
+      await axios.put(
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/addStudent",
+        objToSend
+      );
+    }
+    props.updateRecruiter();
+
+  }
+
+
+  // removes student from favorites list
+  async function removeFavorite() {
+    // Checks if listName is empty then sends to endpoint
+    const objToSend = {
+      nameOfList: "Favorites",
+      recruiterUID: Firebase.auth.currentUser.uid,
+      currentRecruiterEmail: Firebase.auth.currentUser.email,
+      student: {
+        Email: props.info["Email"],
+        "First Name": props.info["First Name"],
+        "Last Name": props.info["Last Name"],
+        UID: props.info["UID"],
+        "Profile Image": props.info["Profile Image"],
+      },
+    };
+
+    if (props.recruiter[0].Lists.Favorites.filter((item) => item["Email"] === props.info["Email"]).length === 1) {
+      await axios.put(
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/deleteStudent",
+        objToSend
+      );
+    }
+    props.updateRecruiter();
+
+  }
+
+
   //Displays a blue star if star toggle is active
-  if (!starToggle) {
+
+  if (props.recruiter[0] != null && props.recruiter[0].Lists.Favorites.filter((item) => item["Email"] === props.info["Email"]).length === 0) {
     star = (
       <StarBorderOutlinedIcon
         className="recruiterViewIcon"
-        onClick={() => setStarToggle(true)}
+        onClick={() => addFavorite()}
       />
     );
   } else {
     star = (
       <StarIcon
-        onClick={() => setStarToggle(false)}
+        onClick={() => removeFavorite()}
         className="recruiterViewIcon"
         style={{ color: "#4B9CD3" }}
       />
@@ -92,7 +154,7 @@ function CandidateCard(props) {
   }
 
   //does not display student cards that are hidden
-  if (props.info["Hide Resume"] === true) {
+  if (props.info["Hide Resume"] === true || props.info["First Name"] == "" || props.info["Resume PDF"] == "") {
     return null;
   } else {
     return (
@@ -177,4 +239,4 @@ function CandidateCard(props) {
     );
   }
 }
-export default CandidateCard;
+export default withFirebase(CandidateCard);

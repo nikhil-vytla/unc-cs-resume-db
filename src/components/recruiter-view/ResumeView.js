@@ -1,16 +1,18 @@
 
 import React, { useState, useEffect } from "react";
 import ClearIcon from "@material-ui/icons/Clear";
-import PrintIcon from "@material-ui/icons/Print";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import RecruiterViewDropDown from "./RecruiterViewDropDown";
 import ResumeViewDropDownText from "./ResumeViewDropDownText";
+import { withFirebase } from "../Firebase";
+import axios from "axios";
+import StarIcon from "@material-ui/icons/Star";
 
 
 import ResumeViewNotes from "./ResumeViewNotes";
 
-function ResumeView(props) {
+function ResumeView({ Firebase, ...props }) {
   const frameWorks = props.candidate["Frameworks and Tools"];
   const databaseSystems = props.candidate["Database System"];
   const programmingLanguages = props.candidate["Programming Languages"];
@@ -21,12 +23,89 @@ function ResumeView(props) {
   const minors = [props.candidate.Minors];
   const notesUID = props.candidate["UID"];
 
+
+
+  let star;
+  if (props.recruiterInfo.Lists.Favorites.filter((item) => item["Email"] === props.candidate["Email"]).length === 0) {
+    star = (
+      <StarBorderOutlinedIcon
+        fontSize="large"
+        onClick={() => addFavorite()}
+      />
+    );
+  } else {
+    star = (
+      <StarIcon
+        onClick={() => removeFavorite()}
+        fontSize="large"
+        style={{ color: "#4B9CD3" }}
+      />
+    );
+  }
+
+  //adds a student to favorites list
+  async function addFavorite() {
+    // Checks if listName is empty then sends to endpoint
+    const objToSend = {
+      nameOfList: "Favorites",
+      recruiterUID: Firebase.auth.currentUser.uid,
+      currentRecruiterEmail: Firebase.auth.currentUser.email,
+      student: {
+        Email: props.candidate["Email"],
+        "First Name": props.candidate["First Name"],
+        "Last Name": props.candidate["Last Name"],
+        UID: props.candidate["UID"],
+        "Profile Image": props.candidate["Profile Image"],
+      },
+
+
+    };
+
+
+    // Adds a student to the list if the list does not already have a student
+    if (props.recruiterInfo.Lists.Favorites.filter((item) => item["Email"] === props.candidate["Email"]).length === 0) {
+      await axios.put(
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/addStudent",
+        objToSend
+      );
+    }
+    props.updateRecruiter();
+
+  }
+
+
+  async function removeFavorite() {
+
+    // Checks if listName is empty then sends to endpoint
+    const objToSend = {
+      nameOfList: "Favorites",
+      recruiterUID: Firebase.auth.currentUser.uid,
+      currentRecruiterEmail: Firebase.auth.currentUser.email,
+      student: {
+        Email: props.candidate["Email"],
+        "First Name": props.candidate["First Name"],
+        "Last Name": props.candidate["Last Name"],
+        UID: props.candidate["UID"],
+        "Profile Image": props.candidate["Profile Image"],
+      },
+    };
+
+    if (props.recruiterInfo.Lists.Favorites.filter((item) => item["Email"] === props.candidate["Email"]).length === 1) {
+      await axios.put(
+        "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/deleteStudent",
+        objToSend
+      );
+    }
+    props.updateRecruiter();
+  }
+
+
+
   return (
     <div className="resumeViewDiv">
       <div className="d-flex justify-content-end ">
         <div className=" resumeViewNav">
-          <StarBorderOutlinedIcon fontSize="large" />
-          <PrintIcon fontSize="large" />
+          {star}
           <a
             href={"mailto:" + props.candidate["Email"]}
             style={{ color: "black" }}
@@ -117,14 +196,14 @@ function ResumeView(props) {
                 props.recruiterInfo["Notes"] == null
                   ? ""
                   : props.recruiterInfo["Notes"][notesUID] == null
-                  ? ""
-                  : props.recruiterInfo["Notes"][notesUID]
+                    ? ""
+                    : props.recruiterInfo["Notes"][notesUID]
               }
               updateRecruiter={() => props.updateRecruiter()}
-              //   condition1 ? value1
-              //  : condition2 ? value2
-              //  : condition3 ? value3
-              //     : value4;
+            //   condition1 ? value1
+            //  : condition2 ? value2
+            //  : condition3 ? value3
+            //     : value4;
             />
           </div>
         </div>
@@ -133,4 +212,4 @@ function ResumeView(props) {
   );
 }
 
-export default ResumeView;
+export default withFirebase(ResumeView);

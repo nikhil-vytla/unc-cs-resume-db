@@ -6,7 +6,7 @@ import "./recruiterViewCss/RecruiterView.css";
 import CandidatesList from "../../Static/Candidates.json";
 import Spinner from "react-bootstrap/Spinner";
 import RecruiterViewColumns from "./RecruiterViewColumns";
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container, Modal } from "react-bootstrap";
 import { withFirebase } from "../Firebase";
 import axios from "axios";
 
@@ -257,51 +257,47 @@ function RecruiterView({ Firebase, ...props }) {
     collectData();
   }, []);
 
-  // Animation for displaying the expanded resume view
-  const transitions = useTransition(resumeView, null, {
-    from: { position: "absolute", opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  });
-
   if (filters !== null && recruiter !== null && cards !== null) {
-    return transitions.map(({ item, key, props }) =>
-      item ? (
-        <animated.div style={props}>
-          <RecruiterViewColumns
-            addFilter={(filterName) => addFilter(filterName)}
-            isCurrentFilter={(objToAdd) => isCurrentFilter(objToAdd)}
-            removeFilter={(filterName) => removeFilter(filterName)}
-            filters={filters}
-            updateRecruiter={() => updateRecruiter()}
-            cards={cards}
-            recruiterObj={recruiter}
+    return (
+      <div>
+        <Modal
+          className="recruiterModalBackGround"
+          show={!resumeView}
+          dialogClassName="recruiterModal"
+        >
+          <ResumeView
+            candidate={candidate}
             toggleResumeView={(candidate) => toggleResumeView(candidate)}
-            setCurrentStudentSearch={(name) => setCurrentStudentSearch(name)}
-            currentStudentSearch={currentStudentSearch}
+            recruiterInfo={recruiter[0]}
+            updateRecruiter={() => updateRecruiter()}
           />
-        </animated.div>
-      ) : (
-        <animated.div style={props}>
-          <Container
-            fluid
-            className="p-0 vw-100 recruiterViewContainer"
-            style={{ backgroundColor: "#13294B" }}
-          >
-            <Row>
-              <Col className="d-flex justify-content-center resumeViewContainer">
-                <ResumeView
-                  candidate={candidate}
-                  toggleResumeView={(candidate) => toggleResumeView(candidate)}
-                  recruiterInfo={recruiter[0]}
-                  updateRecruiter={() => updateRecruiter()}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </animated.div>
-      )
-    );
+        </Modal >
+        <RecruiterViewColumns
+          addFilter={(filterName) => addFilter(filterName)}
+          isCurrentFilter={(objToAdd) => isCurrentFilter(objToAdd)}
+          removeFilter={(filterName) => removeFilter(filterName)}
+          filters={filters}
+          updateRecruiter={() => updateRecruiter()}
+          cards={cards}
+          recruiterObj={recruiter}
+          toggleResumeView={(candidate) => toggleResumeView(candidate)}
+          setCurrentStudentSearch={(name) => setCurrentStudentSearch(name)}
+          currentStudentSearch={currentStudentSearch}
+        />
+      </div>
+
+      // <Container
+      //   fluid
+      //   className="p-0 vw-100 recruiterViewContainer"
+      //   style={{ backgroundColor: "#13294B" }}
+      // >
+      //   <Row>
+      //     <Col className="d-flex justify-content-center resumeViewContainer">
+
+      //     </Col>
+      //   </Row>
+      // </Container>
+    )
   } else {
     // loads a spinner if all the api calls are not complete
     return (

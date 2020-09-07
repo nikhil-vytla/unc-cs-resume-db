@@ -13,12 +13,6 @@ import axios from "axios";
 
 function CandidateCard({ Firebase, ...props }) {
 
-
-
-
-  const [starToggle, setStarToggle] = useState(props.recruiter[0].Lists.Favorites.filter((item) => item["Email"] === props.info["Email"]).length === 1);
-
-
   let primaryMajor;
   if (props.info["Primary Major"] !== "") {
     primaryMajor = (
@@ -63,7 +57,7 @@ function CandidateCard({ Firebase, ...props }) {
 
   //adds a student to favorites list
   async function addFavorite() {
-    setStarToggle(true);
+
     // Checks if listName is empty then sends to endpoint
     const objToSend = {
       nameOfList: "Favorites",
@@ -87,13 +81,11 @@ function CandidateCard({ Firebase, ...props }) {
     }
     props.updateRecruiter();
 
-
   }
 
 
   // removes student from favorites list
   async function removeFavorite() {
-    setStarToggle(false);
     // Checks if listName is empty then sends to endpoint
     const objToSend = {
       nameOfList: "Favorites",
@@ -115,12 +107,13 @@ function CandidateCard({ Firebase, ...props }) {
       );
     }
     props.updateRecruiter();
+
   }
 
 
   //Displays a blue star if star toggle is active
 
-  if (!starToggle) {
+  if (props.recruiter[0] != null && props.recruiter[0].Lists.Favorites.filter((item) => item["Email"] === props.info["Email"]).length === 0) {
     star = (
       <StarBorderOutlinedIcon
         className="recruiterViewIcon"
@@ -161,7 +154,7 @@ function CandidateCard({ Firebase, ...props }) {
   }
 
   //does not display student cards that are hidden
-  if (props.info["Hide Resume"] === true) {
+  if (props.info["Hide Resume"] === true || props.info["First Name"] == "" || props.info["Resume PDF"] == "") {
     return null;
   } else {
     return (

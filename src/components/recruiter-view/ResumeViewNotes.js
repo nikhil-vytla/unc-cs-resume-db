@@ -38,6 +38,7 @@ function ResumeViewNotes({ Firebase, ...props }) {
   if (escape(notes) !== escape(props.recruiterNotes)) {
     saveBar = (
       <div
+        onClick={() => sendNotes()}
         className="savingNotesDiv"
         style={{
           backgroundColor: "#EF426F",
@@ -46,9 +47,9 @@ function ResumeViewNotes({ Firebase, ...props }) {
           justifyContent: "center",
         }}
       >
-        <SaveIcon onClick={() => sendNotes()} style={{ color: "white" }} />
+        <SaveIcon style={{ color: "white" }} className="resumeViewSaveIcon" />
         <div className="unsavedSpanDiv" style={{ marginRight: "1vw" }}>
-          <span style={{ color: "white" }}>You have unsaved changes</span>
+          <span style={{ color: "white" }}>Click to save changes</span>
         </div>
       </div>
     );

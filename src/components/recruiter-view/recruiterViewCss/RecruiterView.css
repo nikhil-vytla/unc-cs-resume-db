@@ -85,11 +85,18 @@
 	font-size: 11px;
 	width: fit-content;
 }
-.recruiterViewTagContainer {
-	padding: 10px;
-	max-height: 125px;
-	overflow: hidden;
+.recruiterModal {
+	margin: 0px !important;
+	max-width: 90vw !important;
+	margin-left: 5vw !important;
+	margin-right: 5vw !important;
+	overflow-y: hidden !important;
 }
+.recruiterModalBackGround {
+	overflow-y: hidden !important;
+	height: 100vh !important;
+}
+
 .recruiterViewIcon {
 	transition: all 0.2s ease-in-out;
 
@@ -101,7 +108,7 @@
 
 .resumeViewDiv {
 	width: 90vw;
-	height: calc(100vh - 20px -105px);
+	height: calc(100vh);
 	height: 900px;
 	background-color: #e5e5e5;
 }
@@ -112,12 +119,12 @@
 .resumeImage {
 	overflow-y: auto;
 	width: 50vw;
-	height: calc(100vh - 145px);
+	height: calc(100vh);
 	padding-left: 3vw;
 	border: none;
 }
 .resumeViewImageDiv {
-	height: calc(100vh - 145px);
+	height: calc(100vh);
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 	overflow-y: auto;
@@ -187,7 +194,7 @@
 	background-color: #ffffff;
 }
 .resumeViewRightPanel {
-	height: calc(100vh - 145px);
+	height: calc(100vh);
 	overflow-y: auto;
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
@@ -246,4 +253,10 @@
 }
 .recruiterViewAnimatedDiv {
 	position: relative !important;
+}
+
+.resumeViewSaveIcon {
+}
+.resumeViewSaveIcon:hover {
+	transform: scale(1.1);
 }

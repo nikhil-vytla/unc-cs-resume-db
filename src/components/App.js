@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./auth/PrivateRoute";
 import { withFirebase } from "./Firebase";
 import UpdateAccount from "./student-view/UpdateAccount";
+import UpdateAdminAccount from "./admin-view/UpdateAccount";
 import ForgotPassword from "./auth/ForgotPassword";
 
 const App = ({ Firebase }) => {
@@ -30,6 +31,11 @@ const App = ({ Firebase }) => {
           <Route exact path="/" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/accountSettings" component={UpdateAccount} />
+          <Route
+            exact
+            path="/adminAccountSettings"
+            component={UpdateAdminAccount}
+          />
           <Route exact path="/ForgotPassword" component={ForgotPassword} />
           <PrivateRoute
             exact

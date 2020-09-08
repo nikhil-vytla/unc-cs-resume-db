@@ -1,0 +1,67 @@
+.accountChangeContainer {
+	background-color: white;
+	width: 85vw;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 3%;
+	height: calc(100vh - 105px);
+}
+.accountSettingsTitle {
+	font-size: 30px;
+	margin-top: 0px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	color: #fff;
+	background-color: #4b9cd3;
+	width: 100%;
+}
+.arrowIcon {
+	transition: all 0.2s ease-in-out;
+	color: black;
+}
+.arrowIcon:hover {
+	transform: scale(1.1);
+}
+.accountChangeBtn {
+	background-color: #4b9cd3;
+	height: calc(1.5em + 0.75rem + 2px);
+	color: white;
+	min-width: 150px;
+	max-width: 20vw !important;
+	margin-top: 30px;
+	border: none;
+	width: 100%;
+}
+
+.emailChangeForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.changeInfoHeader {
+	color: black;
+	font-size: 20px;
+	text-align: center;
+	margin-bottom: 0px;
+}
+
+.passwordChangeContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 40px;
+	min-width: 500px;
+	margin-left: 0px;
+	margin-right: 0px;
+	max-width: 20vw !important;
+}
+.emailChangeContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 40px;
+	min-width: 500px;
+	margin-left: 0px;
+	margin-right: 0px;
+	max-width: 20vw !important;
+}

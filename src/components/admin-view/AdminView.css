@@ -16,7 +16,8 @@
 }
 
 .admin-resume-access-list {
-  padding: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
   display: inline-flex;
   list-style-type: none;
   font-weight: normal !important;

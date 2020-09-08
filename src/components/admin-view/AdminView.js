@@ -8,6 +8,8 @@ import {
   ButtonGroup,
   ToggleButton,
 } from "react-bootstrap";
+import SettingsIcon from "@material-ui/icons/Settings";
+
 import { withFirebase } from "../Firebase";
 import RecruiterListComponent from "./RecruiterListComponent";
 import StudentListComponent from "./StudentListComponent";
@@ -64,24 +66,34 @@ class AdminView extends Component {
       ];
 
       return (
-        <ButtonGroup toggle>
-          {radios.map((radio, idx) => (
-            <ToggleButton
-              key={idx}
-              type="radio"
-              variant="primary"
-              name="radio"
-              value={radio.value}
-              checked={radioValue === radio.value}
-              onChange={(e) => {
-                setRadioValue(e.currentTarget.value);
-                parentState(e.currentTarget.value);
-              }}
-            >
-              {radio.name}
-            </ToggleButton>
-          ))}
-        </ButtonGroup>
+        <div>
+          <ButtonGroup toggle>
+            {radios.map((radio, idx) => (
+              <ToggleButton
+                key={idx}
+                type="radio"
+                variant="primary"
+                name="radio"
+                value={radio.value}
+                checked={radioValue === radio.value}
+                onChange={(e) => {
+                  setRadioValue(e.currentTarget.value);
+                  parentState(e.currentTarget.value);
+                }}
+              >
+                {radio.name}
+              </ToggleButton>
+            ))}
+          </ButtonGroup>
+          <Link to="/adminAccountSettings">
+            <SettingsIcon
+              style={{ color: "white" }}
+              className="settingsIcon"
+              fontSize="large"
+            />
+          </Link>
+          {/* <Button className="admin-setting"> Setting </Button> */}
+        </div>
       );
     }
 

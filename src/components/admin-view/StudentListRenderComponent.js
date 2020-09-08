@@ -48,7 +48,7 @@ export class StudentListRenderComponent extends Component {
             onChange={this.handleChange}
           />
         </div>
-
+        <h4> Students Showing : {this.state.filtered.length}</h4>
         <Accordion defaultActiveKey="0">
           {this.state.filtered.map((data, index) => (
             <div

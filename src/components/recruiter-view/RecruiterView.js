@@ -121,7 +121,8 @@ function RecruiterView({ Firebase, ...props }) {
       "Active Filters": filterArr,
     }));
     const preData = await axios.post(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
+      //"https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
       {
         filtersForQuery: filterArr,
         empty: false,
@@ -178,7 +179,8 @@ function RecruiterView({ Firebase, ...props }) {
     });
 
     const preData = await axios.post(
-      "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
+      //"https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/queryV3",
+      "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/queryV3",
       {
         filtersForQuery: filterArr,
         empty: isEmpty,
@@ -239,7 +241,8 @@ function RecruiterView({ Firebase, ...props }) {
         });
 
         const data = await axios.post(
-          "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/resumeAccessStudents",
+          // "https://us-central1-unc-cs-resume-database-af14e.cloudfunctions.net/api/resumeAccessStudents",
+          "http://localhost:5001/unc-cs-resume-database-af14e/us-central1/api/resumeAccessStudents",
           {
             resumeAccess: recruiterResumeAccessObjArray,
             currentRecruiterEmail: Firebase.auth.currentUser.email,
@@ -271,7 +274,7 @@ function RecruiterView({ Firebase, ...props }) {
             recruiterInfo={recruiter[0]}
             updateRecruiter={() => updateRecruiter()}
           />
-        </Modal >
+        </Modal>
         <RecruiterViewColumns
           addFilter={(filterName) => addFilter(filterName)}
           isCurrentFilter={(objToAdd) => isCurrentFilter(objToAdd)}
@@ -297,7 +300,7 @@ function RecruiterView({ Firebase, ...props }) {
       //     </Col>
       //   </Row>
       // </Container>
-    )
+    );
   } else {
     // loads a spinner if all the api calls are not complete
     return (

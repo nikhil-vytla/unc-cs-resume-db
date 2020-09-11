@@ -12,6 +12,7 @@ import axios from "axios";
 
 function RecruiterView({ Firebase, ...props }) {
   const [resumeView, setResumeView] = useState(true);
+  const [spinnerView, setSpinnerView] = useState(false);
   const [recruiter, setRecruiter] = useState(null);
   const [candidate, setCandidate] = useState(CandidatesList.CandidatesList[0]);
   const [filters, setFilters] = useState(null);
@@ -107,6 +108,8 @@ function RecruiterView({ Firebase, ...props }) {
     const queryObj = queries["Active Queries"];
     let specificFilter = "";
 
+    setSpinnerView(true);
+
     if (filterName.name.includes(".")) {
       const index = filterName.name.indexOf(".");
       specificFilter = filterName.name.slice(0, index);
@@ -138,13 +141,13 @@ function RecruiterView({ Firebase, ...props }) {
     // References query part of the data
     const queryData = preData.data.queries;
     setQueries(queryData);
+    setSpinnerView(false);
   }
   async function removeFilter(filterName) {
     let filterArr = filters["Active Filters"];
     const queryObj = queries["Active Queries"];
-
     let specificFilter = "";
-
+    setSpinnerView(true);
     if (filterName.name.includes(".")) {
       const index = filterName.name.indexOf(".");
       specificFilter = filterName.name.slice(0, index);
@@ -192,6 +195,7 @@ function RecruiterView({ Firebase, ...props }) {
     // References query part of the data
     const queryData = preData.data.queries;
     setQueries(queryData);
+    setSpinnerView(false);
   }
   // Checks the list of current filters for a filter passed from the Filter Item component
   function isCurrentFilter(objToAdd) {
@@ -271,7 +275,19 @@ function RecruiterView({ Firebase, ...props }) {
             recruiterInfo={recruiter[0]}
             updateRecruiter={() => updateRecruiter()}
           />
-        </Modal >
+        </Modal>
+        <Modal show={spinnerView}>
+          <div className="d-flex justify-content-center spinnerModal">
+            <Spinner
+              animation="border"
+              role="status"
+              className="recruiterSpinner"
+            >
+              {" "}
+              <span className="sr-only">Loading...</span>{" "}
+            </Spinner>
+          </div>
+        </Modal>
         <RecruiterViewColumns
           addFilter={(filterName) => addFilter(filterName)}
           isCurrentFilter={(objToAdd) => isCurrentFilter(objToAdd)}
@@ -297,7 +313,7 @@ function RecruiterView({ Firebase, ...props }) {
       //     </Col>
       //   </Row>
       // </Container>
-    )
+    );
   } else {
     // loads a spinner if all the api calls are not complete
     return (

@@ -242,11 +242,40 @@
 	overflow: hidden;
 	background-color: #13294b;
 }
+
+.spinnerModal {
+	background-color: rgba(0, 0, 0, 0.0001) !important;
+	color: #4b9cd3;
+	height: calc(100vh - 105px);
+	align-items: center;
+	overflow: hidden;
+}
+
+.spinnerViewDialog > .modal-content {
+	background-color: rgba(0, 0, 0, 0.0001) !important;
+	border: none;
+}
+
+.spinnerViewBackdrop {
+	opacity: 0.01 !important;
+}
+
 .recruiterSpinner {
 	height: 100px !important;
 	width: 100px !important;
 	font-size: 50px;
 }
+.candidateSpinner {
+	height: 100px !important;
+	width: 100px !important;
+	font-size: 50px;
+	position: absolute;
+	top: calc(50% - 50px);
+	color: #4b9cd3;
+	left: calc(50% - 50px);
+	z-index: 10000;
+}
+
 .recruiterViewRow {
 	margin-right: 0px !important;
 	margin-left: 0px !important;
@@ -255,8 +284,6 @@
 	position: relative !important;
 }
 
-.resumeViewSaveIcon {
-}
 .resumeViewSaveIcon:hover {
 	transform: scale(1.1);
 }

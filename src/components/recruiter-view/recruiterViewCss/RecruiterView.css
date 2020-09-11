@@ -244,10 +244,20 @@
 }
 
 .spinnerModal {
+  background-color: rgba(0, 0, 0, 0.0001) !important;
   color: #4b9cd3;
   height: calc(100vh - 105px);
   align-items: center;
   overflow: hidden;
+}
+
+.spinnerViewDialog > .modal-content {
+  background-color: rgba(0, 0, 0, 0.0001) !important;
+  border: none;
+}
+
+.spinnerViewBackdrop {
+  opacity: 0.01 !important;
 }
 
 .recruiterSpinner {

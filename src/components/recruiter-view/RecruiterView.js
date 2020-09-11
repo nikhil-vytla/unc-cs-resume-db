@@ -276,7 +276,11 @@ function RecruiterView({ Firebase, ...props }) {
             updateRecruiter={() => updateRecruiter()}
           />
         </Modal>
-        <Modal show={spinnerView}>
+        <Modal
+          show={spinnerView}
+          dialogClassName="spinnerViewDialog"
+          backdropClassName="spinnerViewBackdrop"
+        >
           <div className="d-flex justify-content-center spinnerModal">
             <Spinner
               animation="border"

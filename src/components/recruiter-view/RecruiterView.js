@@ -276,7 +276,7 @@ function RecruiterView({ Firebase, ...props }) {
             updateRecruiter={() => updateRecruiter()}
           />
         </Modal>
-        <Modal
+        {/* <Modal
           show={spinnerView}
           dialogClassName="spinnerViewDialog"
           backdropClassName="spinnerViewBackdrop"
@@ -291,7 +291,7 @@ function RecruiterView({ Firebase, ...props }) {
               <span className="sr-only">Loading...</span>{" "}
             </Spinner>
           </div>
-        </Modal>
+        </Modal> */}
         <RecruiterViewColumns
           addFilter={(filterName) => addFilter(filterName)}
           isCurrentFilter={(objToAdd) => isCurrentFilter(objToAdd)}
@@ -303,6 +303,7 @@ function RecruiterView({ Firebase, ...props }) {
           toggleResumeView={(candidate) => toggleResumeView(candidate)}
           setCurrentStudentSearch={(name) => setCurrentStudentSearch(name)}
           currentStudentSearch={currentStudentSearch}
+          spinnerView={spinnerView}
         />
       </div>
 

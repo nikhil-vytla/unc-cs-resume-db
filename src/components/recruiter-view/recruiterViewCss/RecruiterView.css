@@ -1,278 +1,289 @@
-@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
 .recruiterViewCardDiv {
-  background-color: white;
+	background-color: white;
 
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
 }
 .recruiterViewColumn {
-  height: calc(100vh - 105px);
+	height: calc(100vh - 105px);
 
-  padding-left: 1vw !important;
-  padding-right: 1vw !important;
+	padding-left: 1vw !important;
+	padding-right: 1vw !important;
 }
 .filterSearchLabel {
-  margin-bottom: 0px !important;
+	margin-bottom: 0px !important;
 }
 
 .recruiterViewLeftColumn {
-  height: calc(100vh - 105px);
+	height: calc(100vh - 105px);
 
-  padding-right: 1vw !important;
-  padding-left: 0px !important;
+	padding-right: 1vw !important;
+	padding-left: 0px !important;
 }
 
 .recruiterViewColumn50vw {
-  height: calc(100vh - 105px);
-  width: 50vw !important;
-  padding-left: 1vw !important;
-  padding-right: 1vw !important;
+	height: calc(100vh - 105px);
+	width: 50vw !important;
+	padding-left: 1vw !important;
+	padding-right: 1vw !important;
 }
 
 .recruiterViewColumn65vw {
-  height: calc(100vh - 105px);
-  width: 66.5vw !important;
-  padding-left: 1vw !important;
-  padding-right: 1vw !important;
+	height: calc(100vh - 105px);
+	width: 66.5vw !important;
+	padding-left: 1vw !important;
+	padding-right: 1vw !important;
 }
 
 .recruiterViewColumn75vw {
-  height: calc(100vh - 105px);
-  width: 77.5vw !important;
-  padding-left: 1vw !important;
-  padding-right: 1vw !important;
+	height: calc(100vh - 105px);
+	width: 77.5vw !important;
+	padding-left: 1vw !important;
+	padding-right: 1vw !important;
 }
 .recruiterViewColumn95vw {
-  height: calc(100vh - 105px);
-  width: 95vw !important;
-  padding-left: 1vw !important;
-  padding-right: 1vw !important;
+	height: calc(100vh - 105px);
+	width: 95vw !important;
+	padding-left: 1vw !important;
+	padding-right: 1vw !important;
 }
 .recruiterViewHeader {
-  line-height: 40px;
-  font-size: 30px;
-  text-align: center;
-  background-color: #4b9cd3;
-  color: #ffffff;
-  margin-bottom: 0;
+	line-height: 40px;
+	font-size: 30px;
+	text-align: center;
+	background-color: #4b9cd3;
+	color: #ffffff;
+	margin-bottom: 0;
 }
 
 .BreeSerif {
-  font-family: "Bree Serif";
+	font-family: 'Bree Serif';
 }
 
 .LogoSmallDiv {
-  padding-left: 6vw !important;
-  padding-right: 6vw !important;
-  width: 100vw !important;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #4b9cd3;
+	padding-left: 6vw !important;
+	padding-right: 6vw !important;
+	width: 100vw !important;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #4b9cd3;
 }
 .LogoLargeDiv {
-  padding-left: 6vw !important;
-  padding-right: 6vw !important;
-  width: 100vw !important;
+	padding-left: 6vw !important;
+	padding-right: 6vw !important;
+	width: 100vw !important;
 
-  padding-top: 25px;
-  padding-bottom: 25px;
-  background-color: #4b9cd3;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	background-color: #4b9cd3;
 }
 .recruiterViewTag {
-  background-color: #e5e5e5;
-  padding: 3px;
-  margin: 3px;
-  font-size: 11px;
-  width: fit-content;
+	background-color: #e5e5e5;
+	padding: 3px;
+	margin: 3px;
+	font-size: 11px;
+	width: fit-content;
 }
 .recruiterModal {
-  margin: 0px !important;
-  max-width: 90vw !important;
-  margin-left: 5vw !important;
-  margin-right: 5vw !important;
-  overflow-y: hidden !important;
+	margin: 0px !important;
+	max-width: 90vw !important;
+	margin-left: 5vw !important;
+	margin-right: 5vw !important;
+	overflow-y: hidden !important;
 }
 .recruiterModalBackGround {
-  overflow-y: hidden !important;
-  height: 100vh !important;
+	overflow-y: hidden !important;
+	height: 100vh !important;
 }
 
 .recruiterViewIcon {
-  transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
 
-  line-height: 40px;
+	line-height: 40px;
 }
 .recruiterViewIcon:hover {
-  transform: scale(1.1);
+	transform: scale(1.1);
 }
 
 .resumeViewDiv {
-  width: 90vw;
-  height: calc(100vh);
-  height: 900px;
-  background-color: #e5e5e5;
+	width: 90vw;
+	height: calc(100vh);
+	height: 900px;
+	background-color: #e5e5e5;
 }
 
 .mb-30 {
-  margin-bottom: 30px;
+	margin-bottom: 30px;
 }
 .resumeImage {
-  overflow-y: auto;
-  width: 50vw;
-  height: calc(100vh);
-  padding-left: 3vw;
-  border: none;
+	overflow-y: auto;
+	width: 50vw;
+	height: calc(100vh);
+	padding-left: 3vw;
+	border: none;
 }
 .resumeViewImageDiv {
-  height: calc(100vh);
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  overflow-y: auto;
+	height: calc(100vh);
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	overflow-y: auto;
 }
 .resumeViewImageDiv::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 .resumeViewDiv {
-  padding-bottom: 5px;
-  padding-top: 5px;
+	padding-bottom: 5px;
+	padding-top: 5px;
 }
 .resumeViewHeader {
-  background-color: #4b9cd3;
-  width: 40vw;
-  text-align: center;
-  color: white;
+	background-color: #4b9cd3;
+	width: 40vw;
+	text-align: center;
+	color: white;
 }
 .resumeViewContainer {
-  height: calc(100vh - 105px);
-  overflow: hidden !important;
+	height: calc(100vh - 105px);
+	overflow: hidden !important;
 }
 .vw-100 {
-  width: 100vw !important;
+	width: 100vw !important;
 }
 
 .resumeViewDropDownDiv {
-  width: 40vw;
-  height: 40px;
-  color: #ffffff;
-  background-color: #4b9cd3;
-  display: flex;
-  justify-content: space-between;
+	width: 40vw;
+	height: 40px;
+	color: #ffffff;
+	background-color: #4b9cd3;
+	display: flex;
+	justify-content: space-between;
 }
 .resumeViewItems {
-  width: 40vw;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-bottom: 10px;
-  flex-wrap: wrap;
+	width: 40vw;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	flex-wrap: wrap;
 }
 .classInfoDiv {
-  width: 40vw;
-  height: 40px;
-  font-size: 25px;
-  background-color: #e5e5e5;
+	width: 40vw;
+	height: 40px;
+	font-size: 25px;
+	background-color: #e5e5e5;
 }
 .resumeViewDropDownText {
-  font-size: 25px;
-  line-height: 40px;
-  padding-left: 5px;
-  user-select: none;
+	font-size: 25px;
+	line-height: 40px;
+	padding-left: 5px;
+	user-select: none;
 }
 
 .resumeViewDropDownIcon {
-  height: 25px !important;
-  width: 25px !important;
-  margin-right: 5px;
-  margin-bottom: 7.5px;
-  margin-top: 7.5px;
-  font-size: 1.5em;
+	height: 25px !important;
+	width: 25px !important;
+	margin-right: 5px;
+	margin-bottom: 7.5px;
+	margin-top: 7.5px;
+	font-size: 1.5em;
 }
 .resumeViewNotes {
-  width: 40vw;
-  height: 200px;
-  padding: 5px !important;
-  background-color: #ffffff;
+	width: 40vw;
+	height: 200px;
+	padding: 5px !important;
+	background-color: #ffffff;
 }
 .resumeViewRightPanel {
-  height: calc(100vh);
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+	height: calc(100vh);
+	overflow-y: auto;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
 }
 
 .resumeViewRightPanel::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 .resumeViewDropDowns {
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+	overflow-y: auto;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
 }
 .resumeViewDropDowns::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 .recruiterViewItems {
-  font-size: 25px;
-  color: #25282b;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-right: 15px;
-  margin-left: 15px;
-  margin-top: 5px;
-  margin-bottom: 0px;
-  line-height: 40px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0px 4px 4px #25282b 0.25;
-  user-select: none;
+	font-size: 25px;
+	color: #25282b;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-right: 15px;
+	margin-left: 15px;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	line-height: 40px;
+	background-color: #ffffff;
+	border-radius: 15px;
+	box-shadow: 0px 4px 4px #25282b 0.25;
+	user-select: none;
 }
 .filterNameSearchDiv {
-  height: 80px;
+	height: 80px;
 }
 
 .p-10px {
-  padding: 10px;
+	padding: 10px;
 }
 .recruiterSpinnerDiv {
-  color: #4b9cd3;
-  height: calc(100vh - 105px);
-  align-items: center;
-  overflow: hidden;
-  background-color: #13294b;
+	color: #4b9cd3;
+	height: calc(100vh - 105px);
+	align-items: center;
+	overflow: hidden;
+	background-color: #13294b;
 }
 
 .spinnerModal {
-  background-color: rgba(0, 0, 0, 0.0001) !important;
-  color: #4b9cd3;
-  height: calc(100vh - 105px);
-  align-items: center;
-  overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.0001) !important;
+	color: #4b9cd3;
+	height: calc(100vh - 105px);
+	align-items: center;
+	overflow: hidden;
 }
 
 .spinnerViewDialog > .modal-content {
-  background-color: rgba(0, 0, 0, 0.0001) !important;
-  border: none;
+	background-color: rgba(0, 0, 0, 0.0001) !important;
+	border: none;
 }
 
 .spinnerViewBackdrop {
-  opacity: 0.01 !important;
+	opacity: 0.01 !important;
 }
 
 .recruiterSpinner {
-  height: 100px !important;
-  width: 100px !important;
-  font-size: 50px;
+	height: 100px !important;
+	width: 100px !important;
+	font-size: 50px;
 }
+.candidateSpinner {
+	height: 100px !important;
+	width: 100px !important;
+	font-size: 50px;
+	position: absolute;
+	top: calc(50% - 50px);
+	color: #4b9cd3;
+	left: calc(50% - 50px);
+	z-index: 10000;
+}
+
 .recruiterViewRow {
-  margin-right: 0px !important;
-  margin-left: 0px !important;
+	margin-right: 0px !important;
+	margin-left: 0px !important;
 }
 .recruiterViewAnimatedDiv {
-  position: relative !important;
+	position: relative !important;
 }
 
 .resumeViewSaveIcon:hover {
-  transform: scale(1.1);
+	transform: scale(1.1);
 }

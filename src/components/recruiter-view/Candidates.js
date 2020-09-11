@@ -1,11 +1,31 @@
 import React from "react";
 import CandidateCard from "./CandidateCard";
+import { Modal, Spinner } from "react-bootstrap"
 
 
 // This component maps the list of students in the database, obtained in RecruiterView, to Candidate Cards
 function Candidates(props) {
+  let spinner = null;
+
+  if (props.spinnerView) {
+    spinner = (
+      <Spinner
+        animation="border"
+        role="status"
+        className="candidateSpinner"
+      >
+        {" "}
+        <span className="sr-only">Loading...</span>{" "}
+      </Spinner>
+    )
+  }
+
+
+
+
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", position: "relative" }}>
+      {spinner}
       <h1 className="recruiterViewHeader BreeSerif" style={{ width: "100%" }}>
         {" "}
         Candidates

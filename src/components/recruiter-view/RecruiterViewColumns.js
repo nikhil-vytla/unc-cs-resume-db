@@ -83,6 +83,7 @@ function RecruiterViewColumns(props) {
                         recruiter={recruiterObj}
                         toggleResumeView={(candidate) => props.toggleResumeView(candidate)}
                         currentStudentSearch={currentStudentSearch}
+                        spinnerView={props.spinnerView}
                     />
                 </Col>
                 <Col md="auto" className="recruiterViewColumn">

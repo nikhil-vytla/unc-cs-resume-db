@@ -8,10 +8,10 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "axios": "^0.21.2",
-    "bootstrap": "^4.5.0",
+    "axios": "^0.28.0",
+    "bootstrap": "^5.0.0",
     "email-regex": "^4.0.0",
-    "firebase": "^7.15.5",
+    "firebase": "^10.13.1",
     "jquery": "^3.5.1",
     "material-ui": "^0.20.2",
     "popper": "^1.0.1",
@@ -45,6 +45,6 @@
     ]
   },
   "devDependencies": {
-    "firebase-tools": "^8.4.3"
+    "firebase-tools": "^13.6.0"
   }
 }
